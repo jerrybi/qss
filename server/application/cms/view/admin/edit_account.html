@@ -1,0 +1,60 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Account Name</label>
+        <div class="layui-input-inline">
+            <input type="text" name="account_name" required lay-verify="required" id="account_name"
+                   value="{$admin['account_name']}"
+                   placeholder="Please input user name" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">less than 10 words</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Max Event</label>
+        <div class="layui-input-inline">
+            <input type="number" name="max_event" id="max_event"
+                   placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Max User</label>
+        <div class="layui-input-inline">
+            <input type="number" name="max_user" id="max_user"
+                   placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Status</label>
+        <div class="">
+            <input type="radio" name="status" value="1" title="Enabled"
+                   {if ($admin['status'] == 1)}
+            checked
+            {/if}>
+            <input type="radio" name="status" value="0" title="Disabled"
+                   {if ($admin['status'] == 0)}
+            checked
+            {/if};>
+        </div>
+    </div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/admin/editAccount',['id'=>$admin.id])}" onclick="opFormPostAdmin(this)"
+                    lay-submit lay-filter="formDemo">Submit
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary">Reset</button>
+        </div>
+    </div>
+</form>
+<script>
+    function opFormPostAdmin(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        var postData = $(".form-op-normal").serialize();
+        ToPostPopupsDeal(toUrl, postData,failcb);
+    }
+</script>
+{/block}
+{block name='single-content'}
+{/block}

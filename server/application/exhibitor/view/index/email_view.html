@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Home</title>
+    <meta name="google" content="notranslate">
+    <link href="__EXHIBITOR__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/zhang.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="__EXHIBITOR__/css/lightbox.css">
+    <!-- jQuery (necessary JavaScript plugins) -->
+    {include file='layouts/layui'}
+    <script type='text/javascript' src="__EXHIBITOR__/js/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src="__EXHIBITOR__/js/common.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body>
+<form class="layui-form form-op-normal layui-form-pane bg-white" lay-filter="form1">
+    <div class="layui-form-item mgt20">
+        <label class="layui-form-label label-custom">Email</label>
+        <div class="layui-input-inline input-title-mz">
+            <input type="text" name="sub_email" value="{$article['sub_email']}"
+                   placeholder="Please input email" autocomplete="off"
+                   class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('/exhibitor/emailView',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+    });
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<style>
+    .input-title-mz {
+        width: 500px!important;
+    }
+</style>
+</body>
+</html>
+
+
+

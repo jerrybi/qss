@@ -1,0 +1,493 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane form-search" action="{:url('cms/configs/index')}" method="get">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Event:</label>
+                <div class="layui-input-inline">
+                    <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                        <option value="">Please select event</option>
+                    </select>
+                </div>
+            </div>
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label label-custom">Top Banner</label>-->
+<!--                <div class="layui-col-md4">-->
+<!--                    <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="0">-->
+<!--                        <i class="layui-icon">&#xe67c;</i>Upload Image-->
+<!--                    </button>-->
+<!--                    <img class="layui-upload-img img-attr upload_img_preview0"-->
+<!--                         src="{$article['top_banner_url']}">-->
+<!--                    <input type="hidden" name="top_banner_url" value="{$article['top_banner_url']}" class="upload_img_url0"/>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="layui-form-item">-->
+<!--                <label class="layui-form-label label-custom">Bottom Banner</label>-->
+<!--                <div class="layui-col-md4">-->
+<!--                    <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="1">-->
+<!--                        <i class="layui-icon">&#xe67c;</i>Upload Image-->
+<!--                    </button>-->
+<!--                    <img class="layui-upload-img img-attr upload_img_preview1"-->
+<!--                         src="{$article['bottom_banner_url']}">-->
+<!--                    <input type="hidden" name="bottom_banner_url" value="{$article['bottom_banner_url']}" class="upload_img_url1"/>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">App Background</label>
+                <div class="layui-col-md4">
+                    <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="2">
+                        <i class="layui-icon">&#xe67c;</i>Upload Image
+                    </button>
+                    <img class="layui-upload-img img-attr upload_img_preview2"
+                         src="{$article['app_bg_url']}">
+                    <input type="hidden" name="app_bg_url" value="{$article['app_bg_url']}" class="upload_img_url2"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Show Time:</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="show_time" required lay-verify="required"
+                           value="{$article['show_time']}"
+                           placeholder="Please input show time" autocomplete="off" class="layui-input">
+                </div>
+                <div style="height: 38px;line-height: 38px;"> seconds</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">App Fail Text:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="fail_text" required lay-verify="required"
+                           value="{$article['fail_text']}"
+                           placeholder="Please input fail text" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Tip Position(up/down):</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="tip_position" required lay-verify="required"
+                           value="{$article['tip_position']}"
+                           placeholder="Please input tip position" autocomplete="off" class="layui-input">
+                </div>
+                <div style="height: 38px;line-height: 38px;">%</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Fail Text Position:</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="fail_text_position" required lay-verify="required"
+                           value="{$article['fail_text_position']}"
+                           placeholder="Please input fail text position" autocomplete="off" class="layui-input">
+                </div>
+                <div style="height: 38px;line-height: 38px;">%</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">App Reg Text:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="app_text" required lay-verify="required"
+                           value="{$article['app_text']}"
+                           placeholder="Please input text" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="margin-left: 200px">
+                Please enter [%field%] to indicate what field to show<br/>
+                Please enter '|' to indicate multi lines<br/>
+                Fixed field: table<br/>
+                e.g. [%First Name%] - [%Last Name%]|[%Dietary%]
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">App Reg Position:</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="app_reg_position" required lay-verify="required"
+                           value="{$article['app_reg_position']}"
+                           placeholder="Please input app reg position" autocomplete="off" class="layui-input">
+                </div>
+                <div style="height: 38px;line-height: 38px;">%</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">App Reg Text Attribute:</label>
+                <div class="section-area" id="section-reg"></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">App Track Text:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="app_track_text" required lay-verify="required"
+                           value="{$article['app_track_text']}"
+                           placeholder="Please input text" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-mid layui-word-aux" style="margin-left: 200px">
+                Please enter [%field%] to indicate what field to show<br/>
+                Please enter '|' to indicate multi lines<br/>
+                Fixed field: table<br/>
+                e.g. [%First Name%] - [%Last Name%]|[%Dietary%]
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">App Track Position:</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="app_track_position" required lay-verify="required"
+                           value="{$article['app_track_position']}"
+                           placeholder="Please input app track position" autocomplete="off" class="layui-input">
+                </div>
+                <div style="height: 38px;line-height: 38px;">%</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">App Track Text Attribute:</label>
+                <div class="section-area" id="section-track"></div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Support Email:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="support_email" required lay-verify="required"
+                           value="{$article['support_email']}"
+                           placeholder="Please input text" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Close Event:</label>
+                <div class="layui-input-inline  input-title-mz">
+                    {if $article['close_event'] == '1'}
+                    <input type="radio"  name="close_event" value="0" title="Opened">
+                    <input type="radio"  name="close_event" value="1" title="Closed" checked>
+                    {else /}
+                    <input type="radio"  name="close_event" value="0" title="Opened" checked>
+                    <input type="radio"  name="close_event" value="1" title="Closed">
+                    {/if}
+                </div>
+            </div>
+            <input type='hidden' name="id" value="{$article['id']}">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+            <input type="hidden" id="text_attr" name="text_attr" value="{$article['text_attr']}">
+            <input type="hidden" id="text_track_attr" name="text_track_attr" value="{$article['text_track_attr']}">
+            {:token()}
+            <div class="layui-form-item">
+                <div class="">
+                    <button class="layui-btn" type="button"
+                            op_url="{:url('cms/configs/index')}"
+                            onclick="opFormPost1(this,fail_callback)">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+</form>
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        background-size: 100%;
+        background: white;
+        background-repeat: no-repeat;
+    }
+
+    .div-warmTip-left {
+        position: relative;
+        width: 33%;
+    }
+
+    .div-warmTip-left .layui-colla-content,
+    .div-warmTip-left .layui-timeline-content,
+    .div-warmTip-right .layui-card-body {
+        background-color: #393D49;
+        color: wheat;
+    }
+
+    .div-warmTip-left .layui-timeline-title {
+        color: #b94a48;
+    }
+
+    .div-warmTip-right {
+        position: absolute;
+        width: 30%;
+        float: right;
+        right: 0px;
+        top: 0px;
+        z-index: 100;
+        margin-right: 5px;
+    }
+
+    .div-warmTip-right a {
+        color: #ce8483;
+    }
+
+    .div-warmTip-right b {
+        color: #a6e1ec;
+    }
+
+    .img-attr{
+        max-width:200px;
+        display: block;
+    }
+    .label-custom{
+        width: 200px!important;
+    }
+    .form-op-normal{
+        background-color: white!important;
+    }
+    .section-area{
+        float: left;
+        margin-right: 10px;
+    }
+    .section-item{
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .section-block{
+        border:1px solid #ddd;
+        padding: 5px;
+        margin-right: 5px;
+    }
+    .section-input-item{
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .section-label{
+        width: 100px;
+    }
+    .section-input-item input{
+        height: 30px;
+        line-height: 30px;
+        width: 150px;
+        display: inline-block;
+    }
+    .section-input-hint{
+        font-size: 12px;
+        color: #999;
+        margin-left: 5px;
+    }
+    .section-item .add-item{
+        font-size: 30px;
+        margin: 0 auto;
+        color: #d2d2d2;
+    }
+</style>
+<!--<div style="padding:10px">Home Page</div>-->
+<!--<script src="__CMS__/js/timezone.js"></script>-->
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        layui.form.render();
+    }
+    layui.use(['form','colorpicker','upload'],function(){
+        var form = layui.form;
+        var colorpicker = layui.colorpicker;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            $(".form-search").submit();
+        });
+        updateTextAttributes('text_attr','section-reg');
+        updateTextAttributes('text_track_attr','section-track');
+        onReady();
+    });
+    function opFormPost1(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        var postData = $(".form-op-normal").serializeArray();
+        var item = {};
+        $.each(postData,function (i,data) {
+            if(data['name'] == 'content'||data['name'] == 'content_email'){
+                item[data['name']] = window.btoa(data['value']);
+            }else{
+                item[data['name']] = data['value'];
+            }
+        });
+        ToPostDeal(toUrl, item,failcb);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+    function updateTextAttributes(text_id,section_id) {
+        var str = $('#'+text_id).val();
+        var items = [];
+        if(str.length > 0) {
+            items = JSON.parse(str);
+        } else {
+            items = [{
+                font_family:'',
+                font_file:'',
+                text_size:30,
+                text_color:'#000'
+            },{
+                font_family:'',
+                font_file:'',
+                text_size:30,
+                text_color:'#000'
+            },{
+                font_family:'',
+                font_file:'',
+                text_size:30,
+                text_color:'#000'
+            },{
+                font_family:'',
+                font_file:'',
+                text_size:30,
+                text_color:'#000'
+            }];
+            $('#'+text_id).val(JSON.stringify(items));
+        }
+        var html = '';
+        $.each(items,function (i,item) {
+            html += '<div class="section-item">';
+            html += '<div class="section-block">';
+            if(i === 0){
+                html += '<div>Scan Text</div>';
+            } else if(i === 1){
+                html += '<div>Fail Text</div>';
+            } else if(i === 2){
+                html += '<div>Table Text</div>';
+            }else{
+                html += '<div>Success Text Line '+(i-2)+'</div>';
+            }
+            html += '<div class="section-input-item">';
+            html += '<div class="section-label">Font Family</div>';
+            html += '<input type="text" placeholder="Font Family" class="layui-input" name="'+text_id+'_font_family'+i+'" value="'+item.font_family+'" oninput="onFontFamilyItemInput(this,'+i+',\''+text_id+'\')" onpropertychange="onFontFamilyItemInput(this,'+i+',\''+text_id+'\')" lay-verify="fontfamily">';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<div class="section-label">Font File</div>';
+            html += '<button type="button" class="layui-btn layui-btn-normal btn_upload_file'+text_id+'" data-index="'+text_id+i+'" upload_file_cb'+text_id+i+'="uploadFontFile">';
+            html += '    <i class="layui-icon">&#xe681;</i> Upload Font File';
+            html += '</button>';
+            html += '<input type="hidden" name="url['+text_id+i+']" value="'+item.font_file+'" class="upload_file_url'+text_id+i+'"/>';
+            html += '<div class="upload_file_preview'+text_id+i+'">'+item.font_file+'</div>';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<div class="section-label">Text Size</div>';
+            html += '<input type="text" placeholder="Text Size" class="layui-input" name="text_size'+text_id+i+'" value="'+item.text_size+'" oninput="onTextSizeItemInput(this,'+i+',\''+text_id+'\')" onpropertychange="onTextSizeItemInput(this,'+i+',\''+text_id+'\')" lay-verify="required">';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<div class="section-label">Text Color</div>';
+            html += '<div id="textColor'+text_id+i+'"></div>';
+            html += '<input type="hidden" name="text_color'+text_id+i+'" value="'+item.text_color+'"/>';
+            html += '</div>';
+            html += '</div>';
+            if(i >= 3) {
+                html += '<i class="layui-icon layui-icon-delete" onclick="deleteItem('+i+',\''+text_id+'\',\''+section_id+'\')"></i>';
+            }
+            html += '</div>';
+        });
+        html += '<div class="section-item" style="text-align: center">';
+        html += '<i class="layui-icon layui-icon-add-circle add-item" onclick="addItem(\''+text_id+'\',\''+section_id+'\')"></i>';
+        html += '</div>';
+        $('#'+section_id).html(html);
+        $.each(items,function (i,item) {
+            layui.colorpicker.render({
+                elem: '#textColor'+text_id+i,
+                color: item.text_color,
+                size: 'lg',
+                change: function (color) {
+                    $("input[name='text_color"+text_id+i+"']").val(color);
+                    onTextColorItemChange(i,color,text_id);
+                }
+            });
+        });
+        var layerIndex;
+        layui.upload.render({
+            elem: '.btn_upload_file'+text_id
+            , accept:'file' //上传文件类型
+            , url: image_upload_url
+            , done: function (res) {
+                dialog.tip(res.message);
+                console.log(res.data.url);
+                console.log(this);
+                layer.close(layerIndex);
+                var index = this.item[0].dataset.index;
+                var callback = eval(this.item[0].getAttribute('upload_file_cb'+index));
+                //如果上传成功
+                if (res.status == 200) {
+                    $('.upload_file_url'+index).val(res.data.url2);
+                    $('.upload_file_preview'+index).text(res.data.url2);
+                    if(callback){
+                        callback(index,res.data.url2,text_id);
+                    }
+                }
+            }
+            , error: function () {
+                layer.close(layerIndex);
+                //演示失败状态，并实现重传
+                return layer.msg('Upload failed,please upload again');
+            }
+            ,progress:function(n,elem,res,index){
+                var index = layer.load('Uploading '+n+'%', {
+                    shade: [0.3,'#fff'] //0.1透明度的白色背景
+                });
+                layer.close(layerIndex);
+                layerIndex = index;
+            }
+        });
+        layui.form.render();
+    }
+    function deleteItem(index,text_id,section_id){
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        items.splice(index,1);
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+        updateTextAttributes(text_id,section_id);
+    }
+    function addItem(text_id,section_id) {
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        items.push({
+            font_family:'',
+            font_file:'',
+            text_size:30,
+            text_color:'#000'
+        });
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+        updateTextAttributes(text_id,section_id);
+    }
+    function onFontFamilyItemInput(obj,index,text_id) {
+        var value = obj.value;
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.font_family = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+    }
+    function onTextSizeItemInput(obj,index,text_id) {
+        var value = obj.value;
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.text_size = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+    }
+    function onTextColorItemChange(index,color,text_id) {
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.text_color = color;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+    }
+    function uploadFontFile(index,fileUrl,text_id) {
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        var id = index.substring(text_id.length);
+        var item = items[id];
+        item.font_file = fileUrl;
+        items.splice(id,1,item);
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+    }
+</script>
+{/block}
+{block name='single-content'}
+{/block}
+

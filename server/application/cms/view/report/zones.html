@@ -1,0 +1,198 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+<div class="filter">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Select Event</label>
+        <div class="layui-input-inline">
+            <form class="layui-form layui-form-pane bg-white">
+                <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                    <option value="">Please select event</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Select Day</label>
+        <div class="layui-input-inline">
+            <form class="layui-form layui-form-pane bg-white">
+                <select name="day" id="day" lay-verify="required" lay-filter="day">
+                    <option value="">Please select day</option>
+                </select>
+            </form>
+        </div>
+    </div>
+</div>
+<div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+<div hidden="hidden" id="days"><?php echo json_encode($days);?></div>
+<div class="layui-input-inline">
+    <form class="form-search" action="{:url('cms/report/zones')}" method="get">
+        <input type="hidden" name="curr_page" class="curr_page" value="1">
+        <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+        <input type="hidden" name="day" value="{$day}" class="day">
+    </form>
+</div>
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="20%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>Zone</th>
+        <th>Total Expect Attendee</th>
+        <th>Checked-in</th>
+        <th>Pending</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/report/zones')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td class="title">{$vo['name']}</td>
+        <td class="title">{$vo['capacity']}</td>
+        <td class="title">{$vo['checked_in']}</td>
+        <td class="title"><span class="{$vo['pending']<0?'red':''}">{$vo['pending']}</span></td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="View zone users"
+                        onclick="viewOpenPopups('View zone users','{$vo.id}', '75%', '95%')">
+                    View zone users
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<input type="hidden" class="log_url" value="{:url('cms/report/zoneView',['id'=>'opid','event_id'=>'eventid','day'=>'day'])}">
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .filter{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        // days
+        var days = JSON.parse($('#days').text());
+        var day = "{$day}";
+        var dayStr = "";
+        $.each(days,function(i,item){
+            dayStr += "<option value='"+item+"'>"+item+"</option>";
+        });
+        $("#day").html(dayStr);
+        $("#day").val(day);
+        layui.form.render('select');
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            getEventDays(eventId);
+        });
+        form.on('select(day)',function(data){
+            var day = data.value;
+            $('.day').val(day);
+            $(".form-search").submit();
+        });
+        onReady();
+    });
+    function getEventDays(eventID) {
+        $.post(
+            "{:url('cms/events/getDays')}",
+            {event_id: eventID},
+            function (result) {
+                console.log(result);
+                if(result.status == 200){
+                    reloadDays(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function reloadDays(days) {
+        var dayStr = "";
+        $.each(days,function(i,item){
+            dayStr += "<option value='"+item+"'>"+item+"</option>";
+        });
+        $("#day").html(dayStr);
+        $('.day').val(days[0]);
+        layui.form.render('select');
+        $(".form-search").submit();
+    }
+    function ToAjaxOpForPageDatas(toUrl,postData) {
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    $.each(result.data,function (i,e) {
+                        str_html +=
+                            "<tr class=\"tr-normal-"+e.id+"\">\n" +
+                            "                <td class=\"title\">"+e.name+"</td>\n" +
+                            "                <td class=\"title\">"+e.capacity+"</td>\n" +
+                            "                <td class=\"title\">"+e.checked_in+"</td>\n" +
+                            "                <td class=\"title\"><span class=\""+(e.pending<0?'red':'')+"\">"+e.pending+"</span></td>\n" +
+                            "            </tr>";
+                    });
+                    $(".table-tbody-normal").html(str_html);
+                    layui.form.render();//细节！这个好像要渲染一下！
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+    function viewOpenPopups(title,id,manualRefresh) {
+        var op_url = $(".log_url").val();
+        op_url = op_url.replace('opid', id);
+        op_url = op_url.replace('eventid', $('.event_id').val());
+        op_url = op_url.replace('day', $('#day').val());
+        ToOpenPopups(op_url, title, '95%', '95%',manualRefresh);
+    }
+</script>
+{/block}

@@ -1,0 +1,237 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <input name="event_name" value="{$event['name']}" readonly="readonly" class="layui-input"/>
+            <input type="hidden" name="event_id" value="{$event['id']}" class="event_id">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value="{$article['name']}"
+                   placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Subject:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="subject" required lay-verify="required"
+                   value="{$article['subject']}"
+                   placeholder="Please input subject" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Sort:</label>
+        <div class="layui-input-inline">
+            <input type="number" name="sort" required lay-verify="required"
+                   value="{$article['sort']}"
+                   placeholder="Please input sort" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Template:</label>
+        <div class="layui-input-block div-article-content">
+            <textarea type="text"  name="content" placeholder="Please input template" autocomplete="off" class="layui-input textarea-options">{$article['content']}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Attachments:</label>
+        <div class="section-area" id="section-attach"></div>
+    </div>
+    <input type="hidden" id="text_attr" name="text_attr" value="{$article['text_attr']}">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/edmTemplates/edit',['id'=>$article.id])}" onclick="submitForm(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .mt10{
+        margin-top: 10px;
+    }
+    .mb10{
+        margin-bottom: 10px;
+    }
+    .label-custom{
+        width: 200px!important;
+    }
+    .textarea-options{
+        height: 300px;
+    }
+    .section-area{
+        float: left;
+        margin-right: 10px;
+    }
+    .section-item{
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .section-block{
+        border:1px solid #ddd;
+        padding: 5px;
+        margin-right: 5px;
+    }
+    .section-input-item{
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .section-label{
+        width: 100px;
+    }
+    .section-input-item input{
+        height: 30px;
+        line-height: 30px;
+        width: 150px;
+        display: inline-block;
+    }
+    .section-input-hint{
+        font-size: 12px;
+        color: #999;
+        margin-left: 5px;
+    }
+    .section-item .add-item{
+        font-size: 30px;
+        margin: 0 auto;
+        color: #d2d2d2;
+    }
+</style>
+<script>
+    layui.use(['form','upload'],function(){
+        var form = layui.form;
+        updateTextAttributes('text_attr','section-attach');
+        onReady();
+    });
+    function onReady(){
+
+    }
+    function updateTextAttributes(text_id,section_id) {
+        var str = $('#'+text_id).val();
+        var items = [];
+        if(str.length > 0) {
+            items = JSON.parse(str);
+        } else {
+            items = [{
+                attachment:''
+            }];
+            $('#'+text_id).val(JSON.stringify(items));
+        }
+        var html = '';
+        $.each(items,function (i,item) {
+            html += '<div class="section-item">';
+            html += '<div class="section-block">';
+            html += '<div class="section-input-item">';
+            html += '<div class="section-label">Attachment '+(i+1)+'</div>';
+            html += '<button type="button" class="layui-btn layui-btn-normal btn_upload_file'+text_id+'" data-index="'+text_id+i+'" upload_file_cb'+text_id+i+'="uploadFontFile">';
+            html += '    <i class="layui-icon">&#xe681;</i> Upload attachment File';
+            html += '</button>';
+            html += '<input type="hidden" name="url['+text_id+i+']" value="'+item.attachment+'" class="upload_file_url'+text_id+i+'"/>';
+            html += '<div class="upload_file_preview'+text_id+i+'">'+item.attachment+'</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '<i class="layui-icon layui-icon-delete" onclick="deleteItem('+i+',\''+text_id+'\',\''+section_id+'\')"></i>';
+            html += '</div>';
+        });
+        html += '<div class="section-item" style="text-align: center">';
+        html += '<i class="layui-icon layui-icon-add-circle add-item" onclick="addItem(\''+text_id+'\',\''+section_id+'\')"></i>';
+        html += '</div>';
+        $('#'+section_id).html(html);
+        var layerIndex;
+        layui.upload.render({
+            elem: '.btn_upload_file'+text_id
+            , accept:'file'
+            , url: image_upload_url
+            , done: function (res) {
+                dialog.tip(res.message);
+                console.log(res.data.url);
+                console.log(this);
+                layer.close(layerIndex);
+                var index = this.item[0].dataset.index;
+                var callback = eval(this.item[0].getAttribute('upload_file_cb'+index));
+                if (res.status == 200) {
+                    $('.upload_file_url'+index).val(res.data.url2);
+                    $('.upload_file_preview'+index).text(res.data.url2);
+                    if(callback){
+                        callback(index,res.data.url2,text_id);
+                    }
+                }
+            }
+            , error: function () {
+                layer.close(layerIndex);
+                return layer.msg('Upload failed,please upload again');
+            }
+            ,progress:function(n,elem,res,index){
+                var index = layer.load('Uploading '+n+'%', {
+                    shade: [0.3,'#fff']
+                });
+                layer.close(layerIndex);
+                layerIndex = index;
+            }
+        });
+        layui.form.render();
+    }
+    function deleteItem(index,text_id,section_id){
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        items.splice(index,1);
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+        updateTextAttributes(text_id,section_id);
+    }
+    function addItem(text_id,section_id) {
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        items.push({
+            attachment:''
+        });
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+        updateTextAttributes(text_id,section_id);
+    }
+    function uploadFontFile(index,fileUrl,text_id) {
+        var str = $('#'+text_id).val();
+        var items = str.length>0?JSON.parse(str):[];
+        var id = index.substring(text_id.length);
+        var item = items[id];
+        item.attachment = fileUrl;
+        items.splice(id,1,item);
+        var outstr = JSON.stringify(items);
+        $('#'+text_id).val(outstr);
+    }
+    function submitForm(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        var postData = $(".form-op-normal").serializeArray();
+        var item = {};
+        $.each(postData,function (i,data) {
+            if(data['name'] == 'name' || data['name'] == 'content' || data['name'] == 'subject'){
+                item[data['name']] = window.btoa(encodeURIComponent(data['value']));
+            }else{
+                item[data['name']] = data['value'];
+            }
+        });
+        ToPostPopupsDeal(toUrl, item,failcb);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{include file='layouts/ueditor-js'/}
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+{/block}

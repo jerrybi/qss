@@ -1,0 +1,212 @@
+---------------------------------------------------------------
+
+[2026-05-13T11:16:40+08:00] 43.230.96.158 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"exhibitorID":105,"visitDate":"2026-05-11","serialNumber":"5475","imgCard":null,"remark":null,"lastName":"Tan","email":"edwin.tan@h2o.ai","telephone":"[Mobile]","title":"Manager, Forward Deployed AI Engineering","organization":"H2O.ai","visitTime":"2026-05-11 10:24:01","flag":"Neutral","firstName":"Edwin","fullName":"Edwin Tan","id":1},{"exhibitorID":105,"visitDate":"2026-05-11","serialNumber":"5639","imgCard":null,"remark":null,"lastName":"Wang","email":"wang_wei-lung@mas.gov.sg","telephone":"[Mobile]","title":"Executive director","organization":"Monetary Authority of Singapore","visitTime":"2026-05-11 11:28:33","flag":"Cool","firstName":"Wei-lung","fullName":"Wei-lung Wang","id":2},{"exhibitorID":105,"visitDate":"2026-05-11","serialNumber":"5655","imgCard":null,"remark":null,"lastName":"Tandon","email":"vinita.tandon@ubs.com","telephone":"[Mobile]","title":"Executive Director","organization":"UBS","visitTime":"2026-05-11 12:12:03","flag":"Cool","firstName":"Vinita","fullName":"Vinita Tandon","id":3},{"exhibitorID":105,"visitDate":"2026-05-11","serialNumber":"5530","imgCard":null,"remark":null,"lastName":"Aw Yong","email":"saikhoonawyong@slec.org.sg","telephone":"[Mobile]","title":"Manager, IT","organization":"St Luke's ElderCare Ltd","visitTime":"2026-05-11 13:19:34","flag":"Cool","firstName":"Sai Khoon","fullName":"Sai Khoon Aw Yong","id":4},{"exhibitorID":105,"visitDate":"2026-05-11","serialNumber":"5502","imgCard":null,"remark":null,"lastName":"Chong","email":"chongnaimin@slngcorp.com","telephone":"[Mobile]","title":"Vice President, Information Technology & Procurement","organization":"Singapore LNG Corporation","visitTime":"2026-05-11 13:19:45","flag":"Cool","firstName":"Nai Min","fullName":"Nai Min Chong","id":5},{"exhibitorID":105,"visitDate":"2026-05-11","serialNumber":"5625","imgCard":null,"remark":null,"lastName":"Kong","email":"chriskong@suss.edu.sg","telephone":"[Mobile]","title":"Deputy Director","organization":"Singapore University of Social Sciences","visitTime":"2026-05-11 13:19:52","flag":"Cool","firstName":"Chris","fullName":"Chris Kong","id":6},{"exhibitorID":105,"visitDate":"2026-05-11","serialNumber":"5572","imgCard":null,"remark":null,"lastName":"Gupta","email":"ajay.gupta@ikano.asia","telephone":"[Mobile]","title":"Head of IT","organization":"IKANO","visitTime":"2026-05-11 16:43:44","flag":"Cool","firstName":"Ajay","fullName":"Ajay Gupta","id":7},{"exhibitorID":105,"visitDate":"2026-05-13","serialNumber":"5664","imgCard":null,"remark":null,"lastName":"Low","email":"hanyong.low@kuokgroup.com.sg","telephone":"[Mobile]","title":"Chief Information Officer","organization":"Kuok (Singapore) Limited","visitTime":"2026-05-13 11:16:20","flag":"Cool","firstName":"Han Yong","fullName":"Han Yong Low","id":8}]
+---------------------------------------------------------------
+
+[2026-05-13T11:16:40+08:00] 43.230.96.158 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.320727s] [吞吐率：3.12req/s] [内存消耗：1,636.34kb] [文件加载：101]
+[ info ] [ LANG ] /var/www/vhosts/qestsoln.com/qss.qestsoln.com/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=6iflkt5ama0g5t37mbt6vvr5bd',
+  'user-agent' => 'okhttp/4.12.0',
+  'accept-encoding' => 'gzip',
+  'content-type' => 'application/json',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODY0MjE2MCwibmJmIjoxNzc4NjQyMTYzLCJleHAiOjE3NzkwNzQxNjAsImRhdGEiOnsiaWQiOjEwNX19.ILmYXQJ6F_AHcYH2OO3PO_svag-aeSAE6GZws7JpW30',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '2785',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '43.230.96.158',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'exhibitorID' => 105,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5475',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => 'Tan',
+      'email' => 'edwin.tan@h2o.ai',
+      'telephone' => '[Mobile]',
+      'title' => 'Manager, Forward Deployed AI Engineering',
+      'organization' => 'H2O.ai',
+      'visitTime' => '2026-05-11 10:24:01',
+      'flag' => 'Neutral',
+      'firstName' => 'Edwin',
+      'fullName' => 'Edwin Tan',
+      'id' => 1,
+    ),
+    1 => 
+    array (
+      'exhibitorID' => 105,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5639',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => 'Wang',
+      'email' => 'wang_wei-lung@mas.gov.sg',
+      'telephone' => '[Mobile]',
+      'title' => 'Executive director',
+      'organization' => 'Monetary Authority of Singapore',
+      'visitTime' => '2026-05-11 11:28:33',
+      'flag' => 'Cool',
+      'firstName' => 'Wei-lung',
+      'fullName' => 'Wei-lung Wang',
+      'id' => 2,
+    ),
+    2 => 
+    array (
+      'exhibitorID' => 105,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5655',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => 'Tandon',
+      'email' => 'vinita.tandon@ubs.com',
+      'telephone' => '[Mobile]',
+      'title' => 'Executive Director',
+      'organization' => 'UBS',
+      'visitTime' => '2026-05-11 12:12:03',
+      'flag' => 'Cool',
+      'firstName' => 'Vinita',
+      'fullName' => 'Vinita Tandon',
+      'id' => 3,
+    ),
+    3 => 
+    array (
+      'exhibitorID' => 105,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5530',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => 'Aw Yong',
+      'email' => 'saikhoonawyong@slec.org.sg',
+      'telephone' => '[Mobile]',
+      'title' => 'Manager, IT',
+      'organization' => 'St Luke\'s ElderCare Ltd',
+      'visitTime' => '2026-05-11 13:19:34',
+      'flag' => 'Cool',
+      'firstName' => 'Sai Khoon',
+      'fullName' => 'Sai Khoon Aw Yong',
+      'id' => 4,
+    ),
+    4 => 
+    array (
+      'exhibitorID' => 105,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5502',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => 'Chong',
+      'email' => 'chongnaimin@slngcorp.com',
+      'telephone' => '[Mobile]',
+      'title' => 'Vice President, Information Technology & Procurement',
+      'organization' => 'Singapore LNG Corporation',
+      'visitTime' => '2026-05-11 13:19:45',
+      'flag' => 'Cool',
+      'firstName' => 'Nai Min',
+      'fullName' => 'Nai Min Chong',
+      'id' => 5,
+    ),
+    5 => 
+    array (
+      'exhibitorID' => 105,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5625',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => 'Kong',
+      'email' => 'chriskong@suss.edu.sg',
+      'telephone' => '[Mobile]',
+      'title' => 'Deputy Director',
+      'organization' => 'Singapore University of Social Sciences',
+      'visitTime' => '2026-05-11 13:19:52',
+      'flag' => 'Cool',
+      'firstName' => 'Chris',
+      'fullName' => 'Chris Kong',
+      'id' => 6,
+    ),
+    6 => 
+    array (
+      'exhibitorID' => 105,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5572',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => 'Gupta',
+      'email' => 'ajay.gupta@ikano.asia',
+      'telephone' => '[Mobile]',
+      'title' => 'Head of IT',
+      'organization' => 'IKANO',
+      'visitTime' => '2026-05-11 16:43:44',
+      'flag' => 'Cool',
+      'firstName' => 'Ajay',
+      'fullName' => 'Ajay Gupta',
+      'id' => 7,
+    ),
+    7 => 
+    array (
+      'exhibitorID' => 105,
+      'visitDate' => '2026-05-13',
+      'serialNumber' => '5664',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => 'Low',
+      'email' => 'hanyong.low@kuokgroup.com.sg',
+      'telephone' => '[Mobile]',
+      'title' => 'Chief Information Officer',
+      'organization' => 'Kuok (Singapore) Limited',
+      'visitTime' => '2026-05-13 11:16:20',
+      'flag' => 'Cool',
+      'firstName' => 'Han Yong',
+      'fullName' => 'Han Yong Low',
+      'id' => 8,
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000380s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000666s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 105  AND `status` = 1 LIMIT 1 [ RunTime:0.000347s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.001071s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5475'  AND `exhibitor_id` = 105  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 10:24:01' LIMIT 1 [ RunTime:0.186220s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Edwin' , `last_name` = 'Tan' , `full_name` = 'Edwin Tan' , `organization` = 'H2O.ai' , `title` = 'Manager, Forward Deployed AI Engineering' , `phone` = '[Mobile]' , `email` = 'edwin.tan@h2o.ai' , `flag` = 'Neutral' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-13 11:16:40'  WHERE  `id` = '3A6B2D5A-6131-AA93-E09B-BFA37FC6D54A' [ RunTime:0.004012s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5639'  AND `exhibitor_id` = 105  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 11:28:33' LIMIT 1 [ RunTime:0.000829s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Wei-lung' , `last_name` = 'Wang' , `full_name` = 'Wei-lung Wang' , `organization` = 'Monetary Authority of Singapore' , `title` = 'Executive director' , `phone` = '[Mobile]' , `email` = 'wang_wei-lung@mas.gov.sg' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-13 11:16:40'  WHERE  `id` = '154E7C91-8939-F0A1-9E6C-76AE1AA64FD2' [ RunTime:0.001553s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5655'  AND `exhibitor_id` = 105  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:12:03' LIMIT 1 [ RunTime:0.015198s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Vinita' , `last_name` = 'Tandon' , `full_name` = 'Vinita Tandon' , `organization` = 'UBS' , `title` = 'Executive Director' , `phone` = '[Mobile]' , `email` = 'vinita.tandon@ubs.com' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-13 11:16:40'  WHERE  `id` = '98128013-11A3-7A60-32D0-F309D4622924' [ RunTime:0.002154s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5530'  AND `exhibitor_id` = 105  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:19:34' LIMIT 1 [ RunTime:0.001640s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Sai Khoon' , `last_name` = 'Aw Yong' , `full_name` = 'Sai Khoon Aw Yong' , `organization` = 'St Luke\'s ElderCare Ltd' , `title` = 'Manager, IT' , `phone` = '[Mobile]' , `email` = 'saikhoonawyong@slec.org.sg' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-13 11:16:40'  WHERE  `id` = '4B4D2C36-8682-D13A-13D8-5A0B50ECE26B' [ RunTime:0.002524s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5502'  AND `exhibitor_id` = 105  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:19:45' LIMIT 1 [ RunTime:0.063448s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Nai Min' , `last_name` = 'Chong' , `full_name` = 'Nai Min Chong' , `organization` = 'Singapore LNG Corporation' , `title` = 'Vice President, Information Technology & Procurement' , `phone` = '[Mobile]' , `email` = 'chongnaimin@slngcorp.com' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-13 11:16:40'  WHERE  `id` = 'F444EC51-2736-178B-0817-E9039D8883BF' [ RunTime:0.001663s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5625'  AND `exhibitor_id` = 105  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:19:52' LIMIT 1 [ RunTime:0.001684s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Chris' , `last_name` = 'Kong' , `full_name` = 'Chris Kong' , `organization` = 'Singapore University of Social Sciences' , `title` = 'Deputy Director' , `phone` = '[Mobile]' , `email` = 'chriskong@suss.edu.sg' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-13 11:16:40'  WHERE  `id` = '8E4C521C-ECAF-5589-20D6-3BCCA45B4B8F' [ RunTime:0.001087s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5572'  AND `exhibitor_id` = 105  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:43:44' LIMIT 1 [ RunTime:0.001594s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Ajay' , `last_name` = 'Gupta' , `full_name` = 'Ajay Gupta' , `organization` = 'IKANO' , `title` = 'Head of IT' , `phone` = '[Mobile]' , `email` = 'ajay.gupta@ikano.asia' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-13 11:16:40'  WHERE  `id` = 'DAFF3742-2A18-FA45-157E-2BAC90146C82' [ RunTime:0.001403s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5664'  AND `exhibitor_id` = 105  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-13 11:16:20' LIMIT 1 [ RunTime:0.008775s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('B594A4E0-DB48-2602-7CD7-4B816929AA29' , 'Han Yong' , 'Low' , 'Han Yong Low' , 'Kuok (Singapore) Limited' , 'Chief Information Officer' , '[Mobile]' , 'hanyong.low@kuokgroup.com.sg' , 'Cool' , NULL , '5664' , 105 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-13 11:16:20' , '2026-05-13' , NULL , '2026-05-13 11:16:40') [ RunTime:0.001676s ]

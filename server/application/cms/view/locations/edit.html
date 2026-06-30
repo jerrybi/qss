@@ -1,0 +1,108 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane">
+    <div class="layui-form-item">
+        <label class="layui-form-label">Event：</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Name：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value="{$article['name']}"
+                   placeholder="Please input the name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">Location Group：</label>
+        <div class="layui-input-inline">
+            <select name="location_group" id="locationGroup" lay-verify="required" lay-filter="locationGroup">
+                <option value="">Please select location group</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">Sort：</label>
+        <div class="layui-input-inline">
+            <input type="number" name="list_order"
+                   value="{$article['list_order']}" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">(the smaller the number,the higher the order )</div>
+    </div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/locations/edit',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var event_id = data.value;
+            getLocationGroupsData(event_id);
+        });
+        onReady();
+    });
+    function onReady(){
+        var events = <?php echo json_encode($events);?>;
+        var event_id = "{$article['event_id']}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+                eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        getLocationGroupsData(event_id);
+    }
+    function getLocationGroupsData(event_id){
+        $.post(
+        "{:url('cms/locationGroups/getList')}",
+        {event_id:event_id},
+        function (result) {
+            console.log(result);
+            if(result.status == 200){
+                reloadLocationGroup(result.data);
+            }else{
+                //失败
+                dialog.tip(result.message);
+            }
+        },"JSON");
+    }
+    
+    function reloadLocationGroup(allLocationGroups){
+        var locationGroupStr = "";
+        $.each(allLocationGroups,function(i,item){
+            locationGroupStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#locationGroup").html(locationGroupStr);
+        var locationGroup = "{$article['location_group']}";
+        $("#locationGroup").val(locationGroup);
+        layui.use('form',function(){
+            var form = layui.form;
+            form.render();
+            form.render('select','locationGroup');
+        });
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{/block}
+
+
+

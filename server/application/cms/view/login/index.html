@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <title>QSS</title>
+    <!-- load layui -->
+    {include file='layouts/layui'}
+    <!-- 加载公共文件  -->
+    <link href="__CMS__/css/zhang.css?v=1" rel="stylesheet">
+    <script type='text/javascript' src="__CMS__/js/moZhang.js"></script>
+    <script type='text/javascript' src="__CMS__/js/crypto-js.js"></script>
+    <script type='text/javascript' src="__CMS__/js/aes.js"></script>
+    <!--<script src="https://www.google.com/recaptcha/api.js?render=6Lcl1r0ZAAAAANH10p5UAevSl3XmCy1mdoprviCt"></script>-->
+</head>
+<body id="body-login">
+<div class="div-video">
+<!--    <video class="video-player" preload="auto" autoplay="autoplay" loop="loop">
+        <source src="__CMS__/file/loginVideo.mp4" type="video/mp4">
+         此视频文件为支付宝所有，在此仅供样式参考，如用到商业用途，请自行更换为其他视频或图片，否则造成的任何问题使用者本人承担，谢谢 
+    </video>-->
+<!--<img src="__CMS__/images/admin-login-bg.jpg" class="login_bg"/>-->
+</div>
+<!--<div class="container">-->
+<!--    <img src="{$config['top_banner_url']}" width="100%">-->
+<!--</div>-->
+<div class="container form">
+    <div class="title">For Registration Team ONLY</div>
+    <form class="layui-form layui-form-pane" id="form-login">
+        <div class="layui-form-item">
+            <input type="text" name="user_name" required id="username"
+                   lay-verify="required" placeholder="Username"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <input type="password" name="password" required id="pwd"
+                   lay-verify="required" placeholder="Password"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-item">
+            <div class="div-form-op">
+                <button class="layui-btn btn-login" type="button" onclick="adminLogin()"
+                        lay-submit lay-filter="formDemo">Login
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<style>
+    .img-user_name,.img-user_pwd{
+        width: 25px;
+    }
+    .input-verifyCode {
+        font-weight: 700;
+        font-family: "Droid Sans";
+        width: 40%;
+        height: 50.2px;
+    }
+    .span-img-verifyCode {
+        position: relative;
+        top: -50.2px;
+        left: 110px;
+        width: 71%;
+        float: left;
+    }
+
+    .span-img-verifyCode img {
+        width: 80%;
+    }
+    .login_bg{
+        background-color: transparent;
+        display: block;
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .login-header{
+        width: 450px;
+        height:60px;
+        background: white;
+    }
+    .img-logo{
+        width: 50px;
+        height:50px;
+    }
+    .text-logo{
+        display: inline-block;
+        width:350px;
+        color:#283560;
+        text-align: center;
+        font-size: 25px;
+    }
+    #form-login{
+        padding-top: 35px;
+    }
+    .form{
+        width: 40%;
+        margin: 0 auto;
+    }
+    .title{
+        text-align: center;
+        margin: 20px;
+        color: #999999;
+    }
+    .div-form-op{
+        display: flex;
+        justify-content: center;
+    }
+</style>
+</body>
+<script>
+    window.onload = function () {
+        //要初始化的东西 TODO 我就奇怪为啥有的代码在$(document).function()中就不行！！！
+        $(window).resize(function () {
+            if ($(".video-player").width() > $(window).width()) {
+                $(".video-player").css({
+                    "height": $(window).height(),
+                    "width": "auto",
+                    "left": -($(".video-player").width() - $(window).width()) / 2
+                });
+            } else {
+                $(".video-player").css({
+                    "width": $(window).width(),
+                    "height": "auto",
+                    "left": -($(".video-player").width() - $(window).width()) / 2
+                });
+            }
+        }).resize();
+    };
+    $(document).on('keydown', function () {
+        if (event.keyCode == 13) {
+            $(".btn-login").click();
+        }
+    });
+
+    /**
+     * 后台登录触发事件
+     */
+    function adminLogin() {
+        var toUrl = "{:url('cms/login/ajaxLogin')}";
+        var postData = $("#form-login").serialize();
+        var indexUrl = "{:url('cms/index/index')}";
+        var username = $('#username').val();
+        var pwd = $('#pwd').val();
+        var vfy = $('#vfy').val();
+        var md5Pwd = CryptoJS.MD5(pwd).toString();
+        var publicKey = aesEncrypt(username,md5Pwd,'qsxxqsxxqsxxqsxx');
+        //测试模式下删除google recaptcha
+//        grecaptcha.ready(function(){
+//            grecaptcha.execute('6Lcl1r0ZAAAAANH10p5UAevSl3XmCy1mdoprviCt',{action:'submit'}).then(function(token){
+                $.post(
+                    toUrl,
+                    {
+                        user_name:username,
+                        public_key:publicKey,
+                        login_verifyCode:vfy,
+//                        g_recaptcha_response:token
+                    },
+                    function (result) {
+                        if (result.status != 0) {
+                            window.location.href = indexUrl;
+                        } else {
+                            //失败
+                            layer.msg(result.message);
+                        }
+                    }, "JSON");
+//            });
+//        });
+
+    }
+</script>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Home</title>
+
+    <link href="__INDEX__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="__INDEX__/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="__INDEX__/css/zhang.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="__INDEX__/css/lightbox.css">
+    <!-- jQuery (necessary JavaScript plugins) -->
+    {include file='layouts/layui'}
+    <script type='text/javascript' src="__INDEX__/js/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src="__INDEX__/js/common.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body>
+<!-- header -->
+<div class="container">
+    <img src="{$exhibitor['top_banner_url']}" width="100%">
+</div>
+<div class="banner">
+    <div class="container">
+        <div class="banner_head_top">
+            <div class="top-menu" style="color:white;">
+                <h1>Show Directory Listing</h1>
+                <div class="clearfix"></div>
+                <script type="text/javascript" src="__INDEX__/js/bootstrap-3.1.1.min.js"></script>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+{block name="content"}content{/block}
+<script src="__INDEX__/js/lightbox-plus-jquery.min.js"></script>
+
+{block name="single-content"}{/block}
+<!-- footer -->
+<div class="container">
+    <img src="{$exhibitor['bottom_banner_url']}" width="100%">
+</div>
+<!---->
+<div class="container" style="padding-top: 10px;">
+    <div class="copywrite">
+        <p>Copyright &copy; qestsolutions.com</p>
+    </div>
+</div>
+<!---->
+<style>
+    .notice-active,.marketing-active,.amenities-active{
+        background-color: orange;
+    }
+    .custom-submit{
+        margin-bottom: 20px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $(document).off('click.bs.dropdown.data-api');
+        $(document).off('keydown.bs.dropdown.data-api');
+        dropdownopen();
+    });
+    function dropdownopen(){
+        var $dropdownLi = $('li.dropdown');
+        $dropdownLi.mouseover(function () {
+            $(this).addClass('open');
+        }).mouseout(function () {
+            $(this).removeClass('open');
+        });
+    }
+</script>
+</body>
+</html>

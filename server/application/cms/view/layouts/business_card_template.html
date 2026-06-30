@@ -1,0 +1,861 @@
+<!--<script src="https://cdn.jsdelivr.net/npm/fabric"></script>-->
+<script src="__CMS__/js/fabric.js"></script>
+<script src="__CMS__/js/fontfaceobserver.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bebas+Neue&family=Caveat:wght@400;500;600;700&family=Comfortaa:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Indie+Flower&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Shadows+Into+Light&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<div class="bc-container">
+    <div class="bc-page">
+        <div class="bc-workplace">
+            <div id="bc-title">Front</div>
+            <canvas id="bc"></canvas>
+            <div id="bc-revert">
+                <img src="__CMS__/images/icon/revert.png" width="40" height="auto" onclick="revert()"/>
+            </div>
+        </div>
+        <div class="bc-tool">
+            <button class="layui-btn" type="button" onclick="BC_AddText()">Add Text</button>
+            <button class="layui-btn" type="button" onclick="BC_AddImage()">Add Image</button>
+            <button class="layui-btn" type="button" onclick="BC_AddQR()">Add QR</button>
+            <button class="layui-btn" type="button" onclick="BC_AddVCard()">Add VCard</button>
+            <button class="layui-btn" type="button" onclick="BC_DeleteItem()">Delete Item</button>
+        </div>
+    </div>
+    <div class="bc-property">
+        <div class="bc-attribute">Attribute</div>
+        <div class="layui-form-item " id="double_side">
+            <label class="layui-form-label">Double Side:</label>
+            <div class="layui-input-block">
+                <input type="radio" name="double_side" value="1" title="Yes" lay-filter="double_side" checked>
+                <input type="radio" name="double_side" value="0" title="No" lay-filter="double_side">
+            </div>
+        </div>
+        <div class="layui-form-item " id="bg_color">
+            <label class="layui-form-label">Background Color:</label>
+            <div class="layui-input-inline">
+                <div id="bg_color_picker"></div>
+                <input type="hidden" name="bg_color" value=""/>
+            </div>
+        </div>
+        <div class="layui-form-item " id="back_bg_color" style="display: none">
+            <label class="layui-form-label">Back Background Color:</label>
+            <div class="layui-input-inline">
+                <div id="back_bg_color_picker"></div>
+                <input type="hidden" name="back_bg_color" value=""/>
+            </div>
+        </div>
+        <div class="layui-form-item" id="bg_size">
+            <label class="layui-form-label">Background Size:</label>
+            <div class="layui-input-block">
+                <input type="radio" name="bg_size_type" value="0" title="Predefined" lay-filter="bg_size_type" checked>
+                <input type="radio" name="bg_size_type" value="1" title="Custom" lay-filter="bg_size_type">
+            </div>
+            <div class="layui-input-block" id="bg_size_dropdown">
+                <select lay-filter="bg_size_dropdown">
+                    <option value="0">8.55 x 5.56 cm</option>
+                    <option value="1">10.2 x 7.5 cm</option>
+                    <option value="2">10.0 x 10.0 cm</option>
+                    <option value="3">9.1 x 13.5 cm</option>
+                    <option value="4">10.0 x 15.0 cm</option>
+                </select>
+            </div>
+            <div class="layui-input-inline" id="bg_size_input" style="display: none;">
+                <input type="number" id="bg_size_w" name="bg_size_w" oninput="BC_onBCBgSizeWInput()"
+                       onpropertychange="BC_onBCBgSizeWInput()"
+                       placeholder="Please input width" autocomplete="off" class="layui-input">
+                <label>&nbsp;x&nbsp;</label>
+                <input type="number" id="bg_size_h" name="bg_size_h" oninput="BC_onBCBgSizeHInput()"
+                       onpropertychange="BC_onBCBgSizeHInput()"
+                       placeholder="Please input height" autocomplete="off" class="layui-input">
+                <label>&nbsp;cm</label>
+            </div>
+        </div>
+        <div class="layui-form-item flex-row" id="bc_name" style="display: none">
+            <label class="layui-form-label">Name:</label>
+            <div class="layui-input-inline" style="width: 182px">
+                <input type="text" name="bc_name" oninput="BC_onBCNameInput()"
+                       onpropertychange="BC_onBCNameInput()"
+                       placeholder="Please input name" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item flex-row" id="bc_font_type" style="display: none">
+            <label class="layui-form-label">Font Type:</label>
+            <div class="layui-input-inline" style="width: 182px">
+                <select id="bc_font_type_select" name="bc_font_type" lay-filter="bc_font_type">
+
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item flex-row" id="bc_size" style="display: none">
+            <label class="layui-form-label">Font Size:</label>
+            <div class="layui-input-inline" style="width: 182px">
+                <input type="text" name="bc_size" oninput="BC_onBCSizeInput()"
+                       onpropertychange="BC_onBCSizeInput()"
+                       placeholder="Please input size" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item flex-row" id="bc_color" style="display: none">
+            <label class="layui-form-label">Color:</label>
+            <div class="layui-input-inline">
+                <div id="bc_color_picker"></div>
+                <input type="hidden" name="bc_color" value=""/>
+<!--                <input type="text" name="bc_color" oninput="BC_onBCColorInput()"-->
+<!--                       onpropertychange="BC_onBCColorInput()"-->
+<!--                       placeholder="Please input color" autocomplete="off" class="layui-input">-->
+            </div>
+        </div>
+        <div class="layui-form-item" id="bc_align" style="display: none">
+            <label class="layui-form-label">Align:</label>
+            <div class="layui-input-inline align-container">
+                <div class="align-row">
+                    <div class="align-col tl active" onclick="clickAlign('tl')"></div>
+                    <div class="align-col tc" onclick="clickAlign('tc')"></div>
+                    <div class="align-col tr" onclick="clickAlign('tr')"></div>
+                </div>
+                <div class="align-row">
+                    <div class="align-col ml" onclick="clickAlign('ml')"></div>
+                    <div class="align-col mc" onclick="clickAlign('mc')"></div>
+                    <div class="align-col mr" onclick="clickAlign('mr')"></div>
+                </div>
+                <div class="align-row">
+                    <div class="align-col bl" onclick="clickAlign('bl')"></div>
+                    <div class="align-col bc" onclick="clickAlign('bc')"></div>
+                    <div class="align-col br" onclick="clickAlign('br')"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item" id="bc_image" style="display: none">
+            <label class="layui-form-label">Image Source:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bc_image" oninput="BC_onBCImageInput()"
+                       onpropertychange="BC_onBCImageInput()"
+                       placeholder="Please input image source" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" id="bc_qr" style="display: none">
+            <label class="layui-form-label">Qr Code Format:</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bc_qr" oninput="BC_onBCQRInput()"
+                       onpropertychange="BC_onBCQRInput()"
+                       placeholder="Please input qr code format" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .bc-container{
+        display: flex;
+    }
+    .bc-page{
+        height: 100%;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        border-left: 1px solid #dddddd;
+        border-bottom: 1px solid #dddddd;
+    }
+    .bc-workplace{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #87cefa;
+    }
+    #bc{
+        background: white;
+        border: 1px solid #ccc;
+    }
+    .bc-property{
+        width: 400px;
+        height: 100%;
+        border: 1px solid #dddddd;
+    }
+    .bc-property .layui-form-label{
+        background-color: transparent!important;
+        border: none!important;
+        padding: 5px!important;
+    }
+    .bc-property .layui-form-item{
+        margin-left: 5px;
+    }
+    .bc-tool{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid #dddddd;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .bc-attribute{
+        font-size: 20px;
+        padding: 10px;
+        border-bottom: 1px solid #dddddd;
+        margin-bottom: 10px;
+    }
+    .align-container{
+        width: 90%!important;
+        margin: 0 5%!important;
+    }
+    .align-row{
+        width: 100%;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .align-col{
+        width: 30%;
+        height: 30px;
+        background-color: #ddd;
+    }
+    .align-col:hover{
+        background-color: #0e566c;
+    }
+    .align-row .active{
+        background-color: #283560;
+    }
+    .flex-row{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .flex-row .layui-form-label{
+        width: 80px!important;
+    }
+    .pd5{
+        padding: 5px;
+    }
+    #bg_size_dropdown .layui-form-select{
+        width: 50%;
+    }
+    #bg_size_input{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #bc-title{
+        height: 36px;
+        line-height: 36px;
+    }
+    #bc-revert{
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<script>
+    var canvas;
+    var cardSide = 0;
+    var content1,content2;
+    var pixtelPerCm = 28.346;
+    var webSafeFonts = ['Helvetica','Arial','Arial Black','Verdana','Tahoma','Trebuchet MS','Impact','Gill Sans',
+        'Times New Roman','Georgia','Palatino','Baskerville','Courier','Lucida','Monaco',
+        'Bradley Hand','Brush Script MT','Luminari','Comic Sans MS'];
+    var customFonts = ['Abril Fatface','Alfa Slab One','Bebas Neue','Caveat','Comfortaa','Dancing Script',
+        'IBM Plex Mono','Inconsolata','Indie Flower','Lato','Lobster','Lora','Merriweather','Montserrat',
+        'Open Sans','Pacifico','Playfair Display','Poppins','PT Serif','Roboto','Roboto Mono','Roboto Slab',
+        'Shadows Into Light','Source Code Pro','Space Mono'];
+    function BC_init(config) {
+        initClueTextBox();
+        $("input[name='double_side'][value="+config.double_side+"]").attr("checked",true);
+        if(config.double_side == '0'){
+            $('#bc-revert').hide();
+        }
+        $("input[name='bg_size_type'][value="+config.bg_size_type+"]").attr("checked",true);
+        var bgWidth = 0,bgHeight = 0;
+        if(config.bg_size_type == '0'){
+            $('#bg_size_dropdown').show();
+            $('#bg_size_input').hide();
+            $("#bg_size_dropdown select").val(config.bg_size_index);
+            var size = getBgSize(config.bg_size_index);
+            bgWidth = size[0];
+            bgHeight = size[1];
+        }else{
+            $('#bg_size_dropdown').hide();
+            $('#bg_size_input').show();
+            $("#bg_size_w").val(config.bg_width);
+            $("#bg_size_h").val(config.bg_height);
+            bgWidth = config.bg_width;
+            bgHeight = config.bg_height;
+        }
+        canvas = new fabric.Canvas('bc');
+        setCanvasWidth(bgWidth*pixtelPerCm);
+        setCanvasHeight(bgHeight*pixtelPerCm);
+        console.log(config.content1);
+        content1 = config.content1;
+        content2 = config.content2;
+        if(cardSide == 0){
+            if(config.content1 && config.content1.length > 0){
+                canvas.loadFromJSON(config.content1);
+                renderCustomFont();
+            }
+        }else{
+            if(config.content2 && config.content2.length > 0){
+                canvas.loadFromJSON(config.content2);
+                renderCustomFont();
+            }
+        }
+        layui.form.render();
+        canvas.on('mouse:down',function (options) {
+            console.log(options);
+            hideAllProperty();
+            if(options.target){
+                console.log(options.target.customType);
+                let customType = options.target.customType;
+                if(customType === 'text'){
+                    $('#bc_name').show();
+                    $('#bc_size').show();
+                    $('#bc_color').show();
+                    $('#bc_align').show();
+                    $('#bc_font_type').show();
+                    $('input[name="bc_name"]').val(options.target.text);
+                    $('input[name="bc_size"]').val(options.target.fontSize);
+                    $('input[name="bc_color"]').val(options.target.fill);
+                    $('#bc_font_type_select').val(options.target.fontFamily);
+                    $(".align-col").removeClass('active');
+                    $(".align-col."+options.target.customAlign).addClass('active');
+                    initColorPicker();
+                    layui.form.render();
+                }else if(customType === 'image'){
+                    $('#bc_image').show();
+                    $('input[name="bc_image"]').val(options.target.customText);
+                }else if(customType === 'qrcode'){
+                    $('#bc_qr').show();
+                    $('input[name="bc_qr"]').val(options.target.customText);
+                }
+            }else{
+                $('#double_side').show();
+                $('#bg_size').show();
+                initBgColorData();
+            }
+        });
+    }
+    function initClueTextBox(){
+        fabric.ClueTextBox = fabric.util.createClass(fabric.Textbox, {
+            type: 'ClueTextBox',
+            /**
+             * Properties which when set cause object to change dimensions
+             * @type Object
+             * @private
+             */
+            _dimensionAffectingProps: fabric.IText.prototype._dimensionAffectingProps.slice(0),
+            cacheProperties: fabric.Textbox.prototype.cacheProperties.concat('customAlign'),
+
+            _renderTextCommon: function(ctx, method) {
+                console.log("_renderTextCommon");
+                console.log(this);
+                ctx.save();
+                var lineHeights = 0, left = this._getLeftOffset(), top = this._getTopOffset(),
+                    offsets = this._applyPatternGradientTransform(ctx, method === 'fillText' ? this.fill : 	this.stroke);
+                console.log("left:"+left+" top:"+top);
+                console.log(offsets);
+                var totalHeight = 0;
+                for (var i = 0, len = this._textLines.length; i < len; i++) {
+                    totalHeight += this.getHeightOfLine(i) / this.lineHeight;
+                }
+                if(this.customAlign === 'ml' || this.customAlign === 'mc' || this.customAlign === 'mr'){
+                    top += this.height >= totalHeight ? (this.height-totalHeight)/2 : 0;
+                }else if(this.customAlign === 'bl' || this.customAlign === 'bc' || this.customAlign === 'br'){
+                    top += this.height >= totalHeight ? (this.height-totalHeight) : 0;
+                }
+                for (var i = 0, len = this._textLines.length; i < len; i++) {
+                    var heightOfLine = this.getHeightOfLine(i),
+                        maxHeight = heightOfLine / this.lineHeight,
+                        leftOffset = this._getLineLeftOffset(i);
+                    if(lineHeights+heightOfLine < this.getScaledHeight()){
+                        this._renderTextLine(
+                            method,
+                            ctx,
+                            this._textLines[i],
+                            left + leftOffset - offsets.offsetX,
+                            top + lineHeights + maxHeight - offsets.offsetY,
+                            i
+                        );
+                    }
+                    lineHeights += heightOfLine;
+                }
+                // console.log("width:"+this.width+" height:"+this.height+" scaleHeight:"+this.getScaledHeight());
+                ctx.restore();
+            },
+            initDimensions() {
+                console.log("initDimensions");
+                if (this.__skipDimension) {
+                    return;
+                }
+                this.isEditing && this.initDelayedCursor();
+                this.clearContextTop();
+                this._clearCache();
+                // clear dynamicMinWidth as it will be different after we re-wrap line
+                this.dynamicMinWidth = 0;
+                // wrap lines
+                this._styleMap = this._generateStyleMap(this._splitText());
+                // if after wrapping, the width is smaller than dynamicMinWidth, change the width and re-wrap
+                if (this.dynamicMinWidth > this.width) {
+                    this._set('width', this.dynamicMinWidth);
+                }
+                if (this.textAlign.indexOf('justify') !== -1) {
+                    // once text is measured we need to make space fatter to make justified text.
+                    this.enlargeSpaces();
+                }
+                // clear cache and re-calculate height
+                if(this.height <= 0){
+                    this.height = this.calcTextHeight();
+                }
+                this.saveState({ propertySet: '_dimensionAffectingProps' });
+            }
+        });
+        fabric.ClueTextBox.fromObject = function(object, callback) {
+            var styles = fabric.util.stylesFromArray(object.styles, object.text);
+            //copy object to prevent mutation
+            var objCopy = Object.assign({}, object, { styles: styles });
+            return fabric.Object._fromObject('ClueTextBox', objCopy, callback, 'text');
+        };
+    }
+    function BC_getContent() {
+        var doubleSide = $("input[type='radio'][name='double_side']:checked").val();
+        if(cardSide == 0){
+            content1 = JSON.stringify(canvas.toJSON(["customType","customText","customAlign"]));
+        }else{
+            content2 = JSON.stringify(canvas.toJSON(["customType","customText","customAlign"]));
+        }
+        var bgSizeType = $("input[name='bg_size_type']:checked").val();
+        var bgSizeIndex = 0;
+        var bgSizeW = 0;
+        var bgSizeH = 0;
+        if(bgSizeType == '0'){
+            bgSizeIndex = $("#bg_size_dropdown select").val();
+            var size = getBgSize(bgSizeIndex);
+            bgSizeW = size[0];
+            bgSizeH = size[1];
+        }else{
+            bgSizeW = $("#bg_size_w").val();
+            bgSizeH = $("#bg_size_h").val();
+        }
+        return {
+            bg_size_type:bgSizeType,
+            bg_size_index:bgSizeIndex,
+            bg_width:bgSizeW,
+            bg_height:bgSizeH,
+            double_side:doubleSide,
+            content1:content1,
+            content2:doubleSide=='1' ? content2 : ''
+        };
+    }
+    layui.use(['form','colorpicker'],function(){
+        var form = layui.form;
+        var colorpicker = layui.colorpicker;
+        form.on('radio(bg_size_type)',function(data){
+            if(data.value == '0'){
+                $("#bg_size_dropdown").show();
+                $("#bg_size_input").hide();
+                var size = getBgSize($("#bg_size_dropdown select").val());
+                setCanvasWidth(size[0]*pixtelPerCm);
+                setCanvasHeight(size[1]*pixtelPerCm);
+            }else{
+                $("#bg_size_dropdown").hide();
+                $("#bg_size_input").show();
+                var bgSizeW = $("#bg_size_w").val();
+                var bgSizeH = $("#bg_size_h").val();
+                if(bgSizeW > 0 && bgSizeH > 0){
+                    setCanvasWidth(bgSizeW*pixtelPerCm);
+                    setCanvasHeight(bgSizeH*pixtelPerCm);
+                }
+            }
+        });
+        form.on('select(bg_size_dropdown)', function(data){
+            var size = getBgSize(data.value);
+            setCanvasWidth(size[0]*pixtelPerCm);
+            setCanvasHeight(size[1]*pixtelPerCm);
+        });
+        form.on('radio(double_side)',function(data){
+            if(data.value == '0'){
+                if(cardSide == 1){
+                    cardSide = 0;
+                    if(content1){
+                        canvas.loadFromJSON(content1);
+                        renderCustomFont();
+                        initBgColorData();
+                    }else{
+                        canvas.clear();
+                    }
+                    $('#bc-title').text('Front');
+                }
+                $('#bc-revert').hide();
+            }else{
+                $('#bc-revert').show();
+            }
+        });
+        initBgColorData();
+        initFontTypeOptions();
+    });
+    function initBgColorData() {
+        if(cardSide == 0){
+            $('input[name="bg_color"]').val(canvas.backgroundColor);
+            $('#bg_color').show();
+            $('#back_bg_color').hide();
+        }else{
+            $('input[name="back_bg_color"]').val(canvas.backgroundColor);
+            $('#bg_color').hide();
+            $('#back_bg_color').show();
+        }
+        initBgColorPicker();
+    }
+    function initColorPicker() {
+        layui.colorpicker.render({
+            elem: '#bc_color_picker',
+            color: $("input[name='bc_color']").val(),
+            change: function (color) {
+                $("input[name='bc_color']").val(color);
+                BC_onBCColorInput();
+            }
+        });
+    }
+    function initBgColorPicker() {
+        if(cardSide == 0){
+            layui.colorpicker.render({
+                elem: '#bg_color_picker',
+                color: $("input[name='bg_color']").val(),
+                change: function (color) {
+                    $("input[name='bg_color']").val(color);
+                    BC_onBgColorInput();
+                }
+            });
+        }else{
+            layui.colorpicker.render({
+                elem: '#back_bg_color_picker',
+                color: $("input[name='back_bg_color']").val(),
+                change: function (color) {
+                    $("input[name='back_bg_color']").val(color);
+                    BC_onBgColorInput();
+                }
+            });
+        }
+        layui.form.render();
+    }
+    function initFontTypeOptions() {
+        var select = document.getElementById("bc_font_type_select");
+        var fonts = webSafeFonts.concat(customFonts);
+        fonts.forEach(function (font) {
+            var option = document.createElement('option');
+            option.innerHTML = font;
+            option.value = font;
+            select.appendChild(option);
+        });
+        layui.form.on('select(bc_font_type)', function(data){
+            if(webSafeFonts.indexOf(data.value) >= 0){
+                canvas.getActiveObject().set('fontFamily',data.value);
+                canvas.requestRenderAll();
+            }else{
+                loadAndUse(data.value);
+            }
+        });
+        layui.form.render();
+    }
+    function loadAndUse(font) {
+        var myfont = new FontFaceObserver(font);
+        myfont.load().then(function () {
+            canvas.getActiveObject().set('fontFamily',font);
+            canvas.requestRenderAll();
+        }).catch(function (e) {
+            console.log(e);
+            alert('font loading failed ' + font);
+        });
+    }
+    function loadFont(font) {
+        var myfont = new FontFaceObserver(font);
+        myfont.load().then(function () {
+            canvas.requestRenderAll();
+        }).catch(function (e) {
+            console.log(e);
+        });
+    }
+    function renderCustomFont() {
+        var objects = canvas.getObjects();
+        for(var i = 0; i < objects.length; i++){
+            if(objects[i].fontFamily && objects[i].fontFamily.length > 0){
+                if(webSafeFonts.indexOf(objects[i].fontFamily) < 0){
+                    objects[i].dirty = true;
+                    loadFont(objects[i].fontFamily);
+                }
+            }
+        }
+    }
+    function getBgSize(index) {
+        if(index == 0){
+            return [8.55,5.56];
+        }else if(index == 1){
+            return [10.2,7.5];
+        }else if(index == 2){
+            return [10.0,10.0];
+        }else if(index == 3){
+            return [9.1,13.5];
+        }else if(index == 4){
+            return [10.0,15.0];
+        }else{
+            return [0,0];
+        }
+    }
+    function setCanvasWidth(width) {
+        canvas.setWidth(width);
+    }
+    function setCanvasHeight(height) {
+        canvas.setHeight(height);
+        var attrHeight = $('.bc-property').outerHeight();
+        if(attrHeight < 500){
+            attrHeight = 500;
+        }
+        var toolHeight = $('.bc-tool').outerHeight();
+        var titleHeight = $('#bc-title').outerHeight();
+        var revertHeight = $('#bc-revert').outerHeight();
+        if((height+toolHeight+titleHeight+revertHeight) > attrHeight){
+            $('.bc-workplace').height(height+titleHeight+revertHeight);
+            $('.bc-property').height(height+toolHeight+titleHeight+revertHeight);
+        }else{
+            $('.bc-workplace').height(attrHeight-toolHeight);
+            $('.bc-property').height(attrHeight);
+        }
+    }
+    function hideAllProperty() {
+        $('#double_side').hide();
+        $('#bg_size').hide();
+        $('#bg_color').hide();
+        $('#back_bg_color').hide();
+        $('#bc_font_type').hide();
+        $('#bc_name').hide();
+        $('#bc_size').hide();
+        $('#bc_color').hide();
+        $('#bc_align').hide();
+        $('#bc_image').hide();
+        $('#bc_qr').hide();
+    }
+    function BC_AddText() {
+        var time = (new Date()).getTime();
+        // var text = new fabric.IText('[Enter Text]', {left: 100, top: 100, fontSize: 30, fill: '#000000', customType: 'text'});
+        var text = new fabric.ClueTextBox("[%Field Name%]");
+        text.set({
+            fontSize: 16,
+            lineHeight: 1,
+            charSpacing: 10,
+            editable: false,
+            dirty:false,
+            objectCaching:false,
+            lockUniScaling: false,
+            lockScalingFlip: true,
+            splitByGrapheme:true,
+            left: 0,
+            top: 0,
+            fill: '#000000',
+            customType: 'text',
+            customAlign: 'tl'
+        });
+        text.setControlsVisibility({
+            mt: true, // middle top disable
+            mb: true, // midle bottom
+            ml: true, // middle left
+            mr: true, // middle right
+        });
+        text.on('scaling', () =>{
+            updateTextBoxSize(text);
+        });
+        text.on('resizing', () => {
+            updateTextBoxSize(text)
+        });
+        text.toObject(['customType','customAlign']);
+        canvas.add(text);
+    }
+    function updateTextBoxSize(text) {
+        var newHeight = text.height * text.scaleY;
+        console.log("height:"+text.height+" scaleY:"+text.scaleY+" newHeight:"+newHeight);
+        console.log("width:"+text.width+" scaleX:"+text.scaleX+" newWidth:"+(text.width * text.scaleX));
+        text.set({
+            width: text.width * text.scaleX,
+            scaleX: 1,
+        });
+        text.initDimensions();
+        text.set({ height: newHeight, scaleY: 1 })
+    }
+    function adjustTextFont(obj) {
+        console.log("adjustTextFont");
+        var totalHeight = 0;
+        do{
+            totalHeight = 0;
+            for (var i = 0, len = obj._textLines.length; i < len; i++) {
+                totalHeight += obj.getHeightOfLine(i) / obj.lineHeight;
+            }
+            console.log("totalHeight:"+totalHeight+" height:"+obj.height);
+            if(totalHeight > obj.height){
+                obj.fontSize--;
+                obj.initDimensions();
+                if(obj.fontSize <= 10){
+                    break;
+                }
+            }
+        }while(totalHeight>obj.height);
+        console.log("fontsize:"+obj.fontSize);
+        $('input[name="bc_size"]').val(obj.fontSize);
+    }
+    function clickAlign(align) {
+        $(".align-col").removeClass('active');
+        $(".align-col."+align).addClass('active');
+        var activeObj = canvas.getActiveObject();
+        if(activeObj){
+            // activeObj.customAlign = align;
+            activeObj.set('customAlign',align);
+            if(align === 'tl' || align === 'ml' || align === 'bl'){
+                activeObj.set('textAlign','left');
+            }else if(align === 'tc' || align === 'mc' || align === 'bc'){
+                activeObj.set('textAlign','center');
+            }else if(align === 'tr' || align === 'mr' || align === 'br'){
+                activeObj.set('textAlign','right');
+            }
+        }
+        canvas.renderAll();
+    }
+    function BC_AddImage() {
+        fabric.Image.fromURL('/static/images/avatar.png', function (oImg) {
+            oImg.set({left: 0, top: 0, customType: 'image', customText: '[%Avatar%]'});
+            oImg.scaleToWidth(100);
+            oImg.scaleToHeight(100);
+            oImg.toObject(['customType','customText']);
+            canvas.add(oImg);
+        });
+    }
+    function BC_AddQR() {
+        fabric.Image.fromURL('/static/images/qr.jpg', function (oImg) {
+            oImg.set({left: 0, top: 0, customType: 'qrcode', customText: '[%Serial Number%] - [%First Name%] [%Last Name%]'});
+            oImg.scaleToWidth(100);
+            oImg.scaleToHeight(100);
+            oImg.toObject(['customType','customText']);
+            canvas.add(oImg);
+        });
+    }
+    function BC_AddVCard() {
+        fabric.Image.fromURL('/static/images/qr.jpg', function (oImg) {
+            oImg.set({left: 0, top: 0, customType: 'vcard'});
+            oImg.scaleToWidth(100);
+            oImg.scaleToHeight(100);
+            oImg.toObject(['customType','customText']);
+            canvas.add(oImg);
+        });
+    }
+    function BC_DeleteItem() {
+        var activeObj = canvas.getActiveObject();
+        if(activeObj){
+            canvas.remove(activeObj);
+        }
+        canvas.renderAll();
+    }
+    function BC_onBgColorInput() {
+        var color;
+        if(cardSide == 0){
+            color = $('input[name="bg_color"]').val();
+        }else{
+            color = $('input[name="back_bg_color"]').val();
+        }
+        if(color.substr(0,1) !== '#'){
+            color = '#' + color;
+        }
+        console.log(color);
+        canvas.backgroundColor = color;
+        canvas.renderAll();
+    }
+    function BC_onBCNameInput() {
+        var name = $('input[name="bc_name"]').val();
+        var activeObj = canvas.getActiveObject();
+        if(activeObj){
+            activeObj.text = name;
+            // 计算文字有没有超出设定的宽高，如果超过了，需要把字体改小
+            adjustTextFont(activeObj);
+        }
+        canvas.renderAll();
+    }
+    function BC_onBCSizeInput() {
+        var size = $('input[name="bc_size"]').val();
+        var activeObj = canvas.getActiveObject();
+        if(activeObj){
+            activeObj.fontSize = size;
+            setTimeout(()=>{
+                adjustTextFont(activeObj);
+                canvas.renderAll();
+            },100);
+        }
+        canvas.renderAll();
+    }
+    function BC_onBCColorInput() {
+        var color = $('input[name="bc_color"]').val();
+        if(color.substr(0,1) !== '#'){
+            color = '#' + color;
+        }
+        console.log(color);
+        var activeObj = canvas.getActiveObject();
+        if(activeObj){
+            console.log(activeObj.isEditing);
+            if(activeObj.isEditing){
+                activeObj.setSelectionStyles({'fill': color});
+            }else{
+                console.log(activeObj);
+                activeObj.set('fill',color);
+                let s = activeObj.styles;
+                for (let i in s) {
+                    for (let j in s[i]) {
+                        s[i][j].fill = color;
+                    }
+                }
+            }
+        }
+        canvas.renderAll();
+    }
+    function BC_onBCImageInput() {
+        var name = $('input[name="bc_image"]').val();
+        var activeObj = canvas.getActiveObject();
+        if(activeObj){
+            activeObj.customText = name;
+        }
+        canvas.renderAll();
+    }
+    function BC_onBCQRInput() {
+        var name = $('input[name="bc_qr"]').val();
+        var activeObj = canvas.getActiveObject();
+        if(activeObj){
+            activeObj.customText = name;
+        }
+        canvas.renderAll();
+    }
+    function BC_onBCBgSizeWInput(){
+        var width = $("#bg_size_w").val();
+        setCanvasWidth(width*pixtelPerCm);
+    }
+    function BC_onBCBgSizeHInput(){
+        var height = $("#bg_size_h").val();
+        setCanvasHeight(height*pixtelPerCm);
+    }
+    function revert() {
+        if(cardSide == 0){
+            cardSide = 1;
+            $("#bc-title").text("Back");
+            content1 = JSON.stringify(canvas.toJSON(["customType","customText","customAlign"]));
+            console.log(content2);
+            if(content2){
+                canvas.loadFromJSON(content2);
+                renderCustomFont();
+            }else{
+                canvas.clear();
+            }
+        }else{
+            cardSide = 0;
+            $("#bc-title").text("Front");
+            content2 = JSON.stringify(canvas.toJSON(["customType","customText","customAlign"]));
+            console.log(content1);
+            if(content1){
+                canvas.loadFromJSON(content1);
+                renderCustomFont();
+            }else{
+                canvas.clear();
+            }
+        }
+        initBgColorData();
+        canvas.renderAll();
+    }
+</script>

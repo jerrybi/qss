@@ -1,0 +1,124 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div hidden="hidden" id="userFields"><?php echo json_encode($user_fields);?></div>
+<table id="demo" lay-filter="table"></table>
+<input type="hidden" name="event_id" class="event_id" value="{$event_id}">
+<input type="hidden" name="table_id" class="table_id" value="{$table_id}">
+<!--<div id="demo2-1"></div>-->
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+        word-break: break-word;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .layui-table-cell{
+        height: auto;
+        white-space: normal;
+        word-break: break-word;
+    }
+    .layui-table td, .layui-table th {
+        font-size: 12px;
+    }
+    .action-btn{
+        width: 20px;
+        text-align: left;
+        margin-bottom: 5px;
+        margin-left: 0;
+        background-color: white!important;
+    }
+</style>
+<script>
+    function onReady(){
+        layui.form.render();
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        onReady();
+    });
+    layui.use('table',function () {
+        var table = layui.table;
+        var userFields = JSON.parse($("#userFields").text());
+        var cols = [{field: 'id', title: 'ID',templet: function (d) {
+                return d.LAY_INDEX;
+            }}];
+        for(var i=0;i<userFields.length;i++){
+            var name = userFields[i].name;
+            var key = userFields[i].key;
+            width = userFields[i].width;
+            if(width > 0){
+                cols.push({field: key, title: name, width: width});
+            }else{
+                cols.push({field: key, title: name,width: 100});
+            }
+        }
+        cols.push({
+            field: 'checkin_status', title: 'Checkin Status',width: 100
+        });
+        table.render({
+            elem: '#demo',
+            id: 'table',
+            skin: 'line',
+            even: true,
+            url: "{:url('cms/report/tableView')}",
+            method: 'POST',
+            where: {event_id: $('.event_id').val(), id: $(".table_id").val()},
+            request: {
+              pageName: "curr_page",
+              limitName: "limit"
+            },
+            parseData: function(res) {
+              return {
+                  "code": res.status===200?0:1,
+                  "msg": res.message,
+                  "count": res.data.total,
+                  "data": res.data.data
+              }
+            },
+            page: true,
+            cols: [cols],
+            done: function (res,curr,count) {
+                $(".layui-table-main tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-body tbody tr")[index]).height($(val).height());
+                    });
+                });
+                $(".layui-table-header tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-header thead tr")[index]).height($(val).height());
+                    });
+                });
+                $.each(res.data,function (index,item) {
+                    if(item.checkin_status == 1){
+                        // $("#demo").next().find('tbody tr[data-index="'+index+'"]').css("background-color","#FFA07A");
+                        var i = index + 1;
+                        $('tr').eq(i).css("background-color","#95ec69").css("color","black");
+                    }
+                });
+            }
+        });
+    });
+</script>
+{/block}
+
+{block name='single-content'}
+<!--<script src="__CMS__/js/users.js?v=3"></script>-->
+{/block}

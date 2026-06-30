@@ -1,0 +1,75 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Title：</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="title"
+                       value=""
+                       placeholder="Please input content" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Content：</label>
+        <div class="layui-input-block div-article-content">
+            <script id="ue-container" name="content" type="text/plain" style="height: 300px;"></script>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Sort：</label>
+        <div class="layui-input-inline">
+            <input type="number" name="sort"
+                   value="0" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/notices/add')}" onclick="opFormPostRecord1(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script type='text/javascript' src="__CMS__/js/base64.js"></script>
+<script>
+    $(document).ready(function(){
+        var events = JSON.parse($('#events').text());
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+    });
+    function fail_callback(){
+        window.location.reload();
+    }
+    function opFormPostRecord1(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        var postData = $(".form-op-normal").serializeArray();
+        var item = {};
+        $.each(postData,function (i,data) {
+            if(data['name'] == 'content'){
+                item[data['name']] = Base64.encode(data['value']);
+            }else{
+                item[data['name']] = data['value'];
+            }
+        });
+        ToPostPopupsDeal(toUrl, item,failcb);
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{include file='layouts/ueditor-js'/}
+{/block}

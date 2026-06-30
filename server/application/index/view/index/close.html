@@ -1,0 +1,142 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @font-face {
+            font-family: 'DIN';
+            font-style: normal;
+            font-weight: 700;
+            src: url(../fonts/DIN-Bold.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'DIN';
+            font-style: normal;
+            font-weight: 400;
+            src: url(../fonts/DIN-Regular.ttf) format('truetype');
+        }
+        @media screen and (max-width:1080px) {
+            .content{
+                flex-direction: column!important;
+                /*height: auto!important;*/
+            }
+            .container-bg{
+                background-image: url(../images/bg_portrait_center.png)!important;
+                background-size: 100% 100%!important;
+            }
+            .container{
+                padding-left: 0!important;
+                width: 70%!important;
+            }
+            .container-top{
+                display: block!important;
+            }
+            .container-bottom{
+                display: block!important;
+            }
+            .title,.footer{
+                text-align: center!important;
+            }
+        }
+        .container-bg{
+            background-image: url(../images/bg_land2.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position:center center;
+            background-color:#00306b;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 0 0 45%;
+            width: 380px;
+            margin-top: -2%;
+        }
+        .title{
+            font-family: 'DIN', Verdana, Sans-Serif;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+        }
+        .confirm{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .btn-confirm{
+            background-image: url("../images/btn_confirm.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            color: white;
+            text-align: center;
+            width: 147px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-confirm:hover{
+            cursor: pointer;
+        }
+        .footer{
+            text-align: center;
+            color: white;
+            font-size: 16px;
+        }
+        .content{
+            background-color: #00306b;
+            font-family: 'DIN', Verdana, Sans-Serif;
+            width: 100%;
+            height:100%;
+            text-align: left;
+            font-size: 16px;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        .container-top{
+            display: none;
+        }
+        .container-bottom{
+            display: none;
+        }
+    </style>
+</head>
+<body style="background-color: #00306b">
+    <div class="content">
+        <div class="container-top">
+            <img src="../images/bg_portrait_top.png" width="100%"/>
+        </div>
+        <div class="container-bg">
+            <div class="container">
+                <div class="title" style="color: white;margin-bottom: 20px">
+                    Thank you for your interest in FairPrice Group’s 50th anniversary commemorative dinner.<br/>The registration portal is now closed.
+                </div>
+                <div class="footer">
+                    Should you be able to join us for the dinner, please write to us at <a style="color:white; text-decoration: none" href="mailto:{$email}">{$email}</a>.<br/>Thank you.
+                </div>
+            </div>
+        </div>
+        <div class="container-bottom">
+            <img src="../images/bg_portrait_bottom.png" width="100%"/>
+        </div>
+    </div>
+
+</body>
+</html>

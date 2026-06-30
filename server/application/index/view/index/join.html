@@ -1,0 +1,167 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {include file='layouts/layui'}
+    <style>
+        @font-face {
+            font-family: 'CenturyGothic';
+            src: url(../fonts/CenturyGothic.ttc) format('truetype');
+        }
+        @media screen and (max-width:768px) {
+            .content{
+                flex-direction: column!important;
+            }
+            .container-bg{
+                background-image: url(../images/bg_portrait3.jpg)!important;
+                background-size: 100% 100%!important;
+            }
+            .container{
+                padding-left: 0!important;
+                width: 70%!important;
+            }
+            .confirm{
+                width: 240px!important;
+            }
+            .btn-confirm{
+                width: 100px!important;
+            }
+            .container-top{
+                display: block!important;
+            }
+            .container-bottom{
+                display: block!important;
+            }
+            .title,.footer{
+                text-align: center!important;
+            }
+        }
+        @media screen and (max-width:768px) {
+            .logo{
+                width: 80%!important;
+                height: auto!important;
+            }
+        }
+        html,body{
+            padding: 0;
+            margin: 0;
+        }
+        .container-bg{
+            background-image: url(../images/bg_land.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position:center center;
+            background-color:#e6bb6d;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .title{
+            font-family: 'CenturyGothic', Verdana, Sans-Serif;
+            color: #68462b;
+            font-size: 25px;
+            text-align: center;
+        }
+        .confirm{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            width: 400px;
+        }
+        .btn-confirm{
+            background-image: url("../images/RSVP_Button.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            color: white;
+            text-align: center;
+            width: 160px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-confirm:hover{
+            cursor: pointer;
+        }
+        .footer{
+            text-align: center;
+            color: #68462b;
+            font-size: 16px;
+        }
+        .content{
+            background-color: #68462b;
+            font-family: 'CenturyGothic', Verdana, Sans-Serif;
+            width: 100%;
+            height:100%;
+            text-align: left;
+            font-size: 16px;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        .container-top{
+            display: none;
+        }
+        .container-bottom{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="container-bg">
+            <div style="position: absolute;top: 50px;text-align: center">
+<!--                <div style="font-family: 'CenturyGothic', Verdana, Sans-Serif;text-align: center;color:#fff;font-size: 50px;">-->
+<!--                    SHEIN-->
+<!--                </div>-->
+<!--                <div style="font-family: 'FontsFree', Verdana, Sans-Serif;text-align: center;color:#fff;font-size: 20px;">-->
+<!--                    GLOBAL RECEPTION 2023-->
+<!--                </div>-->
+                {if $twoLine}
+                <img class="logo" src="../images/shein_logo.png" width="320" height="auto"/>
+                {else /}
+                <img class="logo" src="../images/shein_logo1.png" width="320" height="auto"/>
+                {/if}
+            </div>
+            <div class="container">
+                <div class="title">
+                    Will you be attending SHEIN Corporate Reception on 14 September 2023, Thursday?
+                </div>
+                <div class="confirm">
+                    <div class="btn-confirm" onclick="window.location.href='/index/form?id={$id}'">Yes</div>
+                    <div class="btn-confirm" onclick="clickNo()">No</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    function clickNo() {
+        layer.confirm('<div style="text-align: center">Thank you for your response. </br>May we confirm your unavailability?</div>',
+            {icon:-1,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = '/index/reject?id={$id}';
+                window.location.href = url;
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+</script>
+</html>

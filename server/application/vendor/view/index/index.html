@@ -1,0 +1,71 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <table class="layui-table">
+            <colgroup>
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$company['name']['label']}</td>
+                <td>{$company['name']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['origin_country']['label']}</td>
+                <td>{$company['origin_country']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['profile']['label']}</td>
+                <td>{$company['profile']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['logo']['label']}</td>
+                <td><img src="{$company['logo']['value']}" height="50"></td>
+            </tr>
+            <tr>
+                <td>{$company['email']['label']}</td>
+                <td>{$company['email']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['address_line1']['label']}</td>
+                <td>{$company['address_line1']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['address_line2']['label']}</td>
+                <td>{$company['address_line2']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['postal']['label']}</td>
+                <td>{$company['postal']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['country']['label']}</td>
+                <td>{$company['country']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['phone']['label']}</td>
+                <td>{$company['phone']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['fax']['label']}</td>
+                <td>{$company['fax']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['website']['label']}</td>
+                <td>{$company['website']['value']}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+
+</script>
+{/block}
+

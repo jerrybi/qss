@@ -1,0 +1,103 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white" lay-filter="form1">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Products and Services</label>
+        <div class="layui-input-inline input-title-mz">
+            <div class="section-area" id="category">
+
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="product" name="product" value="{$article['product']}">
+    <input type="hidden" id="options" value="{$product_attr['options']}">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/companies/productView',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    var datas = [];
+    layui.use('form',function(){
+        var form = layui.form;
+    });
+    layui.use('tree',function () {
+        var tree = layui.tree;
+        updateProductOptions();
+    });
+    function updateProductOptions() {
+        var str = $('#options').val();
+        var data = (str && str.length>0)?JSON.parse(str):[{title:'root',id:new Date().getTime()}];
+        var instance = layui.tree.render({
+            elem:'#category',
+            id:'category',
+            showCheckbox:true,
+            accordion:false,
+            oncheck:function (obj) {
+                datas = [];
+                var checkedData = instance.getChecked('category');
+                console.log(checkedData);
+                getSelectedIds(checkedData)
+                var max = parseInt("{$product_attr['max']}");
+                if(datas.length > 0){
+                    if(datas.length > max){
+                        layer.msg('you can not select more than '+max);
+                        instance.reload('category');
+                        setCheckedData();
+                    }else{
+                        $('#product').val(JSON.stringify(checkedData));
+                    }
+                }else{
+                    $('#product').val('');
+                }
+            },
+            data:data
+        });
+        setCheckedData();
+    }
+    function setCheckedData() {
+        var product = $('#product').val();
+        if(product && product.length > 0){
+            var productData = JSON.parse(product);
+            datas = [];
+            getSelectedIds(productData);
+            if(datas.length > 0){
+                layui.tree.setChecked('category',datas);
+            }
+        }
+    }
+    function getSelectedIds(data) {
+        for(var i=0;i<data.length;i++){
+            if(data[i].title != 'root'){
+                if(!data[i].children){
+                    datas.push(data[i].id);
+                }else{
+                    getSelectedIds(data[i].children);
+                }
+            }else if(data[i].children){
+                getSelectedIds(data[i].children);
+            }
+        }
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<style>
+    .input-industry{
+       display: block;
+    }
+</style>
+{/block}
+{block name='single-content'}
+{/block}
+
+
+

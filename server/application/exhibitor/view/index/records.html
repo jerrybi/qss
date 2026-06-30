@@ -1,0 +1,192 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="container" style="height: 100%">
+    <div class="area1-left">
+        <input type="text" id="search" name="str_search" placeholder="please enter keyword here">
+        <button type="button" class="layui-btn search-btn" onclick="clickSearch();"><i class="layui-icon layui-icon-search"></i>Search</button>
+        <button type="button" class="layui-btn" onclick="exportVisitor();"><i class="layui-icon layui-icon-download-circle"></i>Export</button>
+    </div>
+    <div class="table-container">
+        <table id="demo" lay-filter="table"></table>
+    </div>
+    <input type="hidden" class="log_url" value="{:url('/exhibitor/contact',['id'=>'opid'])}">
+    <div hidden="hidden" id="userFields"><?php echo json_encode($user_fields);?></div>
+</div>
+<style>
+    /*tr td{*/
+    /*    text-align: center;*/
+    /*}*/
+    .area1-left{
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        margin-top: 10px;
+    }
+    #search{
+        width: 100%;
+        flex-grow: 1;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .search-btn{
+        flex-shrink: 1;
+        margin-left: 10px;
+    }
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+        word-break: break-word;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .layui-table-cell{
+        /*height: auto;*/
+        /*white-space: normal;*/
+        word-break: break-word;
+    }
+    .layui-table td, .layui-table th {
+        font-size: 12px;
+        border: none!important;
+        padding: 0!important;
+    }
+    .table-container{
+        width: 100%;
+        height: calc(100% - 50px);
+    }
+    #demo{
+        width: 100%;
+    }
+</style>
+<script>
+    var tableIns;
+    layui.use('table',function () {
+        var table = layui.table;
+        var userFields = JSON.parse($("#userFields").text());
+        var cols = [
+            // {field: 'id', title: 'ID', width: 100, align: 'left'},
+            {field: 'serial_number', title: 'OnSite Number', width: 150, align: 'left'},
+            {field: 'first_name', title: 'First Name', width: 120, align: 'left'},
+            {field: 'last_name', title: 'Last Name', width: 100, align: 'left'},
+            {field: 'full_name', title: 'Full Name', width: 200, align: 'left'},
+            // {field: 'organization', title: 'Organization', width: 150, align: 'left'},
+            // {field: 'title', title: 'Title', width: 100, align: 'left'},
+            // {field: 'phone', title: 'Phone', width: 150, align: 'left'},
+            // {field: 'email', title: 'Email', width: 150, align: 'left'},
+        ];
+        for(var i=0;i<userFields.length;i++){
+            var name = userFields[i].table_name;
+            var key = userFields[i].key;
+            if(key === 'company') key = 'organization';
+            if(key === 'job_title') key = 'title';
+            if(key === 'phone_number') key = 'phone';
+            width = userFields[i].width;
+            if(width > 0){
+                cols.push({field: key, title: name, width: width});
+            }else{
+                cols.push({field: key, title: name,width: 100});
+            }
+        }
+        cols.push({field: 'flag', title: 'Flag', width: 100, align: 'left'});
+        cols.push({field: 'remark', title: 'Remark', width: 100, align: 'left'});
+        cols.push({field: 'visit_time', title: 'Visit Time', width: 150, align: 'left'});
+        cols.push({
+            field: 'Actions', title: 'Actions',
+            width: 80,
+            fixed: 'right',
+            templet: function (d) {
+                var str_html = "<div class=\"layui-btn-container\">";
+                str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"View user\"\n" +
+                    "                        onclick=\"viewLogOpenPopups('View user','" + d.id + "',true)\">\n" +
+                    "                    <i class=\"fa fa-info-circle\"></i>\n" +
+                    "                </button>";
+                str_html += "</div>";
+                return str_html;
+            }
+        });
+
+        tableIns = table.render({
+            elem: '#demo',
+            id: 'table',
+            // height: 'full-170',
+            // width: '120px',
+            skin: 'line',
+            even: true,
+            url: "{:url('/exhibitor/records')}",
+            method: 'POST',
+            where: {str_search: $("input[name='str_search']").val()},
+            request: {
+                pageName: "curr_page",
+                limitName: "limit"
+            },
+            parseData: function(res) {
+                return {
+                    "code": res.status===200?0:1,
+                    "msg": res.message,
+                    "count": res.data.total,
+                    "data": res.data.data
+                }
+            },
+            page: true,
+            limit: 10,
+            limits: [10,20,30],
+            cols: [cols],
+            done: function (res,curr,count) {
+                $('.curr_page').val(curr)
+                $(".layui-table-main tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-body tbody tr")[index]).height($(val).height());
+                    });
+                });
+                $(".layui-table-header tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-header thead tr")[index]).height($(val).height());
+                    });
+                });
+            }
+        });
+    });
+    function clickSearch(){
+        tableReload();
+    }
+    function tableReload() {
+        tableIns.reload({
+            where: {str_search: $("input[name='str_search']").val()},
+            page:{
+                curr:1
+            }
+        });
+    }
+    function exportVisitor() {
+        layer.confirm('Export visitor records, confirm?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('/exhibitor/download'); ?>";
+                window.location.href = url+'?str_search='+$("input[name='str_search']").val();
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+    function viewLogOpenPopups(title,id,manualRefresh) {
+        var op_url = $(".log_url").val();
+        op_url = op_url.replace('opid', id);
+        ToOpenPopups(op_url, title, '50%', '50%',manualRefresh);
+    }
+</script>
+{/block}
+

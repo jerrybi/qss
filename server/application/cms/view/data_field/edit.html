@@ -1,0 +1,216 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-type">Fixed Field</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="fixed_field" value="1" title="Yes" checked lay-filter="fixed_field"/>
+            <input type="radio" name="fixed_field" value="0" title="No" lay-filter="fixed_field"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Field Name</label>
+        <div class="layui-input-inline" id="fieldInput">
+            <input type="text"  name="name_input"  oninput="onFieldNameInput()" onpropertychange="onFieldNameInput()"
+                   value="{$article['name']}" lay-verify="required"
+                   placeholder="Please input field name" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+        <div class="layui-input-inline" id="fieldSelect" style="display: none">
+            <select name="name_select"  lay-verify="required" id="selectName">
+                <option value="Visitor Category">Visitor Category</option>
+                <option value="Serial Number">Serial Number</option>
+                <option value="User Level">User Level</option>
+                <option value="Badge Name">Badge Name</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Field Key</label>
+        <div class="layui-input-inline" id="fieldKey">
+            <input type="text"  name="key"
+                   value="{$article['key']}" lay-verify="required"
+                   placeholder="Please input key name" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Table Name</label>
+        <div class="layui-input-inline" id="tableName">
+            <input type="text"  name="table_name"
+                   value="{$article['table_name']}" lay-verify="required"
+                   placeholder="Please input table name" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-size">Field Type</label>
+        <div class="layui-input-inline">
+            <select name="type" id="type" lay-verify="required" lay-filter="type">
+                <option value="text">Text</option>
+                <option value="number">Number</option>
+                <option value="dropdown">Dropdown</option>
+                <option value="checkbox">Check box</option>
+                <option value="radiobox">Radio box</option>
+                <option value="picture">Picture</option>
+                <option value="date">Date</option>
+                <option value="datetime">DateTime</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Default Value</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="default"
+                   value="{$article['default']}"
+                   placeholder="Please input default value" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Place Holder</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="placeholder"
+                   value="{$article['placeholder']}"
+                   placeholder="Please input place holder" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-type">Required</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="required" value="1" title="Yes"/>
+            <input type="radio" name="required" value="0" title="No"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-location">Read Only</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="readonly" value="1" title="Yes"/>
+            <input type="radio" name="readonly" value="0" title="No"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-location">Exhibitor Visible</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="exhibitor_visible" value="1" title="Yes"/>
+            <input type="radio" name="exhibitor_visible" value="0" title="No"/>
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: none" id="options">
+        <label class="layui-form-label label-custom lbl-badge">Options</label>
+        <div class="layui-input-inline" style="width: 300px">
+            <textarea type="text"  name="options"
+                      placeholder="Please input options" autocomplete="off" class="layui-input textarea-options">{$article['options']}</textarea>
+        </div>
+        <div class="layui-form-mid layui-word-aux">one option for one line</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Width</label>
+        <div class="layui-input-inline">
+            <input type="number"  name="width"
+                   value="{$article['width']}"
+                   placeholder="Please input width" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Sort</label>
+        <div class="layui-input-inline">
+            <input type="number"  name="sort"
+                   value="{$article['sort']}"
+                   placeholder="Please input sort" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/datafield/edit',['id'=>$article.id])}" onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .label-custom{
+        width: 150px!important;
+    }
+    .textarea-options{
+        width: 300px;
+        height: 200px;
+    }
+</style>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var event_id = data.value;
+
+        });
+        form.on('select(type)',function(data){
+            var type = data.value;
+            showOptions(type);
+        });
+        form.on('radio(fixed_field)',function (data) {
+            showFixedField();
+        });
+        onReady();
+    });
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$article['event_id']}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr);
+        $("#event").val(event_id);
+        var required = "{$article['required']}";
+        var readonly = "{$article['readonly']}";
+        var exhibitorVisible = "{$article['exhibitor_visible']}";
+        var type = "{$article['type']}";
+        var fixedField = "{$article['fixed_field']}";
+        var name = "{$article['name']}";
+        $("input[name='required'][value="+required+"]").attr("checked",true);
+        $("input[name='readonly'][value="+readonly+"]").attr("checked",true);
+        $("input[name='exhibitor_visible'][value="+exhibitorVisible+"]").attr("checked",true);
+        $("input[name='fixed_field'][value="+fixedField+"]").attr("checked",true);
+        $("#selectName").val(name);
+        $("#type").val(type);
+        showOptions(type);
+        showFixedField();
+        layui.form.render();
+    }
+    function showOptions(type) {
+        if(type=='dropdown'||type=='radiobox'||type=='checkbox'){
+            $("#options").show();
+        }else{
+            $("#options").hide();
+        }
+    }
+    function showFixedField() {
+        var value = $("input[type='radio']:checked").val();
+        if (value == 1) {
+            $("#fieldInput").hide();
+            $("#fieldSelect").show();
+        } else {
+            $("#fieldInput").show();
+            $("#fieldSelect").hide();
+        }
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+    function onFieldNameInput() {
+        var value = $("input[name='name_input']").val().toLowerCase().replace(/\s/g,"_");
+        $("input[name='key']").val(value);
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

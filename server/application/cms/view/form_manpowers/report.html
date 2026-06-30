@@ -1,0 +1,63 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div style="margin-bottom: 10px">
+    <button class="layui-btn" onclick="goBack();">Back</button>
+</div>
+<div class="content">
+    <div class="container">
+        <table id="table" class="layui-table table-body" lay-even="" lay-skin="row" lay-filter="table"></table>
+    </div>
+    <input type="hidden" id="formId" value="{$form['id']}">
+    <input type="hidden" id="eventId" value="{$form['event_id']}">
+</div>
+<style>
+    .layui-table-cell{
+        height: auto;
+        overflow: visible;
+        text-overflow:inherit;
+        word-break: break-all;
+        word-wrap:break-word;
+        white-space: normal;
+    }
+    .exhibitor-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    .mgr10{
+        margin-right: 10px;
+    }
+</style>
+<script>
+    var myTable;
+    layui.use('table',function () {
+        var formId = $("#formId").val();
+        myTable = layui.table.render({
+            elem:'#table',
+            id:'table',
+            page:true,
+            cols:[[
+                {field:'id',title:'ID',type:'numbers'},
+                {field:'item_name',title:'Item Name'},
+                {field:'item_from_date',title:'From'},
+                {field:'item_to_date',title:'To'},
+                {field:'item_duration',title:'Duration per day'},
+                {field:'item_staff_num',title:'Staff num'},
+            ]],
+            url:"{:url('cms/formManpowers/report')}",
+            where:{form_id:formId,event_id:$("#eventId").val()},
+            method:'post',
+            parseData:function(res){
+                return {
+                    "code":0,
+                    "msg":'',
+                    "count":res.data.record_num,
+                    "data":res.data.articles
+                }
+            }
+        });
+    });
+</script>
+{/block}

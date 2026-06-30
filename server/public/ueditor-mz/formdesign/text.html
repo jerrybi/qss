@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>TextBox</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <meta name="generator" content="www.leipi.org" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <script type="text/javascript">
+/* Thank you by  
+http://www.alt-tag.com/blog/2006/02/ie-dom-bugs/ */
+function createElement(type, name)
+{     
+    var element = null;     
+    try {        
+        element = document.createElement('<'+type+' name="'+name+'">');     
+    } catch (e) {}   
+    if(element==null) {     
+        element = document.createElement(type);     
+        element.name = name;     
+    } 
+    return element;     
+}
+    </script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>Control Name</span><span class="label label-important">*</span></th>
+        <th><span>Default</span> </th>
+    </tr>
+    <tr>
+        <td><input type="text" id="orgname" placeholder="Required"></td>
+        <td><input type="text" id="orgvalue" placeholder="empty if not"></td>
+    </tr>
+    <tr>
+        <th><span>Data Type</span> </th>
+        <th><span>Align</span> </th>
+    </tr>
+    <tr>
+        <td>
+             <select id="orgtype">
+                <option value="text">Text</option>
+                <option value="email">Email</option>
+                <option value="int">Integer</option>
+                <option value="float">decimal</option>
+                <option value="idcard">ID card</option>
+            </select>   
+        </td>
+        <td>
+            <select id="orgalign">
+                <option value="left" >Align Left</option>
+                <option value="center">Align Center</option>
+                <option value="right">Align Right</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th><span>&nbsp;&nbsp;&nbsp;&nbsp;Width&nbsp;&nbsp;X&nbsp;&nbsp;Height&nbsp;&nbsp;&nbsp;&&nbsp;&nbsp;&nbsp;Font size</span> </th>
+        <th><span>Visible</span> </th>
+    </tr>
+    <tr>
+        <td>
+            <input id="orgwidth" type="text" value="150" class="input-small span1" placeholder="auto"/>
+            X
+            <input id="orgheight" type="text" value="" class="input-small span1" placeholder="auto"/>
+            &
+            <input id="orgfontsize" type="text"  value="" class="input-small span1" placeholder="auto"/> px
+
+        </td>
+        <td>
+            <label class="checkbox inline"><input id="orghide" type="checkbox"/> Hide </label>
+        </td>
+    </tr>
+
+    </table>
+</div>
+<script type="text/javascript">
+var oNode = null,thePlugins = 'text';
+window.onload = function() {
+    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+		var gValue = '';
+		if(oNode.getAttribute('value'))
+			gValue = oNode.getAttribute('value').replace(/&quot;/g,"\"");
+		var gTitle=oNode.getAttribute('title').replace(/&quot;/g,"\""),gHidden=oNode.getAttribute('orghide'),gFontSize=oNode.getAttribute('orgfontsize'),gAlign=oNode.getAttribute('orgalign'),gWidth=oNode.getAttribute('orgwidth'),gHeight=oNode.getAttribute('orgheight'),gType=oNode.getAttribute('orgtype');
+		gValue = gValue==null ? '' : gValue;
+        gTitle = gTitle==null ? '' : gTitle;
+		$G('orgvalue').value = gValue;
+        $G('orgname').value = gTitle;
+        if (gHidden == '1')
+        {
+            $G('orghide').checked = true;
+        }
+        $G('orgfontsize').value = gFontSize;
+        $G('orgwidth').value = gWidth;
+        $G('orgheight').value = gHeight;
+        $G('orgalign').value = gAlign;
+        $G('orgtype').value = gType;
+    }
+}
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+    if($G('orgname').value==''){
+        alert('Please input control name!');
+        return false;
+    }
+    var regExp = /^[A-Za-z0-9_]+$/;
+    if(!regExp.test($G('orgname').value)){
+        alert('Control name must only consist of alphabet,numbers and underscore');
+        return false;
+    }
+    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gFontSize=$G('orgfontsize').value,gAlign=$G('orgalign').value,gWidth=$G('orgwidth').value,gHeight=$G('orgheight').value,gType=$G('orgtype').value;
+    if( !oNode ) {
+        try {
+            oNode = createElement('input','leipiNewField');
+            oNode.setAttribute('type','text');
+            oNode.setAttribute('title',gTitle);
+            oNode.setAttribute('value',gValue);
+            oNode.setAttribute('name','leipiNewField');
+            oNode.setAttribute('leipiPlugins',thePlugins);
+            if ( $G('orghide').checked ) {
+                oNode.setAttribute('orghide',1);
+            } else {
+                oNode.setAttribute('orghide',0);
+            }
+            if( gFontSize != '' ) {
+                oNode.style.fontSize = gFontSize + 'px';
+                //style += 'font-size:' + gFontSize + 'px;';
+                oNode.setAttribute('orgfontsize',gFontSize );
+            }
+            if( gAlign != '' ) {
+                //style += 'text-align:' + gAlign + ';';
+                oNode.style.textAlign = gAlign;
+                oNode.setAttribute('orgalign',gAlign );
+            }
+            if( gWidth != '' ) {
+                oNode.style.width = gWidth+ 'px';
+                //style += 'width:' + gWidth + 'px;';
+                oNode.setAttribute('orgwidth',gWidth );
+            }
+            if( gHeight != '' ) {
+                oNode.style.height = gHeight+ 'px';
+                //style += 'height:' + gHeight + 'px;';
+                oNode.setAttribute('orgheight',gHeight );
+            }
+            if( gType != '' ) {
+                oNode.setAttribute('orgtype',gType );
+            }
+            //oNode.setAttribute('style',style );
+            //oNode.style.cssText=style;//ie7
+            editor.execCommand('insertHtml',oNode.outerHTML);
+        } catch (e) {
+            try {
+                editor.execCommand('error');
+            } catch ( e ) {
+                alert('Control occur exception!');
+            }
+            return false;
+        }
+    } else {
+        
+        oNode.setAttribute('title', gTitle);
+        oNode.setAttribute('value', $G('orgvalue').value);
+        if( $G('orghide').checked ) {
+            oNode.setAttribute('orghide', 1);
+        } else {
+            oNode.setAttribute('orghide', 0);
+        }
+        if( gFontSize != '' ) {
+            oNode.style.fontSize = gFontSize+ 'px';
+            oNode.setAttribute('orgfontsize',gFontSize );
+        }else{
+            oNode.style.fontSize = '';
+            oNode.setAttribute('orgfontsize', '');
+        }
+        if( gAlign != '' ) {
+            oNode.style.textAlign = gAlign;
+            oNode.setAttribute('orgalign',gAlign );
+        }else{
+            oNode.setAttribute('orgalign', '');
+        }
+        if( gWidth != '' ) {
+            oNode.style.width = gWidth+ 'px';
+            oNode.setAttribute('orgwidth',gWidth );
+        }else{
+            oNode.style.width = '';
+            oNode.setAttribute('orgwidth', '');
+        }
+        if( gHeight != '' ) {
+            oNode.style.height = gHeight+ 'px';
+            oNode.setAttribute('orgheight',gHeight );
+        }else{
+            oNode.style.height = '';
+            oNode.setAttribute('orgheight', '');
+        }
+        if( gType != '' ) {
+            oNode.setAttribute('orgtype',gType );
+        }else{
+            oNode.setAttribute('orgtype', '');
+        }
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+</script>
+</body>
+</html>

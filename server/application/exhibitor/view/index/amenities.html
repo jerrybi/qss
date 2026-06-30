@@ -1,0 +1,55 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <table class="layui-table">
+            <colgroup>
+                <col width="5%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="center">ID</th>
+                    <th class="center">Name</th>
+                    <th class="center">Due Date</th>
+                    <th class="center">Submission Status</th>
+                    <th class="center">Status</th>
+                    <th style="text-align: center">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {volist name="amenities" id="vo"}
+                    <tr>
+                        <td>{$i}</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.due_date}</td>
+                        {if $vo.status_name == 'Submitted'}
+                            <td style="background-color: lightgreen">{$vo.status_name}</td>
+                        {else}
+                            <td>{$vo.status_name}</td>
+                        {/if}
+                        {if $vo.block_status == 'Closed'}
+                            <td style="background-color: red;color: white">{$vo.block_status}</td>
+                        {else}
+                            <td style="background-color: lightgreen;color: black">{$vo.block_status}</td>
+                        {/if}
+                        <td style="text-align: center"><a href="{:url('exhibitor/index/amenities',['id'=>$vo.form_id])}"><i class="layui-icon layui-icon-edit"></i></a></td>
+                    </tr>
+                {/volist}
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    tr td{
+        text-align: center;
+    }
+</style>
+{/block}
+

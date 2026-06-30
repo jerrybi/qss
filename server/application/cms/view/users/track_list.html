@@ -1,0 +1,183 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<input type="hidden" class="attend_url" value="{:url('cms/users/attendTrack',['zone_id'=>'zoneid','user_id'=>'userid','event_id'=>'eventid'])}">
+<input type="hidden" class="unattend_url" value="{:url('cms/users/unAttendTrack',['zone_id'=>'zoneid','user_id'=>'userid','event_id'=>'eventid'])}">
+<div hidden="hidden" id="article"><?php echo json_encode($article);?></div>
+<div hidden="hidden" id="days"><?php echo json_encode($days);?></div>
+<div hidden="hidden" id="curDay"><?php echo json_encode($curDay);?></div>
+<table id="demo" lay-filter="table"></table>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+        word-break: break-word;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .layui-table-cell{
+        height: auto;
+        white-space: normal;
+        word-break: break-word;
+    }
+    .layui-table td, .layui-table th {
+        font-size: 12px;
+    }
+    .action-btn{
+        width: 20px;
+        text-align: left;
+        margin-bottom: 5px;
+        margin-left: 0;
+        background-color: transparent!important;
+    }
+</style>
+<script>
+    function onReady(){
+
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        onReady();
+    });
+    layui.use('table',function () {
+        var table = layui.table;
+        var days = JSON.parse($('#days').text());
+        var curDay = JSON.parse($('#curDay').text());
+        var cols = [];
+        cols.push({field: 'zone', title: 'Zone', width: 100});
+        for(var i = 0; i < days.length; i++) {
+            var day = days[i];
+            cols.push({field: 'checkin_status_' + day, title: day + ' Checkin Status', width: 100,  day: day,
+                templet: function (d) {
+                    return d['checkin_status_' + this.day] == 1 ? 'checkin' : ''
+                }
+            });
+            cols.push({field: 'checkin_time_' + day, title: day + ' Checkin At', width: 100,  day: day,
+                templet: function (d) {
+                    return d['checkin_status_' + this.day] == 1 ? d[this.field] : ''
+                }
+            });
+            cols.push({field: 'op_user_' + day, title: day + ' Checkin By', width: 100 });
+        }
+        cols.push({field: 'event_name', title: 'Event', width: 100});
+        cols.push({
+            field: 'Actions', title: 'Actions',
+            width: 150,
+            fixed: 'right',
+            templet: function (d) {
+                var edit = parseInt("{$permissions['edit']}");
+                var str_html = "<div class=\"layui-btn-container\">";
+                str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Attend\"\n" +
+                    "                        onclick=\"attend('" + d.zone_id + "','"+d.zone+"','"+d.user_id+ "','"+d.event_id+"')\">\n" +
+                    "                    <i class=\"fa fa-plus\"></i>\n" +
+                    "                </button>";
+                str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Unattend\"\n" +
+                    "                        onclick=\"unAttend('" + d.zone_id + "','"+d.zone+"','"+d.user_id+ "','"+d.event_id+"')\">\n" +
+                    "                    <i class=\"fa fa-minus\"></i>\n" +
+                    "                </button>";
+                str_html += "</div>";
+                return str_html;
+            }
+        });
+        table.render({
+            elem: '#demo',
+            id: 'table',
+            height: 'full',
+            skin: 'line',
+            even: true,
+            url: "{:url('cms/users/trackList')}",
+            method: 'POST',
+            where: {id: "{$article['id']}"},
+            request: {
+              pageName: "curr_page",
+              limitName: "limit"
+            },
+            parseData: function(res) {
+              return {
+                  "code": res.status===200?0:1,
+                  "msg": res.message,
+                  "count": res.data.total,
+                  "data": res.data.data
+              }
+            },
+            page: true,
+            cols: [cols],
+            done: function (res,curr,count) {
+                $(".layui-table-main tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-body tbody tr")[index]).height($(val).height());
+                    });
+                });
+                $(".layui-table-header tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-header thead tr")[index]).height($(val).height());
+                    });
+                });
+                $.each(res.data,function (index,item) {
+                    if(item['checkin_status_' + curDay] == 1){
+                        // $("#demo").next().find('tbody tr[data-index="'+index+'"]').css("background-color","#FFA07A");
+                        var i = index + 1;
+                        $('tr').eq(i).css("background-color","#95ec69").css("color","black");
+                    }
+                });
+            }
+        });
+    });
+
+    function attend(zone_id,zone_name,user_id,event_id){
+        layer.confirm('confirm to attend '+zone_name+'?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('.attend_url').val();
+                url = url.replace('zoneid', zone_id);
+                url = url.replace('userid',user_id);
+                url = url.replace('eventid',event_id);
+                $.post(url, {},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function unAttend(zone_id,zone_name,user_id,event_id){
+        layer.confirm('confirm to unattend '+zone_name+'?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('.unattend_url').val();
+                url = url.replace('zoneid', zone_id);
+                url = url.replace('userid',user_id);
+                url = url.replace('eventid',event_id);
+                $.post(url, {},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+</script>
+{/block}
+
+{block name='single-content'}
+{/block}

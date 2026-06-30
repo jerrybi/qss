@@ -1,0 +1,200 @@
+<html>
+<head>
+    <style>
+        html,body{
+            width: 100%;
+            height: 100%;
+            background-color: yellow;
+        }
+        .container {
+            width: 90%;
+            height: 100%;
+            margin: 0 auto;
+        }
+
+        .title {
+            position: relative;
+            height: 200px;
+            margin-top: 40px;
+        }
+        .logo{
+            width: 200px;
+            height: 200px;
+        }
+        .title-right {
+            float: right;
+            text-align: right;
+            position: absolute;
+            left: 200px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .title-line1 {
+            position: relative;
+            font-size: 30px;
+            height: 100px;
+            text-align: right;
+        }
+
+        .title-line1 div{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .title-line2 {
+            position: relative;
+            font-size: 20px;
+            height: 100px;
+            text-align: right;
+        }
+
+        .title-line2 div{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .qr {
+            position: relative;
+            overflow: auto;
+            margin: 20px 0px 20px 0px;
+        }
+
+        .qr-left {
+            float: left;
+        }
+
+        .qr-left-line1{
+            margin-bottom: 10px;
+        }
+
+        .qr-left-line{
+            height: 60px;
+        }
+
+        .qr-left-line img{
+            width: 40px;
+            height: 40px;
+        }
+
+        .qr-left-line div{
+            display: inline-block;
+        }
+
+        .qr-right {
+            float: right;
+        }
+
+        .qr-right-line1{
+            font-size: 20px;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            font-weight: 500;
+        }
+
+        .qr-right-line2{
+            font-size: 18px;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .qr-right-line3{
+            width: 300px;
+            height: 300px;
+        }
+
+        .flow-img{
+            width: 100%;
+        }
+
+        .line {
+            width: 100%;
+            height: 2px;
+            background-color: black;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            position: relative;
+            margin-bottom: 20px;
+            overflow: auto;
+        }
+
+        .footer-left {
+            width: 40%;
+            font-size: 14px;
+            font-weight: 500;
+            float: left;
+            text-align: left;
+        }
+
+        .footer-right {
+            width: 40%;
+            font-size: 14px;
+            font-weight: 300;
+            float: right;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">
+        <img class="logo" src="../../public/static/images/logo.png"/>
+        <div class="title-right">
+            <div class="title-line1">
+                <div>Scan it &amp; Download</div>
+            </div>
+            <div class="title-line2">
+                <div>Download your e-Brochure and leave your contact</div>
+            </div>
+        </div>
+    </div>
+    <div class="qr">
+        <div class="qr-left">
+            <div class="qr-left-line1">
+                Scan the QRcode to ensure secure and authentic e-Brochures download
+            </div>
+            <div class="qr-left-line">
+                <img src="../../public/static/images/ios_camera.png" />
+                <div>
+                    Apple iOS Devices:<br/>Use the Camera app
+                </div>
+            </div>
+            <div class="qr-left-line">
+                <img src="../../public/static/images/android_camera.png" />
+                <div>
+                    Android Devices:<br />Use the Camera app
+                </div>
+            </div>
+        </div>
+        <div class="qr-right">
+            <div class="qr-right-line1">
+                Welcome to:
+            </div>
+            <div class="qr-right-line2">
+                shenzhen mobi technology
+            </div>
+            <img class="qr-right-line3" src="../../public/static/images/qr.jpg" />
+        </div>
+    </div>
+    <div class="flow">
+        <img class="flow-img" src="../../public/static/images/flow.png" />
+    </div>
+    <div class="line"></div>
+    <div class="footer">
+        <div class="footer-left">
+            Thank you for scanning our QR code.We will be in touch with you real soon
+        </div>
+        <div class="footer-right">
+            Your personal data is protected.Only authorised merchants will have access to your limited information.Kindly approach respective merchants if you do not wish to have future follow-ups.
+        </div>
+    </div>
+</div>
+</body>
+</html>

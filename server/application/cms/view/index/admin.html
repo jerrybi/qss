@@ -1,0 +1,260 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal">
+    <div class="layui-form-item">
+        <label class="layui-form-label">Admin Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="user_name" required lay-verify="required"
+                   value="{$admin['user_name']}"
+                   placeholder="Please input nickname" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">less than 10 characters</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Avatar:</label>
+        <div class="layui-upload layui-input-inline">
+            <button type="button" name="img_upload" class="layui-btn btn_upload_profile">
+                <i class="layui-icon">&#xe67c;</i>Upload Image
+            </button>
+            <img class="img-upload-preview-headshot upload_img_preview"
+                 src="{$admin['picture']}">
+            <input type="hidden" name="picture" class="upload_img_url" value="{$admin['picture']}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">Email:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="email" required lay-verify="required" id="email"
+                   value="{$admin['email']}"
+                   placeholder="Please input email" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label">Password:</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="password" name="password"-->
+<!--                   placeholder="once input means update" autocomplete="off" class="layui-input input-pwd">-->
+<!--        </div>-->
+<!--        <div class="layui-form-mid layui-word-aux">alphabetic</div>-->
+<!--    </div>-->
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label">Confirm password:</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="password" name="re_password"-->
+<!--                   placeholder="please confirm password" autocomplete="off" class="layui-input input-pwd-re">-->
+<!--        </div>-->
+<!--        <span class="layui-badge-dot span-dot"></span>-->
+<!--        <div class="div-tip layui-form-mid">-->
+<!--            <span class="layui-badge tip-pwd span-dot">please confirm password</span>-->
+
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">Remark:</label>
+        <div class="layui-input-block">
+                <textarea placeholder="please input content" name="content" required
+                          lay-verify="required" class="layui-textarea">{$admin['content']}</textarea>
+        </div>
+    </div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/index/admin',['id'=>$admin.id])}"
+                    onclick="opFormPostRecord(this)" lay-submit lay-filter="formDemo">Submit
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary">Reset</button>
+        </div>
+    </div>
+</form>
+<div id="clip" class="dialog" style="display: none">
+    <div class="mask"></div>
+    <div class="main">
+        <img src="" alt="" class="clip_img_preview" id="cropperImg">
+    </div>
+    <div class="handle clearfix">
+        <span class="cancel" onclick="cancelClip()">Cancel</span>
+        <span class="finish" onclick="confirmClip()">Ok</span>
+    </div>
+</div>
+<script>
+    var cropper;
+    $(document).ready(function(){
+        var image = document.querySelector('#cropperImg');
+        cropper = new Cropper(image,{
+            viewMode:3,
+            dragMode:'move',
+            aspectRatio:1,
+            autoCropArea:0.9,
+            restore:false,
+            guides:false,
+            center:false,
+            highlight:false,
+            scalable:true,
+            cropBoxMovable: true,
+            cropBoxResizable: true,
+            toggleDragModeOnDblclick: false
+        });
+    });
+    layui.use('upload', function () {
+        var upload = layui.upload;
+        //普通图片上传
+        upload.render({
+            elem: '.btn_upload_profile'
+            , type: 'images'
+            , exts: 'jpg|png|gif|jpeg' //设置一些后缀，用于演示前端验证和后端的验证
+            , accept:'images' //上传文件类型
+            , auto: false
+            ,choose:function (obj) {
+                obj.preview(function (index,file,result) {
+                    $('.clip_img_preview').attr('src',result);
+                    clipImage();
+                });
+            }
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                // obj.preview(function (index, file, result) {
+                //     $('.upload_img_preview').attr('src', result); //图片链接（base64）
+                // });
+            }
+            , done: function (res) {
+
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                return layer.msg('Upload failed,please upload again');
+            }
+        });
+    });
+    function clipImage() {
+        var image = document.querySelector('#cropperImg');
+        cropper.replace($('#cropperImg').attr('src'),false);
+        // clipPopIndex = layer.open({
+        //     type: 1,
+        //     shade:0.61,
+        //     shadeClose:true,
+        //     anim:4,
+        //     moveOut: true,
+        //     title: 'profile',
+        //     maxmin: true, //开启最大化最小化按钮
+        //     area: ['100%', '100%'],
+        //     content: $('#clip'), //可以出现滚动条
+        //     //content: [op_url, 'no'], //如果你不想让iframe出现滚动条
+        //     end:function(){
+        //         // window.location.reload();
+        //     }
+        // });
+        $('#clip').show();
+    }
+    function processData(dataUrl) {
+        var binaryString = window.atob(dataUrl.split(',')[1]);
+        var arrayBuffer = new ArrayBuffer(binaryString.length);
+        var intArray = new Uint8Array(arrayBuffer);
+        for (var i = 0, j = binaryString.length; i < j; i++) {
+            intArray[i] = binaryString.charCodeAt(i);
+        }
+
+        var data = [intArray],
+            blob;
+
+        try {
+            blob = new Blob(data);
+        } catch (e) {
+            window.BlobBuilder = window.BlobBuilder ||
+                window.WebKitBlobBuilder ||
+                window.MozBlobBuilder ||
+                window.MSBlobBuilder;
+            if (e.name === 'TypeError' && window.BlobBuilder) {
+                var builder = new BlobBuilder();
+                builder.append(arrayBuffer);
+                blob = builder.getBlob(imgType); // imgType为上传文件类型，即 file.type
+            } else {
+                console.log('not support!');
+            }
+        }
+        return blob;
+    }
+    function confirmClip() {
+        // var img_path = $('.clip_img_preview').attr('src');
+        // $('.upload_img_preview').attr('src',img_path);
+        // layer.close(clipPopIndex);
+        var resImg = cropper.getCroppedCanvas().toDataURL("image/jpeg",0.95);
+        var blob = processData(resImg);
+        var formData = new FormData();
+        formData.append('file',blob);
+        $.ajax(image_upload_url, {
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType:"json",
+            mimeType:"multipart/form-data",
+            success:function(res) {
+                console.log('Upload success');
+                if (res.status == 200) {
+                    $('.upload_img_url').val(res.data.url2);
+                    $('.upload_img_preview').attr('src',res.data.url2);
+                    // layer.close(clipPopIndex);
+                    $('#clip').hide();
+                }
+            },
+            error:function(err) {
+                console.log('Upload error');
+            }
+        });
+    }
+    function cancelClip() {
+        // layer.close(clipPopIndex);
+        $('#clip').hide();
+    }
+</script>
+<style>
+    .dialog {
+        display: none;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        top: 0;
+        left: 0;
+    }
+    .mask {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 1);
+    }
+    .main {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .handle {
+        position: fixed;
+        bottom: .7rem;
+        right: 0;
+        z-index: 100;
+        color: #fff;
+    }
+    .handle span {
+        display: block;
+        background: #000;
+        line-height: 1.4rem;
+        padding: 0 1rem;
+        cursor: pointer;
+        font-size: .52rem;
+        float: left;
+        margin-right: .3rem;
+    }
+    .clip_img_preview{
+        width: 100%;
+        height: 100%;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+{include file='layouts/cropperjs'/}
+{/block}

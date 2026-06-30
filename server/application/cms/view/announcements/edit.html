@@ -1,0 +1,53 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Content:</label>
+        <div class="layui-input-inline">
+            <textarea name="content" maxlength="300" placeholder="Please input content" autocomplete="off"
+                      class="layui-input input-title-mz">{$article['content']}</textarea>
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/announcements/edit',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$article['event_id']}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+    });
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+r
+{block name='single-content'}
+{/block}
+
+
+

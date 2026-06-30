@@ -1,0 +1,160 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <label class="layui-form-label label-custom">Select Event</label>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </form>
+    </div>
+</div>
+<div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/levelSettings/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+        </form>
+    </div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+</div>
+<input type="hidden" class="op_url" value="{:url('cms/levelSettings/edit',['id'=>'opid'])}">
+<table id="demo" lay-filter="table"></table>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+        word-break: break-word;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .layui-table-cell{
+        height: auto;
+        white-space: normal;
+        word-break: break-word;
+    }
+    .layui-table td, .layui-table th {
+        font-size: 12px;
+    }
+    .action-btn{
+        text-align: left;
+        margin-bottom: 5px;
+        margin-left: 5%;
+    }
+</style>
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        layui.form.render();
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            $(".form-search").submit();
+        });
+        onReady();
+    });
+    layui.use('table',function () {
+        var table = layui.table;
+        var cols = [{field: 'id', title: 'ID'}];
+        cols.push({field: 'user_level', title: 'User Level'});
+        cols.push({field: 'background_color', title: 'Background Color'});
+        cols.push({field: 'front_color', title: 'Front Color'});
+        cols.push({field: 'event_name', title: 'Event'});
+        cols.push({
+            field: 'Actions', title: 'Actions',
+            fixed: 'right',
+            templet: function (d) {
+                var view = parseInt("{$permissions['view']}");
+                var edit = parseInt("{$permissions['edit']}");
+                var del = parseInt("{$permissions['delete']}");
+                var str_html = "<div class=\"layui-btn-group\">";
+                if (edit) {
+                    str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Edit user level\"\n" +
+                        "                        onclick=\"editForOpenPopups('✎ Edit user level','" + d.id + "', '95%', '95%')\">\n" +
+                        "                    <i class=\"layui-icon\">&#xe642;</i>Edit\n" +
+                        "                </button>";
+                }
+                str_html += "</div>";
+                return str_html;
+            }
+        });
+        table.render({
+            elem: '#demo',
+            id: 'table',
+            height: 'auto',
+            url: "{:url('cms/levelSettings/index')}",
+            method: 'POST',
+            where: {event_id: $('#event').val(), str_search: $("input[name='str_search']").val()},
+            request: {
+              pageName: "curr_page",
+              limitName: "limit"
+            },
+            parseData: function(res) {
+              return {
+                  "code": res.status===200?0:1,
+                  "msg": res.message,
+                  "count": res.data.total,
+                  "data": res.data.data
+              }
+            },
+            page: true,
+            cols: [cols],
+            done: function () {
+                $(".layui-table-main tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-body tbody tr")[index]).height($(val).height());
+                    });
+                });
+                $(".layui-table-header tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-header thead tr")[index]).height($(val).height());
+                    });
+                });
+            }
+        });
+        table.on('checkbox(table)',function (obj) {
+            console.log(obj);
+            var checkStatus = table.checkStatus('table');
+            console.log(checkStatus);
+        });
+    });
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

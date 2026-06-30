@@ -1,0 +1,174 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+<div class="filter">
+    <div class="layui-form-item">
+        <div class="layui-input-inline">
+            <form class="layui-form layui-form-pane bg-white">
+                <input name="event_name" value="{$event['name']}" readonly="readonly" class="layui-input"/>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="layui-input-inline" style="width: 100%">
+    <form class="form-search" action="{:url('cms/report/rsvp')}" method="get">
+        <input type="hidden" name="curr_page" class="curr_page" value="1">
+        <input type="hidden" name="zone_id" value="{$zone_id}" class="zone_id">
+        <input type="hidden" name="zone_name" value="{$zone_name}" class="zone_name">
+    </form>
+    <div class="layui-form-item" style="float: left">
+        <div class="layui-inline">
+            <label class="layui-form-label label-custom">Select Zone</label>
+<!--            <div class="layui-inline" id="dateRangeLinked">-->
+<!--                <div class="layui-input-inline">-->
+<!--                    <input type="text" autocomplete="off" id="start-date" class="layui-input" placeholder="start day">-->
+<!--                </div>-->
+<!--                <div class="layui-form-mid">-</div>-->
+<!--                <div class="layui-input-inline">-->
+<!--                    <input type="text" autocomplete="off" id="end-date" class="layui-input" placeholder="end day">-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="layui-input-inline">
+<!--                <input type="text" class="layui-input" id="dateRange" placeholder="Please select date range"/>-->
+                <form class="layui-form layui-form-pane bg-white">
+                <select name="zone" id="zone" lay-verify="required" lay-filter="zone">
+                    <option value="">Please select zone</option>
+                </select>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div hidden="hidden" id="zones"><?php echo json_encode($zones);?></div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+</div>
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>SN</th>
+        <th>Zone</th>
+        <th>Day</th>
+        <th>Accepted</th>
+        <th>Rejected</th>
+        <th>No Respond Yet</th>
+    </tr>
+    </thead>
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/report/rsvp')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$i}">
+        <td class="title">{$i}</td>
+        <td class="title">{$vo['zone']}</td>
+        <td class="title">{$vo['day']}</td>
+        <td class="title">{$vo['total_accept']}</td>
+        <td class="title">{$vo['total_reject']}</td>
+        <td class="title">{$vo['total']}</td>
+    </tr>
+    {/volist}
+    <tr class="tr-normal-xxx">
+        <td class="title bold">TOTAL</td>
+        <td class="title bold"></td>
+        <td class="title bold"></td>
+        <td class="title bold">{$totalAccept}</td>
+        <td class="title bold">{$totalReject}</td>
+        <td class="title bold"></td>
+    </tr>
+    </tbody>
+</table>
+<!--<div id="demo2-1"></div>-->
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .bold{
+        font-weight: bold;
+    }
+    .filter{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+<script>
+    function onReady(){
+        // days
+        var zones = JSON.parse($('#zones').text());
+        var zone = "{$zone_id}";
+        var zoneStr = "";
+        $.each(zones,function(i,item){
+            zoneStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#zone").html(zoneStr);
+        $("#zone").val(zone);
+        layui.form.render('select');
+    }
+    layui.use(['form','laydate'],function(){
+        var form = layui.form;
+        var laydate = layui.laydate;
+        form.on('select(zone)',function(data){
+            var zone_id = data.value;
+            var zone_name = $('select[name="zone"]').find("option:checked").text();
+            $('.zone_id').val(zone_id);
+            $('.zone_name').val(zone_name);
+            $(".form-search").submit();
+        });
+        onReady();
+    });
+    function ToAjaxOpForPageDatas(toUrl,postData) {
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    $.each(result.data,function (i,e) {
+                        str_html +=
+                            "<tr class=\"tr-normal-"+e.id+"\">\n" +
+                            "                <td class=\"title\">"+e.name+"</td>\n" +
+                            "                <td class=\"title\">"+e.capacity+"</td>\n" +
+                            "                <td class=\"title\">"+e.checked_in+"</td>\n" +
+                            "                <td class=\"title\"><span class=\""+(e.pending<0?'red':'')+"\">"+e.pending+"</span></td>\n" +
+                            "            </tr>";
+                    });
+                    $(".table-tbody-normal").html(str_html);
+                    layui.form.render();//细节！这个好像要渲染一下！
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+</script>
+{/block}

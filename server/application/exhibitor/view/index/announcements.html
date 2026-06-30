@@ -1,0 +1,41 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <div class="announcement">
+            <div class="announcement-head">Announcements</div>
+            <div class="page-list">
+                {volist name="articles" id="item"}
+                <div class="announcement-item">{$item.post_date} - {$item.content}</div>
+                {/volist}
+            </div>
+            <div id="paginator" ajax_page_fun="ToAjaxOpForPage"
+                 record_num="{$record_num}" page_limit="{$page_limit}"
+                 page_url="{:url('exhibitor/index/announcements')}"></div>
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+        </div>
+    </div>
+</div>
+<script>
+    function ToAjaxOpForPage(toUrl,postData) {
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    $.each(result.data,function (i,e) {
+                        str_html += "<div class=\"announcement-item\">"+e.post_date+" - "+e.content+"</div>";
+                    });
+                    $(".page-list").html(str_html);
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+</script>
+{/block}
+

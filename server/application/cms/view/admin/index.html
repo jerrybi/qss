@@ -1,0 +1,103 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/admin/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+        </form>
+    </div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+    <div class="layui-input-inline mr10" style="float: right">
+        <button class="layui-btn layui-btn-normal"op_url="{:url('cms/admin/addAdmin')}"
+                onclick="addForOpenPopups(this,'✚ Add admin', '80%', '95%')">
+            <i class="layui-icon">&#xe608;</i> Add Admin
+        </button>
+    </div>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="20%">
+        <col width="10%">
+        <col width="20%">
+        <col width="10%">
+        <col width="35%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>User Name</th>
+        <th>Avatar</th>
+        <th>Create Time</th>
+        <th>Status</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/admin/editAdmin',['id'=>'opid'])}">
+    <input type="hidden" class="bind_account_url" value="{:url('cms/admin/bindAccount',['id'=>'opid'])}">
+    <input type="hidden" class="update_password_url" value="{:url('cms/admin/updatePassword',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal"
+           ajax_page_fun="ToAjaxOpForPageAdmins"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/admin/index')}">
+    {volist name="admins" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['user_name']}</td>
+        <td class="td-item">
+            <img src="{$vo['picture']}" class="layui-circle">
+        </td>
+        <td>{$vo['created_at']}</td>
+        <td>{php} echo $vo['status_tip']{/php}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit"
+                        onclick="editForOpenPopups('✎ Edit Admin','{$vo.id}', '80%', '95%')">
+                    <i class="layui-icon">&#xe642;</i>Edit
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Delete"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>Delete
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Update Password"
+                        onclick="updatePasswordForOpenPopups('✎ Update Password','{$vo.id}', '48%', '65%')">
+                    <i class="layui-icon layui-icon-password"></i>Update Password
+                </button>
+<!--                <button class="layui-btn layui-btn-sm" title="Event Permission"-->
+<!--                        onclick="bindAccountForOpenPopups('✎ Event Permission','{$vo.id}', '720px', '460px')">-->
+<!--                    <i class="layui-icon layui-icon-link"></i>Event Permission-->
+<!--                </button>-->
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .td-item img:hover {
+        transition: all 0.6s;
+        transform: scale(5);
+    }
+    .table-tbody-normal .td-item img {
+        cursor: pointer;
+        width: 66px;
+        height: 66px;
+    }
+</style>
+<div id="demo2-1"></div>
+
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/admins.js"></script>
+{/block}

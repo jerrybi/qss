@@ -1,0 +1,1189 @@
+---------------------------------------------------------------
+
+[2026-05-12T07:57:26+08:00] 119.234.37.19 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":7,"fullName":null,"lastName":null,"email":null,"title":null,"organization":null,"flag":"Neutral","visitTime":"2026-05-11 11:10:17","firstName":null,"visitDate":"2026-05-11","serialNumber":"https:\/\/www.weka.io\/resources\/eguide\/surviving-the-nand-flash-shortage\/","exhibitorID":89,"remark":null,"imgCard":null,"telephone":null},{"id":9,"fullName":"Nhu Le","lastName":"Le","email":"nhu.le@arteva.com.au","title":"Chief Transformation Officer","organization":"Arteva Funding","flag":"Neutral","visitTime":"2026-05-11 12:34:36","firstName":"Nhu","visitDate":"2026-05-11","serialNumber":"5631","exhibitorID":89,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":18,"fullName":"Seng Siong Tan","lastName":"Tan","email":"sengsiong.tan@singtel.com","title":"Senior Manager IT Security","organization":"Singtel","flag":"Neutral","visitTime":"2026-05-11 16:09:43","firstName":"Seng Siong","visitDate":"2026-05-11","serialNumber":"5512","exhibitorID":89,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":19,"fullName":"Dan Gericke","lastName":"Gericke","email":"dan@shiftcontrol.io","title":"Co-founder","organization":"ShiftControl","flag":"Neutral","visitTime":"2026-05-11 16:09:45","firstName":"Dan","visitDate":"2026-05-11","serialNumber":"5453","exhibitorID":89,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":20,"fullName":"Ajay Gupta","lastName":"Gupta","email":"ajay.gupta@ikano.asia","title":"Head of IT","organization":"IKANO","flag":"Neutral","visitTime":"2026-05-11 16:10:07","firstName":"Ajay","visitDate":"2026-05-11","serialNumber":"5572","exhibitorID":89,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":21,"fullName":"Shanti Prakash Upadhayay","lastName":"Upadhayay","email":"shanti_prakash_upadhayay@nea.gov.sg","title":"Deputy Chief Information Officer","organization":"National Environment Agency","flag":"Neutral","visitTime":"2026-05-11 16:10:16","firstName":"Shanti Prakash","visitDate":"2026-05-11","serialNumber":"5410","exhibitorID":89,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":22,"fullName":"Zhi Xiang Goh","lastName":"Goh","email":"Goh_Zhi_Xiang@defence.gov.sg","title":"Staff Officer, CADO, Army","organization":"Singapore Defence & Public Safety","flag":"Neutral","visitTime":"2026-05-11 16:10:28","firstName":"Zhi Xiang","visitDate":"2026-05-11","serialNumber":"5674","exhibitorID":89,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":23,"fullName":"Wei Liang Lim","lastName":"Lim","email":"Lim_Wei_Liang1@defence.gov.sg","title":"Staff Officer, CADO, Army","organization":"Singapore Defence & Public Safety","flag":"Neutral","visitTime":"2026-05-11 16:10:33","firstName":"Wei Liang","visitDate":"2026-05-11","serialNumber":"5675","exhibitorID":89,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":24,"fullName":"Bryan Ouyang","lastName":"Ouyang","email":"ouyang_zhiyuan_bryan@defence.gov.sg","title":"Digitalisation Lead, CADO, Army","organization":"Singapore Defence & Public Safety","flag":"Neutral","visitTime":"2026-05-11 16:10:42","firstName":"Bryan","visitDate":"2026-05-11","serialNumber":"5673","exhibitorID":89,"remark":null,"imgCard":null,"telephone":"[Mobile]"}]
+---------------------------------------------------------------
+
+[2026-05-12T07:57:26+08:00] 119.234.37.19 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.383472s] [吞吐率：2.61req/s] [内存消耗：1,637.47kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=5kgio0otqe0est8edvqfkng078',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODU0MzgyOSwibmJmIjoxNzc4NTQzODMyLCJleHAiOjE3Nzg5NzU4MjksImRhdGEiOnsiaWQiOjg5fX0.8-Dyp67L5PrcB4W96Bnr59TQWsa_F4-q8BYp6E3HeiU',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.500.112 Darwin/25.4.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '3186',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '119.234.37.19',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 7,
+      'fullName' => NULL,
+      'lastName' => NULL,
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => NULL,
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 11:10:17',
+      'firstName' => NULL,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => 'https://www.weka.io/resources/eguide/surviving-the-nand-flash-shortage/',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => NULL,
+    ),
+    1 => 
+    array (
+      'id' => 9,
+      'fullName' => 'Nhu Le',
+      'lastName' => 'Le',
+      'email' => 'nhu.le@arteva.com.au',
+      'title' => 'Chief Transformation Officer',
+      'organization' => 'Arteva Funding',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 12:34:36',
+      'firstName' => 'Nhu',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5631',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    2 => 
+    array (
+      'id' => 18,
+      'fullName' => 'Seng Siong Tan',
+      'lastName' => 'Tan',
+      'email' => 'sengsiong.tan@singtel.com',
+      'title' => 'Senior Manager IT Security',
+      'organization' => 'Singtel',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 16:09:43',
+      'firstName' => 'Seng Siong',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5512',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    3 => 
+    array (
+      'id' => 19,
+      'fullName' => 'Dan Gericke',
+      'lastName' => 'Gericke',
+      'email' => 'dan@shiftcontrol.io',
+      'title' => 'Co-founder',
+      'organization' => 'ShiftControl',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 16:09:45',
+      'firstName' => 'Dan',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5453',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    4 => 
+    array (
+      'id' => 20,
+      'fullName' => 'Ajay Gupta',
+      'lastName' => 'Gupta',
+      'email' => 'ajay.gupta@ikano.asia',
+      'title' => 'Head of IT',
+      'organization' => 'IKANO',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 16:10:07',
+      'firstName' => 'Ajay',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5572',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    5 => 
+    array (
+      'id' => 21,
+      'fullName' => 'Shanti Prakash Upadhayay',
+      'lastName' => 'Upadhayay',
+      'email' => 'shanti_prakash_upadhayay@nea.gov.sg',
+      'title' => 'Deputy Chief Information Officer',
+      'organization' => 'National Environment Agency',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 16:10:16',
+      'firstName' => 'Shanti Prakash',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5410',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    6 => 
+    array (
+      'id' => 22,
+      'fullName' => 'Zhi Xiang Goh',
+      'lastName' => 'Goh',
+      'email' => 'Goh_Zhi_Xiang@defence.gov.sg',
+      'title' => 'Staff Officer, CADO, Army',
+      'organization' => 'Singapore Defence & Public Safety',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 16:10:28',
+      'firstName' => 'Zhi Xiang',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5674',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    7 => 
+    array (
+      'id' => 23,
+      'fullName' => 'Wei Liang Lim',
+      'lastName' => 'Lim',
+      'email' => 'Lim_Wei_Liang1@defence.gov.sg',
+      'title' => 'Staff Officer, CADO, Army',
+      'organization' => 'Singapore Defence & Public Safety',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 16:10:33',
+      'firstName' => 'Wei Liang',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5675',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    8 => 
+    array (
+      'id' => 24,
+      'fullName' => 'Bryan Ouyang',
+      'lastName' => 'Ouyang',
+      'email' => 'ouyang_zhiyuan_bryan@defence.gov.sg',
+      'title' => 'Digitalisation Lead, CADO, Army',
+      'organization' => 'Singapore Defence & Public Safety',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 16:10:42',
+      'firstName' => 'Bryan',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5673',
+      'exhibitorID' => 89,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000468s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000734s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 89  AND `status` = 1 LIMIT 1 [ RunTime:0.000525s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.008535s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = 'https://www.weka.io/resources/eguide/surviving-the-nand-flash-shortage/'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 11:10:17' LIMIT 1 [ RunTime:0.314377s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('D6E344D9-9DE0-F50C-9B1D-EFDDDA7A29CF' , NULL , NULL , NULL , NULL , NULL , NULL , NULL , 'Neutral' , NULL , 'https://www.weka.io/resources/eguide/surviving-the-nand-flash-shortage/' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 11:10:17' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.002535s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5631'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:34:36' LIMIT 1 [ RunTime:0.002814s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('F5F82BA4-E89B-B046-A386-2CF41BB572B0' , 'Nhu' , 'Le' , 'Nhu Le' , 'Arteva Funding' , 'Chief Transformation Officer' , '[Mobile]' , 'nhu.le@arteva.com.au' , 'Neutral' , NULL , '5631' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 12:34:36' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.001541s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5512'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:09:43' LIMIT 1 [ RunTime:0.002364s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('35FF4078-66B5-622E-A2D5-06ECEE34292E' , 'Seng Siong' , 'Tan' , 'Seng Siong Tan' , 'Singtel' , 'Senior Manager IT Security' , '[Mobile]' , 'sengsiong.tan@singtel.com' , 'Neutral' , NULL , '5512' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:09:43' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.001430s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5453'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:09:45' LIMIT 1 [ RunTime:0.002297s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('CBDDF9D8-E36A-C56B-11C6-3A4185CB56A8' , 'Dan' , 'Gericke' , 'Dan Gericke' , 'ShiftControl' , 'Co-founder' , '[Mobile]' , 'dan@shiftcontrol.io' , 'Neutral' , NULL , '5453' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:09:45' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.001311s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5572'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:10:07' LIMIT 1 [ RunTime:0.002398s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('9851A592-D11F-53E3-4AA1-57114668DA81' , 'Ajay' , 'Gupta' , 'Ajay Gupta' , 'IKANO' , 'Head of IT' , '[Mobile]' , 'ajay.gupta@ikano.asia' , 'Neutral' , NULL , '5572' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:10:07' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.001599s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5410'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:10:16' LIMIT 1 [ RunTime:0.002221s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('B0361AC1-FCDF-3BB9-5135-260AB291C9D9' , 'Shanti Prakash' , 'Upadhayay' , 'Shanti Prakash Upadhayay' , 'National Environment Agency' , 'Deputy Chief Information Officer' , '[Mobile]' , 'shanti_prakash_upadhayay@nea.gov.sg' , 'Neutral' , NULL , '5410' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:10:16' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.002221s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5674'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:10:28' LIMIT 1 [ RunTime:0.002262s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('0591EA5C-D02E-AE7F-DF9B-A6AB9C2FA0F8' , 'Zhi Xiang' , 'Goh' , 'Zhi Xiang Goh' , 'Singapore Defence & Public Safety' , 'Staff Officer, CADO, Army' , '[Mobile]' , 'Goh_Zhi_Xiang@defence.gov.sg' , 'Neutral' , NULL , '5674' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:10:28' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.001728s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5675'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:10:33' LIMIT 1 [ RunTime:0.002201s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('4B434046-7ACD-FCD0-71FF-D6B5919458D1' , 'Wei Liang' , 'Lim' , 'Wei Liang Lim' , 'Singapore Defence & Public Safety' , 'Staff Officer, CADO, Army' , '[Mobile]' , 'Lim_Wei_Liang1@defence.gov.sg' , 'Neutral' , NULL , '5675' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:10:33' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.001809s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5673'  AND `exhibitor_id` = 89  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:10:42' LIMIT 1 [ RunTime:0.002351s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('08418E57-0443-9D31-4CDB-881A28B96FA1' , 'Bryan' , 'Ouyang' , 'Bryan Ouyang' , 'Singapore Defence & Public Safety' , 'Digitalisation Lead, CADO, Army' , '[Mobile]' , 'ouyang_zhiyuan_bryan@defence.gov.sg' , 'Neutral' , NULL , '5673' , 89 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:10:42' , '2026-05-11' , NULL , '2026-05-12 07:57:26') [ RunTime:0.001551s ]
+---------------------------------------------------------------
+
+[2026-05-12T12:51:17+08:00] 119.234.89.137 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"Karen Chiah","lastName":"Chiah","email":"karen_chiah@moe.gov.sg","title":"Director","organization":"Government Technology Agency","flag":"Hot","visitTime":"2026-05-11 08:58:59","firstName":"Karen","visitDate":"2026-05-11","serialNumber":"5503","exhibitorID":97,"remark":"Govtech, MOE \n\nDemo for out of the box capabilities, looking for call centre (public facing) related solutions ","imgCard":null,"telephone":"[Mobile]"},{"id":2,"fullName":"Bei Goh","lastName":"Goh","email":"bei.goh@pfizer.com","title":"Digital & Technology Lead, EM Asia","organization":"Pfizer Singapore","flag":"Warm","visitTime":"2026-05-11 09:14:53","firstName":"Bei","visitDate":"2026-05-11","serialNumber":"5591","exhibitorID":97,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":3,"fullName":"Wei-lung Wang","lastName":"Wang","email":"wang_wei-lung@mas.gov.sg","title":"Executive director","organization":"Monetary Authority of Singapore","flag":"Hot","visitTime":"2026-05-11 11:07:49","firstName":"Wei-lung","visitDate":"2026-05-11","serialNumber":"5639","exhibitorID":97,"remark":"Sant to know more about production use case for efficiency improvement in both public and private sector ","imgCard":null,"telephone":"[Mobile]"},{"id":4,"fullName":"Soon Tein Lim","lastName":"Lim","email":"limsti@stengg.com","title":"Head of Cyber Security","organization":"ST Engineering","flag":"Neutral","visitTime":"2026-05-11 12:20:45","firstName":"Soon Tein","visitDate":"2026-05-11","serialNumber":"5634","exhibitorID":97,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":5,"fullName":"Aaron Chong","lastName":"Chong","email":"aaron_chong@lta.gov.sg","title":"Director, Quality Service Management","organization":"Land Transport Authority","flag":"Hot","visitTime":"2026-05-11 12:46:49","firstName":"Aaron","visitDate":"2026-05-11","serialNumber":"5496","exhibitorID":97,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":6,"fullName":"Nai Min Chong","lastName":"Chong","email":"chongnaimin@slngcorp.com","title":"Vice President, Information Technology & Procurement","organization":"Singapore LNG Corporation","flag":"Neutral","visitTime":"2026-05-11 12:47:34","firstName":"Nai Min","visitDate":"2026-05-11","serialNumber":"5502","exhibitorID":97,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":7,"fullName":"James Le","lastName":"Le","email":"James_le@sg.smbc.co.jp","title":"Executive director","organization":"Sumitomo Mitsui Banking Corporation","flag":"Warm","visitTime":"2026-05-11 12:52:59","firstName":"James","visitDate":"2026-05-11","serialNumber":"5636","exhibitorID":97,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":8,"fullName":"Sai Khoon Aw Yong","lastName":"Aw Yong","email":"saikhoonawyong@slec.org.sg","title":"Manager, IT","organization":"St Luke's ElderCare Ltd","flag":"Cool","visitTime":"2026-05-11 12:54:55","firstName":"Sai Khoon","visitDate":"2026-05-11","serialNumber":"5530","exhibitorID":97,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":9,"fullName":"Dawn Ang","lastName":"Ang","email":"dawn_ang@tech.gov.sg","title":"Infra Engineering Manager","organization":"Government Technology Agency","flag":"Neutral","visitTime":"2026-05-11 13:29:59","firstName":"Dawn","visitDate":"2026-05-11","serialNumber":"5553","exhibitorID":97,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":10,"fullName":"Chin Kong Ng","lastName":"Ng","email":"ng_chin_kong@lta.gov.sg","title":"Deputy Director","organization":"Land Transport Authority","flag":"Hot","visitTime":"2026-05-11 13:32:29","firstName":"Chin Kong","visitDate":"2026-05-11","serialNumber":"5647","exhibitorID":97,"remark":null,"imgCard":null,"telephone":"[Mobile]"}]
+---------------------------------------------------------------
+
+[2026-05-12T12:51:18+08:00] 119.234.89.137 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.545262s] [吞吐率：1.83req/s] [内存消耗：1,647.24kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=qi0fbds0v4o0kl9bgkoaliavk7',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODU2MTQ3NCwibmJmIjoxNzc4NTYxNDc3LCJleHAiOjE3Nzg5OTM0NzQsImRhdGEiOnsiaWQiOjk3fX0.p-PGYjvLYZJRntfYhFke6C7FJl9WbT60rpbMc9nHH5s',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '3715',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '119.234.89.137',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'Karen Chiah',
+      'lastName' => 'Chiah',
+      'email' => 'karen_chiah@moe.gov.sg',
+      'title' => 'Director',
+      'organization' => 'Government Technology Agency',
+      'flag' => 'Hot',
+      'visitTime' => '2026-05-11 08:58:59',
+      'firstName' => 'Karen',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5503',
+      'exhibitorID' => 97,
+      'remark' => 'Govtech, MOE 
+
+Demo for out of the box capabilities, looking for call centre (public facing) related solutions ',
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'Bei Goh',
+      'lastName' => 'Goh',
+      'email' => 'bei.goh@pfizer.com',
+      'title' => 'Digital & Technology Lead, EM Asia',
+      'organization' => 'Pfizer Singapore',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 09:14:53',
+      'firstName' => 'Bei',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5591',
+      'exhibitorID' => 97,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'Wei-lung Wang',
+      'lastName' => 'Wang',
+      'email' => 'wang_wei-lung@mas.gov.sg',
+      'title' => 'Executive director',
+      'organization' => 'Monetary Authority of Singapore',
+      'flag' => 'Hot',
+      'visitTime' => '2026-05-11 11:07:49',
+      'firstName' => 'Wei-lung',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5639',
+      'exhibitorID' => 97,
+      'remark' => 'Sant to know more about production use case for efficiency improvement in both public and private sector ',
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'Soon Tein Lim',
+      'lastName' => 'Lim',
+      'email' => 'limsti@stengg.com',
+      'title' => 'Head of Cyber Security',
+      'organization' => 'ST Engineering',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 12:20:45',
+      'firstName' => 'Soon Tein',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5634',
+      'exhibitorID' => 97,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'Aaron Chong',
+      'lastName' => 'Chong',
+      'email' => 'aaron_chong@lta.gov.sg',
+      'title' => 'Director, Quality Service Management',
+      'organization' => 'Land Transport Authority',
+      'flag' => 'Hot',
+      'visitTime' => '2026-05-11 12:46:49',
+      'firstName' => 'Aaron',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5496',
+      'exhibitorID' => 97,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'Nai Min Chong',
+      'lastName' => 'Chong',
+      'email' => 'chongnaimin@slngcorp.com',
+      'title' => 'Vice President, Information Technology & Procurement',
+      'organization' => 'Singapore LNG Corporation',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 12:47:34',
+      'firstName' => 'Nai Min',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5502',
+      'exhibitorID' => 97,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'James Le',
+      'lastName' => 'Le',
+      'email' => 'James_le@sg.smbc.co.jp',
+      'title' => 'Executive director',
+      'organization' => 'Sumitomo Mitsui Banking Corporation',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 12:52:59',
+      'firstName' => 'James',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5636',
+      'exhibitorID' => 97,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    7 => 
+    array (
+      'id' => 8,
+      'fullName' => 'Sai Khoon Aw Yong',
+      'lastName' => 'Aw Yong',
+      'email' => 'saikhoonawyong@slec.org.sg',
+      'title' => 'Manager, IT',
+      'organization' => 'St Luke\'s ElderCare Ltd',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 12:54:55',
+      'firstName' => 'Sai Khoon',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5530',
+      'exhibitorID' => 97,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    8 => 
+    array (
+      'id' => 9,
+      'fullName' => 'Dawn Ang',
+      'lastName' => 'Ang',
+      'email' => 'dawn_ang@tech.gov.sg',
+      'title' => 'Infra Engineering Manager',
+      'organization' => 'Government Technology Agency',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-05-11 13:29:59',
+      'firstName' => 'Dawn',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5553',
+      'exhibitorID' => 97,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    9 => 
+    array (
+      'id' => 10,
+      'fullName' => 'Chin Kong Ng',
+      'lastName' => 'Ng',
+      'email' => 'ng_chin_kong@lta.gov.sg',
+      'title' => 'Deputy Director',
+      'organization' => 'Land Transport Authority',
+      'flag' => 'Hot',
+      'visitTime' => '2026-05-11 13:32:29',
+      'firstName' => 'Chin Kong',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5647',
+      'exhibitorID' => 97,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000381s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000821s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 97  AND `status` = 1 LIMIT 1 [ RunTime:0.000550s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.002771s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5503'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 08:58:59' LIMIT 1 [ RunTime:0.191690s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('14DD60EB-8935-A9B5-2E3D-FA3791C678F2' , 'Karen' , 'Chiah' , 'Karen Chiah' , 'Government Technology Agency' , 'Director' , '[Mobile]' , 'karen_chiah@moe.gov.sg' , 'Hot' , 'Govtech, MOE 
+
+Demo for out of the box capabilities, looking for call centre (public facing) related solutions ' , '5503' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 08:58:59' , '2026-05-11' , NULL , '2026-05-12 12:51:17') [ RunTime:0.004133s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5591'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 09:14:53' LIMIT 1 [ RunTime:0.045294s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('6113ECCD-36F2-CD99-1323-64A61047B0B8' , 'Bei' , 'Goh' , 'Bei Goh' , 'Pfizer Singapore' , 'Digital & Technology Lead, EM Asia' , '[Mobile]' , 'bei.goh@pfizer.com' , 'Warm' , NULL , '5591' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 09:14:53' , '2026-05-11' , NULL , '2026-05-12 12:51:17') [ RunTime:0.001868s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5639'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 11:07:49' LIMIT 1 [ RunTime:0.042358s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('73529CBC-518E-EFF0-20F8-2430C2FA2E0D' , 'Wei-lung' , 'Wang' , 'Wei-lung Wang' , 'Monetary Authority of Singapore' , 'Executive director' , '[Mobile]' , 'wang_wei-lung@mas.gov.sg' , 'Hot' , 'Sant to know more about production use case for efficiency improvement in both public and private sector ' , '5639' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 11:07:49' , '2026-05-11' , NULL , '2026-05-12 12:51:18') [ RunTime:0.002036s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5634'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:20:45' LIMIT 1 [ RunTime:0.042278s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('3A085B16-A196-D8A2-3069-C80BFC5B138E' , 'Soon Tein' , 'Lim' , 'Soon Tein Lim' , 'ST Engineering' , 'Head of Cyber Security' , '[Mobile]' , 'limsti@stengg.com' , 'Neutral' , NULL , '5634' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 12:20:45' , '2026-05-11' , NULL , '2026-05-12 12:51:18') [ RunTime:0.001975s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5496'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:46:49' LIMIT 1 [ RunTime:0.046682s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('B97718A0-DA06-866F-7C60-DAAFF85AFAC2' , 'Aaron' , 'Chong' , 'Aaron Chong' , 'Land Transport Authority' , 'Director, Quality Service Management' , '[Mobile]' , 'aaron_chong@lta.gov.sg' , 'Hot' , NULL , '5496' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 12:46:49' , '2026-05-11' , NULL , '2026-05-12 12:51:18') [ RunTime:0.002151s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5502'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:47:34' LIMIT 1 [ RunTime:0.015045s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('57B4E794-013C-5E21-2FA8-69C2F9D0B107' , 'Nai Min' , 'Chong' , 'Nai Min Chong' , 'Singapore LNG Corporation' , 'Vice President, Information Technology & Procurement' , '[Mobile]' , 'chongnaimin@slngcorp.com' , 'Neutral' , NULL , '5502' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 12:47:34' , '2026-05-11' , NULL , '2026-05-12 12:51:18') [ RunTime:0.001612s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5636'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:52:59' LIMIT 1 [ RunTime:0.029770s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('7073DB69-38C9-661B-C110-91CBD1E66667' , 'James' , 'Le' , 'James Le' , 'Sumitomo Mitsui Banking Corporation' , 'Executive director' , '[Mobile]' , 'James_le@sg.smbc.co.jp' , 'Warm' , NULL , '5636' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 12:52:59' , '2026-05-11' , NULL , '2026-05-12 12:51:18') [ RunTime:0.001696s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5530'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:54:55' LIMIT 1 [ RunTime:0.043887s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('8FDFD5DE-F4CC-82D4-563A-6D414268B93D' , 'Sai Khoon' , 'Aw Yong' , 'Sai Khoon Aw Yong' , 'St Luke\'s ElderCare Ltd' , 'Manager, IT' , '[Mobile]' , 'saikhoonawyong@slec.org.sg' , 'Cool' , NULL , '5530' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 12:54:55' , '2026-05-11' , NULL , '2026-05-12 12:51:18') [ RunTime:0.004292s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5553'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:29:59' LIMIT 1 [ RunTime:0.012209s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('EDEBF122-40B2-58DA-50EF-D651282E3031' , 'Dawn' , 'Ang' , 'Dawn Ang' , 'Government Technology Agency' , 'Infra Engineering Manager' , '[Mobile]' , 'dawn_ang@tech.gov.sg' , 'Neutral' , NULL , '5553' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:29:59' , '2026-05-11' , NULL , '2026-05-12 12:51:18') [ RunTime:0.002943s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5647'  AND `exhibitor_id` = 97  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:32:29' LIMIT 1 [ RunTime:0.020821s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('FAD9EA0F-01DE-6B26-89B6-3080AE03BCA1' , 'Chin Kong' , 'Ng' , 'Chin Kong Ng' , 'Land Transport Authority' , 'Deputy Director' , '[Mobile]' , 'ng_chin_kong@lta.gov.sg' , 'Hot' , NULL , '5647' , 97 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:32:29' , '2026-05-11' , NULL , '2026-05-12 12:51:18') [ RunTime:0.002196s ]
+---------------------------------------------------------------
+
+[2026-05-12T12:58:50+08:00] 129.126.217.106 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"Ravi Pratap Singh Kushwah","lastName":"Singh Kushwah","email":"ravipratapsingh.kushwah@qlik.com","title":"Accenture AI for BI Qlik expert","organization":"Qliktech Singapore","flag":"Warm","visitTime":"2026-05-11 08:16:43","firstName":"Ravi Pratap","visitDate":"2026-05-11","serialNumber":"5406","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":2,"fullName":"Victor Yeo","lastName":"Yeo","email":"victor.yeo@dentons.com","title":"Head, IT","organization":"Dentons Rodyk & Davidson LLP","flag":"Cool","visitTime":"2026-05-11 09:22:05","firstName":"Victor","visitDate":"2026-05-11","serialNumber":"5526","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":3,"fullName":"Hon Hoe Tham","lastName":"Tham","email":"honhoetham@ocbc.com","title":"Enterprise Architect","organization":"OCBC Bank","flag":"Cool","visitTime":"2026-05-11 11:38:33","firstName":"Hon Hoe","visitDate":"2026-05-11","serialNumber":"5549","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":4,"fullName":"Ivan Ng","lastName":"Ng","email":"ivanng@cdl.com.sg","title":"Chief Technology Officer","organization":"City Developments Limited","flag":"Cool","visitTime":"2026-05-11 12:42:44","firstName":"Ivan","visitDate":"2026-05-11","serialNumber":"5578","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":5,"fullName":"Eddie Loke","lastName":"Loke","email":"eddielokets@suss.edu.sg","title":"Assistant Director","organization":"Singapore University of Social Sciences","flag":"Cool","visitTime":"2026-05-11 13:04:35","firstName":"Eddie","visitDate":"2026-05-11","serialNumber":"5574","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":6,"fullName":"Chee Yuen Yap","lastName":"Yap","email":"cheeyuen@fourtitude.ai","title":"General Manager","organization":"Fourtitude.ai","flag":"Warm","visitTime":"2026-05-11 13:41:21","firstName":"Chee Yuen","visitDate":"2026-05-11","serialNumber":"5638","exhibitorID":103,"remark":"Keen to know how the differentiators vs tableau","imgCard":null,"telephone":"[Mobile]"},{"id":7,"fullName":"Soon Tein Lim","lastName":"Lim","email":"limsti@stengg.com","title":"Head of Cyber Security","organization":"ST Engineering","flag":"Warm","visitTime":"2026-05-11 13:42:16","firstName":"Soon Tein","visitDate":"2026-05-11","serialNumber":"5634","exhibitorID":103,"remark":"Interested in on prem qlik & talend","imgCard":null,"telephone":"[Mobile]"},{"id":8,"fullName":"Chin Hwei Wong","lastName":"Wong","email":"wong_chin_hwei@stb.gov.sg","title":"Chief Information Officer","organization":"Government Technology Agency","flag":"Cool","visitTime":"2026-05-11 16:17:51","firstName":"Chin Hwei","visitDate":"2026-05-11","serialNumber":"5619","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":9,"fullName":"Bryan Ouyang","lastName":"Ouyang","email":"ouyang_zhiyuan_bryan@defence.gov.sg","title":"Digitalisation Lead, CADO, Army","organization":"Singapore Defence & Public Safety","flag":"Warm","visitTime":"2026-05-11 16:34:08","firstName":"Bryan","visitDate":"2026-05-11","serialNumber":"5673","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":10,"fullName":"Zhi Xiang Goh","lastName":"Goh","email":"Goh_Zhi_Xiang@defence.gov.sg","title":"Staff Officer, CADO, Army","organization":"Singapore Defence & Public Safety","flag":"Warm","visitTime":"2026-05-11 16:34:14","firstName":"Zhi Xiang","visitDate":"2026-05-11","serialNumber":"5674","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":11,"fullName":"Ajay Gupta","lastName":"Gupta","email":"ajay.gupta@ikano.asia","title":"Head of IT","organization":"IKANO","flag":"Warm","visitTime":"2026-05-11 16:43:48","firstName":"Ajay","visitDate":"2026-05-11","serialNumber":"5572","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"}]
+---------------------------------------------------------------
+
+[2026-05-12T12:58:51+08:00] 129.126.217.106 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.556736s] [吞吐率：1.80req/s] [内存消耗：1,653.47kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=biq4uotmpvnipvnjp87tvr6p6e',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODU2MTkyMywibmJmIjoxNzc4NTYxOTI2LCJleHAiOjE3Nzg5OTM5MjMsImRhdGEiOnsiaWQiOjEwM319.w8HjTGIU2neuzIVgh0HWMRYs2xzM2vUrVp0aPVy__0k',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.600.12 Darwin/25.5.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-IN,en;q=0.9',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '3923',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '129.126.217.106',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'Ravi Pratap Singh Kushwah',
+      'lastName' => 'Singh Kushwah',
+      'email' => 'ravipratapsingh.kushwah@qlik.com',
+      'title' => 'Accenture AI for BI Qlik expert',
+      'organization' => 'Qliktech Singapore',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 08:16:43',
+      'firstName' => 'Ravi Pratap',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5406',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'Victor Yeo',
+      'lastName' => 'Yeo',
+      'email' => 'victor.yeo@dentons.com',
+      'title' => 'Head, IT',
+      'organization' => 'Dentons Rodyk & Davidson LLP',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 09:22:05',
+      'firstName' => 'Victor',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5526',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'Hon Hoe Tham',
+      'lastName' => 'Tham',
+      'email' => 'honhoetham@ocbc.com',
+      'title' => 'Enterprise Architect',
+      'organization' => 'OCBC Bank',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 11:38:33',
+      'firstName' => 'Hon Hoe',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5549',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'Ivan Ng',
+      'lastName' => 'Ng',
+      'email' => 'ivanng@cdl.com.sg',
+      'title' => 'Chief Technology Officer',
+      'organization' => 'City Developments Limited',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 12:42:44',
+      'firstName' => 'Ivan',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5578',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'Eddie Loke',
+      'lastName' => 'Loke',
+      'email' => 'eddielokets@suss.edu.sg',
+      'title' => 'Assistant Director',
+      'organization' => 'Singapore University of Social Sciences',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 13:04:35',
+      'firstName' => 'Eddie',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5574',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'Chee Yuen Yap',
+      'lastName' => 'Yap',
+      'email' => 'cheeyuen@fourtitude.ai',
+      'title' => 'General Manager',
+      'organization' => 'Fourtitude.ai',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 13:41:21',
+      'firstName' => 'Chee Yuen',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5638',
+      'exhibitorID' => 103,
+      'remark' => 'Keen to know how the differentiators vs tableau',
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'Soon Tein Lim',
+      'lastName' => 'Lim',
+      'email' => 'limsti@stengg.com',
+      'title' => 'Head of Cyber Security',
+      'organization' => 'ST Engineering',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 13:42:16',
+      'firstName' => 'Soon Tein',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5634',
+      'exhibitorID' => 103,
+      'remark' => 'Interested in on prem qlik & talend',
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    7 => 
+    array (
+      'id' => 8,
+      'fullName' => 'Chin Hwei Wong',
+      'lastName' => 'Wong',
+      'email' => 'wong_chin_hwei@stb.gov.sg',
+      'title' => 'Chief Information Officer',
+      'organization' => 'Government Technology Agency',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 16:17:51',
+      'firstName' => 'Chin Hwei',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5619',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    8 => 
+    array (
+      'id' => 9,
+      'fullName' => 'Bryan Ouyang',
+      'lastName' => 'Ouyang',
+      'email' => 'ouyang_zhiyuan_bryan@defence.gov.sg',
+      'title' => 'Digitalisation Lead, CADO, Army',
+      'organization' => 'Singapore Defence & Public Safety',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 16:34:08',
+      'firstName' => 'Bryan',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5673',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    9 => 
+    array (
+      'id' => 10,
+      'fullName' => 'Zhi Xiang Goh',
+      'lastName' => 'Goh',
+      'email' => 'Goh_Zhi_Xiang@defence.gov.sg',
+      'title' => 'Staff Officer, CADO, Army',
+      'organization' => 'Singapore Defence & Public Safety',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 16:34:14',
+      'firstName' => 'Zhi Xiang',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5674',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    10 => 
+    array (
+      'id' => 11,
+      'fullName' => 'Ajay Gupta',
+      'lastName' => 'Gupta',
+      'email' => 'ajay.gupta@ikano.asia',
+      'title' => 'Head of IT',
+      'organization' => 'IKANO',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 16:43:48',
+      'firstName' => 'Ajay',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5572',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008385s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000809s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 103  AND `status` = 1 LIMIT 1 [ RunTime:0.000896s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.001885s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5406'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 08:16:43' LIMIT 1 [ RunTime:0.066993s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Ravi Pratap' , `last_name` = 'Singh Kushwah' , `full_name` = 'Ravi Pratap Singh Kushwah' , `organization` = 'Qliktech Singapore' , `title` = 'Accenture AI for BI Qlik expert' , `phone` = '[Mobile]' , `email` = 'ravipratapsingh.kushwah@qlik.com' , `flag` = 'Warm' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:58:50'  WHERE  `id` = '78641151-67CF-6209-C44B-14FB02FB01D4' [ RunTime:0.007349s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5526'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 09:22:05' LIMIT 1 [ RunTime:0.037559s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('C6B0D23F-B460-8547-84CC-0BAF96846CB1' , 'Victor' , 'Yeo' , 'Victor Yeo' , 'Dentons Rodyk & Davidson LLP' , 'Head, IT' , '[Mobile]' , 'victor.yeo@dentons.com' , 'Cool' , NULL , '5526' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 09:22:05' , '2026-05-11' , NULL , '2026-05-12 12:58:50') [ RunTime:0.025118s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5549'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 11:38:33' LIMIT 1 [ RunTime:0.042663s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('A447944A-1DF6-F99D-D108-8061946E9990' , 'Hon Hoe' , 'Tham' , 'Hon Hoe Tham' , 'OCBC Bank' , 'Enterprise Architect' , '[Mobile]' , 'honhoetham@ocbc.com' , 'Cool' , NULL , '5549' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 11:38:33' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.027085s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5578'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:42:44' LIMIT 1 [ RunTime:0.038448s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('DC1DDCC7-7B68-D7D2-DC6E-24EE71C7477A' , 'Ivan' , 'Ng' , 'Ivan Ng' , 'City Developments Limited' , 'Chief Technology Officer' , '[Mobile]' , 'ivanng@cdl.com.sg' , 'Cool' , NULL , '5578' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 12:42:44' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.001794s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5574'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:04:35' LIMIT 1 [ RunTime:0.037083s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('5A558D95-212E-4FA2-7851-D9DD480049B6' , 'Eddie' , 'Loke' , 'Eddie Loke' , 'Singapore University of Social Sciences' , 'Assistant Director' , '[Mobile]' , 'eddielokets@suss.edu.sg' , 'Cool' , NULL , '5574' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:04:35' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.001844s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5638'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:41:21' LIMIT 1 [ RunTime:0.036301s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('DDE4CA48-2292-72C2-DC65-A16771FA3263' , 'Chee Yuen' , 'Yap' , 'Chee Yuen Yap' , 'Fourtitude.ai' , 'General Manager' , '[Mobile]' , 'cheeyuen@fourtitude.ai' , 'Warm' , 'Keen to know how the differentiators vs tableau' , '5638' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:41:21' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.001885s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5634'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:42:16' LIMIT 1 [ RunTime:0.036902s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('DC505F15-9716-26FF-DF1F-1805429D5DE6' , 'Soon Tein' , 'Lim' , 'Soon Tein Lim' , 'ST Engineering' , 'Head of Cyber Security' , '[Mobile]' , 'limsti@stengg.com' , 'Warm' , 'Interested in on prem qlik & talend' , '5634' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:42:16' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.001611s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5619'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:17:51' LIMIT 1 [ RunTime:0.037199s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('78A7AA8A-51BB-0891-5829-7D44BD8E38CF' , 'Chin Hwei' , 'Wong' , 'Chin Hwei Wong' , 'Government Technology Agency' , 'Chief Information Officer' , '[Mobile]' , 'wong_chin_hwei@stb.gov.sg' , 'Cool' , NULL , '5619' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:17:51' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.003182s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5673'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:34:08' LIMIT 1 [ RunTime:0.036726s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('72CC007E-CC92-652A-416E-FF00AADF7394' , 'Bryan' , 'Ouyang' , 'Bryan Ouyang' , 'Singapore Defence & Public Safety' , 'Digitalisation Lead, CADO, Army' , '[Mobile]' , 'ouyang_zhiyuan_bryan@defence.gov.sg' , 'Warm' , NULL , '5673' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:34:08' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.002244s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5674'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:34:14' LIMIT 1 [ RunTime:0.037599s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('4BD2EA37-6594-314E-8056-FAB013DB70D6' , 'Zhi Xiang' , 'Goh' , 'Zhi Xiang Goh' , 'Singapore Defence & Public Safety' , 'Staff Officer, CADO, Army' , '[Mobile]' , 'Goh_Zhi_Xiang@defence.gov.sg' , 'Warm' , NULL , '5674' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:34:14' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.002343s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5572'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:43:48' LIMIT 1 [ RunTime:0.036464s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('85BBA36C-0CFD-855D-4B2F-59D55D58908E' , 'Ajay' , 'Gupta' , 'Ajay Gupta' , 'IKANO' , 'Head of IT' , '[Mobile]' , 'ajay.gupta@ikano.asia' , 'Warm' , NULL , '5572' , 103 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 16:43:48' , '2026-05-11' , NULL , '2026-05-12 12:58:51') [ RunTime:0.001752s ]
+---------------------------------------------------------------
+
+[2026-05-12T12:59:04+08:00] 129.126.217.106 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"Ravi Pratap Singh Kushwah","lastName":"Singh Kushwah","email":"ravipratapsingh.kushwah@qlik.com","title":"Accenture AI for BI Qlik expert","organization":"Qliktech Singapore","flag":"Warm","visitTime":"2026-05-11 08:16:43","firstName":"Ravi Pratap","visitDate":"2026-05-11","serialNumber":"5406","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":2,"fullName":"Victor Yeo","lastName":"Yeo","email":"victor.yeo@dentons.com","title":"Head, IT","organization":"Dentons Rodyk & Davidson LLP","flag":"Cool","visitTime":"2026-05-11 09:22:05","firstName":"Victor","visitDate":"2026-05-11","serialNumber":"5526","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":3,"fullName":"Hon Hoe Tham","lastName":"Tham","email":"honhoetham@ocbc.com","title":"Enterprise Architect","organization":"OCBC Bank","flag":"Cool","visitTime":"2026-05-11 11:38:33","firstName":"Hon Hoe","visitDate":"2026-05-11","serialNumber":"5549","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":4,"fullName":"Ivan Ng","lastName":"Ng","email":"ivanng@cdl.com.sg","title":"Chief Technology Officer","organization":"City Developments Limited","flag":"Cool","visitTime":"2026-05-11 12:42:44","firstName":"Ivan","visitDate":"2026-05-11","serialNumber":"5578","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":5,"fullName":"Eddie Loke","lastName":"Loke","email":"eddielokets@suss.edu.sg","title":"Assistant Director","organization":"Singapore University of Social Sciences","flag":"Cool","visitTime":"2026-05-11 13:04:35","firstName":"Eddie","visitDate":"2026-05-11","serialNumber":"5574","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":6,"fullName":"Chee Yuen Yap","lastName":"Yap","email":"cheeyuen@fourtitude.ai","title":"General Manager","organization":"Fourtitude.ai","flag":"Warm","visitTime":"2026-05-11 13:41:21","firstName":"Chee Yuen","visitDate":"2026-05-11","serialNumber":"5638","exhibitorID":103,"remark":"Keen to know how the differentiators vs tableau","imgCard":null,"telephone":"[Mobile]"},{"id":7,"fullName":"Soon Tein Lim","lastName":"Lim","email":"limsti@stengg.com","title":"Head of Cyber Security","organization":"ST Engineering","flag":"Warm","visitTime":"2026-05-11 13:42:16","firstName":"Soon Tein","visitDate":"2026-05-11","serialNumber":"5634","exhibitorID":103,"remark":"Interested in on prem qlik & talend","imgCard":null,"telephone":"[Mobile]"},{"id":8,"fullName":"Chin Hwei Wong","lastName":"Wong","email":"wong_chin_hwei@stb.gov.sg","title":"Chief Information Officer","organization":"Government Technology Agency","flag":"Cool","visitTime":"2026-05-11 16:17:51","firstName":"Chin Hwei","visitDate":"2026-05-11","serialNumber":"5619","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":9,"fullName":"Bryan Ouyang","lastName":"Ouyang","email":"ouyang_zhiyuan_bryan@defence.gov.sg","title":"Digitalisation Lead, CADO, Army","organization":"Singapore Defence & Public Safety","flag":"Warm","visitTime":"2026-05-11 16:34:08","firstName":"Bryan","visitDate":"2026-05-11","serialNumber":"5673","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":10,"fullName":"Zhi Xiang Goh","lastName":"Goh","email":"Goh_Zhi_Xiang@defence.gov.sg","title":"Staff Officer, CADO, Army","organization":"Singapore Defence & Public Safety","flag":"Warm","visitTime":"2026-05-11 16:34:14","firstName":"Zhi Xiang","visitDate":"2026-05-11","serialNumber":"5674","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":11,"fullName":"Ajay Gupta","lastName":"Gupta","email":"ajay.gupta@ikano.asia","title":"Head of IT","organization":"IKANO","flag":"Warm","visitTime":"2026-05-11 16:43:48","firstName":"Ajay","visitDate":"2026-05-11","serialNumber":"5572","exhibitorID":103,"remark":null,"imgCard":null,"telephone":"[Mobile]"}]
+---------------------------------------------------------------
+
+[2026-05-12T12:59:04+08:00] 129.126.217.106 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.290169s] [吞吐率：3.45req/s] [内存消耗：1,645.16kb] [文件加载：99]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=biq4uotmpvnipvnjp87tvr6p6e',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODU2MTkyMywibmJmIjoxNzc4NTYxOTI2LCJleHAiOjE3Nzg5OTM5MjMsImRhdGEiOnsiaWQiOjEwM319.w8HjTGIU2neuzIVgh0HWMRYs2xzM2vUrVp0aPVy__0k',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.600.12 Darwin/25.5.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-IN,en;q=0.9',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '3923',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '129.126.217.106',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'Ravi Pratap Singh Kushwah',
+      'lastName' => 'Singh Kushwah',
+      'email' => 'ravipratapsingh.kushwah@qlik.com',
+      'title' => 'Accenture AI for BI Qlik expert',
+      'organization' => 'Qliktech Singapore',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 08:16:43',
+      'firstName' => 'Ravi Pratap',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5406',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'Victor Yeo',
+      'lastName' => 'Yeo',
+      'email' => 'victor.yeo@dentons.com',
+      'title' => 'Head, IT',
+      'organization' => 'Dentons Rodyk & Davidson LLP',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 09:22:05',
+      'firstName' => 'Victor',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5526',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'Hon Hoe Tham',
+      'lastName' => 'Tham',
+      'email' => 'honhoetham@ocbc.com',
+      'title' => 'Enterprise Architect',
+      'organization' => 'OCBC Bank',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 11:38:33',
+      'firstName' => 'Hon Hoe',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5549',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'Ivan Ng',
+      'lastName' => 'Ng',
+      'email' => 'ivanng@cdl.com.sg',
+      'title' => 'Chief Technology Officer',
+      'organization' => 'City Developments Limited',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 12:42:44',
+      'firstName' => 'Ivan',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5578',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'Eddie Loke',
+      'lastName' => 'Loke',
+      'email' => 'eddielokets@suss.edu.sg',
+      'title' => 'Assistant Director',
+      'organization' => 'Singapore University of Social Sciences',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 13:04:35',
+      'firstName' => 'Eddie',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5574',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'Chee Yuen Yap',
+      'lastName' => 'Yap',
+      'email' => 'cheeyuen@fourtitude.ai',
+      'title' => 'General Manager',
+      'organization' => 'Fourtitude.ai',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 13:41:21',
+      'firstName' => 'Chee Yuen',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5638',
+      'exhibitorID' => 103,
+      'remark' => 'Keen to know how the differentiators vs tableau',
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'Soon Tein Lim',
+      'lastName' => 'Lim',
+      'email' => 'limsti@stengg.com',
+      'title' => 'Head of Cyber Security',
+      'organization' => 'ST Engineering',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 13:42:16',
+      'firstName' => 'Soon Tein',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5634',
+      'exhibitorID' => 103,
+      'remark' => 'Interested in on prem qlik & talend',
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    7 => 
+    array (
+      'id' => 8,
+      'fullName' => 'Chin Hwei Wong',
+      'lastName' => 'Wong',
+      'email' => 'wong_chin_hwei@stb.gov.sg',
+      'title' => 'Chief Information Officer',
+      'organization' => 'Government Technology Agency',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 16:17:51',
+      'firstName' => 'Chin Hwei',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5619',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    8 => 
+    array (
+      'id' => 9,
+      'fullName' => 'Bryan Ouyang',
+      'lastName' => 'Ouyang',
+      'email' => 'ouyang_zhiyuan_bryan@defence.gov.sg',
+      'title' => 'Digitalisation Lead, CADO, Army',
+      'organization' => 'Singapore Defence & Public Safety',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 16:34:08',
+      'firstName' => 'Bryan',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5673',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    9 => 
+    array (
+      'id' => 10,
+      'fullName' => 'Zhi Xiang Goh',
+      'lastName' => 'Goh',
+      'email' => 'Goh_Zhi_Xiang@defence.gov.sg',
+      'title' => 'Staff Officer, CADO, Army',
+      'organization' => 'Singapore Defence & Public Safety',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 16:34:14',
+      'firstName' => 'Zhi Xiang',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5674',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    10 => 
+    array (
+      'id' => 11,
+      'fullName' => 'Ajay Gupta',
+      'lastName' => 'Gupta',
+      'email' => 'ajay.gupta@ikano.asia',
+      'title' => 'Head of IT',
+      'organization' => 'IKANO',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 16:43:48',
+      'firstName' => 'Ajay',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5572',
+      'exhibitorID' => 103,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001081s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001156s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 103  AND `status` = 1 LIMIT 1 [ RunTime:0.000756s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000728s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5406'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 08:16:43' LIMIT 1 [ RunTime:0.128312s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Ravi Pratap' , `last_name` = 'Singh Kushwah' , `full_name` = 'Ravi Pratap Singh Kushwah' , `organization` = 'Qliktech Singapore' , `title` = 'Accenture AI for BI Qlik expert' , `phone` = '[Mobile]' , `email` = 'ravipratapsingh.kushwah@qlik.com' , `flag` = 'Warm' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = '78641151-67CF-6209-C44B-14FB02FB01D4' [ RunTime:0.007712s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5526'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 09:22:05' LIMIT 1 [ RunTime:0.030310s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Victor' , `last_name` = 'Yeo' , `full_name` = 'Victor Yeo' , `organization` = 'Dentons Rodyk & Davidson LLP' , `title` = 'Head, IT' , `phone` = '[Mobile]' , `email` = 'victor.yeo@dentons.com' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = 'C6B0D23F-B460-8547-84CC-0BAF96846CB1' [ RunTime:0.003250s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5549'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 11:38:33' LIMIT 1 [ RunTime:0.001759s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Hon Hoe' , `last_name` = 'Tham' , `full_name` = 'Hon Hoe Tham' , `organization` = 'OCBC Bank' , `title` = 'Enterprise Architect' , `phone` = '[Mobile]' , `email` = 'honhoetham@ocbc.com' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = 'A447944A-1DF6-F99D-D108-8061946E9990' [ RunTime:0.001658s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5578'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 12:42:44' LIMIT 1 [ RunTime:0.001880s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Ivan' , `last_name` = 'Ng' , `full_name` = 'Ivan Ng' , `organization` = 'City Developments Limited' , `title` = 'Chief Technology Officer' , `phone` = '[Mobile]' , `email` = 'ivanng@cdl.com.sg' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = 'DC1DDCC7-7B68-D7D2-DC6E-24EE71C7477A' [ RunTime:0.001411s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5574'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:04:35' LIMIT 1 [ RunTime:0.018274s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Eddie' , `last_name` = 'Loke' , `full_name` = 'Eddie Loke' , `organization` = 'Singapore University of Social Sciences' , `title` = 'Assistant Director' , `phone` = '[Mobile]' , `email` = 'eddielokets@suss.edu.sg' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = '5A558D95-212E-4FA2-7851-D9DD480049B6' [ RunTime:0.013835s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5638'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:41:21' LIMIT 1 [ RunTime:0.007866s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Chee Yuen' , `last_name` = 'Yap' , `full_name` = 'Chee Yuen Yap' , `organization` = 'Fourtitude.ai' , `title` = 'General Manager' , `phone` = '[Mobile]' , `email` = 'cheeyuen@fourtitude.ai' , `flag` = 'Warm' , `remark` = 'Keen to know how the differentiators vs tableau' , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = 'DDE4CA48-2292-72C2-DC65-A16771FA3263' [ RunTime:0.002056s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5634'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:42:16' LIMIT 1 [ RunTime:0.018669s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Soon Tein' , `last_name` = 'Lim' , `full_name` = 'Soon Tein Lim' , `organization` = 'ST Engineering' , `title` = 'Head of Cyber Security' , `phone` = '[Mobile]' , `email` = 'limsti@stengg.com' , `flag` = 'Warm' , `remark` = 'Interested in on prem qlik & talend' , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = 'DC505F15-9716-26FF-DF1F-1805429D5DE6' [ RunTime:0.002556s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5619'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:17:51' LIMIT 1 [ RunTime:0.001521s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Chin Hwei' , `last_name` = 'Wong' , `full_name` = 'Chin Hwei Wong' , `organization` = 'Government Technology Agency' , `title` = 'Chief Information Officer' , `phone` = '[Mobile]' , `email` = 'wong_chin_hwei@stb.gov.sg' , `flag` = 'Cool' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = '78A7AA8A-51BB-0891-5829-7D44BD8E38CF' [ RunTime:0.005400s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5673'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:34:08' LIMIT 1 [ RunTime:0.001477s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Bryan' , `last_name` = 'Ouyang' , `full_name` = 'Bryan Ouyang' , `organization` = 'Singapore Defence & Public Safety' , `title` = 'Digitalisation Lead, CADO, Army' , `phone` = '[Mobile]' , `email` = 'ouyang_zhiyuan_bryan@defence.gov.sg' , `flag` = 'Warm' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = '72CC007E-CC92-652A-416E-FF00AADF7394' [ RunTime:0.001944s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5674'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:34:14' LIMIT 1 [ RunTime:0.001074s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Zhi Xiang' , `last_name` = 'Goh' , `full_name` = 'Zhi Xiang Goh' , `organization` = 'Singapore Defence & Public Safety' , `title` = 'Staff Officer, CADO, Army' , `phone` = '[Mobile]' , `email` = 'Goh_Zhi_Xiang@defence.gov.sg' , `flag` = 'Warm' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = '4BD2EA37-6594-314E-8056-FAB013DB70D6' [ RunTime:0.001227s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5572'  AND `exhibitor_id` = 103  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 16:43:48' LIMIT 1 [ RunTime:0.004114s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'Ajay' , `last_name` = 'Gupta' , `full_name` = 'Ajay Gupta' , `organization` = 'IKANO' , `title` = 'Head of IT' , `phone` = '[Mobile]' , `email` = 'ajay.gupta@ikano.asia' , `flag` = 'Warm' , `remark` = NULL , `img_card` = NULL , `update_time` = '2026-05-12 12:59:04'  WHERE  `id` = '85BBA36C-0CFD-855D-4B2F-59D55D58908E' [ RunTime:0.004744s ]
+---------------------------------------------------------------
+
+[2026-05-12T13:04:30+08:00] 119.234.56.147 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"Chee Yuen Yap","lastName":"Yap","email":"cheeyuen@fourtitude.ai","title":"General Manager","organization":"Fourtitude.ai","flag":"Cool","visitTime":"2026-05-11 10:54:09","firstName":"Chee Yuen","visitDate":"2026-05-11","serialNumber":"5638","exhibitorID":96,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":2,"fullName":"Benjamin Yeo","lastName":"Yeo","email":"Benjamin_Yeo@a-star.edu.sg","title":"Director","organization":"A*Star","flag":"Warm","visitTime":"2026-05-11 13:03:55","firstName":"Benjamin","visitDate":"2026-05-11","serialNumber":"5576","exhibitorID":96,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":3,"fullName":"Christopher Han","lastName":"Han","email":"christopher_han@htx.gov.sg","title":"Head, ICT Infra Support","organization":"HTX","flag":"Warm","visitTime":"2026-05-11 13:10:13","firstName":"Christopher","visitDate":"2026-05-11","serialNumber":"5672","exhibitorID":96,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":4,"fullName":"Jackson Woo","lastName":"Woo","email":"jackson.woo@chubb.com","title":"Head of APAC Technology GRC","organization":"Chubb Asia Pacific","flag":"Cool","visitTime":"2026-05-11 13:11:58","firstName":"Jackson","visitDate":"2026-05-11","serialNumber":"5558","exhibitorID":96,"remark":null,"imgCard":null,"telephone":"[Mobile]"},{"id":5,"fullName":"Ajay Gupta","lastName":"Gupta","email":"ajay.gupta@ikano.asia","title":"Head of IT","organization":"IKANO","flag":"Warm","visitTime":"2026-05-11 13:13:29","firstName":"Ajay","visitDate":"2026-05-11","serialNumber":"5572","exhibitorID":96,"remark":"Pass to someone","imgCard":null,"telephone":"[Mobile]"}]
+---------------------------------------------------------------
+
+[2026-05-12T13:04:30+08:00] 119.234.56.147 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.194805s] [吞吐率：5.13req/s] [内存消耗：1,596.52kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=sp9qrv4otve3cep0n6p4nq454m',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODU2MjI2NiwibmJmIjoxNzc4NTYyMjY5LCJleHAiOjE3Nzg5OTQyNjYsImRhdGEiOnsiaWQiOjk2fX0.daZfpsJv0KCe1kOmyCBYgshhC93EHoBDMT1EdpcAYFY',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.500.112 Darwin/25.4.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '1668',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '119.234.56.147',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'Chee Yuen Yap',
+      'lastName' => 'Yap',
+      'email' => 'cheeyuen@fourtitude.ai',
+      'title' => 'General Manager',
+      'organization' => 'Fourtitude.ai',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 10:54:09',
+      'firstName' => 'Chee Yuen',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5638',
+      'exhibitorID' => 96,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'Benjamin Yeo',
+      'lastName' => 'Yeo',
+      'email' => 'Benjamin_Yeo@a-star.edu.sg',
+      'title' => 'Director',
+      'organization' => 'A*Star',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 13:03:55',
+      'firstName' => 'Benjamin',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5576',
+      'exhibitorID' => 96,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'Christopher Han',
+      'lastName' => 'Han',
+      'email' => 'christopher_han@htx.gov.sg',
+      'title' => 'Head, ICT Infra Support',
+      'organization' => 'HTX',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 13:10:13',
+      'firstName' => 'Christopher',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5672',
+      'exhibitorID' => 96,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'Jackson Woo',
+      'lastName' => 'Woo',
+      'email' => 'jackson.woo@chubb.com',
+      'title' => 'Head of APAC Technology GRC',
+      'organization' => 'Chubb Asia Pacific',
+      'flag' => 'Cool',
+      'visitTime' => '2026-05-11 13:11:58',
+      'firstName' => 'Jackson',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5558',
+      'exhibitorID' => 96,
+      'remark' => NULL,
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'Ajay Gupta',
+      'lastName' => 'Gupta',
+      'email' => 'ajay.gupta@ikano.asia',
+      'title' => 'Head of IT',
+      'organization' => 'IKANO',
+      'flag' => 'Warm',
+      'visitTime' => '2026-05-11 13:13:29',
+      'firstName' => 'Ajay',
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '5572',
+      'exhibitorID' => 96,
+      'remark' => 'Pass to someone',
+      'imgCard' => NULL,
+      'telephone' => '[Mobile]',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000423s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000818s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 96  AND `status` = 1 LIMIT 1 [ RunTime:0.000453s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.001778s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5638'  AND `exhibitor_id` = 96  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 10:54:09' LIMIT 1 [ RunTime:0.150698s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('3FE51B5A-F87B-9B39-7365-7B0B44AA03CB' , 'Chee Yuen' , 'Yap' , 'Chee Yuen Yap' , 'Fourtitude.ai' , 'General Manager' , '[Mobile]' , 'cheeyuen@fourtitude.ai' , 'Cool' , NULL , '5638' , 96 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 10:54:09' , '2026-05-11' , NULL , '2026-05-12 13:04:30') [ RunTime:0.002588s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5576'  AND `exhibitor_id` = 96  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:03:55' LIMIT 1 [ RunTime:0.003365s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('37440387-11D6-83AE-BD52-49978D775C6F' , 'Benjamin' , 'Yeo' , 'Benjamin Yeo' , 'A*Star' , 'Director' , '[Mobile]' , 'Benjamin_Yeo@a-star.edu.sg' , 'Warm' , NULL , '5576' , 96 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:03:55' , '2026-05-11' , NULL , '2026-05-12 13:04:30') [ RunTime:0.001885s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5672'  AND `exhibitor_id` = 96  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:10:13' LIMIT 1 [ RunTime:0.002656s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('F6602A29-D289-467A-DEDE-EF9D99B0637F' , 'Christopher' , 'Han' , 'Christopher Han' , 'HTX' , 'Head, ICT Infra Support' , '[Mobile]' , 'christopher_han@htx.gov.sg' , 'Warm' , NULL , '5672' , 96 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:10:13' , '2026-05-11' , NULL , '2026-05-12 13:04:30') [ RunTime:0.001537s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5558'  AND `exhibitor_id` = 96  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:11:58' LIMIT 1 [ RunTime:0.002524s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('7E851E18-73CF-0231-648D-706D43D558D5' , 'Jackson' , 'Woo' , 'Jackson Woo' , 'Chubb Asia Pacific' , 'Head of APAC Technology GRC' , '[Mobile]' , 'jackson.woo@chubb.com' , 'Cool' , NULL , '5558' , 96 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:11:58' , '2026-05-11' , NULL , '2026-05-12 13:04:30') [ RunTime:0.001850s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5572'  AND `exhibitor_id` = 96  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-05-11 13:13:29' LIMIT 1 [ RunTime:0.004129s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('BA3A968F-D6E6-9754-0FF7-E0DFC37E7AD1' , 'Ajay' , 'Gupta' , 'Ajay Gupta' , 'IKANO' , 'Head of IT' , '[Mobile]' , 'ajay.gupta@ikano.asia' , 'Warm' , 'Pass to someone' , '5572' , 96 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-05-11 13:13:29' , '2026-05-11' , NULL , '2026-05-12 13:04:30') [ RunTime:0.002198s ]

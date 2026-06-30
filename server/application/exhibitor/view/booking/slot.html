@@ -1,0 +1,69 @@
+{block name="content"}
+<div class="content">
+    <div class="container">
+        <form class="layui-form layui-container" id="pop">
+            {for start="0" end="count($days)+1" name="i"}
+            <div class="item-row">
+                {for start="0" end="count($times)+1" name="j"}
+                {if $i == 0 and $j == 0}
+                    <div class="item"></div>
+                {/if}
+                {if $i == 0 and $j > 0}
+                <div class="item" style="background-color: orange">{$times[$j-1]}</div>
+                {/if}
+                {if $i > 0 and $j == 0}
+                <div class="item date" style="background-color: orange"><div class="date1">Day{$i}</div><div class="date2">{$days[$i-1]|date='Y-m-d (l)'}</div></div>
+                {/if}
+                {if $i > 0 and $j > 0}
+                {if $articles[$days[$i-1]][$times[$j-1]] == 1}
+                <div class="item" style="background-color: red">Unavailable</div>
+                {elseif $articles[$days[$i-1]][$times[$j-1]] == 2}
+                <div class="item" style="background-color: orange">LUNCH</div>
+                {else /}
+                <div class="item" style="background-color: green;">Available</div>
+                {/if}
+                {/if}
+                {/for}
+            </div>
+            {/for}
+        </form>
+    </div>
+</div>
+<style>
+    .item-row{
+        width: 100%;
+        height: 80px;
+        display: flex;
+        flex-direction: row;
+    }
+    .item{
+        flex-grow: 1;
+        flex-shrink: 0;
+        width: 8%;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        word-break: break-all;
+    }
+    .item:nth-child(1){
+        width: 18%;
+    }
+    .item:not(:nth-child(1)){
+        margin-left: 1%;
+    }
+    .date{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .date1{
+        height: 30px;
+        line-height: 30px;
+    }
+    .date2{
+        height: 30px;
+        line-height: 30px;
+    }
+</style>
+{/block}
+

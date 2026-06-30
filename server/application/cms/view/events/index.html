@@ -1,0 +1,263 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/events/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+        </form>
+    </div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+    <div class="layui-input-inline mr10" style="float: right">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/events/add')}"
+                onclick="addForOpenPopups(this,'✚ Add event','720px','95%')">
+            <i class="layui-icon">&#xe608;</i> Add event
+        </button>
+    </div>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="10%">
+        <col width="15%">
+        <col width="5%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="5%">
+        <col width="5%">
+        <col width="5%">
+        <col width="15%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Code</th>
+        <th>Venue</th>
+        <th>Country/Region</th>
+        <th>Starttime</th>
+        <th>EndTime</th>
+        <th>Track</th>
+        <th>Sort</th>
+        <th>Active</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/events/edit',['id'=>'opid'])}">
+    <input type="hidden" class="log_url" value="{:url('cms/events/viewLogs',['id'=>'opid'])}">
+    <input type="hidden" class="rule_url" value="{:url('cms/events/rule',['id'=>'opid'])}">
+    <input type="hidden" class="bind_admin_url" value="{:url('cms/events/bindAdmin',['id'=>'opid'])}">
+    <input type="hidden" class="active_url" value="{:url('cms/events/active',['id'=>'opid'])}">
+    <input type="hidden" class="duplicate_url" value="{:url('cms/events/duplicate',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageEvents"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/events/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']} tr-{$vo['isActive']?'active':'inactive'}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['name']}</td>
+        <td class="title">{$vo['code']}</td>
+        <td class="title">{$vo['venue']}</td>
+        <td class="title">{$vo['country']}</td>
+        <td class="title">{$vo['start_time']}</td>
+        <td class="title">{$vo['end_time']}</td>
+        <td class="title">{$vo['enable_track']=='1'?'Enabled':'Disabled'}</td>
+        <td>{$vo.list_order}</td>
+        <td class="title">{$vo['isActive']?'Yes':'No'}</td>
+<!--        <td>{$vo.is_encrypt}</td>-->
+<!--        <td>{$vo.event_key}</td>-->
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit event" type="button"
+                        onclick="editForOpenPopups('✎ Edit event','{$vo.id}', '720px', '95%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove event" type="button"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+<!--                <button class="layui-btn layui-btn-sm" title="Op log"
+                        onclick="viewLogOpenPopups('☁ Op log', '{$vo.id}')">
+                    <i class="layui-icon">&#xe60e;</i>
+                </button>-->
+<!--                <button class="layui-btn layui-btn-sm" title="Visitor Rules"-->
+<!--                        onclick="ruleForOpenPopups('✎ Edit rule','{$vo.id}', '720px', '460px')">-->
+<!--                    <i class="layui-icon">&#xe716;</i>-->
+<!--                </button>-->
+                <button class="layui-btn layui-btn-sm" title="Bind Admin" type="button"
+                        onclick="bindAdminForOpenPopups('✎ Bind Admin','{$vo.id}', '95%', '95%')">
+                    <i class="layui-icon layui-icon-link"></i>
+                </button>
+                {{if !$vo['isActive']}}
+                    <button class="layui-btn layui-btn-sm" title="Set Active" type="button"
+                            onclick="setActiveEvent('{$vo.id}')">
+                        <i class="layui-icon layui-icon-rate"></i>
+                    </button>
+                {{else /}}
+                    <button class="layui-btn layui-btn-sm" title="Set Active" type="button"
+                            onclick="">
+                        <i class="layui-icon layui-icon-rate-solid"></i>
+                    </button>
+                {{/if}}
+                <button class="layui-btn layui-btn-sm" title="Duplicate" type="button"
+                        onclick="duplicateEvent('{$vo.id}')">
+                    <i class="layui-icon layui-icon-file-b"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .tr-active{
+        background-color: orange!important;
+        color: black!important;
+    }
+    .tr-active .layui-btn{
+        background-color: orange!important;
+        border: none!important;
+    }
+</style>
+<script>
+    function setActiveEvent(id) {
+        var toUrl = $(".active_url").val();
+        toUrl = toUrl.replace('opid', id);
+        layer.msg('Confirm to set this event as active?', {
+            time: 0 //不自动关闭
+            ,btn: ['Confirm', 'Leave']
+            ,shade:0.61,
+            shadeClose:true,
+            anim:4,
+            moveOut: true
+            ,yes: function(index){
+                $.post(
+                    toUrl,
+                    {},
+                    function (result) {
+                        dialog.tip(result.message);
+                        if(result.status == 200){
+                            window.location.reload();
+                        }else{
+                            //失败
+                            layer.msg(result.message);
+                        }
+                    },"JSON");
+            }
+        });
+    }
+    function duplicateEvent(id) {
+        var toUrl = $(".duplicate_url").val();
+        toUrl = toUrl.replace('opid', id);
+        layer.msg('Confirm to duplicate this event?', {
+            time: 0 //不自动关闭
+            ,btn: ['Confirm', 'Leave']
+            ,shade:0.61,
+            shadeClose:true,
+            anim:4,
+            moveOut: true
+            ,yes: function(index){
+                $.post(
+                    toUrl,
+                    {},
+                    function (result) {
+                        dialog.tip(result.message);
+                        if(result.status == 200){
+                            window.location.reload();
+                        }else{
+                            //失败
+                            layer.msg(result.message);
+                        }
+                    },"JSON");
+            }
+        });
+    }
+    function ToAjaxOpForPageEvents(toUrl,postData) {
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    $.each(result.data,function (i,e) {
+                        if(e.isActive){
+                            str_html +=
+                                "<tr class=\"tr-normal-"+e.id+" tr-active\">\n" ;
+                        }else{
+                            str_html +=
+                                "<tr class=\"tr-normal-"+e.id+"\">\n" ;
+                        }
+                        str_html += "                <td>"+e.id+"</td>\n" +
+                            "                <td class=\"title\">"+e.name+"</td>\n" +
+                            "                <td class=\"title\">"+e.venue+"</td>\n" +
+                            "                <td class=\"title\">"+e.country+"</td>\n" +
+                            "                <td>"+e.list_order +"</td>\n" +
+                            // "                <td>"+e.is_encrypt +"</td>\n" +
+                            // "                <td>"+e.event_key +"</td>\n" +
+                            "                <td>\n" +
+                            "                    <div class=\"layui-btn-group\">\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Edit event' \n" +
+                            "                                onclick=\"editForOpenPopups('✎ Edit event','"+e.id+"','720px','95%')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe642;</i>\n" +
+                            "                        </button>\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Remove event' \n" +
+                            "                                onclick=\"delPostRecord('"+e.id+"')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe640;</i>\n" +
+                            "                        </button>\n" +
+                            //                        "<button class=\"layui-btn layui-btn-sm\" title=\"Op log\"\n" +
+                            //                        "                        onclick=\"viewLogOpenPopups('☁ Op log','"+e.id+"')\">\n" +
+                            //                        "                    <i class=\"layui-icon\">&#xe60e;</i>\n" +
+                            //                        "                </button>"+
+                            "                        <button class=\"layui-btn layui-btn-sm\" title=\"Bind Admin\" type=\"button\"" +
+                        "                        onclick=\"bindAdminForOpenPopups('✎ Bind Admin','"+e.id+"', '95%', '95%')\">" +
+                        "                        <i class=\"layui-icon layui-icon-link\"></i>" +
+                        "                        </button>" +
+                            "                    </div>\n" +
+                            "                </td>\n" +
+                            "            </tr>";
+                    });
+                    $(".table-tbody-normal").html(str_html);
+                    layui.form.render();//细节！这个好像要渲染一下！
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+<!--<script src="__CMS__/js/events.js"></script>-->
+{/block}

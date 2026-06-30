@@ -1,0 +1,292 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <label class="layui-form-label label-custom">Select Event</label>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </form>
+    </div>
+</div>
+<div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/exhibitors/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+        </form>
+    </div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+    <div class="layui-input-inline mgr10" style="float: right">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/exhibitors/add',['event_id'=>'eventid'])}"
+                onclick="addForOpenPopupsEvent(this,'✚ Add exhibitor','720px','95%')">
+            <i class="layui-icon">&#xe608;</i> Add exhibitor
+        </button>
+    </div>
+    <div class="layui-input-inline mgr10" style="float: right">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/exhibitors/download')}"
+                onclick="downloadExhibitorList(this);">
+            <i class="layui-icon">&#xe601;</i> Download
+        </button>
+    </div>
+    <div class="layui-input-inline mgr10" style="float: right">
+        <button type="button" class="layui-btn layui-btn-normal btn_upload_file" data-index="0" upload_file_cb0="uploadExhibitorList">
+            <i class="layui-icon">&#xe681;</i> Upload
+        </button>
+        <input type="hidden" name="url[0]" value="" class="upload_file_url0"/>
+    </div>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Login Name</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Company</th>
+        <th>Email</th>
+        <th>Event</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/exhibitors/edit',['id'=>'opid'])}">
+    <input type="hidden" class="log_url" value="{:url('cms/exhibitors/viewLogs',['id'=>'opid'])}">
+    <input type="hidden" class="reset_url" value="{:url('cms/exhibitors/resetPassword',['id'=>'opid'])}">
+    <input type="hidden" class="disable_url" value="{:url('cms/exhibitors/ajaxUpdateUserStatus')}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/exhibitors/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td class="title {$vo['status']==99?'disable':''}">{$vo['id']}</td>
+        <td class="title {$vo['status']==99?'disable':''}">{$vo['login_name']}</td>
+        <td class="title {$vo['status']==99?'disable':''}">{$vo['first_name']}</td>
+        <td class="title {$vo['status']==99?'disable':''}">{$vo['last_name']}</td>
+        <td class="title {$vo['status']==99?'disable':''}">{$vo['company']}</td>
+        <td class="title {$vo['status']==99?'disable':''}">{$vo['email']}</td>
+        <td class="title {$vo['status']==99?'disable':''}">{$vo['event_name']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit exhibitor"
+                        onclick="editForOpenPopups('✎ Edit exhibitor','{$vo.id}', '720px', '95%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove exhibitor"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" style="width: 40px;" title="Reset password"
+                        onclick="resetPassword('{$vo.id}', '{$vo.email}')">
+                    <i class="fa fa-stop-circle-o"></i>
+                </button>
+                {if $vo['status'] == '1'}
+                    <button class="layui-btn layui-btn-sm" style="width: 40px;" title="Disable"
+                            onclick="disableExhibitor('{$vo.id}')">
+                        <i class="fa fa-ban"></i>
+                    </button>
+                {else /}
+                    <button class="layui-btn layui-btn-sm" style="width: 40px;" title="Enable"
+                            onclick="enableExhibitor('{$vo.id}')">
+                        <i class="fa fa-unlock"></i>
+                    </button>
+                {/if}
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        color: #283560;
+        word-break: break-word;
+    }
+    .disable{
+        color: #999!important;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+</style>
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        layui.form.render();
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            $(".form-search").submit();
+        });
+        onReady();
+    });
+    function addForOpenPopupsEvent(obj,title,width,height,manualRefresh) {
+        var op_url = $(obj).attr('op_url');
+        op_url = op_url.replace('eventid', $('#event').val());
+        ToOpenPopups(op_url, title, width, height,manualRefresh);
+    }
+    function downloadExhibitorList(obj) {
+        var op_url = $(obj).attr('op_url');
+        var eventId = $('.event_id').val();
+        window.location.href = op_url+'?event_id='+eventId;
+    }
+    function uploadExhibitorList(fileUrl) {
+        var eventId = $('.event_id').val();
+        $.post(
+            "{:url('cms/exhibitors/upload')}",
+            {event_id:eventId,file_url:fileUrl},
+            function (result) {
+                dialog.tip(result.message);
+            },"JSON");
+    }
+    function ToAjaxOpForPageDatas(toUrl,postData) {
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    $.each(result.data,function (i,e) {
+                        str_html +=
+                            "<tr class=\"tr-normal-"+e.id+"\">\n" +
+                            "                <td>"+e.id+"</td>\n" +
+                            "                <td class=\"title\">"+e.login_name+"</td>\n" +
+                            "                <td class=\"title\">"+e.first_name+"</td>\n" +
+                            "                <td class=\"title\">"+e.last_name+"</td>\n" +
+                            "                <td class=\"title\">"+e.company+"</td>\n" +
+                            "                <td class=\"title\">"+e.email+"</td>\n" +
+                            "                <td class=\"title\">"+e.event_name +"</td>\n" +
+                            "                <td>\n" +
+                            "                    <div class=\"layui-btn-group\">\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Edit exhibitor' \n" +
+                            "                                onclick=\"editForOpenPopups('✎ Edit exhibitor','"+e.id+"','720px','95%')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe642;</i>\n" +
+                            "                        </button>\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Remove exhibitor' \n" +
+                            "                                onclick=\"delPostRecord('"+e.id+"')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe640;</i>\n" +
+                            "                        </button>\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title=\"Reset password\"\n" +
+                            "                            onclick=\"resetPassword('"+e.id+"','"+e.email+"')\">\n" +
+                            "                                   <i class=\"fa fa-stop-circle-o\"></i>\n" +
+                            "                               </button>\n" ;
+                            if (e.status == '1') {
+                                str_html += "       <button class=\"layui-btn layui-btn-sm\" style=\"width: 40px;\" title=\"Disable\"\n" +
+                                    "                        onclick=\"disableExhibitor('"+e.id+"')\">\n" +
+                                    "                            <i class=\"fa fa-ban\"></i>\n" +
+                                    "               </button>"
+                            } else {
+                                str_html += "        <button class=\"layui-btn layui-btn-sm\" style=\"width: 40px;\" title=\"Enable\"\n" +
+                                    "                         onclick=\"enableExhibitor('"+e.id+"')\">\n" +
+                                    "                                <i class=\"fa fa-unlock\"></i>\n" +
+                                    "                </button>"
+                            }
+                            str_html += "                    </div>\n" +
+                            "                </td>\n" +
+                            "            </tr>";
+                    });
+                    $(".table-tbody-normal").html(str_html);
+                    layui.form.render();//细节！这个好像要渲染一下！
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+
+    function resetPassword(id,email){
+        layer.confirm('Are you sure to reset the password?the new password will be sent to the email '+email,
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('.reset_url').val();
+                url = url.replace('opid', id);
+                $.post(url, {},
+                    function (result) {
+                        layer.msg(result.message);
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function disableExhibitor(id){
+        layer.confirm('Are you sure to disable this exhibitor?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('.disable_url').val();
+                $.post(url, {user_id:id, user_status:99},
+                    function (result) {
+                        layer.msg(result.message);
+                    },"JSON");
+                layer.close(index);
+                window.location.reload();
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function enableExhibitor(id){
+        layer.confirm('Are you sure to enable this exhibitor?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('.disable_url').val();
+                $.post(url, {user_id:id, user_status:1},
+                    function (result) {
+                        layer.msg(result.message);
+                    },"JSON");
+                layer.close(index);
+                window.location.reload();
+            },function (index) {
+                layer.close(index);
+            });
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

@@ -1,0 +1,334 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Name</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="name"
+                   value="{$article['name']}"
+                   placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-type">Type</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="type"
+                   value="Amenity" readonly="readonly"
+                   placeholder="Please input type" autocomplete="off" class="layui-input input-title-mz input-type">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-category">Category</label>
+        <div class="layui-input-inline">
+            <select name="category" id="category" lay-verify="required" lay-filter="category">
+                <option value="">Please select category</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-sub-category">Sub Category</label>
+        <div class="layui-input-inline">
+            <select name="sub_category" id="sub_category" lay-verify="required" lay-filter="sub_category">
+                <option value="">Please select sub category</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-description">Description</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="description"
+                   value="{$article['description']}"
+                   placeholder="Please input description" autocomplete="off" class="layui-input input-title-mz input-description">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-advanced-rate">Advanced Rate</label>
+        <div class="layui-input-inline">
+            <input type="number"  name="advanced_rate"
+                   value="{$article['advanced_rate']}"
+                   placeholder="Please input advanced rate" autocomplete="off" class="layui-input input-title-mz input-advanced-rate">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-standard-rate">Standard Rate</label>
+        <div class="layui-input-inline">
+            <input type="number"  name="standard_rate"
+                   value="{$article['standard_rate']}"
+                   placeholder="Please input standard rate" autocomplete="off" class="layui-input input-title-mz input-standard-rate">
+        </div>
+    </div>
+	<div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-onsite-rate">Onsite Rate</label>
+        <div class="layui-input-inline">
+            {if $article.have_onsite_rate == 1}
+                <input type="checkbox" name="have_onsite_rate" value="1" checked lay-skin="switch" lay-filter="onsite-rate">
+            {else /}
+                <input type="checkbox" name="have_onsite_rate" value="0" lay-skin="switch" lay-filter="onsite-rate">
+            {/if}
+            <div id="onsiteRate" class="mgt10 {$article['have_onsite_rate']==0?'hidden':''}">
+                <input type="number"  name="onsite_rate"
+                       value="{$article['onsite_rate']}"
+                       placeholder="Please input onsite rate" autocomplete="off" class="layui-input input-title-mz input-onsite-rate">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-logo">Image</label>
+        <div class="layui-col-md4">
+            <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="0">
+                <i class="layui-icon">&#xe67c;</i>Upload Image
+            </button>
+            <img class="layui-upload-img img-attr upload_img_preview0"
+                 src="{$article['logo']}">
+            <input type="hidden" name="logo" value="{$article['logo']}" class="upload_img_url0"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-deadline">DeadLine:</label>
+        <div class="layui-input-inline">
+            {if $article.have_deadline == 1}
+                <input type="checkbox" name="have_deadline" value="1" checked lay-skin="switch" lay-filter="deadline">
+            {else /}
+                <input type="checkbox" name="have_deadline" value="0" lay-skin="switch" lay-filter="deadline">
+            {/if}
+            <div id="deadlineSwitch"  class="mgt10 {$article['have_deadline']==0?'hidden':''}">
+                <input name="deadline" id="deadline" value="{$article['deadline']}" class="layui-input" autocomplete="off">
+            </div>
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    <input type="hidden" name="type" value="{$type}"/>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/catalogs/edit',['id'=>$article.id])}" onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var event_id = data.value;
+            getCategoryAttrs(event_id);
+        });
+        form.on('select(category)',function(data){
+            var category = data.value;
+            reloadSubCategories(category);
+        });
+        form.on('switch(onsite-rate)',function (data) {
+            var checked = data.elem.checked;
+            if(checked){
+                $('#onsiteRate').show();
+                $('input[name="have_onsite_rate"]').val('1');
+            }else{
+                $('#onsiteRate').hide();
+                $('input[name="have_onsite_rate"]').val('0');
+            }
+        });
+        form.on('switch(deadline)',function (data) {
+            var checked = data.elem.checked;
+            if(checked){
+                $('#deadlineSwitch').show();
+                $('input[name="have_deadline"]').val('1');
+            }else{
+                $('#deadlineSwitch').hide();
+                $('input[name="have_deadline"]').val('0');
+            }
+        });
+        onReady();
+    });
+    layui.use('laydate',function(){
+        var laydate = layui.laydate;
+        //duedate
+        laydate.render({
+            elem:'#deadline',
+            type:'date',
+            trigger:'click',
+            lang:'en'
+        });
+    });
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$article['event_id']}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        getMainCategories();
+        getCategoryAttrs(event_id);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+    function getMainCategories(){
+        $.post(
+            "{:url('cms/catalogs/getMainCategories')}",
+            {
+                event_id:$('#event').val()
+            },
+            function (result) {
+                if(result.status == 200){
+                    reloadMainCategories(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function reloadMainCategories(data) {
+        if(!data) return;
+        var optionStr = "";
+        var category = "{$article['category']}";
+        var subCategory = "{$article['sub_category']}";
+        $.each(data,function(i,item){
+            optionStr += "<option value='"+item+"'>"+item+"</option>";
+        });
+        $("#category").html(optionStr);
+        $("#category").val(category);
+        layui.form.render('select');
+        reloadSubCategories(category,subCategory);
+    }
+    function reloadSubCategories(category,subCategory) {
+        $.post(
+            "{:url('cms/catalogs/getSubCategories')}",
+            {
+                event_id:$('#event').val(),
+                category:category
+            },
+            function (result) {
+                if(result.status == 200){
+                    loadSubCategories(result.data,subCategory);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function loadSubCategories(data,subCategory) {
+        if(!data) return;
+        var optionStr = "";
+        $.each(data,function(i,item){
+            optionStr += "<option value='"+item+"'>"+item+"</option>";
+        });
+        $("#sub_category").html(optionStr);
+        if(subCategory && subCategory.length > 0){
+            $("#sub_category").val(subCategory);
+        }else{
+            $("#sub_category").val(data[0]);
+        }
+        layui.form.render('select');
+    }
+    function getCategoryAttrs(event_id){
+        $.post(
+            "{:url('cms/catalogs/getcatalogAttrs')}",
+            {event_id:event_id},
+            function (result) {
+                if(result.status == 200){
+                    reloadCatalogAttrs(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function getAttrByKey(attrs,key){
+        for(var i=0;i<attrs.length;i++){
+            var item = attrs[i];
+            if(item.key == key){
+                return item;
+            }
+        }
+        return null;
+    }
+    function reloadCatalogAttrs(data){
+        if(!data) return;
+        var titles = data.titles;
+        var catalogAttrs = data.catalogAttrs;
+        if(titles['name']){
+            $('.lbl-name').text(titles['name']);
+        }
+        if(titles['type']){
+            $('.lbl-type').text(titles['type']);
+        }
+
+        if(titles['category']){
+            $('.lbl-category').text(titles['category']);
+        }
+        if(titles['sub_category']){
+            $('.lbl-sub-category').text(titles['sub_category']);
+        }
+        if(titles['description']){
+            $('.lbl-description').text(titles['description']);
+        }
+        if(titles['advanced_rate']){
+            $('.lbl-advanced-rate').text(titles['advanced_rate']);
+        }
+        if(titles['standard_rate']){
+            $('.lbl-standard-rate').text(titles['standard_rate']);
+        }
+        if(titles['onsite_rate']){
+            $('.lbl-onsite-rate').text(titles['onsite_rate']);
+        }
+        if(titles['deadline']){
+            $('.lbl-deadline').text(titles['deadline']);
+        }
+        //logo
+        if(titles['logo']){
+            $('.lbl-logo').text(titles['logo']);
+        }
+    }
+</script>
+<style>
+    .section-area{
+        float: left;
+        margin-right: 10px;
+    }
+    .section-item{
+        height: 38px;
+        line-height: 38px;
+        margin-bottom: 10px;
+    }
+    .section-item input{
+        height: 30px;
+        line-height: 30px;
+        width: 150px;
+        display: inline-block;
+    }
+    .section-item .add-item{
+        font-size: 30px;
+        margin: 0 auto;
+        color: #d2d2d2;
+    }
+    .input-phone-country-code,.input-fax-country-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-area-code,.input-fax-area-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-number,.input-fax-number{
+        float: left;
+        width: 180px;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+
+{/block}

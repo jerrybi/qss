@@ -1,0 +1,98 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event Name:</label>
+        <div class="layui-input-inline">
+            <input type="text"  required lay-verify="required"
+                   value="{$article['name']}"
+                   disabled="disabled" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Assign Account:</label>
+        <div id="assignAccount">
+        </div>
+    </div>
+    <input type="hidden" name="event_id" value="{$article['id']}"/>
+    <input type="hidden" name="assign_accounts" id="assign_accounts" value="{$eventAccounts}"/>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/events/bindAdmin',['id'=>$article['id']])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .label-custom{
+        width: 150px!important;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        getChildAccounts();
+    });
+    function getChildAccounts(){
+        $.post(
+            "{:url('cms/admin/getChildAccounts')}",
+            {},
+            function (result) {
+                console.log(result);
+                if(result.status == 200){
+                    reloadChildAccounts(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+
+    function reloadChildAccounts(allAccounts){
+        layui.use('transfer',function(){
+            var transfer = layui.transfer;
+            var assignAccounts = $("#assign_accounts").val();
+            var assignAccountsArr = assignAccounts.split('|');
+            var leftDatas = [];
+            var rightDatas = [];
+            for(var i in allAccounts){
+                var item = allAccounts[i];
+                leftDatas.push({"value":item['id'],"title":item['user_name'],"disabled":"","checked":""});
+                if(assignAccountsArr.includes(item['id']+'')){
+                    rightDatas.push(item['id']);
+                }
+            }
+            $('#assign_accounts').val('|'+rightDatas.join('|')+'|');
+            transfer.render({
+                elem:'#assignAccount',
+                data:leftDatas,
+                value:rightDatas,
+                id:'assignAccount',
+                title:["Source","Target"],
+                onchange:function(data,index){
+                    var rightData = transfer.getData('assignAccount');
+                    var ids = '';
+                    for(var i in rightData){
+                        ids += rightData[i]['value']+'|';
+                    }
+                    // ids = ids.substr(0,ids.length-1);
+                    ids = '|'+ids;
+                    $('#assign_accounts').val(ids);
+                }
+            });
+        });
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{/block}
+
+
+

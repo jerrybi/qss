@@ -1,0 +1,110 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+
+<button class="layui-btn layui-btn-normal"
+        op_url="{:url('cms/config/add')}"
+        onclick="addForOpenPopups(this,'✚ 添加配置','43%','76%')">
+    <i class="layui-icon">&#xe608;</i> 添加配置
+</button>
+
+<div class="layui-inline layui-form">
+    <form class="form-search" action="{:url('cms/config/index')}" method="get">
+        <div class="layui-input-inline">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="请输入标题/标签"
+                   class="layui-input search_input">
+        </div>
+        <button class="layui-btn-warm btn-search-mz">
+            <i class="layui-icon">&#xe615;</i>
+        </button>
+
+        <div class="layui-input-inline">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <input type="radio" name="input_type" value="text" title="文本" {$input_type=="text"?"checked":""}>
+                <span class="layui-badge layui-bg-orange">{$arrCount['WB']}</span>
+                <input type="radio" name="input_type" value="checkbox" title="开关" {$input_type=="checkbox"?"checked":""}>
+                <span class="layui-badge layui-bg-orange">{$arrCount['KG']}</span>
+                <input type="radio" name="input_type" value="button" title="图片" {$input_type=="button"?"checked":""}>
+                <span class="layui-badge layui-bg-orange">{$arrCount['TP']}</span>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="15%">
+        <col width="15%">
+        <col width="20%">
+        <col width="20%">
+        <col width="10%">
+        <col width="5%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>标题</th>
+        <th>标签</th>
+        <th>取值</th>
+        <th>提示</th>
+        <th>添加时间</th>
+        <th>排序</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="switch_url" value="{:url('cms/config/ajaxUpdateSwitchValue')}">
+    <input type="hidden" class="op_url" value="{:url('cms/config/edit',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageConfigs"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/config/index')}">
+    {volist name="configs" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo.title}</td>
+        <td>{$vo['tag']}</td>
+        <td class="td-value">{php} echo $vo['value_tip']{/php}</td>
+        <td class="td-00EE00">
+            <span class="span-FF9233">{$vo['tip']}</span>
+        </td>
+        <td>{$vo.add_time}</td>
+        <td>{$vo['list_order']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="编辑"
+                        onclick="editForOpenPopups('✎ 配置修改','{$vo.id}','43%','76%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="删除"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+
+<div id="demo2-1"></div>
+<style>
+    .title{
+        color: #7274A7;
+    }
+    .layui-bg-orange{
+        margin-left: -18px;
+        margin-right: 20px;
+    }
+    .td-value img{
+        height: 70px;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/configs.js"></script>
+{/block}

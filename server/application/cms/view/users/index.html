@@ -1,0 +1,790 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <label class="layui-form-label label-custom">Select Event</label>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </form>
+    </div>
+    <div class="layui-input-inline mr10">
+        {if $permissions['delete']}
+        <button class="layui-btn layui-btn-normal" onclick="deleteAll()">
+            <i class="layui-icon">&#xe640;</i> Delete All
+        </button>
+        {/if}
+    </div>
+</div>
+<div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+<div hidden="hidden" id="userFields"><?php echo json_encode($user_fields);?></div>
+<div hidden="hidden" id="zones"><?php echo json_encode($zones);?></div>
+<div hidden="hidden" id="days"><?php echo json_encode($days);?></div>
+<div hidden="hidden" id="curDay"><?php echo json_encode($cur_day);?></div>
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="layui-form form-search" action="{:url('cms/users/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+            <input type="hidden" name="join" value="{$join}" class="join">
+            <input type="hidden" name="self_register" value="{$self_register}" class="self_register">
+        </form>
+    </div>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="join" id="join" lay-verify="required" lay-filter="join">
+                <option value="">Please select status</option>
+                <option value="-1">Initial</option>
+                <option value="1">Accepted</option>
+                <option value="2">Declined</option>
+                <option value="3">Rejected</option>
+                <option value="4">Cancelled</option>
+                <option value="5">Confirmed</option>
+                <option value="6">Reminder to register</option>
+                <option value="7">Reminder to attend</option>
+                <option value="8">Invalid</option>
+                <option value="9">Pending Review</option>
+                <option value="10">Thank you</option>
+                <option value="11">Miss you</option>
+                <option value="13">Email not match</option>
+            </select>
+        </form>
+    </div>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="self_register" id="selfRegister" lay-verify="required" lay-filter="self_register">
+                <option value="">Please select self register</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </form>
+    </div>
+    <button class="layui-btn" onclick="tableReload()">
+        Search
+    </button>
+<!--    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>-->
+    <div class="layui-input-inline mr10" style="float: right">
+        {if $permissions['add']}
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/users/add',['event_id'=>'eventid'])}"
+                onclick="addForOpenPopupsEvent(this,'✚ Add user','95%','95%',tableReload)">
+            <i class="layui-icon">&#xe608;</i> Add user
+        </button>
+        {/if}
+    </div>
+    {if $permissions['import']}
+    <div class="layui-input-inline mr10" style="float: right">
+        <button type="button" class="layui-btn layui-btn-normal btn_upload_file" data-index="0" upload_file_cb0="uploadUserList">
+            <i class="layui-icon">&#xe681;</i> Import
+        </button>
+        <input type="hidden" name="url[0]" value="" class="upload_file_url0"/>
+    </div>
+    {/if}
+    {if $permissions['export']}
+    <div class="layui-input-inline mr10" style="float: right">
+        <button type="button" class="layui-btn layui-btn-normal" onclick="download()">
+            <i class="layui-icon">&#xe601;</i> Export
+        </button>
+    </div>
+    {/if}
+</div>
+<div class="layui-inline mgt10" style="width: 100%">
+    <div class="layui-input-inline mr10" style="display: none" id="deleteSelect">
+        {if $permissions['delete']}
+        <button class="layui-btn layui-btn-normal" onclick="deleteSelect()">
+            <i class="layui-icon">&#xe640;</i> Delete Selected
+        </button>
+        {/if}
+    </div>
+    <div class="layui-input-inline mr10" style="display: none" id="attendAll">
+        {if $permissions['edit']}
+        <button class="layui-btn layui-btn-normal" onclick="attendAll()">
+            <i class="layui-icon">&#xe624;</i> Attend Selected
+        </button>
+        {/if}
+    </div>
+    <div class="layui-input-inline mr10" style="display: none" id="downloadAllQR">
+        {if $permissions['view']}
+        <button class="layui-btn layui-btn-normal" onclick="downloadAllQRCode()">
+            <i class="layui-icon">&#xe601;</i> Download QR Code
+        </button>
+        {/if}
+    </div>
+    <div class="layui-input-inline mr10" style="display: none" id="approveSelect">
+        {if $permissions['edit']}
+        <button class="layui-btn layui-btn-normal" onclick="approveSelect()">
+            <i class="layui-icon">&#xe605;</i> Approve Selected
+        </button>
+        {/if}
+    </div>
+    <div class="layui-input-inline mr10" style="display: none" id="rejectSelect">
+        {if $permissions['edit']}
+        <button class="layui-btn layui-btn-normal" onclick="rejectSelect()">
+            <i class="layui-icon">&#x1006;</i> Reject Selected
+        </button>
+        {/if}
+    </div>
+    <div class="layui-input-inline mr10" style="display: none" id="changeZone">
+        {if $permissions['edit']}
+        <button class="layui-btn layui-btn-normal" onclick="changeZone()">
+            <i class="layui-icon">&#xe642;</i> Change Zone/Table
+        </button>
+        {/if}
+    </div>
+    <div class="layui-input-inline mr10" style="display: none" id="addRemark">
+        {if $permissions['edit']}
+        <button class="layui-btn layui-btn-normal" onclick="addRemark()">
+            <i class="layui-icon">&#xe624;</i> Remark
+        </button>
+        {/if}
+    </div>
+<!--    <div class="layui-input-inline mr10" style="display: none" id="confirmation">-->
+<!--        {if $permissions['edit']}-->
+<!--        <button class="layui-btn layui-btn-normal" onclick="confirmation()">-->
+<!--            <i class="layui-icon">&#xe618;</i> Send Confirmation-->
+<!--        </button>-->
+<!--        {/if}-->
+<!--    </div>-->
+<!--    <div class="layui-input-inline mr10" style="display: none" id="reminder">-->
+<!--        {if $permissions['edit']}-->
+<!--        <button class="layui-btn layui-btn-normal" onclick="reminder()">-->
+<!--            <i class="layui-icon">&#xe618;</i> Send Reminder-->
+<!--        </button>-->
+<!--        {/if}-->
+<!--    </div>-->
+    <div class="layui-input-inline mr10" style="display: none" id="edm">
+        {if $permissions['edit']}
+        <button class="layui-btn layui-btn-normal" onclick="edm()">
+            <i class="layui-icon">&#xe618;</i> EDM
+        </button>
+        {/if}
+    </div>
+    <div class="layui-input-inline mr10" style="float: right">
+        <button type="button" class="layui-btn layui-btn-normal" onclick="fieldOption()">
+            <i class="layui-icon">&#xe620;</i> Field Options
+        </button>
+    </div>
+</div>
+<input type="hidden" class="op_url" value="{:url('cms/users/edit',['id'=>'opid'])}">
+<input type="hidden" class="log_url" value="{:url('cms/users/view',['id'=>'opid'])}">
+<input type="hidden" class="attend_url" value="{:url('cms/users/attend',['id'=>'opid','event_id'=>'eventid'])}">
+<input type="hidden" class="unattend_url" value="{:url('cms/users/unattend',['id'=>'opid','event_id'=>'eventid'])}">
+<input type="hidden" class="table_url" value="{:url('cms/userTable/index',['id'=>'opid','event_id'=>'eventid'])}">
+<input type="hidden" class="change_table_url" value="{:url('cms/userTable/change')}">
+<input type="hidden" class="edm_url" value="{:url('cms/edmTasks/assign')}">
+<input type="hidden" class="track_url" value="{:url('cms/users/trackList',['id'=>'opid'])}">
+<input type="hidden" class="preview_url" value="{:url('cms/users/preview',['id'=>'opid'])}">
+<div hidden="hidden" id="fieldOption"><?php echo json_encode($fieldOption);?></div>
+<table id="demo" lay-filter="table"></table>
+<!--<div id="demo2-1"></div>-->
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+        word-break: break-word;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .layui-table-cell{
+        height: auto;
+        white-space: normal;
+        word-break: break-word;
+    }
+    .layui-table td, .layui-table th {
+        font-size: 12px;
+    }
+    .action-btn{
+        width: 20px;
+        text-align: left;
+        margin-bottom: 5px;
+        margin-left: 0;
+        background-color: transparent!important;
+    }
+</style>
+<script>
+    var tableIns;
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        var join = "{$join}";
+        $("#join").val(join);
+        layui.form.render();
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            // tableReload();
+            // 刷新整个页面，event不同对应的字段可能也会不同
+            $(".form-search").submit();
+        });
+        form.on('select(join)',function(data){
+            var join = data.value;
+            $('.join').val(join);
+            // $(".form-search").submit();
+            tableReload();
+        });
+        form.on('select(self_register)',function(data){
+            var selfRegister = data.value;
+            $('.self_register').val(selfRegister);
+            tableReload();
+        });
+        onReady();
+    });
+    layui.use('table',function () {
+        var table = layui.table;
+        var userFields = JSON.parse($("#userFields").text());
+        var fieldOption = JSON.parse($('#fieldOption').text());
+        var zones = JSON.parse($('#zones').text());
+        var days = JSON.parse($('#days').text());
+        var curDay = JSON.parse($('#curDay').text());
+        var cols = [{checkbox: true},{field: 'id', title: 'ID',width: 100}];
+        for(var i=0;i<userFields.length;i++){
+            var name = userFields[i].table_name;
+            var key = userFields[i].key;
+            width = userFields[i].width;
+            if(width > 0){
+                cols.push({field: key, title: name, width: width});
+            }else{
+                cols.push({field: key, title: name,width: 100});
+            }
+        }
+        // cols.push({field: 'reg_time', title: 'Reg Time',width: 100});
+        for(var i=0;i<zones.length;i++){
+            var zone = zones[i];
+            cols.push({field: zone, title: zone,width: 120});
+        }
+        // if(fieldOption['zone'] === '1'){
+        //     cols.push({field: 'zone', title: 'Zone',width: 100});
+        // }
+        // if(fieldOption['table_no'] === '1') {
+        //     cols.push({field: 'table_no', title: 'Table No',width: 100});
+        // }
+        // for(var i = 0; i < days.length; i++) {
+        //     var day = days[i];
+        //     if(fieldOption['checkin_status'] === '1') {
+        //         cols.push({
+        //             field: 'checkin_status_' + day, title: day + ' Checkin Status', width: 100, day: day,
+        //             templet: function (d) {
+        //                 return d[this.field] == 1 ? 'checkin' : ''
+        //             }
+        //         });
+        //     }
+        //     if(fieldOption['checkin_at'] === '1') {
+        //         cols.push({field: 'checkin_time_' + day, title: day + ' Checkin At', width: 100, day: day,
+        //             templet: function (d) {
+        //                 return d['checkin_status_' + this.day] == 1 ? d[this.field] : ''
+        //             }});
+        //     }
+        //     if(fieldOption['checkin_by'] === '1') {
+        //         cols.push({field: 'op_user_' + day, title: day + ' Checkin By', width: 100});
+        //     }
+        // }
+        if(fieldOption['event'] === '1') {
+            cols.push({field: 'event_name', title: 'Event',width: 100});
+        }
+        if(fieldOption['actions'] === '1') {
+            cols.push({
+                field: 'Actions', title: 'Actions',
+                width: 150,
+                fixed: 'right',
+                templet: function (d) {
+                    var view = parseInt("{$permissions['view']}");
+                    var edit = parseInt("{$permissions['edit']}");
+                    var del = parseInt("{$permissions['delete']}");
+                    var str_html = "<div class=\"layui-btn-container\">";
+                    if (view) {
+                        str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"View user\"\n" +
+                            "                        onclick=\"viewLogOpenPopups('View user','" + d.id + "', '75%', '95%',true)\">\n" +
+                            "                    <i class=\"fa fa-info-circle\"></i>\n" +
+                            "                </button>";
+                    }
+                    if (edit) {
+                        str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Edit user\"\n" +
+                            "                        onclick=\"editForOpenPopups('✎ Edit user','" + d.id + "', '95%', '95%',tableDeepReload)\">\n" +
+                            "                    <i class=\"fa fa-edit\"></i>\n" +
+                            "                </button>";
+                        str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Attend\"\n" +
+                            "                        onclick=\"attend('" + d.id + "','')\">\n" +
+                            "                    <i class=\"fa fa-plus\"></i>\n" +
+                            "                </button>";
+                        str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Unattend\"\n" +
+                            "                        onclick=\"unAttend('" + d.id + "','')\">\n" +
+                            "                    <i class=\"fa fa-minus\"></i>\n" +
+                            "                </button>";
+                        str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Manage table\"\n" +
+                            "                        onclick=\"editTableOpenPopups('✎ Manage table','" + d.id + "', '95%', '95%',tableDeepReload)\">\n" +
+                            "                    <i class=\"fa fa-table\"></i>\n" +
+                            "                </button>";
+                    }
+                    if (del) {
+                        str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Remove user\"\n" +
+                            "                        onclick=\"delPostRecord('" + d.id + "')\">\n" +
+                            "                    <i class=\"fa fa-trash\"></i>\n" +
+                            "                </button>";
+                    }
+                    if (view) {
+                        str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"QR Code\"\n" +
+                            "                        onclick=\"downloadQRCode('" + d.id + "')\">\n" +
+                            "                    <i class=\"fa fa-qrcode\"></i>\n" +
+                            "                </button>";
+                        if(d.enable_track == '1'){
+                            str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Track status\"\n" +
+                                "                        onclick=\"viewTrackStatusPopups('Track status','" + d.id + "', '75%', '95%',true)\">\n" +
+                                "                    <i class=\"fa fa-tasks\"></i>\n" +
+                                "                </button>";
+                        }
+                        str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"Preview Digital Card\"\n" +
+                            "                        onclick=\"previewLogOpenPopups('Preview Digital Card','" + d.id + "', '95%', '95%',true)\">\n" +
+                            "                    <i class=\"fa fa-id-card-o\"></i>\n" +
+                            "                </button>";
+                    }
+                    str_html += "</div>";
+                    return str_html;
+                }
+            });
+        }
+        tableIns = table.render({
+            elem: '#demo',
+            id: 'table',
+            height: 'full-170',
+            skin: 'line',
+            even: true,
+            url: "{:url('cms/users/index')}",
+            method: 'POST',
+            where: {event_id: $('#event').val(), str_search: $("input[name='str_search']").val(),
+                join:$("input[name='join']").val(),self_register:$("input[name='self_register']").val()},
+            request: {
+              pageName: "curr_page",
+              limitName: "limit"
+            },
+            parseData: function(res) {
+              return {
+                  "code": res.status===200?0:1,
+                  "msg": res.message,
+                  "count": res.data.total,
+                  "data": res.data.data
+              }
+            },
+            page: {
+                curr:$('.curr_page').val()
+            },
+            cols: [cols],
+            done: function (res,curr,count) {
+                $('.curr_page').val(curr)
+                $(".layui-table-main tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-body tbody tr")[index]).height($(val).height());
+                    });
+                });
+                $(".layui-table-header tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-header thead tr")[index]).height($(val).height());
+                    });
+                });
+                $.each(res.data,function (index,item) {
+                    if(item['checkin_status_' + curDay] == 1){
+                        // $("#demo").next().find('tbody tr[data-index="'+index+'"]').css("background-color","#FFA07A");
+                        var i = index + 1;
+                        $('tr').eq(i).css("background-color","#95ec69").css("color","black");
+                    }
+                });
+            }
+        });
+        table.on('checkbox(table)',function (obj) {
+            console.log(obj);
+            var checkStatus = table.checkStatus('table');
+            console.log(checkStatus);
+            if(checkStatus && checkStatus.data && checkStatus.data.length > 0){
+                $("#deleteSelect").show();
+                $("#attendAll").show();
+                $("#downloadAllQR").show();
+                $("#changeZone").show();
+                $("#addRemark").show();
+                if(isAllAudit(checkStatus.data)){
+                    $("#approveSelect").show();
+                    $("#rejectSelect").show();
+                }
+                // if(isAllAccepted(checkStatus.data)){
+                //     $("#confirmation").show();
+                // }
+                // if(isAllConfirmed(checkStatus.data)){
+                //     $("#reminder").show();
+                // }
+                $("#edm").show();
+            }else{
+                $("#deleteSelect").hide();
+                $("#attendAll").hide();
+                $("#downloadAllQR").hide();
+                $("#changeZone").hide();
+                $("#addRemark").hide();
+                $("#approveSelect").hide();
+                $("#rejectSelect").hide();
+                $("#confirmation").hide();
+                $("#reminder").hide();
+                $("#edm").hide();
+            }
+        });
+    });
+
+    function tableReload() {
+        tableIns.reload({
+            where: {event_id: $('#event').val(), str_search: $("input[name='str_search']").val(),
+                join:$("input[name='join']").val(),self_register:$("input[name='self_register']").val()},
+            page:{
+                curr:1
+            }
+        });
+    }
+
+    function tableDeepReload() {
+        tableIns.reload({
+            where: {event_id: $('#event').val(), str_search: $("input[name='str_search']").val(),
+                join:$("input[name='join']").val(),self_register:$("input[name='self_register']").val()},
+            page:{
+                curr:$('.curr_page').val()
+            }
+        });
+    }
+
+    function isAllAudit(data){
+        var isAudit = true;
+        for(var i in data){
+            if(data[i].join != 'Pending Review'){
+                isAudit = false;
+                break;
+            }
+        }
+        return isAudit;
+    }
+
+    function isAllAccepted(data){
+        var isAccepted = true;
+        for(var i in data){
+            if(data[i].join != 'Accepted'){
+                isAccepted = false;
+                break;
+            }
+        }
+        return isAccepted;
+    }
+
+    function isAllConfirmed(data){
+        var isConfirmed = true;
+        for(var i in data){
+            if(data[i].join != 'Confirmed'){
+                isConfirmed = false;
+                break;
+            }
+        }
+        return isConfirmed;
+    }
+
+    function downloadQRCode(id) {
+        var url = "{:url('cms/users/downloadQRCode')}";
+        url += "?id="+id;
+        window.location.href = url;
+    }
+
+    function downloadAllQRCode() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        var url = "{:url('cms/users/downloadAllQRCode')}";
+        url += "?ids="+ids.join(",");
+        window.location.href = url;
+    }
+
+    function attend(id,name){
+        layer.confirm('confirm to attend '+name+'?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('.attend_url').val();
+                url = url.replace('opid', id);
+                url = url.replace('eventid',$('#event').val());
+                $.post(url, {},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function unAttend(id,name){
+        layer.confirm('confirm to unattend '+name+'?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('.unattend_url').val();
+                url = url.replace('opid', id);
+                url = url.replace('eventid',$('#event').val());
+                $.post(url, {},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function deleteSelect() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        layer.confirm('confirm to delete these users?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('cms/users/deleteAll'); ?>";
+                $.post(url, {ids: ids,event_id:$('#event').val()},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function approveSelect() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        layer.confirm('confirm to accept these users?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('cms/users/approve'); ?>";
+                $.post(url, {ids: ids,event_id: $("#event").val()},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function rejectSelect() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        layer.confirm('confirm to reject these users?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('cms/users/reject'); ?>";
+                $.post(url, {ids: ids,event_id: $("#event").val()},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function deleteAll() {
+        layer.confirm('confirm to delete all users?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('cms/users/deleteAll'); ?>";
+                $.post(url, {event_id: $("#event").val()},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function attendAll() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        layer.confirm('confirm to attend these users?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('cms/users/attendAll'); ?>";
+                $.post(url, {ids: ids},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function addRemark() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        layer.prompt({
+            formType:0,
+            value:'',
+            title:'Please input the remarks'
+        },function(value,index,elem){
+            layer.close(index);
+            var url = "<?php echo url('cms/users/remark'); ?>";
+            $.post(url, {ids: ids,event_id: $("#event").val(),remark:value},
+                function (result) {
+                    layer.msg(result.message);
+                    tableDeepReload();
+                },"JSON");
+        });
+    }
+
+    function confirmation() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        layer.confirm('confirm to send confirmation to these users?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('cms/users/confirmation'); ?>";
+                $.post(url, {ids: ids,event_id: $("#event").val()},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function reminder() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        layer.confirm('confirm to send reminder to these users?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('cms/users/reminder'); ?>";
+                $.post(url, {ids: ids,event_id: $("#event").val()},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+
+    function uploadUserList(fileUrl) {
+        var eventId = $('.event_id').val();
+        layer.closeAll();
+        var layerIndex = layer.load(2);
+        $.post(
+            "{:url('cms/users/upload')}",
+            {event_id:eventId,file_url:fileUrl},
+            function (result) {
+                layer.close(layerIndex);
+                if(result.status !== 200){
+                    dialog.tip(result.message,5);
+                }else{
+                    dialog.tip(result.message);
+                    window.location.reload();
+                }
+            },"JSON");
+    }
+    function fieldOption() {
+        var op_url = "{:url('cms/users/fieldOptions')}";
+        ToOpenPopups(op_url, 'Field Options', '50%', '50%',false);
+    }
+    function download() {
+        var op_url = "{:url('cms/users/download')}";
+        var eventId = $('.event_id').val();
+        window.location.href = op_url+'?event_id='+eventId;
+    }
+    function edm() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        var op_url = $(".edm_url").val();
+        op_url += "?id="+ids.join('|')+"&event_id="+$('#event').val();
+        ToOpenPopups(op_url, 'Assign Edm', '90%', '90%',false);
+    }
+    function changeZone() {
+        var checkStatus = layui.table.checkStatus('table');
+        var ids = [];
+        checkStatus.data.forEach(function (item) {
+            ids.push(item.id);
+        });
+        var op_url = $(".change_table_url").val();
+        // op_url = op_url.replace('opid', ids.join('|'));
+        // op_url = op_url.replace('eventid', $('#event').val());
+        op_url += "?id="+ids.join('|')+"&event_id="+$('#event').val();
+        ToOpenPopups(op_url, 'Change Zone/Table', '90%', '90%',false);
+    }
+    function editTableOpenPopups(title,id,width,height,manualRefresh) {
+        var op_url = $(".table_url").val();
+        op_url = op_url.replace('opid', id);
+        op_url = op_url.replace('eventid', $('#event').val());
+        ToOpenPopups(op_url, title, width, height,manualRefresh);
+    }
+    function addForOpenPopupsEvent(obj,title,width,height,manualRefresh) {
+        var op_url = $(obj).attr('op_url');
+        op_url = op_url.replace('eventid', $('#event').val());
+        ToOpenPopups(op_url, title, width, height,manualRefresh);
+    }
+    function viewTrackStatusPopups(title,id,manualRefresh) {
+        var op_url = $(".track_url").val();
+        op_url = op_url.replace('opid', id);
+        ToOpenPopups(op_url, title, '95%', '95%',manualRefresh);
+    }
+    function previewLogOpenPopups(title,id,manualRefresh) {
+        var op_url = $(".preview_url").val();
+        op_url = op_url.replace('opid', id);
+        ToOpenPopups(op_url, title, '95%', '95%',manualRefresh);
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+<!--<script src="__CMS__/js/users.js?v=3"></script>-->
+{/block}

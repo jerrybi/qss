@@ -1,0 +1,456 @@
+{extend name="layouts/cms" /}
+
+{block name="body-content"}
+<div class="content">
+    <!---->
+    <div class="container container1 layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label label-custom" style="width: 110px">Select Event</label>
+            <div class="layui-input-inline">
+                <form class="layui-form layui-form-pane bg-white">
+                    <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                        <option value="">Please select event</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+        <div class="area1">
+            <div class="area1-left">
+                <input type="text" id="search" placeholder="please enter keyword here">
+                <button type="button" class="layui-btn search-btn" onclick="clickSearch();"><i class="layui-icon layui-icon-search"></i>Search</button>
+            </div>
+            <div class="area1-right">
+                <button type="button" class="layui-btn" onclick="clickDownload();"><i class="layui-icon layui-icon-download-circle"></i>Download</button>
+            </div>
+        </div>
+        <nav class="navbar navbar-default" style="background-color: white;border: none">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle"
+                        data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <!--/navbar header-->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#"
+                           role="button" aria-haspopup="true" aria-expanded="false">
+                            Industries & Sectors<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            {volist name="industry" id="vo"}
+                            <li class="">
+                                <a onclick="addIndustry('{$vo}')">{$vo}</a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown1" href="#"
+                           role="button" aria-haspopup="true" aria-expanded="false">
+                            Products & Services<span class="caret"></span></a>
+                        <div class="dropdown-menu" id="category">
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--/navbar collapse-->
+        </nav>
+        <div id="industrySelectList"></div>
+        <div id="productSelectList"></div>
+        <div class="area-2">
+            <div class="page-list">
+
+            </div>
+            <div id="paginator"></div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="product0" value="{$profile}">
+<input type="hidden" id="product1" value="">
+<input type="hidden" id="industry" value="">
+<script>
+    var datas = [];
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        layui.form.render('select');
+        ToAjaxOpForPage();
+    }
+    layui.use('form',function () {
+        var form = layui.form;
+        onReady();
+    });
+    layui.use('tree',function () {
+        var tree = layui.tree;
+        updateProductOptions();
+    });
+    layui.use('laypage',function () {
+
+    });
+    function addIndustry(item){
+        var str = $('#industry').val();
+        var items = [];
+        if(str && str.length > 0) {
+            items = str.split('\n');
+        }
+        var index = items.indexOf(item);
+        if(index < 0){
+            items.push(item);
+            $('#industry').val(items.join("\n"));
+            freshIndustryView();
+            reloadList();
+        }
+    }
+    function delIndustry(item){
+        var str = $('#industry').val();
+        var items = [];
+        if(str && str.length > 0) {
+            items = str.split('\n');
+            var index = items.indexOf(item);
+            if(index >= 0){
+                items.splice(index,1);
+                if(items.length > 0){
+                    $('#industry').val(items.join("\n"));
+                }else{
+                    $('#industry').val('');
+                }
+                freshIndustryView();
+                reloadList();
+            }
+        }
+    }
+    function freshIndustryView() {
+        var str = $('#industry').val();
+        var items = [];
+        if(str && str.length > 0){
+            items = str.split('\n');
+        }
+        var html = '';
+        for(var i=0;i<items.length;i++){
+            html += '<div class="select-item"><label>'+items[i]+'</label><i class="layui-icon layui-icon-close-fill" onclick="delIndustry(\''+items[i]+'\')"></i></div>';
+        }
+        $('#industrySelectList').html(html);
+    }
+    //product
+    function findProductItem(nodes,id){
+        for(var i=0;i<nodes.length;i++){
+            if(nodes[i].id == id){
+                return i;
+            }
+        }
+        return -1;
+    }
+    function addProduct(item){
+        var str = $('#product1').val();
+        var items = [];
+        if(str && str.length > 0) {
+            items = JSON.parse(str);
+        }
+        var index = findProductItem(items,item.id);
+        if(index < 0){
+            items.push(item);
+            $('#product1').val(JSON.stringify(items));
+            freshProductView();
+            reloadList();
+        }
+    }
+    function delProduct(id){
+        var str = $('#product1').val();
+        var items = [];
+        if(str && str.length > 0) {
+            items = JSON.parse(str);
+            var index = findProductItem(items,id);
+            if(index >= 0){
+                items.splice(index,1);
+                if(items.length > 0){
+                    $('#product1').val(JSON.stringify(items));
+                }else{
+                    $('#product1').val('');
+                }
+                freshProductView();
+                reloadList();
+            }
+        }
+    }
+    function freshProductView() {
+        var str = $('#product1').val();
+        var items = [];
+        if(str && str.length > 0){
+            items = JSON.parse(str);
+        }
+        var html = '';
+        for(var i=0;i<items.length;i++){
+            html += '<div class="select-item"><label>'+items[i].title+'</label><i class="layui-icon layui-icon-close-fill" onclick="delProduct('+items[i].id+')"></i></div>';
+        }
+        $('#productSelectList').html(html);
+    }
+    function suppressChild(nodes){
+        for(var i=0;i<nodes.length;i++){
+            var item = nodes[i];
+            item.spread = false;
+            if(item.children && item.children.length > 0){
+                suppressChild(item.children);
+            }
+        }
+    }
+    function updateProductOptions() {
+        var str = $('#product0').val();
+        if(str && str.length > 0){
+            var data = JSON.parse(str);
+            var child = data[0].children;
+            suppressChild(child);
+            var instance = layui.tree.render({
+                elem:'#category',
+                id:'category',
+                showCheckbox:false,
+                accordion:true,
+                oncheck:function (obj) {
+                    reloadList();
+                },
+                click:function(obj){
+                    if(!obj.data.children || obj.data.children.length == 0){
+                        addProduct(obj.data);
+                    }
+                },
+                data:child
+            });
+        }
+    }
+    function getSelectedIds(data) {
+        for(var i=0;i<data.length;i++){
+            if(data[i].title != 'root'){
+                if(!data[i].children){
+                    datas.push(data[i].id);
+                }else{
+                    getSelectedIds(data[i].children);
+                }
+            }else if(data[i].children){
+                getSelectedIds(data[i].children);
+            }
+        }
+    }
+    function ToAjaxOpForPage(industry,product,search,cur) {
+        var url = "{:url('/cms/showDirectory/index')}";
+        var eventId = $("#event").val();
+        var param = {event_id:eventId};
+        if(industry && industry.length > 0){
+            param['industry'] = industry;
+        }
+        if(product && product.length > 0){
+            param['product'] = product;
+        }
+        if(search && search.length > 0){
+            param['search'] = search;
+        }
+        if(cur){
+            param['cur'] = cur;
+        }
+        $.post(
+            url,
+            param,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    str_html += '<table class="layui-table" lay-skin="line" lay-size="lg">';
+                    str_html += '<colgroup><col width="40%"><col width="30%"><col width="30%"></colgroup>';
+                    str_html += '<thead><tr><th>Company Name</th><th>Country</th><th>Booth Number</th></tr></thead>';
+                    str_html += '<tbody>';
+                    $.each(result.data.data,function (i,e) {
+                        str_html += "<tr>";
+                        if(e.sub_company_name && e.sub_company_name.length > 0){
+                            str_html += "<td>"+e.sub_company_name+"</td>";
+                            str_html += "<td>"+e.sub_country+"</td>";
+                            str_html += "<td>"+e.booth+"</td>";
+                        }else{
+                            str_html += "<td>"+e.name+"</td>";
+                            str_html += "<td>"+e.country+"</td>";
+                            str_html += "<td>"+e.booth+"</td>";
+                        }
+                        str_html += "</tr>";
+                    });
+                    $(".page-list").html(str_html);
+                    layui.laypage.render({
+                        elem:'paginator',
+                        count:result.data.total,
+                        limit:result.data.limit,
+                        curr:result.data.curPage,
+                        layout:['prev','page','next','skip','count'],
+                        jump:function(obj,first){
+                            console.log(obj);
+                            if(!first){
+                                reloadList(obj.curr);
+                            }
+                        }
+                    });
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+    function getParameters() {
+        //product
+        datas = [];
+        // var checkedData = layui.tree.getChecked('category');
+        var str = $('#product1').val();
+        if(str && str.length > 0){
+            var checkedData = JSON.parse(str);
+            getSelectedIds(checkedData);
+        }
+        var product = datas.join("\n");
+        //industry
+        var industry = $('#industry').val();
+        //search
+        var search = $('#search').val();
+        return {product,industry,search};
+    }
+    function reloadList(cur){
+        let {product,industry,search} = getParameters();
+        ToAjaxOpForPage(industry,product,search,cur);
+    }
+    function clickSearch(){
+        reloadList();
+    }
+    function clickDownload(){
+        var url = "{:url('/cms/showDirectory/download')}";
+        var eventId = $("#event").val();
+        var param = "event_id="+eventId;
+        let {product,industry,search} = getParameters();
+        if(industry && industry.length > 0){
+            param += "&industry="+industry;
+        }
+        if(product && product.length > 0){
+            param += "&product="+product;
+        }
+        if(search && search.length > 0){
+            param += "&search="+search;
+        }
+        url += "?"+param;
+        window.location.href = url;
+    }
+</script>
+<link href="/cms/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="/cms/js/bootstrap-3.1.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(document).off('click.bs.dropdown.data-api');
+        $(document).off('keydown.bs.dropdown.data-api');
+        dropdownopen();
+    });
+    function dropdownopen(){
+        var $dropdownLi = $('li.dropdown');
+        $dropdownLi.mouseover(function () {
+            $(this).addClass('open');
+        }).mouseout(function () {
+            $(this).removeClass('open');
+        });
+    }
+</script>
+<style>
+    .container1{
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .area-2{
+
+    }
+    .profile-item{
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+    }
+    .item-left{
+        display: flex;
+        align-items: center;
+    }
+    .item-right{
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+    }
+    .area1{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .area1-right{
+        height: 38px;
+        margin-left: 20px;
+        flex-shrink: 1;
+        border: 1px solid #ccc;
+        /*background-color: orange;*/
+        border-radius: 5px;
+        /*padding-left: 10px;*/
+        /*padding-right: 10px;*/
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .area1-right .dropdown-toggle{
+        color: #999!important;
+        margin-right: 0!important;
+    }
+    .area1-left{
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+    }
+    #search{
+        width: 100%;
+        flex-grow: 1;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .search-btn{
+        flex-shrink: 1;
+        margin-left: 10px;
+    }
+    .pd10{
+        padding: 10px;
+    }
+    .navbar-nav > li > a{
+        color: #999!important;
+        border-bottom: none!important;
+    }
+    #industrySelectList,#productSelectList{
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+    .select-item{
+        position: relative;
+        margin-right: 10px;
+        margin-bottom: 5px;
+    }
+    .select-item label{
+        background-color: #999;
+        color: white;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .select-item i{
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+</style>
+{/block}
+

@@ -1,0 +1,117 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/userTable/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+            <input type="hidden" name="user_id" value="{$user_id}" class="user_id">
+        </form>
+    </div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+    <div class="layui-input-inline mr10" style="float: right">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/userTable/add',['user_id'=>'userid','event_id'=>'eventid'])}"
+                onclick="addTableOpenPopups(this,'✚ Add table','95%','95%')">
+            <i class="layui-icon">&#xe608;</i> Add table
+        </button>
+    </div>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="10%">
+        <col width="10%">
+        <col width="20%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Zone</th>
+        <th>Table</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/userTable/edit',['id'=>'opid','user_id'=>'userid','event_id'=>'eventid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/userTable/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$i}</td>
+        <td class="title">{$vo['zone_name']}</td>
+        <td class="title">{$vo['table_name']}</td>
+        <td>
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-sm" title="Edit table"
+                        onclick="editTableOpenPopups('✎ Edit form','{$vo.id}', '95%', '95%')">
+                    <i class="layui-icon">&#xe642;</i>Edit
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove table"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>Delete
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+</style>
+<script>
+    function onReady(){
+        layui.form.render('select');
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        onReady();
+    });
+    function addTableOpenPopups(obj,title,width,height,manualRefresh) {
+        var op_url = $(obj).attr('op_url');
+        op_url = op_url.replace('userid', $('.user_id').val());
+        op_url = op_url.replace('eventid', $('.event_id').val());
+        ToOpenPopups(op_url, title, width, height,manualRefresh);
+    }
+    function editTableOpenPopups(title,id,width,height,manualRefresh) {
+        var op_url = $(".op_url").val();
+        op_url = op_url.replace('opid', id);
+        op_url = op_url.replace('userid', $('.user_id').val());
+        op_url = op_url.replace('eventid', $('.event_id').val());
+        ToOpenPopups(op_url, title, width, height,manualRefresh);
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{/block}

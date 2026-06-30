@@ -1,0 +1,40 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="85%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>SN</th>
+        <th>Description</th>
+        <th>Count</th>
+    </tr>
+    </thead>
+    <tbody class="table-tbody-normal layui-form"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/participants/viewBrochures')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$key+1}</td>
+        <td style="text-align: left">{$vo['name']}</td>
+        <td>{$vo.count}</td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+{:token()}
+<script>
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{/block}
+
+
+

@@ -1,0 +1,148 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<div class="content">
+    <!---->
+    <div class="container">
+        <form class="custom-form layui-form" lay-filter="form">
+            <div class="header-content">{php}echo htmlspecialchars_decode($form['header_content']){/php}</div>
+            <div class="layui-clear">
+                <div class="form-title">Form Name:{$form['name']}</div>
+                <div class="form-header-left">
+                    <div class="form-header-line bold">Vendor</div>
+                    <div class="form-header-line"></div>
+                    <div class="form-header-line"></div>
+                    <div class="form-header-line"></div>
+                    <div class="form-header-line"></div>
+                    <div class="form-header-line"></div>
+                </div>
+                <div class="form-header-right">
+                    <div class="form-header-item">
+                        <div class="form-header-line">Contact Person: </div>
+                        <div class="form-header-line">Business Phone: </div>
+                        <div class="form-header-line">Email: </div>
+                    </div>
+                </div>
+            </div>
+            <div class="instruction">{php}echo htmlspecialchars_decode($form['instruction']){/php}</div>
+            <div>
+                <table id="table" style="table-layout:fixed;word-break: break-all" class="layui-table table-body" lay-skin="line" lay-filter="table">
+                    <colgroup>
+                        <col width="40%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th rowspan="2" class="borderright">Item</th>
+                        <th rowspan="2" class="borderright">Unit Cost Per Hour</th>
+                        <th colspan="2" class="center borderright">Date</th>
+                        <th rowspan="2" class="borderright">Duration(Hours per day)</th>
+                        <th rowspan="2" class="borderright">No. of Staff Required</th>
+                    </tr>
+                    <tr>
+                        <th class="center borderright">From</th>
+                        <th class="center borderright">To</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-tbody-normal layui-form"
+                           record_num="1" page_limit="100">
+                    <tr class="tr-normal- items" data-id="">
+                        <td class="title"><span class="item-name"></span></td>
+                        <td class="title"><span class="item-price"></span></td>
+                        <td class="title"><input type="text" id="dateFrom" name="-from-date" class="layui-input item-from-date"></td>
+                        <td class="title"><input type="text" id="dateTo" name="-to-date" class="layui-input item-to-date"></td>
+                        <td class="title"><input type="number" max="24" name="-duration" class="layui-input item-duration"></td>
+                        <td class="title"><input type="number" min="1" name="-staff-num" class="layui-input item-staff-num"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="layui-form-item mgt20">
+                    <div class="">Please indicate the language<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="language"
+                               value=""
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+            </div>
+            <div class="cost-notes">{php}echo htmlspecialchars_decode($form['cost_notes']){/php}</div>
+            <div class="footer-content">{php}echo htmlspecialchars_decode($form['footer_content']){/php}</div>
+            <div>
+                <br/>
+                <br/>
+                <p>Submitter's Information</p>
+                <div class="layui-form-item">
+                    <div class="">Submitted By<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_name"
+                               value="" readonly="readonly"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Designation<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_designation"
+                               value="" readonly="readonly"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Email<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_email"
+                               value="" readonly="readonly"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required|email">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Further Instruction (if any)</div>
+                    <div class="layui-input-inline">
+                        <textarea type="text"  name="form_submit_instruction" autocomplete="off" class="layui-input input-title-mz"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="div-form-op">
+                        <button type="button" class="layui-btn" lay-submit lay-filter="manpower">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .upload_file_url0,.upload_file_url1,.upload_file_url2,.upload_file_url3{
+        width: 300px;
+    }
+    .form-title{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        background-color: #283560;
+        color: white;
+        text-align: center;
+    }
+    .form-header-left{
+        float: left;
+        margin-top: 20px;
+    }
+    .form-header-right{
+        float:right;
+        margin-top: 20px;
+    }
+    .form-header-item{
+        margin-bottom: 20px;
+    }
+    .form-header-line{
+        height: 25px;
+        line-height: 25px;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+
+{/block}

@@ -1,0 +1,225 @@
+{extend name="layouts/base" /}
+{block name="content"}
+<form class="content layui-form">
+    <div class="container">
+        <div class="location-block mgt10 {$form['have_location']==0?'hidden':''}">
+            <select id="locationGroup" lay-filter="locationGroup"></select>
+            <select id="location" lay-filter="location"></select>
+        </div>
+        <div class="layui-form layui-container" id="pop"></div>
+        <input hidden="hidden" id="locationData" name="location_data" value="{$location|json_encode}">
+    </div>
+</form>
+<style>
+    #pop{
+        padding: 0!important;
+        margin: 10px 0 10px 0!important;
+    }
+    .item-row{
+        width: calc(100% - 30px);
+        height: 80px;
+        display: flex;
+        flex-direction: row;
+    }
+    .item{
+        flex-grow: 1;
+        flex-shrink: 0;
+        width: 8%;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        word-break: break-all;
+    }
+    .item:nth-child(1){
+        width: 18%;
+    }
+    .item:not(:nth-child(1)){
+        margin-left: 1%;
+    }
+    .date{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .date1{
+        height: 30px;
+        line-height: 30px;
+    }
+    .date2{
+        height: 30px;
+        line-height: 30px;
+    }
+    .mgt10{
+        margin-top: 10px;
+    }
+    .layui-form-select{
+        width: 300px!important;
+        display: inline-block!important;
+        margin-right: 20px;
+    }
+</style>
+<script>
+    layui.use('form',function () {
+        var form = layui.form;
+        form.on('select(locationGroup)',function (data) {
+            var value = data.value;
+            loadLocationData(value);
+        });
+        form.on('select(location)',function (data) {
+            var value = data.value;
+            loadBooking();
+        });
+        loadData();
+    });
+    function loadLocationGroupData(){
+        var data = JSON.parse($('#locationData').val())
+        var html = "";
+        for(var i=0;i<data.length;i++){
+            var item = data[i];
+            html += "<option value='"+item.id+"'>"+item.title+"</option>";
+        }
+        $("#locationGroup").html(html);
+        var locationGroupId = data[0].id;
+        $("#locationGroup").val(locationGroupId);
+        loadLocationData(locationGroupId);
+    }
+    function findLocationItem(locationGroupId) {
+        var data = JSON.parse($('#locationData').val())
+        for(var i=0;i<data.length;i++){
+            var item = data[i];
+            if(item.id == locationGroupId){
+                return item;
+            }
+        }
+        return null;
+    }
+    function loadLocationData(locationGroupId){
+        var item = findLocationItem(locationGroupId);
+        var html = "";
+        for(var i=0;item!=null && i<item.child.length;i++){
+            var child = item.child[i];
+            html += "<option value='"+child.id+"'>"+child.title+"</option>";
+        }
+        $("#location").html(html);
+        if(item && item.child && item.child.length > 0){
+            var locationId = item.child[0].id;
+            $("#location").val(locationId);
+        }
+        layui.form.render('select');
+        loadBooking();
+    }
+    function loadData() {
+        var haveLocation = "{$form['have_location']}";
+        if(haveLocation == '1'){
+            loadLocationGroupData();
+            layui.form.render();
+        }else{
+            loadBooking();
+        }
+    }
+    function loadBooking() {
+        var haveLocation = "{$form['have_location']}";
+        var formId = "{$form['id']}";
+        var locationId = '';
+        if(haveLocation == '1'){
+            locationId = $("#location").val();
+            if(locationId == ''){
+                layer.msg('Please select location!');
+                return;
+            }
+        }
+        var url = "{:url('/vendor/booking/index')}";
+        $.post(
+            url,
+            {form_id:formId,location_id:locationId},
+            function (result) {
+                if(result.status == 200){
+                    renderBooking(result.data);
+                }else if(result.status == 401){
+                    window.location.href = '/vendor';
+                }
+            },"JSON");
+    }
+    function renderBooking(data) {
+        var days = data.days;
+        var times = data.times;
+        var articles = data.articles;
+        var html = "";
+        for(var i=0;i<days.length+1;i++){
+            html += "<div class=\"item-row\">";
+            for(var j=0;j<times.length+1;j++){
+                if(i==0&&j==0){
+                    html += "<div class=\"item\"></div>";
+                }
+                if(i==0&&j>0){
+                    html += "<div class=\"item\" style=\"background-color: orange\">"+times[j-1]+"</div>";
+                }
+                if(i>0&& j == 0){
+                    html += "<div class=\"item date\" style=\"background-color: orange\"><div class=\"date1\">Day"+i+"</div><div class=\"date2\">"+getDateWeekFormat(days[i-1]*1000)+"</div></div>";
+                }
+                if(i > 0 && j > 0){
+                    if(articles[days[i-1]][times[j-1]] == 1){
+                        html += "<div class=\"item\" style=\"background-color: red\">Unavailable</div>";
+                    }else if(articles[days[i-1]][times[j-1]] == 2){
+                        html += "<div class=\"item\" style=\"background-color: orange\">LUNCH</div>";
+                    }else{
+                        html += "<div class=\"item\" style=\"background-color: green;\">Available</div>";
+                    }
+                }
+            }
+            html += "</div>";
+        }
+        $("#pop").html(html);
+    }
+    /**
+     * 对Date的扩展，将 Date 转化为指定格式的String
+     * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符
+     * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+     * java风格
+     * eg:
+     * (new Date()).pattern("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+     * (new Date()).pattern("yyyy-MM-dd E HH:mm:ss") ==> 2009-03-10 二 20:09:04
+     * (new Date()).pattern("yyyy-MM-dd EE hh:mm:ss") ==> 2009-03-10 周二 08:09:04
+     * (new Date()).pattern("yyyy-MM-dd EEE hh:mm:ss") ==> 2009-03-10 星期二 08:09:04
+     * (new Date()).pattern("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18
+     */
+    Date.prototype.pattern = function (fmt) {
+        var o = {
+            "M+" : this.getMonth() + 1, //月份
+            "d+" : this.getDate(), //日
+            "h+" : this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时
+            "H+" : this.getHours(), //小时
+            "m+" : this.getMinutes(), //分
+            "s+" : this.getSeconds(), //秒
+            "q+" : Math.floor((this.getMonth() + 3) / 3), //季度
+            "S" : this.getMilliseconds() //毫秒
+        };
+        var week = {
+            "0" : "Sunday",
+            "1" : "Monday",
+            "2" : "Tuesday",
+            "3" : "Wednesday",
+            "4" : "Thursday",
+            "5" : "Friday",
+            "6" : "Saturday"
+        };
+        if (/(y+)/.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        }
+        for (var k in o) {
+            if (new RegExp("(" + k + ")").test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            }
+        }
+        if (/(E+)/.test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "" : "") : "") + week[this.getDay() + ""]);
+        }
+        return fmt;
+    }
+    function getDateWeekFormat(day) {
+        var date = new Date(day);
+        var formatDate = date.pattern("yyyy-MM-dd E");
+        return formatDate;
+    }
+</script>
+{/block}

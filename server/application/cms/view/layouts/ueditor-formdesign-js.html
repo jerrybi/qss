@@ -1,0 +1,232 @@
+<!-- ueditor-mz 配置文件 -->
+<script type="text/javascript" src="__UEDITOR__/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__UEDITOR__/ueditor.all.js"></script>
+<script type="text/javascript" src="__UEDITOR__/Formdesign/leipi.Formdesign.v4.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var leipiEditor = UE.getEditor('ue-container',{
+        toolleipi:true,//是否在toolbars显示，表单设计器图标
+        textarea:'design_content',//编辑器的表单名称
+        wordCount:false,
+        elementPathEnabled:false,
+        initialFrameHeight:300,
+        zIndex: "0"  //加上这句设置层级关系
+    });
+    leipiEditor.ready(function () {
+        leipiEditor.execCommand('serverparam', '_token', '{{ csrf_token() }}');
+    });
+    var leipiFormDesign = {
+        exec:function(method){
+            leipiEditor.execCommand(method);
+        },
+        parse_form:function (template,fields) {
+            var preg = /(\|-<span(((?!<span).)*leipiplugins=\"(radios|checkboxs|select)\".*?)>(.*?)<\/span>-\||<(img|input|textarea|select).*?(<\/select>|<\/textarea>|\/>))/gi;
+            var preg_attr =/(\w+)=\"(.?|.+?)\"/gi;
+            var preg_group =/<input.*?\/>/gi;
+            if(!fields) fields = 0;
+            var template_parse = template;
+            var template_data = new Array();
+            var add_fields = new Object();
+            var checkboxs = 0;
+            var pno = 0;
+            template.replace(preg,function(plugin,p1,p2,p3,p4,p5,p6){
+                var parse_attr = new Array();
+                var attr_arr_all = new Object();
+                var name = '';
+                var select_dot = '';
+                var is_new = false;
+                var p0 = plugin;
+                var tag = p6?p6:p4;
+                if(tag == 'radios' || tag == 'checkboxs'){
+                    plugin = p2;
+                }else if(tag == 'select'){
+                    plugin = plugin.replace('|-','');
+                    plugin = plugin.replace('-|','');
+                }
+                //先取出所有的属性
+                plugin.replace(preg_attr,function(str0,attr,val){
+                    attr_arr_all[attr] = val;
+                });
+                plugin.replace(preg_attr,function(str0,attr,val){
+                    if(attr == 'name'){
+                        if(val == 'leipiNewField'){
+                            is_new = true;
+                            fields++;
+                            // val = 'data_'+fields;
+                            val = attr_arr_all['title'];
+                        }else{
+                            //编辑时有可能会改title的值，不管怎样，name的值始终保持跟title一致
+                            val = attr_arr_all['title'];
+                        }
+                        name = val;
+                    }
+                    if(tag == 'select' && attr == 'value'){
+                        if(!attr_arr_all[attr]){
+                            attr_arr_all[attr] = '';
+                        }
+                        attr_arr_all[attr] += select_dot+val;
+                        select_dot = ',';
+                    }else{
+                        attr_arr_all[attr] = val;
+                    }
+                    var oField = new Object();
+                    oField[attr] = val;
+                    parse_attr.push(oField);
+                });
+                if(tag == 'checkboxs'){
+                    plugin = p0;
+                    plugin = plugin.replace('|-','');
+                    plugin = plugin.replace('-|','');
+                    var name = 'checkboxs_'+checkboxs;
+                    attr_arr_all['parse_name'] = name;
+                    attr_arr_all['name'] = '';
+                    attr_arr_all['value'] = '';
+                    attr_arr_all['content'] = '<span leipiplugins="checkboxs" title="'+attr_arr_all['title']+'" orgchecked="'+attr_arr_all['orgchecked']+'">';
+                    var dot_name = '';
+                    var dot_value = '';
+                    p5.replace(preg_group,function(parse_group){
+                        var is_new = false;
+                        var option = new Object();
+                        var checkIndex = 0;
+                        parse_group.replace(preg_attr,function (str0,k,val) {
+                            if(k == 'name'){
+                                if(val == 'leipiNewField'){
+                                    is_new = true;
+                                    fields++;
+                                    // val = 'data_'+fields;
+                                    val = attr_arr_all['title']+'_'+checkIndex;
+                                    checkIndex++;
+                                }
+                                attr_arr_all['name'] += dot_name+val;
+                                dot_name = ',';
+                            }else if(k == 'value'){
+                                attr_arr_all['value'] += dot_value+val;
+                                dot_value = ',';
+                            }
+                            option[k] = val;
+                        });
+                        if(!attr_arr_all['options']){
+                            attr_arr_all['options'] = new Array();
+                        }
+                        attr_arr_all['options'].push(option);
+                        var checked = option['checked'] != undefined?'checked="checked"':'';
+                        attr_arr_all['content'] += '<input type="checkbox" name="'+option['name']+'" value="'+option['value']+'" '+checked+'/>'+option['value']+'&nbsp;';
+                        if(attr_arr_all['orgchecked'] == 'orgchecked1'){
+                            attr_arr_all['content'] += '<br/>';
+                        }
+                        if(is_new){
+                            var arr = new Object();
+                            arr['name'] = option['name'];
+                            arr['leipiplugins'] = attr_arr_all['leipiplugins'];
+                            add_fields[option['name']] = arr;
+                        }
+                    });
+                    attr_arr_all['content'] += '</span>';
+                    //parse
+                    template = template.replace(plugin,attr_arr_all['content']);
+                    template_parse = template_parse.replace(plugin,'{'+name+'}');
+                    template_parse = template_parse.replace('{|-','');
+                    template_parse = template_parse.replace('-|}','');
+                    template_data[pno] = attr_arr_all;
+                    checkboxs++;
+                }else if(name){
+                    if(tag == 'radios'){
+                        plugin = p0;
+                        plugin = plugin.replace('|-','');
+                        plugin = plugin.replace('-|','');
+                        attr_arr_all['value'] = '';
+                        attr_arr_all['content'] = '<span leipiplugins="radios" name="'+attr_arr_all['name']+'" title="'+attr_arr_all['title']+'" orgchecked="'+attr_arr_all['orgchecked']+'">';
+                        var dot = '';
+                        p5.replace(preg_group,function(parse_group){
+                            var option = new Object();
+                            parse_group.replace(preg_attr,function(str0,k,val){
+                                if(k == 'value'){
+                                    attr_arr_all['value'] += dot+val;
+                                    dot = ',';
+                                }
+                                option[k] = val;
+                            });
+                            option['name'] = attr_arr_all['name'];
+                            if(!attr_arr_all['options']){
+                                attr_arr_all['options'] = new Array();
+                            }
+                            attr_arr_all['options'].push(option);
+                            var checked = option['checked'] != undefined?'checked="checked"':'';
+                            attr_arr_all['content'] += '<input type="radio" name="'+attr_arr_all['name']+'" value="'+option['value']+'" '+checked+'/>'+option['value']+'&nbsp;';
+                            if(attr_arr_all['orgchecked'] == 'orgchecked1'){
+                                attr_arr_all['content'] += '<br/>';
+                            }
+                        });
+                        attr_arr_all['content'] += '</span>';
+                    }else{
+                        attr_arr_all['content'] = is_new?plugin.replace(/leipiNewField/,name):plugin.replace(/\"data_[0-9]+\"/,'"'+name+'"');
+                    }
+                    template = template.replace(plugin,attr_arr_all['content']);
+                    template_parse = template_parse.replace(plugin,'{'+name+'}');
+                    template_parse = template_parse.replace('{|-','');
+                    template_parse = template_parse.replace('-|}','');
+                    if(is_new){
+                        var arr = new Object();
+                        arr['name'] = name;
+                        arr['leipiplugins'] = attr_arr_all['leipiplugins'];
+                        add_fields[arr['name']] = arr;
+                    }
+                    template_data[pno] = attr_arr_all;
+                }
+                pno++;
+            });
+            var parse_form = new Object({
+                'fields':fields,
+                'template':template,
+                'parse':template_parse,
+                'data':template_data,
+                'add_fields':add_fields
+            });
+            return JSON.stringify(parse_form);
+        },
+        getFormData:function () {
+            //type:save保存设计 versions:保存版本 close:关闭
+            if(leipiEditor.queryCommandState('source')){
+                leipiEditor.execCommand('source');
+            }
+            if(leipiEditor.hasContents()){
+                leipiEditor.sync();
+                var fields = $("#fields").val();
+                var formeditor = leipiEditor.getContent();
+                var parse_form = this.parse_form(formeditor,fields);
+                return parse_form;
+            }else{
+                return false;
+            }
+        },
+        fnCheckForm:function (type) {
+            //type:save保存设计 versions:保存版本 close:关闭
+            if(leipiEditor.queryCommandState('source')){
+                leipiEditor.execCommand('source');
+            }
+            if(leipiEditor.hasContents()){
+                leipiEditor.sync();
+                // var type_value = '';
+                // var formid = 0;
+                // var fields = $("#fields").val();
+                // var formeditor = '';
+                // if(typeof type !== 'undefined'){
+                //     type_value = type;
+                // }
+                // formeditor = leipiEditor.getContent();
+                // var parse_form = this.parse_form(formeditor,fields);
+            }else{
+                return false;
+            }
+        },
+        fnReview:function () {
+            if(leipiEditor.queryCommandState('source')){
+                leipiEditor.execCommand('source');
+            }
+            if(leipiEditor.hasContents()){
+                leipiEditor.sync();
+            }
+        }
+    };
+</script>

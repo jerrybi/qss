@@ -1,0 +1,62 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <table class="layui-table">
+            <colgroup>
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Login Name</td>
+                <td>{$user['login_name']}</td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td>{$user['first_name']}</td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td>{$user['last_name']}</td>
+            </tr>
+            <tr>
+                <td>Company</td>
+                <td>{$user['company']}</td>
+            </tr>
+            <tr>
+                <td>Phone</td>
+                <td>{$user['phone_country_code']}{$user['phone_area_code']}{$user['phone_number']}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{$user['email']}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+    .spread{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        justify-items: flex-start;
+    }
+    .spread-right{
+        text-decoration: underline;
+    }
+    .spread-right:hover{
+        cursor: pointer;
+        color: #666;
+    }
+</style>
+<script>
+
+</script>
+{/block}
+

@@ -1,0 +1,44 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <table class="layui-table">
+            <colgroup>
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$booth['name']['label']}</td>
+                <td>{$booth['name']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$booth['size']['label']}</td>
+                <td>{$booth['size']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$booth['type']['label']}</td>
+                <td>{$booth['type']['value']}</td>
+            </tr>
+<!--            <tr>-->
+<!--                <td>{$booth['location']['label']}</td>-->
+<!--                <td>{$booth['location']['value']}</td>-->
+<!--            </tr>-->
+            <tr>
+                <td>{$booth['badge']['label']}</td>
+                <td>{$booth['badge']['value']}</td>
+            </tr>
+            <tr>
+                <td>Exhibitor Booth Entitlement</td>
+                <td><a href="{$exhibitor['exhibitor_booth_entitlement']}" download="Exhibitor Booth Entitlement.pdf" style="color: #0e90d2;text-decoration: underline">Download</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}
+

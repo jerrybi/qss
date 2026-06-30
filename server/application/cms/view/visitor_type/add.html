@@ -1,0 +1,101 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Name</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="name"
+                       value=""
+                       placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-type">Code</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="code"
+                   value=""
+                   placeholder="Please input type" autocomplete="off" class="layui-input input-title-mz input-type">
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/visitorType/add')}" onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var event_id = data.value;
+        });
+        onReady();
+    });
+
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr);
+        $("#event").val(events[0].id);
+        layui.form.render();
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<style>
+    .section-area{
+        float: left;
+        margin-right: 10px;
+    }
+    .section-item{
+        height: 38px;
+        line-height: 38px;
+        margin-bottom: 10px;
+    }
+    .section-item input{
+        height: 30px;
+        line-height: 30px;
+        width: 150px;
+        display: inline-block;
+    }
+    .section-item .add-item{
+        font-size: 30px;
+        margin: 0 auto;
+        color: #d2d2d2;
+    }
+    .input-phone-country-code,.input-fax-country-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-area-code,.input-fax-area-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-number,.input-fax-number{
+        float: left;
+        width: 180px;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+
+{/block}

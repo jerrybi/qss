@@ -1,0 +1,110 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-inline">
+    <label class="static-btn">Search</label>
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/participants/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+        </form>
+    </div>
+    <button class="layui-btn-warm btn-search-mz">
+        <i class="layui-icon">&#xe615;</i>
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="15%">
+        <col width="10%">
+        <col width="10%">
+        <col width="15%">
+        <col width="10%">
+        <col width="10%">
+        <col width="5%">
+        <col width="10%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>SN</th>
+        <th>Unique ID=QRcode</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Organisation</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Brochures downloaded</th>
+        <th>Remarks</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/participants/edit',['id'=>'opid'])}">
+    <input type="hidden" class="log_url" value="{:url('cms/participants/viewLogs',['id'=>'opid'])}">
+    <input type="hidden" class="manage_url" value="{:url('cms/participants/manageBrochures',['id'=>'opid'])}">
+    <input type="hidden" class="view_url" value="{:url('cms/participants/viewBrochures',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/participants/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$key+1}</td>
+        <td>{$vo['unique_id']}</td>
+        <td class="title">{$vo['first_name']}</td>
+        <td class="title">{$vo['last_name']}</td>
+        <td class="title">{$vo['organisation']}</td>
+        <td class="title">{$vo['email']}</td>
+        <td class="title">{$vo['mobile']}</td>
+        <td>{$vo.brochure_download_num}</td>
+        <td>{$vo.remarks}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit participant"
+                        onclick="editForOpenPopups('✎ Edit participant','{$vo.id}', '720px', '460px')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="View brochures"
+                        onclick="viewForOpenPopups('✎ View brochures','{$vo.id}', '720px', '460px')">
+                    <i class="layui-icon">&#xe601;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        color: #283560;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/participants.js"></script>
+{/block}

@@ -1,0 +1,136 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <label class="layui-form-label label-custom">Select Event</label>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </form>
+    </div>
+</div>
+<div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+<div class="layui-inline">
+    <label class="static-btn">Search</label>
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/users/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+        </form>
+    </div>
+    <button class="layui-btn-warm btn-search-mz">
+        <i class="layui-icon">&#xe615;</i>
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Visitor Type</th>
+        <th>Event</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="log_url" value="{:url('cms/kiosk/preview',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/users/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['first_name']}</td>
+        <td class="title">{$vo['last_name']}</td>
+        <td class="title">{$vo['phone_number']}</td>
+        <td class="title">{$vo['email']}</td>
+        <td class="title">{$vo['type_name']}</td>
+        <td class="title">{$vo['event_name']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm"
+                        onclick="viewLogOpenPopups('☁ preview', '{$vo.id}','95%','95%')">
+                    Preview
+                </button>
+                <button class="layui-btn layui-btn-sm"
+                        onclick="delPostRecord('{$vo.id}')">
+                    Print
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        color: #283560;
+        word-break: break-word;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+</style>
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        layui.form.render();
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            $(".form-search").submit();
+        });
+        onReady();
+    });
+</script>
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/users.js?v=1"></script>
+{/block}

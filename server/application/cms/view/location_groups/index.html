@@ -1,0 +1,102 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<button class="layui-btn layui-btn-normal" op_url="{:url('cms/locationGroups/add')}"
+        onclick="addForOpenPopups(this,'✚ Add location groups','','76%')">
+    <i class="layui-icon">&#xe608;</i> Add location groups
+</button>
+<div class="layui-inline">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/locationGroups/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Please input name"
+                   class="layui-input search_input">
+        </form>
+    </div>
+    <button class="layui-btn-warm btn-search-mz">
+        <i class="layui-icon">&#xe615;</i>
+    </button>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="15%">
+        <col width="15%">
+        <col width="20%">
+        <col width="15%">
+        <col width="15%">
+        <col width="20%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Location Group Name</th>
+        <th>Capacity</th>
+        <th>Event</th>
+        <th>Sort</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/locationGroups/edit',['id'=>'opid'])}">
+    <input type="hidden" class="log_url" value="{:url('cms/locationGroups/viewLogs',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/locationGroups/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['name']}</td>
+        <td class="title">{$vo['capacity']}</td>
+        <td class="title">{$vo['event_name']}</td>
+        <td>{$vo.list_order}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit location groups"
+                        onclick="editForOpenPopups('✎ Edit location groups','{$vo.id}', '', '76%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove location groups"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Op log"
+                        onclick="viewLogOpenPopups('☁ Op log', '{$vo.id}')">
+                    <i class="layui-icon">&#xe60e;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        color: #7274A7;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/locationGroups.js"></script>
+{/block}

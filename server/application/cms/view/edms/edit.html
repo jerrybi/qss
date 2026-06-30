@@ -1,0 +1,61 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div>
+        <div class="layui-card-header">NOTICE:</div>
+        <div class="layui-card-body" style="color: orangered">
+            <div>You can customize the keyword which will be used to replace to real information in future.</div>
+            <div>Format:[%keyword%]</div>
+            <div>Built in keywords:company,date,recipient</div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Name：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value="{$article['name']}"
+                   placeholder="Please input the name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Template：</label>
+        <div class="layui-input-block div-article-content">
+            <script id="ue-container" name="content" type="text/plain">
+                {php}echo htmlspecialchars_decode($article['content']);{/php}
+            </script>
+        </div>
+    </div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/edms/edit',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    #map {
+        height: 300px;
+    }
+</style>
+
+<script>
+    $(document).ready(function(){
+
+    });
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+
+{/block}
+
+{block name='single-content'}
+{include file='layouts/ueditor-js'/}
+{/block}
+
+
+

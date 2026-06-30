@@ -1,0 +1,246 @@
+---------------------------------------------------------------
+
+[2026-05-10T19:19:50+08:00] 50.218.250.5 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"exhibitorID":1,"visitDate":"2026-05-10","serialNumber":"","imgCard":null,"remark":null,"lastName":null,"email":null,"telephone":null,"title":null,"organization":null,"visitTime":"2026-05-10 13:19:01","flag":"Neutral","firstName":null,"fullName":"undefined undefined","id":1}]
+---------------------------------------------------------------
+
+[2026-05-10T19:19:50+08:00] 50.218.250.5 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.130336s] [吞吐率：7.67req/s] [内存消耗：1,562.84kb] [文件加载：101]
+[ info ] [ LANG ] /var/www/vhosts/qestsoln.com/qss.qestsoln.com/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'user-agent' => 'okhttp/4.9.2',
+  'cookie' => 'PHPSESSID=al6ns4tre5oblnkpe0vbmdcfna',
+  'accept-encoding' => 'gzip',
+  'content-type' => 'application/json',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODQxMTk3MywibmJmIjoxNzc4NDExOTc2LCJleHAiOjE3Nzg4NDM5NzMsImRhdGEiOnsiaWQiOjF9fQ.yVs1fkDfwKxmaILZDidPEDVV86bpwJ925rrZiH2PD2E',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '291',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '50.218.250.5',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'exhibitorID' => 1,
+      'visitDate' => '2026-05-10',
+      'serialNumber' => '',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => NULL,
+      'email' => NULL,
+      'telephone' => NULL,
+      'title' => NULL,
+      'organization' => NULL,
+      'visitTime' => '2026-05-10 13:19:01',
+      'flag' => 'Neutral',
+      'firstName' => NULL,
+      'fullName' => 'undefined undefined',
+      'id' => 1,
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000620s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000710s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.000388s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.021323s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = ''  AND `exhibitor_id` = 1  AND `event_id` = 'AB6E9834-5752-2A1A-2CF9-58391339841B'  AND `visit_time` = '2026-05-10 13:19:01' LIMIT 1 [ RunTime:0.081047s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('7F459672-EF29-9441-695B-6C4F9423D3AA' , NULL , NULL , 'undefined undefined' , NULL , NULL , NULL , NULL , 'Neutral' , NULL , '' , 1 , 'AB6E9834-5752-2A1A-2CF9-58391339841B' , '2026-05-10 13:19:01' , '2026-05-10' , NULL , '2026-05-10 19:19:50') [ RunTime:0.006300s ]
+---------------------------------------------------------------
+
+[2026-05-10T19:21:50+08:00] 50.218.250.5 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][]
+---------------------------------------------------------------
+
+[2026-05-10T19:21:50+08:00] 50.218.250.5 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.019382s] [吞吐率：51.59req/s] [内存消耗：1,573.58kb] [文件加载：100]
+[ info ] [ LANG ] /var/www/vhosts/qestsoln.com/qss.qestsoln.com/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'user-agent' => 'okhttp/4.9.2',
+  'cookie' => 'PHPSESSID=al6ns4tre5oblnkpe0vbmdcfna',
+  'accept-encoding' => 'gzip',
+  'content-type' => 'application/json',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODQxMjAzMiwibmJmIjoxNzc4NDEyMDM1LCJleHAiOjE3Nzg4NDQwMzIsImRhdGEiOnsiaWQiOjF9fQ.J4xoayx1GLb7htlYK3uNWipVYoiQvUZGK2oB6Zk6xmk',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '15',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '50.218.250.5',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000425s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000694s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.000327s ]
+---------------------------------------------------------------
+
+[2026-05-10T23:09:01+08:00] 124.6.231.229 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"exhibitorID":1,"visitDate":"2026-05-11","serialNumber":"","imgCard":null,"remark":null,"lastName":null,"email":null,"telephone":null,"title":null,"organization":null,"visitTime":"2026-05-11 03:08:37","flag":"Neutral","firstName":null,"fullName":"undefined undefined","id":1}]
+---------------------------------------------------------------
+
+[2026-05-10T23:09:01+08:00] 124.6.231.229 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.384879s] [吞吐率：2.60req/s] [内存消耗：1,562.80kb] [文件加载：101]
+[ info ] [ LANG ] /var/www/vhosts/qestsoln.com/qss.qestsoln.com/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'user-agent' => 'okhttp/4.9.2',
+  'cookie' => 'PHPSESSID=95f5rjiq8jht4ntjm0fhc4pu0u',
+  'accept-encoding' => 'gzip',
+  'content-type' => 'application/json',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODQyNTcwOSwibmJmIjoxNzc4NDI1NzEyLCJleHAiOjE3Nzg4NTc3MDksImRhdGEiOnsiaWQiOjF9fQ.GfZSDLx3MOTQbnxh7MMfTJt6O0zRt1e8RkBfoJsI5DQ',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '291',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '124.6.231.229',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'exhibitorID' => 1,
+      'visitDate' => '2026-05-11',
+      'serialNumber' => '',
+      'imgCard' => NULL,
+      'remark' => NULL,
+      'lastName' => NULL,
+      'email' => NULL,
+      'telephone' => NULL,
+      'title' => NULL,
+      'organization' => NULL,
+      'visitTime' => '2026-05-11 03:08:37',
+      'flag' => 'Neutral',
+      'firstName' => NULL,
+      'fullName' => 'undefined undefined',
+      'id' => 1,
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000656s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000888s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.000361s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.003052s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = ''  AND `exhibitor_id` = 1  AND `event_id` = 'AB6E9834-5752-2A1A-2CF9-58391339841B'  AND `visit_time` = '2026-05-11 03:08:37' LIMIT 1 [ RunTime:0.339962s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('A2A89322-DEC3-8CCD-9298-3C9922F8D84A' , NULL , NULL , 'undefined undefined' , NULL , NULL , NULL , NULL , 'Neutral' , NULL , '' , 1 , 'AB6E9834-5752-2A1A-2CF9-58391339841B' , '2026-05-11 03:08:37' , '2026-05-11' , NULL , '2026-05-10 23:09:01') [ RunTime:0.020734s ]
+---------------------------------------------------------------
+
+[2026-05-10T23:33:28+08:00] 219.89.108.229 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][]
+---------------------------------------------------------------
+
+[2026-05-10T23:33:28+08:00] 219.89.108.229 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.025427s] [吞吐率：39.33req/s] [内存消耗：1,573.56kb] [文件加载：100]
+[ info ] [ LANG ] /var/www/vhosts/qestsoln.com/qss.qestsoln.com/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'user-agent' => 'okhttp/4.9.2',
+  'cookie' => 'PHPSESSID=4tcqr1g9r1m7r4eq3sgavrk7ll',
+  'accept-encoding' => 'gzip',
+  'content-type' => 'application/json',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3ODQyNzIwMiwibmJmIjoxNzc4NDI3MjA1LCJleHAiOjE3Nzg4NTkyMDIsImRhdGEiOnsiaWQiOjF9fQ.IBQNBKydAABgWHesrBRzScw_lix-Gb1UpnYRaGl-zHc',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '15',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '219.89.108.229',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002201s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001007s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.000401s ]

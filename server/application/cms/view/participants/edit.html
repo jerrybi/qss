@@ -1,0 +1,69 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">First Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="first_name" required lay-verify="required"
+                   value="{$article['first_name']}"
+                   placeholder="Please input the first name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Last Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="last_name" required lay-verify="required"
+                   value="{$article['last_name']}"
+                   placeholder="Please input the last name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Organisation:</label>
+        <div class="layui-input-inline">
+            <input name="organisation" class="layui-input input-title-mz" value="{$article['organisation']}" autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Email:</label>
+        <div class="layui-input-inline">
+            <input name="email" class="layui-input input-title-mz" value="{$article['email']}" autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Mobile:</label>
+        <div class="layui-input-inline">
+            <input type="number" name="mobile"
+                   value="{$article['mobile']}" required lay-verify="required"
+                   autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Remarks:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="remarks"
+                   value="{$article['remarks']}" required lay-verify="required"
+                   autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/participants/edit',['id'=>$article['id']])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script>
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{/block}
+
+
+

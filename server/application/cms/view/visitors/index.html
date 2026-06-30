@@ -1,0 +1,262 @@
+{extend name="layouts/cms" /}
+
+{block name="body-content"}
+<div class="layui-form-item layui-input-inline">
+    <label class="layui-form-label label-custom">Select Event</label>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </form>
+    </div>
+</div>
+<div class="layui-form-item layui-input-inline">
+    <label class="layui-form-label label-custom">Select Exhibitor</label>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="exhibitor_id" id="exhibitor" lay-verify="required" lay-filter="exhibitor">
+                <option value="">Please select exhibitor</option>
+            </select>
+        </form>
+    </div>
+</div>
+<div class="container" style="height: 100%">
+    <div class="layui-input-inline">
+        <form class="layui-form form-search" action="{:url('cms/visitors/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+            <input type="hidden" name="exhibitor_id" value="{$exhibitor_id}" class="exhibitor_id">
+        </form>
+    </div>
+    <button class="layui-btn" onclick="tableReload()">
+        Search
+    </button>
+    <button type="button" class="layui-btn" onclick="exportVisitor();"><i class="layui-icon layui-icon-download-circle"></i>Export</button>
+    <div class="table-container">
+        <table id="demo" lay-filter="table"></table>
+    </div>
+    <input type="hidden" class="log_url" value="{:url('/cms/visitors/contact',['id'=>'opid'])}">
+    <div hidden="hidden" id="userFields"><?php echo json_encode($user_fields);?></div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    <div hidden="hidden" id="exhibitors"><?php echo json_encode($exhibitors);?></div>
+</div>
+<style>
+    /*tr td{*/
+    /*    text-align: center;*/
+    /*}*/
+    .area1-left{
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        margin-top: 10px;
+    }
+    #search{
+        width: 200px;
+        flex-grow: 0;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .search-btn{
+        flex-shrink: 1;
+        margin-left: 10px;
+    }
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+        word-break: break-word;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .layui-table-cell{
+        /*height: auto;*/
+        /*white-space: normal;*/
+        /*word-break: break-word;*/
+    }
+    .layui-table td, .layui-table th {
+        font-size: 12px;
+        border: none!important;
+        padding: 0!important;
+    }
+    .table-container{
+        width: 100%;
+        height: calc(100% - 50px);
+    }
+    #demo{
+        width: 100%;
+    }
+</style>
+<script>
+    var tableIns;
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        var exhibitors = JSON.parse($('#exhibitors').text());
+        var exhibitor_id = "{$exhibitor_id}";
+        var exhibitorStr = "";
+        $.each(exhibitors,function(i,item){
+            exhibitorStr += "<option value='"+item['id']+"'>"+item['login_name']+"</option>";
+        });
+        $("#exhibitor").html(exhibitorStr );
+        $("#exhibitor").val(exhibitor_id);
+        layui.form.render();
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            // tableReload();
+            // 刷新整个页面，event不同对应的字段可能也会不同
+            $(".form-search").submit();
+        });
+        form.on('select(exhibitor)',function(data){
+            var exhibitor = data.value;
+            $('.exhibitor_id').val(exhibitor);
+            // $(".form-search").submit();
+            tableReload();
+        });
+        onReady();
+    });
+    layui.use('table',function () {
+        var table = layui.table;
+        var userFields = JSON.parse($("#userFields").text());
+        var cols = [
+            // {field: 'id', title: 'ID', width: 100, align: 'left'},
+            {field: 'exhibitor_name', title: 'Exhibitor', width: 150, align: 'left'},
+            {field: 'serial_number', title: 'OnSite Number', width: 150, align: 'left'},
+            {field: 'first_name', title: 'First Name', width: 120, align: 'left'},
+            {field: 'last_name', title: 'Last Name', width: 100, align: 'left'},
+            {field: 'full_name', title: 'Full Name', width: 200, align: 'left'},
+            {field: 'organization', title: 'Organization', width: 150, align: 'left'},
+            // {field: 'title', title: 'Title', width: 100, align: 'left'},
+            // {field: 'phone', title: 'Phone', width: 150, align: 'left'},
+            // {field: 'email', title: 'Email', width: 150, align: 'left'},
+        ];
+        for(var i=0;i<userFields.length;i++){
+            var name = userFields[i].table_name;
+            var key = userFields[i].key;
+            if(key === 'company') key = 'organization';
+            if(key === 'job_title') key = 'title';
+            if(key === 'phone_number') key = 'phone';
+            width = userFields[i].width;
+            if(width > 0){
+                cols.push({field: key, title: name, width: width});
+            }else{
+                cols.push({field: key, title: name,width: 100});
+            }
+        }
+        cols.push({field: 'flag', title: 'Flag', width: 100, align: 'left'});
+        cols.push({field: 'remark', title: 'Remark', width: 100, align: 'left'});
+        cols.push({field: 'visit_time', title: 'Visit Time', width: 150, align: 'left'});
+        cols.push({
+            field: 'Actions', title: 'Actions',
+            width: 80,
+            fixed: 'right',
+            templet: function (d) {
+                var str_html = "<div class=\"layui-btn-container\">";
+                str_html += "<button class=\"layui-btn layui-btn-sm action-btn\" title=\"View user\"\n" +
+                    "                        onclick=\"viewLogOpenPopups('View user','" + d.id + "',true)\">\n" +
+                    "                    <i class=\"fa fa-info-circle\"></i>\n" +
+                    "                </button>";
+                str_html += "</div>";
+                return str_html;
+            }
+        });
+
+        tableIns = table.render({
+            elem: '#demo',
+            id: 'table',
+            // height: 'full-170',
+            // width: '120px',
+            skin: 'line',
+            even: true,
+            url: "{:url('/cms/visitors/index')}",
+            method: 'POST',
+            where: {event_id: $('.event_id').val(),str_search: $("input[name='str_search']").val(),
+                exhibitor_id:$("input[name='exhibitor_id']").val()},
+            request: {
+                pageName: "curr_page",
+                limitName: "limit"
+            },
+            parseData: function(res) {
+                return {
+                    "code": res.status===200?0:1,
+                    "msg": res.message,
+                    "count": res.data.total,
+                    "data": res.data.data
+                }
+            },
+            page: true,
+            limit: 10,
+            limits: [10,20,30],
+            cols: [cols],
+            done: function (res,curr,count) {
+                $('.curr_page').val(curr)
+                $(".layui-table-main tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-body tbody tr")[index]).height($(val).height());
+                    });
+                });
+                $(".layui-table-header tr").each(function (index, val) {
+                    $(".layui-table-fixed").each(function () {
+                        $($(this).find(".layui-table-header thead tr")[index]).height($(val).height());
+                    });
+                });
+            }
+        });
+    });
+    function clickSearch(){
+        tableReload();
+    }
+    function tableReload() {
+        tableIns.reload({
+            where: {event_id: $('.event_id').val(),str_search: $("input[name='str_search']").val(),
+                exhibitor_id:$("input[name='exhibitor_id']").val()},
+            page:{
+                curr:1
+            }
+        });
+    }
+    function exportVisitor() {
+        layer.confirm('Export visitor records, confirm?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = "<?php echo url('/cms/visitors/download'); ?>";
+                window.location.href = url+'?str_search='+$("input[name='str_search']").val()
+                    +'&event_id='+$('.event_id').val()+'&exhibitor_id='+$("input[name='exhibitor_id']").val();
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+    function viewLogOpenPopups(title,id,manualRefresh) {
+        var op_url = $(".log_url").val();
+        op_url = op_url.replace('opid', id);
+        ToOpenPopups(op_url, title, '50%', '50%',manualRefresh);
+    }
+</script>
+{/block}
+

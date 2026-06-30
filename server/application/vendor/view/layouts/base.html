@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Home</title>
+    <meta name="google" content="notranslate">
+    <link href="__VENDOR__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="__VENDOR__/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="__VENDOR__/css/zhang.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="__VENDOR__/css/lightbox.css">
+    <!-- jQuery (necessary JavaScript plugins) -->
+    {include file='layouts/layui'}
+    <script type='text/javascript' src="__VENDOR__/js/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src="__VENDOR__/js/common.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body>
+<!-- header -->
+<div class="container">
+    <img src="{$exhibitor['top_banner_url']}" width="100%">
+</div>
+<div class="banner">
+    <div class="container">
+        <div class="banner_head_top">
+            <div class="top-menu">
+                <div class="content white">
+                    <nav class="navbar navbar-default">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle"
+                                    data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!--/navbar header-->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a href="{:url('/vendor/index/index')}">Home</a>
+                                </li>
+                                <li>
+                                    <a href="{:url('/vendor/report')}">Report</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--/navbar collapse-->
+                    </nav>
+                    <!--/navbar-->
+                </div>
+                <div class="clearfix"></div>
+                <script type="text/javascript" src="__VENDOR__/js/bootstrap-3.1.1.min.js"></script>
+            </div>
+            <div class="logo">
+                <h1>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">Welcome
+                            <span>{$user['login_name']}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{:url('vendor/login/logout')}">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </h1>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+{block name="content"}content{/block}
+<script src="__VENDOR__/js/lightbox-plus-jquery.min.js"></script>
+
+{block name="single-content"}{/block}
+<!-- footer -->
+<div class="container">
+    <img src="{$exhibitor['bottom_banner_url']}" width="100%">
+</div>
+<!---->
+<div class="container" style="padding-top: 10px;">
+    <div class="copywrite">
+        <p>Copyright &copy; qestsolutions.com</p>
+    </div>
+</div>
+<!---->
+<style>
+    .notice-active,.marketing-active,.amenities-active{
+        background-color: orange;
+    }
+    .custom-submit{
+        margin-bottom: 20px;
+    }
+</style>
+<script>
+    var image_upload_url = "{:url('/api/uploadFile')}";
+    $(document).ready(function () {
+        $(document).off('click.bs.dropdown.data-api');
+        $(document).off('keydown.bs.dropdown.data-api');
+        dropdownopen();
+        loadFormData();
+    });
+    function dropdownopen(){
+        var $dropdownLi = $('li.dropdown');
+        $dropdownLi.mouseover(function () {
+            $(this).addClass('open');
+        }).mouseout(function () {
+            $(this).removeClass('open');
+        });
+    }
+    function loadFormData(){
+
+    }
+</script>
+</body>
+</html>

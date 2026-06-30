@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>QR</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <meta name="generator" content="www.leipi.org" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <script type="text/javascript">
+function createElement(type, name)
+{     
+    var element = null;     
+    try {        
+        element = document.createElement('<'+type+' name="'+name+'">');     
+    } catch (e) {}   
+    if(element==null) {     
+        element = document.createElement(type);     
+        element.name = name;     
+    } 
+    return element;     
+}
+    </script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+     <tr>
+        <th><span>Control Name</span><span class="label label-important">*</span></th>
+        <th><span>Type</span></th>
+    </tr>
+    <tr>
+        <td>
+            <input id="orgname" placeholder="Required" type="text" />
+        </td>
+        <td>
+            <select id="orgtype"  class="form-control">
+                <option value="text">Text</option>
+                <option value="url">url</option>
+                <option value="tel">Telephone</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th><span>TextBox Style</span> </th>
+        <td>
+            width <input id="orgwidth" type="text" value="40" class="input-small span1" placeholder="auto"/> px
+            &nbsp;&nbsp;
+            height <input id="orgheight" type="text" value="40" class="input-small span1" placeholder="auto"/> px
+        </td>
+       
+    </tr>
+    <tr>
+        <td colspan="2">
+            <label for="orgvalue">Content</label>
+            <textarea  class="input-block-level" rows="3" id="orgvalue" placeholder="QR Content..."></textarea>
+        </td>
+    </tr>
+    </table>
+    <div class="alert alert-danger">Info:QR can only support less content,please don't add large content</div>
+</div>
+<script type="text/javascript">
+var oNode = null,thePlugins = 'qrcode';
+ window.onload = function() {
+    if( UE.plugins[thePlugins].editdom ){
+        oNode = UE.plugins[thePlugins].editdom;
+        var gValue = oNode.getAttribute('value').replace(/&quot;/g,"\""),gTitle=oNode.getAttribute('title').replace(/&quot;/g,"\""),gWidth=oNode.getAttribute('orgwidth'),gHeight=oNode.getAttribute('orgheight'),gType=oNode.getAttribute('orgtype');
+        $G('orgvalue').value = gValue; 
+        $G('orgname').value = gTitle;
+        $G('orgwidth').value = gWidth;
+        $G('orgheight').value = gHeight;
+        $G('orgtype').value = gType;
+    }
+}
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+    if( $G('orgname').value == '') {
+        alert('Control name can not be empty!');
+        return false;
+    }
+    var regExp = /^[A-Za-z0-9_]+$/;
+    if(!regExp.test($G('orgname').value)){
+        alert('Control name must only consist of alphabet,numbers and underscore');
+        return false;
+    }
+    var gValue=$G('orgvalue').value.replace(/\"/g,"&quot;"),gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gFontSize,gWidth=$G('orgwidth').value,gHeight=$G('orgheight').value,gType=$G('orgtype').value;
+    
+    if( !oNode ) {
+        try {
+            oNode = createElement('img','leipiNewField');
+            oNode.setAttribute('title',gTitle);
+            oNode.setAttribute('name','leipiNewField');
+            oNode.setAttribute('value',gValue);
+            oNode.setAttribute('orgtype',gType); 
+            oNode.setAttribute('leipiPlugins',thePlugins);
+            oNode.setAttribute('src',editor.options.UEDITOR_HOME_URL + UE.leipiFormDesignUrl + '/images/qrcode.gif');
+            if( gWidth != '' ) {
+                oNode.style.width = gWidth + 'px';
+            }
+            oNode.setAttribute('orgwidth',gWidth );
+            if( gHeight != '' ) {
+                oNode.style.height = gHeight + 'px';
+            }
+            oNode.setAttribute('orgheight',gHeight );
+            editor.execCommand('insertHtml',oNode.outerHTML);
+            return true ;
+        } catch ( e ) {
+            try {
+                editor.execCommand('error');
+            } catch ( e ) {
+                alert('Control occur exception!');
+            }
+            return false;
+        }
+    } else {
+        oNode.setAttribute('title',gTitle);
+        oNode.setAttribute('orgtype',gType);
+        oNode.setAttribute('value',gValue);
+        //oNode.innerHTML = $G('orgvalue').value;
+        if( gWidth != '' ) {
+            oNode.style.width = gWidth + 'px';
+        }else
+        {
+            oNode.style.width = '';
+        }
+        oNode.setAttribute('orgwidth',gWidth );
+        if( gHeight != '' ) {
+            oNode.style.height = gHeight + 'px';
+        }else
+        {
+            oNode.style.height = '';
+        }
+        oNode.setAttribute('orgheight',gHeight );
+
+        delete UE.plugins[thePlugins].editdom;
+        return true;
+    }
+};
+</script>
+</body>
+</html>

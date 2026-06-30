@@ -1,0 +1,96 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white" lay-filter="form1">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Industries and Sectors</label>
+        <div class="layui-input-inline input-title-mz">
+            {volist name="$options" id="vo"}
+                <div>
+                    <input type="checkbox" name="{$vo}" value="{$vo}" title="{$vo}" lay-skin="primary" lay-filter="industry">
+                </div>
+            {/volist}
+        </div>
+    </div>
+
+    <input type="hidden" id="industry" name="industry" value="{$article['industry']}">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/companies/industryView',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('checkbox(industry)',function (data) {
+            var checked = data.elem.checked;
+            var value = data.value;
+            if(checked){
+                addIndustryOptions(value);
+            }else{
+                minusIndustryOptions(value);
+            }
+        });
+        initIndustryOptions();
+    });
+    function initIndustryOptions() {
+        var str = $('#industry').val();
+        var items = str.split('\n');
+        $.each(items,function (i,item) {
+            var name = $('input[name="'+item+'"]');
+            if(name.length > 0){
+                name[0].checked = true;
+                layui.form.render();
+            }
+        });
+    }
+    function addIndustryOptions(item) {
+        var str = $('#industry').val();
+        var items = [];
+        if(str && str.length > 0){
+            items = str.split('\n');
+        }
+        var max = parseInt("{$industry_attr['max']}");
+        if(items.length >= max){
+            layer.msg('you can not select more than '+max);
+            var name = $('input[name="'+item+'"]');
+            name[0].checked = false;
+            layui.form.render();
+            return;
+        }
+        items.push(item);
+        $('#industry').val(items.join("\n"));
+    }
+    function minusIndustryOptions(item) {
+        var str = $('#industry').val();
+        var items = str.split('\n');
+        var index = items.indexOf(item);
+        if(index >= 0){
+            items.splice(index,1);
+        }
+        if(items.length > 0){
+            $('#industry').val(items.join("\n"));
+        }else{
+            $('#industry').val('');
+        }
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<style>
+    .input-industry{
+       display: block;
+    }
+</style>
+{/block}
+{block name='single-content'}
+{/block}
+
+
+

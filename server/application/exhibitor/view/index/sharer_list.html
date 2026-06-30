@@ -1,0 +1,99 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <div class="layui-form-item mgr10 mgt10">
+            <button class="layui-btn layui-btn-normal"
+                    onclick="addSharer();">
+                <i class="layui-icon">&#xe608;</i> Add sharer
+            </button>
+        </div>
+        <table class="layui-table">
+            <colgroup>
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Email</th>
+                    <th style="text-align: center">#</th>
+                </tr>
+            </thead>
+            <tbody>
+                {volist name="articles" id="vo"}
+                    <tr>
+                        <td>{$i}</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.type}</td>
+                        <td>{$vo.email}</td>
+                        <td style="text-align: center">
+                            <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-sm" title="Edit sharer"
+                                        onclick="editSharer('{$vo.id}')">
+                                    <i class="layui-icon">&#xe642;</i>
+                                </button>
+                                <button class="layui-btn layui-btn-sm" title="Remove sharer"
+                                        onclick="return delRecord('{$vo.id}',confirmDelete);">
+                                    <i class="layui-icon">&#xe640;</i>
+                                </button>
+                                <button class="layui-btn layui-btn-sm" title="Edit Industry"
+                                        onclick="editIndustry('{$vo.id}')">
+                                    <i class="layui-icon layui-icon-list"></i>
+                                </button>
+                                <button class="layui-btn layui-btn-sm" title="Edit Product"
+                                        onclick="editProduct('{$vo.id}')">
+                                    <i class="layui-icon layui-icon-tree"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                {/volist}
+            </tbody>
+        </table>
+        <div style="font-weight: bold;margin:10px 0px;">Dear Exhibitor, please kindly fill up your stand sharer information on 1) Industries and Sectors (<i class="layui-icon layui-icon-list"></i>) and 2) Product and Services (<i class="layui-icon layui-icon-tree"></i>) by clicking on the icon above. Thank you.</div>
+    </div>
+</div>
+<script>
+    function addSharer() {
+        var url = "{:url('exhibitor/index/addSharer',['parent_id'=>$user['company_id']])}";
+        ToOpenPopups(url,'✚ Add sharer','720px','95%');
+    }
+    function editSharer(id) {
+        var url = "{:url('exhibitor/index/editSharer',['id'=>'opid','parent_id'=>$user['company_id']])}";
+        url = url.replace('opid',id);
+        ToOpenPopups(url,'✎ Edit sharer','720px','95%');
+    }
+    function confirmDelete(id) {
+        var toUrl = "{:url('exhibitor/index/editSharer')}";
+        var postData = {'id':id,'tag':'del'};
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                dialog.tip(result.message);
+                setTimeout(function () {
+                    window.location.reload();
+                },2000);
+            },"JSON");
+    }
+    function editIndustry(id) {
+        var op_url = "{:url('/exhibitor/industryView',['id'=>'opid'])}";
+        op_url = op_url.replace('opid',id);
+        ToOpenPopups(op_url, 'Industries and Sectors', '50%', '65%',true);
+    }
+    function editProduct(id) {
+        var op_url = "{:url('/exhibitor/productView',['id'=>'opid'])}";
+        op_url = op_url.replace('opid',id);
+        ToOpenPopups(op_url, 'Products and Services', '50%', '65%',true);
+    }
+</script>
+{/block}
+

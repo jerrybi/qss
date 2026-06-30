@@ -1,0 +1,261 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+{extend name="layouts/base" /}
+<div class="content">
+    <!---->
+    <div class="container">
+        <form class="custom-form layui-form">
+            <div class="header-content">{php}echo htmlspecialchars_decode($form['header_content']){/php}</div>
+            <div class="layui-clear">
+                <div class="form-title">Form Name:</div>
+                <div class="form-header-left">
+                    <div class="form-header-line bold">Vendor</div>
+                    <div class="form-header-line"></div>
+                    <div class="form-header-line"></div>
+                    <div class="form-header-line"></div>
+                    <div class="form-header-line"></div>
+                    <div class="form-header-line"></div>
+                </div>
+                <div class="form-header-right">
+                    <div class="form-header-item">
+                        <div class="form-header-line">Contact Person: </div>
+                        <div class="form-header-line">Business Phone: </div>
+                        <div class="form-header-line">Email: </div>
+                    </div>
+                </div>
+            </div>
+            <div class="instruction mgt20">{php}echo htmlspecialchars_decode($form['instruction']){/php}</div>
+            <div>
+                <p>You are entitled to <span style="text-decoration: underline">5</span> badges. Additional passes may be obtained at a cost of S$10.00 each.</p>
+                <p>Please fill in the information of badge holders below - </p>
+                <p>OR</p>
+                <p>You can also upload badges. <a href="#" style="color: #0e90d2">Download template here.</a></p>
+                <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-normal btn_upload_file" data-index="0" upload_file_cb0="uploadBadgeList">
+                        <i class="layui-icon">&#xe681;</i> Upload
+                    </button>
+                    <input type="hidden" name="upload_file" value="" class="upload_file_url0"/>
+                </div>
+                <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-normal" onclick="addBadge();">Add Badge</button>
+                </div>
+                <table class="layui-table table-body" lay-even="" lay-skin="row">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Salutation/Rank</th>
+                        <th>Name on Badge</th>
+                        <th>Position/Job Title</th>
+                        <th>Company</th>
+                        <th>Country/Region</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-tbody-normal layui-form"
+                           record_num="1" page_limit="100">
+                    <tr class="tr-normal-1">
+                        <td class="title"></td>
+                        <td class="title"></td>
+                        <td class="title"></td>
+                        <td class="title"></td>
+                        <td class="title"></td>
+                        <td class="title"></td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-sm" title="Edit badge"
+                                        onclick="return editOpenPopups('✎ Edit badge','1', '80%', '95%');">
+                                    <i class="layui-icon">&#xe642;</i>
+                                </button>
+                                <button class="layui-btn layui-btn-sm" title="Remove badge"
+                                        onclick="return delRecord('1',confirmDelete);">
+                                    <i class="layui-icon">&#xe640;</i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p>Authorised Contact To Collect The Above Badges For The Group:</p>
+                <div></div>
+                <div class="layui-form-item">
+                    <div class="">Name<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="badge_submit_name"
+                               value=""
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Designation<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="badge_submit_designation"
+                               value=""
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <p>Submitter's Information</p>
+                <div class="layui-form-item">
+                    <div class="">Submitted By<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_name"
+                               value="" readonly="readonly"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Designation<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_designation"
+                               value="" readonly="readonly"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Email<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_email"
+                               value="" readonly="readonly"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required|email">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Further Instruction (if any)</div>
+                    <div class="layui-input-inline">
+                        <textarea type="text"  name="form_submit_instruction" autocomplete="off" class="layui-input input-title-mz"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block div-form-op">
+                        <button class="layui-btn layui-btn-primary" type="button" onclick="saveDraft()">Save Draft</button>
+                        <button type="button" class="layui-btn" lay-submit lay-filter="badge">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cost-notes">{php}echo htmlspecialchars_decode($form['cost_notes']){/php}</div>
+            <div class="footer-content">{php}echo htmlspecialchars_decode($form['footer_content']){/php}</div>
+        </form>
+        <form class="layui-form layui-container" id="pop" style="display: none">
+            <div class="layui-form-item layui-row layui-col-space4">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Salutation/Rank<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <select name="salutation" id="salutation" lay-verify="required" lay-filter="salutation" lay-verify="required">
+                        <option value="">Select Salutation</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Ms">Ms</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Rank">Rank</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">First Name<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="first_name"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Last Name<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="last_name"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Name on badge<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="badge_name"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Position/Job Title<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="job_title"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Company Name<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="company"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Country/Region of Residence<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <select name="country" id="country" lay-verify="required" lay-filter="country" lay-verify="required">
+                        <option value="">Select Country/Region</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="China">China</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Email<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="email"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required|email">
+                </div>
+            </div>
+            <input type="hidden" name="id" value=""/>
+            <div class="layui-form-item">
+                <div class="layui-input-block div-form-op">
+                    <button class="layui-btn" type="button" lay-submit lay-filter="pop">Add</button>
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="cancelRecord();">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .upload_file_url0,.upload_file_url1,.upload_file_url2,.upload_file_url3{
+        width: 300px;
+    }
+    .form-title{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        background-color: #283560;
+        color: white;
+        text-align: center;
+    }
+    .form-header-left{
+        float: left;
+        margin-top: 20px;
+    }
+    .form-header-right{
+        float:right;
+        margin-top: 20px;
+    }
+    .form-header-item{
+        margin-bottom: 20px;
+    }
+    .form-header-line{
+        height: 25px;
+        line-height: 25px;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+
+{/block}

@@ -1,0 +1,96 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <button class="layui-btn layui-btn-normal" op_url="{:url('cms/edms/add')}"
+            onclick="addForOpenPopups(this,'✚ Add edm','720px','95%')">
+        <i class="layui-icon">&#xe608;</i> Add edm
+    </button>
+</div>
+<div class="layui-inline">
+    <label class="static-btn">Search</label>
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/edms/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+        </form>
+    </div>
+    <button class="layui-btn-warm btn-search-mz">
+        <i class="layui-icon">&#xe615;</i>
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="10%">
+        <col width="10%">
+        <col width="60%">
+        <col width="20%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Template</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/edms/edit',['id'=>'opid'])}">
+    <input type="hidden" class="log_url" value="{:url('cms/edms/viewLogs',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageEvents"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/edms/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['name']}</td>
+        <td class="title">{$vo['content']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit edms"
+                        onclick="editForOpenPopups('✎ Edit edms','{$vo.id}', '720px', '95%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove edms"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        color: #283560;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/edms.js"></script>
+{/block}

@@ -1,0 +1,93 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <button class="layui-btn layui-btn-normal"op_url="{:url('cms/admin/addAccount')}"
+        onclick="addForOpenPopups(this,'✚ Add account', '48%', '65%')">
+    <i class="layui-icon">&#xe608;</i> Add Account
+</button>
+</div>
+<div class="layui-inline">
+    <label class="static-btn">Search</label>
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/admin/account')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+        </form>
+    </div>
+    <button class="layui-btn-warm btn-search-mz">
+        <i class="layui-icon">&#xe615;</i>
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="20%">
+        <col width="10%">
+        <col width="20%">
+        <col width="20%">
+        <col width="10%">
+        <col width="15%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Account Name</th>
+        <th>No. of Events</th>
+        <th>No. of Users</th>
+        <th>Status</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/admin/editAccount',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal"
+           ajax_page_fun="ToAjaxOpForPageAdmins"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/admin/account')}">
+    {volist name="admins" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['account_name']}</td>
+        <td class="title">{$vo['current_event']}/{$vo['max_event']}</td>
+        <td class="title">{$vo['current_user']}/{$vo['max_user']}</td>
+        <td>{php} echo $vo['status_tip']{/php}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit"
+                        onclick="editForOpenPopups('✎ Edit Account','{$vo.id}', '48%', '65%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Delete"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .td-item img:hover {
+        transition: all 0.6s;
+        transform: scale(5);
+    }
+    .table-tbody-normal .td-item img {
+        cursor: pointer;
+        width: 66px;
+        height: 66px;
+    }
+</style>
+<div id="demo2-1"></div>
+
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/account.js"></script>
+{/block}

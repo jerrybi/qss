@@ -1,0 +1,202 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane form-search" action="{:url('cms/mailSettings/index')}" method="get">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Event:</label>
+                <div class="layui-input-inline">
+                    <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                        <option value="">Please select event</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Sender Name:</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="sender_name"
+                           value="{$article['sender_name']}"
+                           placeholder="Please input sender name" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Sender Email:</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="sender_email"
+                           value="{$article['sender_email']}"
+                           placeholder="Please input sender email" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Sender Password:</label>
+                <div class="layui-input-inline">
+                    <input type="password"  name="sender_pwd"
+                           value="{$article['sender_pwd']}"
+                           placeholder="Please input sender password" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Mail Server:</label>
+                <div class="layui-input-inline">
+                    <input type="text"  name="mail_server"
+                           value="{$article['mail_server']}"
+                           placeholder="Please input mail server" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Mail Port:</label>
+                <div class="layui-input-inline">
+                    <input type="number"  name="mail_port"
+                           value="{$article['mail_port']}"
+                           placeholder="Please input mail port" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Send Type</label>
+                <div class="">
+                    <input type="radio" name="send_type" value="0" title="Localhost"
+                           {if ($article['send_type'] == 0)} checked {/if};>
+                    <input type="radio" name="send_type" value="1" title="Custom"
+                           {if ($article['send_type'] == 1)} checked {/if}>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Top Banner</label>
+                <div class="layui-col-md4">
+                    <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="0">
+                        <i class="layui-icon">&#xe67c;</i>Upload Image
+                    </button>
+                    <img class="layui-upload-img img-attr upload_img_preview0"
+                         src="{$article['top_banner']}">
+                    <input type="hidden" name="top_banner" value="{$article['top_banner']}" class="upload_img_url0"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">Bottom Banner</label>
+                <div class="layui-col-md4">
+                    <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="1">
+                        <i class="layui-icon">&#xe67c;</i>Upload Image
+                    </button>
+                    <img class="layui-upload-img img-attr upload_img_preview1"
+                         src="{$article['bottom_banner']}">
+                    <input type="hidden" name="bottom_banner" value="{$article['bottom_banner']}" class="upload_img_url1"/>
+                </div>
+            </div>
+            <input type='hidden' name="id" value="{$article['id']}">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+            {:token()}
+            <div class="layui-form-item">
+                <div class="">
+                    <button class="layui-btn" type="button"
+                            op_url="{:url('cms/mailSettings/testSendEmail')}"
+                            onclick="confirmSendMail(this,fail_callback)">Test Send Mail</button>
+                    <button class="layui-btn" type="button"
+                            op_url="{:url('cms/mailSettings/index')}"
+                            onclick="opFormPost(this,fail_callback)">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    <input type="hidden" name="receiver_mail" class="receiver_mail">
+</form>
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        background-size: 100%;
+        background: white;
+        background-repeat: no-repeat;
+    }
+
+    .div-warmTip-left {
+        position: relative;
+        width: 33%;
+    }
+
+    .div-warmTip-left .layui-colla-content,
+    .div-warmTip-left .layui-timeline-content,
+    .div-warmTip-right .layui-card-body {
+        background-color: #393D49;
+        color: wheat;
+    }
+
+    .div-warmTip-left .layui-timeline-title {
+        color: #b94a48;
+    }
+
+    .div-warmTip-right {
+        position: absolute;
+        width: 30%;
+        float: right;
+        right: 0px;
+        top: 0px;
+        z-index: 100;
+        margin-right: 5px;
+    }
+
+    .div-warmTip-right a {
+        color: #ce8483;
+    }
+
+    .div-warmTip-right b {
+        color: #a6e1ec;
+    }
+
+    .img-attr{
+        max-width:200px;
+        display: block;
+    }
+    .textarea-supervisor{
+        height: 100px;
+    }
+    .label-custom{
+        width: 150px!important;
+        height: initial!important;
+        white-space: normal!important;
+    }
+</style>
+<!--<div style="padding:10px">Home Page</div>-->
+<!--<script src="__CMS__/js/timezone.js"></script>-->
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        layui.form.render();
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            $(".form-search").submit();
+        });
+        onReady();
+    });
+    function confirmSendMail(obj,failcb) {
+        layer.prompt({
+            formType:0,
+            value:'',
+            title:'Please input receiver email'
+        },function(value,index,elem){
+            $('.receiver_mail').val(value);
+            layer.close(index);
+            opFormPost(obj,failcb);
+        })
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+{block name='single-content'}
+
+{/block}
+

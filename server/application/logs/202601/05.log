@@ -1,0 +1,51 @@
+---------------------------------------------------------------
+
+[2026-01-05T10:44:57+08:00] 156.200.3.132 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][]
+---------------------------------------------------------------
+
+[2026-01-05T10:44:57+08:00] 156.200.3.132 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.019767s] [吞吐率：50.59req/s] [内存消耗：1,573.58kb] [文件加载：100]
+[ info ] [ LANG ] /var/www/vhosts/qestsoln.com/qss.qestsoln.com/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'user-agent' => 'okhttp/4.9.2',
+  'cookie' => 'PHPSESSID=tqcsd06nq1tgl477kphm1pl2l7',
+  'accept-encoding' => 'gzip',
+  'content-type' => 'application/json',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc2NzU4MTA3NiwibmJmIjoxNzY3NTgxMDc5LCJleHAiOjE3NjgwMTMwNzYsImRhdGEiOnsiaWQiOjF9fQ.CRTpgm9LfSwBEZ1vYyF1a0dES3xvxpY2s0GzMR54wgI',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '15',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '156.200.3.132',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000521s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000844s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 1  AND `status` = 1 LIMIT 1 [ RunTime:0.000374s ]

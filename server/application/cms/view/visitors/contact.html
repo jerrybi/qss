@@ -1,0 +1,28 @@
+{include file='layouts/layui'}
+{block name="content"}
+<div class="container">
+    <table class="layui-table">
+        {foreach $visitor as $k => $vo}
+        <tr>
+            {if $vo.name == 'Image Card'}
+                {if $vo.value}
+                    <td>{$vo.name}</td>
+                    <td>
+                        <img src="data:image/png;base64,{$vo.value}" width="150"  class="img-card"/>
+                    </td>
+                {/if}
+            {else /}
+            <td>{$vo.name}</td>
+            <td>{$vo.value}</td>
+            {/if}
+        </tr>
+        {/foreach}
+    </table>
+</div>
+<style>
+    .img-card:hover{
+        transform: scale(5);
+        transform-origin: center;
+    }
+</style>
+{/block}

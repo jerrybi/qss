@@ -1,0 +1,121 @@
+{extend name="layouts/cms"}
+
+{block name="body-content"}
+<div class="layui-inline layui-form" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/menu/index')}" method="get">
+            <div class="layui-input-inline">
+                <input type="hidden" name="curr_page" class="curr_page" value="1">
+                <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                       class="layui-input search_input">
+            </div>
+            <button class="layui-btn btn-search-mz">
+                Search
+            </button>
+            <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+
+            <div class="layui-input-inline" style="width: 500px">
+                <div class="layui-input-block" style="width: 100%">
+                    <input type="radio" name="navType" value="F" title="Main menu" {$navType=="F"?"checked":""}>
+                    <input type="radio" name="navType" value="S" title="Sub menu" {$navType=="S"?"checked":""}>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-inline mr10" style="float: right">
+        <button class="layui-btn layui-btn-normal"
+                op_url="{:url('cms/menu/add')}"
+                onclick="addForOpenPopups(this, '✚ Add Nav Menu', '66%', '78%')">
+            <i class="layui-icon">&#xe608;</i> Add Nav
+        </button>
+    </div>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="10%">
+        <col width="8%">
+        <col width="12%">
+        <col width="10%">
+        <col width="5%">
+        <col width="12%">
+        <col width="8%">
+        <col width="15%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Icon</th>
+        <th>action</th>
+        <th>Parent menu</th>
+        <th>Sort</th>
+        <th>Create time</th>
+        <th>Status</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/navMenu/edit',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal"
+           ajax_page_fun="ToAjaxOpForNavMenusPage"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/navMenu/index')}">
+    {volist name="menus" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['name']}</td>
+        <td class="icon"><i class="layui-circle {$vo['icon']}"></i></td>
+        <td>{$vo['action']}</td>
+        <td class="parent">{$vo['parent_name']}</td>
+        <td>{$vo['list_order']}</td>
+        <td>{$vo['created_at']}</td>
+        <td>{php} echo $vo['status_tip']{/php}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit menu"
+                        onclick="editForOpenPopups('✎ Edit menu info','{$vo.id}','66%','88%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove menu"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Auth list"
+                        onclick="authNavMenu('{$vo.id}')">
+                    <i class="layui-icon">&#xe628;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title {
+        /*color: #283560;*/
+    }
+
+    .icon img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .table-tbody-normal .parent {
+        /*color: #c17551;*/
+    }
+</style>
+{/block}
+
+{block name="single-content"}
+<script src="__CMS__/js/nav_menus.js?v=1"></script>
+<script>
+    function authNavMenu(id) {
+        var toUrl = "{:url('cms/navMenu/auth',['id'=>'NMID'])}";
+        toUrl = toUrl.replace("NMID", id);
+        ToOpenPopups(toUrl, '♖ Auth management', '62%', '88%',true);
+    }
+</script>
+
+{/block}

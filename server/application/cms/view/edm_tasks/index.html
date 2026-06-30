@@ -1,0 +1,310 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <input name="event_name" value="{$event['name']}" readonly="readonly" class="layui-input"/>
+        </form>
+    </div>
+</div>
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search layui-form" action="{:url('cms/edmTasks/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <select name="zone" id="zone" lay-verify="required" lay-filter="zone">
+                <option value="">Please select zone</option>
+            </select>
+            <select name="template_id" id="template" lay-filter="template">
+                <option value="">All</option>
+            </select>
+            <select name="status" id="status" lay-filter="status">
+                <option value="">Please select status</option>
+                <option value="9">Pending</option>
+                <option value="1">Success</option>
+                <option value="2">Fail</option>
+                <option value="3">Invalid Addr</option>
+                <option value="4">Receipt</option>
+            </select>
+            <select name="rsvp_status" id="rsvp_status" lay-filter="rsvp_status">
+                <option value="">RSVP status</option>
+                <option value="9">Not RSVP</option>
+                <option value="1">Accept</option>
+                <option value="2">Reject</option>
+            </select>
+            <input type="hidden" name="event_id" value="{$event['id']}" class="event_id">
+            <input type="hidden" name="zone_id" value="{$zone_id}" class="zone_id">
+            <input type="hidden" name="zone_name" value="{$zone_name}" class="zone_name">
+        </form>
+    </div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+    <div class="layui-input-inline mr10" style="float: right">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/edmTasks/add')}"
+                onclick="addForOpenPopups(this,'✚ Add EDM Task','95%','95%')">
+            <i class="layui-icon">&#xe608;</i> Add EDM Task
+        </button>
+    </div>
+    <div class="layui-input-inline mr10" style="float: right">
+        <button id="export" class="layui-btn layui-btn-normal"
+                op_url="{:url('cms/edmTasks/export')}"
+                onclick="download()">
+            <i class="layui-icon">&#xe601;</i> Export
+        </button>
+    </div>
+    <div class="layui-input-inline mr10" style="float: right">
+        <button id="resend_select" class="layui-btn layui-btn-normal"
+                op_url="{:url('cms/edmTasks/resendSelected')}"
+                onclick="resendSelected()">
+            Resend Selected
+        </button>
+    </div>
+</div>
+<div class="layui-inline" id="report">
+    <div>Total: <span id="total">{$record_num}</span></div>
+    <div>Pending: <span id="pending">{$pending}</span></div>
+    <div>Success: <span id="success">{$success}</span></div>
+    <div>Fail: <span id="fail">{$fail}</span></div>
+    <div>Invalid Address: <span id="invalidAddr">{$invalidAddr}</span></div>
+    <div>Receipt: <span id="receipt">{$receipt}</span></div>
+    <div>Success Rate: <span id="success_rate">{$success_rate}%</span></div>
+</div>
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="20%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>User ID</th>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Zone</th>
+        <th>Template</th>
+        <th>RSVP Status</th>
+        <th>Status</th>
+        <th>Event</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/edmTasks/edit',['id'=>'opid'])}">
+    <input type="hidden" class="resend_url" value="{:url('cms/edmTasks/resend',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/edmTasks/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['user_id']}</td>
+        <td class="title">{$vo['first_name']} {$vo['last_name']}</td>
+        <td class="title">{$vo['email']}</td>
+        <td class="title">{$vo['zone_name']}</td>
+        <td class="title">{$vo['template_name']}</td>
+        <td class="title">{$vo['rsvp_status']==1?'Accept':($vo['rsvp_status']==2?'Reject':($vo['rsvp_status']==9?'Audit':'Not RSVP'))}</td>
+        <td class="title">{$vo['status']==9?'Pending':($vo['status']==1?'Success':($vo['status']==2?'fail':($vo['status']==3?'Invalid Addr':($vo['status']==4?'Receipt':''))))}</td>
+        <td class="title">{$vo['event_name']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Remove EDM Template"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>Delete
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Resend Email"
+                        onclick="resendEmail('{$vo.id}')">
+                    <i class="layui-icon layui-icon-email"></i>Resend
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div hidden="hidden" id="templates"><?php echo json_encode($templates);?></div>
+<div hidden="hidden" id="zones"><?php echo json_encode($zones);?></div>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .form-search{
+        display:flex;
+    }
+    .layui-form-select{
+        margin-left: 5px;
+        width: 200px!important;
+    }
+    .search_input{
+        width: 200px!important;
+    }
+    #report{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px auto;
+        width: 100%;
+    }
+</style>
+<script>
+    function onReady(){
+        var templates = JSON.parse($('#templates').text());
+        var templateStr = "<option value=''>Please select template</option>";
+        $.each(templates,function(i,item){
+            templateStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#template").html(templateStr);
+        $("#template").val('{$template_id}');
+        $("#status").val('{$status}');
+        $("#rsvp_status").val('{$rsvp_status}');
+        // zones
+        var zones = JSON.parse($('#zones').text());
+        var zone = "{$zone_id}";
+        var zoneStr = "<option value=''>Please select zone</option>";
+        $.each(zones,function(i,item){
+            zoneStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#zone").html(zoneStr);
+        $("#zone").val(zone);
+        layui.form.render('select');
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        onReady();
+        form.on('select(template)',function () {
+            $(".form-search").submit();
+        });
+        form.on('select(status)',function () {
+            $(".form-search").submit();
+        });
+        form.on('select(rsvp_status)',function () {
+            $(".form-search").submit();
+        });
+        form.on('select(zone)',function(data){
+            var zone_id = data.value;
+            var zone_name = $('select[name="zone"]').find("option:checked").text();
+            $('.zone_id').val(zone_id);
+            $('.zone_name').val(zone_name);
+            $(".form-search").submit();
+        });
+    });
+    function resendEmail(id) {
+        layer.confirm('confirm to resend email ?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('.resend_url').val();
+                url = url.replace('opid', id);
+                $.post(url, {},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+    function resendSelected() {
+        layer.confirm('confirm to resend total [{$record_num}] records?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var url = $('#resend_select').attr('op_url');
+                url += '?str_search='+$('input[name="str_search"]').val();
+                url += '&template_id='+$('#template').val();
+                url += '&rsvp_status='+$('#rsvp_status').val();
+                url += '&status='+$('#status').val();
+                url += '&zone_id='+$('.zone_id').val();
+                url += '&event_id='+$('.event_id').val();
+                $.post(url, {},
+                    function (result) {
+                        layer.msg(result.message);
+                        window.location.reload();
+                    },"JSON");
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+    function download() {
+        var op_url = "{:url('cms/edmTasks/download')}";
+        var eventId = $('.event_id').val();
+        var search = $('input[name="str_search"]').val();
+        var templateId = $('#template').val();
+        var rsvp = $('#rsvp_status').val();
+        var status = $('#status').val();
+        var zoneId = $('.zone_id').val();
+        window.location.href = op_url+'?event_id='+eventId+'&str_search='+search+'&template_id='+templateId+'&rsvp_status='
+                                +rsvp+'&status='+status+'&zone_id='+zoneId;
+    }
+    function ToAjaxOpForPageDatas(toUrl,postData) {
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    $.each(result.data,function (i,e) {
+                        str_html +=
+                            "<tr class=\"tr-normal-"+e.id+"\">\n" +
+                            "                <td>"+(e.user_id)+"</td>\n" +
+                            "                <td class=\"title\">"+e.first_name+" "+e.last_name+"</td>\n" +
+                            "                <td class=\"title\">"+e.email+"</td>\n" +
+                            "                <td class=\"title\">"+e.zone_name+"</td>\n" +
+                            "                <td class=\"title\">"+e.template_name+"</td>\n" +
+                            "                <td class=\"title\">"+(e.rsvp_status==1?'Accept':(e.rsvp_status==2?'Reject':'Not RSVP'))+"</td>\n" +
+                            "                <td class=\"title\">"+(e.status==9?'Pending':(e.status==1?'Success':(e.status==2?'Fail':(e.status==3?'Invalid addr':(e.status==4?'Receipt':'')))))+"</td>\n" +
+                            "                <td class=\"title\">"+e.event_name+"</td>\n" +
+                            "                <td>\n" +
+                            "                    <div class=\"layui-btn-group\">\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Remove EDM Template' \n" +
+                            "                                onclick=\"delPostRecord('"+e.id+"')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe640;</i>Delete\n" +
+                            "                        </button>\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Resend Email' \n" +
+                            "                                onclick=\"resendEmail('"+e.id+"')\">\n" +
+                            "                            <i class=\"layui-icon layui-icon-email\"></i>Resend\n" +
+                            "                        </button>\n" +
+                            "                    </div>\n" +
+                            "                </td>\n" +
+                            "            </tr>";
+                    });
+                    $(".table-tbody-normal").html(str_html);
+                    layui.form.render();//细节！这个好像要渲染一下！
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

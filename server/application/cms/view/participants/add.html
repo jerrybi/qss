@@ -1,0 +1,206 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Track:</label>
+        <div class="layui-input-inline">
+            <select name="track_id" id="track" lay-verify="required" lay-filter="track">
+                <option value="">Please select track</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Location Group:</label>
+        <div class="layui-input-inline">
+            <select name="location_group_id" id="location_group" lay-verify="required" lay-filter="location_group">
+                <option value="">Please select location Group</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value=""
+                   placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Start time:</label>
+        <div class="layui-input-inline">
+            <input name="start_time" id="startTime" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">End time:</label>
+        <div class="layui-input-inline">
+            <input name="end_time" id="endTime" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Sort:</label>
+        <div class="layui-input-inline">
+            <input type="number" name="list_order"
+                   value="0" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">(the smaller the number,the higher the order )</div>
+    </div>
+    <input id="events" type="hidden" value="{$events}"/>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/sessions/add')}" onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').val());
+        var eventStr = "";
+        $.each(events,function(i,item){
+                eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        var event_id = events[0]['id'];
+        getEventData(event_id);
+        getTracksData(event_id);
+        getLocationsData(event_id);
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var event_id = data.value;
+            getEventData(event_id);
+            getTracksData(event_id);
+            getLocationsData(event_id);
+        });
+        onReady();
+    });
+    function getTracksData(event_id){
+        $.post(
+        "{:url('cms/tracks/getList')}",
+        {event_id:event_id},
+        function (result) {
+            console.log(result);
+            if(result.status == 200){
+                reloadTrack(result.data);
+            }else{
+                //失败
+                dialog.tip(result.message);
+            }
+        },"JSON");
+    }
+    
+    function reloadTrack(allTracks){
+        var trackStr = "";
+        $.each(allTracks,function(i,item){
+            trackStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#track").html(trackStr);
+        layui.use('form',function(){
+            var form = layui.form;
+            form.render();
+            form.render('select','track');
+        });
+    }
+    function getLocationsData(event_id){
+        $.post(
+        "{:url('cms/locationGroups/getList')}",
+        {event_id:event_id},
+        function (result) {
+            console.log(result);
+            if(result.status == 200){
+                reloadLocation(result.data);
+            }else{
+                //失败
+                dialog.tip(result.message);
+            }
+        },"JSON");
+    }
+    
+    function reloadLocation(allLocations){
+        var locationStr = "";
+        $.each(allLocations,function(i,item){
+            locationStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#location_group").html(locationStr);
+        layui.use('form',function(){
+            var form = layui.form;
+            form.render();
+            form.render('select','location');
+        });
+    }
+    function setDateTimeData(minTime,maxTime){
+        layui.use('laydate',function(){
+            var laydate = layui.laydate;
+            if(minTime && maxTime){
+                laydate.render({
+                    elem:'#startTime',
+                    type:'datetime',
+                    trigger:'click',
+                    lang:'en',
+                    min:minTime,
+                    max:maxTime,
+                    value:minTime
+                });
+                laydate.render({
+                    elem:'#endTime',
+                    type:'datetime',
+                    trigger:'click',
+                    lang:'en',
+                    min:minTime,
+                    max:maxTime,
+                    value:maxTime
+                });
+            }else{
+                laydate.render({
+                    elem:'#startTime',
+                    type:'datetime',
+                    trigger:'click',
+                    lang:'en'
+                });
+                laydate.render({
+                    elem:'#endTime',
+                    type:'datetime',
+                    trigger:'click',
+                    lang:'en'
+                });
+            }
+        });
+    }
+    function getEventData(event_id){
+        var events = JSON.parse($('#events').val());
+        for(var i in events){
+            var item = events[i];
+            if(item.id == event_id){
+                setDateTimeData(item.start_time,item.end_time);
+                break;
+            }
+        }
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

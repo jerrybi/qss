@@ -1,0 +1,86 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div style="margin-bottom: 10px">
+    <button class="layui-btn" onclick="goBack();">Back</button>
+</div>
+<div class="layui-inline">
+    <label class="static-btn">Search</label>
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/catalogMarkets/fieldList')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+        </form>
+    </div>
+    <button class="layui-btn-warm btn-search-mz">
+        <i class="layui-icon">&#xe615;</i>
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="20%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Field</th>
+        <th>Label</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/catalogManpowers/editField',['id'=>'opid','event_id'=>$event_id])}">
+    <tbody class="table-tbody-normal layui-form"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/catalogManpowers/fieldList')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['name']}</td>
+        <td class="title">{$vo['label']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit field"
+                        onclick="editForOpenPopups('✎ Edit field','{$vo.key}', '720px', '95%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<style>
+    .table-tbody-normal .title{
+        color: #283560;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+{/block}

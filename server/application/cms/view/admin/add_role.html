@@ -1,0 +1,82 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Role Name：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="user_name" required lay-verify="required"
+                   placeholder="Please input name" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">less than 10 words</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Status：</label>
+        <div class="layui-input-block"  style="width:300px">
+            <input type="radio" name="status" value="1" title="Enabled" checked>
+            <input type="radio" name="status" value="-1" disabled="" title="Disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Special Grant：</label>
+        <div class="layui-input-block">
+            <input type="radio" name="special_grant" value="1" title="On" checked>
+            <input type="radio" name="special_grant" value="0" title="Off">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Auth Management：</label>
+        <input type="hidden" name="nav_menu_ids" class="nav_menu_ids" value="">
+        <div class="layui-input-block">
+            <div id="category"></div>
+        </div>
+    </div>
+    {:token()}
+    <input type="hidden" id="menuTree" name="menuTree" value="{$menuTree}">
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button" onclick="addNewRole()"
+                    lay-submit lay-filter="formDemo">Add
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary">Reset</button>
+        </div>
+    </div>
+</form>
+
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/roles.js"></script>
+<script>
+    var instance;
+    layui.use('tree',function () {
+        var tree = layui.tree;
+        updateProductOptions();
+    });
+    function updateProductOptions() {
+        var str = $('#menuTree').val();
+        var data = JSON.parse(str);
+        instance = layui.tree.render({
+            elem:'#category',
+            id:'category',
+            showCheckbox:true,
+            accordion:true,
+            data:data
+        });
+    }
+    /**
+     * 添加新角色
+     */
+    function addNewRole() {
+        // dealSelNavMenuIDs();
+        $('.nav_menu_ids').val(JSON.stringify(instance.getChecked('category')));
+        var postData = $(".form-op-normal").serialize();
+        var toUrl = "{:url('cms/admin/addRole')}";
+        ToPostPopupsDeal(toUrl, postData);
+    }
+</script>
+{/block}
+
+
+
+

@@ -1,0 +1,319 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <form class="custom-form layui-form" lay-filter="form">
+            <div class="header-content">{php}echo htmlspecialchars_decode($form['header_content']){/php}</div>
+            <div class="layui-clear">
+                <div class="form-title">Form Name:{$form['name']}</div>
+                <div class="form-header-left">
+                    <div class="form-header-line bold">Vendor</div>
+                    <div class="form-header-line">{$vendor['name']}</div>
+                    <div class="form-header-line">{$vendor['address_line1']}</div>
+                    <div class="form-header-line">{$vendor['address_line2']}</div>
+                    <div class="form-header-line">{$vendor['postal']}</div>
+                    <div class="form-header-line">{$vendor['website']}</div>
+                </div>
+                <div class="form-header-right">
+                    {volist name="vendorAccounts" id="vo"}
+                        <div class="form-header-item">
+                            <div class="form-header-line text-right">Contact Person: {$vo['first_name']} {$vo['last_name']}</div>
+                            <div class="form-header-line text-right">Business Phone: ({$vo['phone_country_code']}) {$vo['phone_area_code']} {$vo['phone_number']}</div>
+                            <div class="form-header-line text-right">Email: {$vo['email']}</div>
+                        </div>
+                    {/volist}
+                </div>
+            </div>
+			<div class="instruction">{php}echo htmlspecialchars_decode($form['instruction']){/php}</div>
+            <div>
+                <p class="mgt10"><a href="{:url('/exhibitor/m2/seminar')}" style="color: orange">Click here to view Seminar Programmes</a></p>
+                <p class="mgt10"><a href="#" onclick="viewAvailableSlot();" style="color: orange">Click here to see available slot</a></p>
+                <div class="location-block {$form['have_location']==0?'hidden':''}">
+                    <select id="locationGroup" lay-filter="locationGroup"></select>
+                    <select id="location" lay-filter="location"></select>
+                </div>
+                <p class="mgt10">We request the following information so that we can liaise with you and promote your Presentation(s):</p>
+                <div class="mgt10">
+                    <select name="presentation_date" id="presentationDate" lay-verify="required" lay-filter="presentation_date">
+                        <option value="">Select Day</option>
+                        {volist name="days" id="vo"}
+                        <option value="{$vo|date='Y-m-d'}">Day{$key+1},{$vo|date='Y-m-d (l)'}</option>
+                        {/volist}
+                    </select>
+                </div>
+                <div class="mgt10">
+                    <select name="presentation_time" id="presentationTime" lay-verify="required" lay-filter="presentation_time" >
+                        <option value="">Select Time</option>
+                        <option value="1100 hrs">1100 hrs</option>
+                        <option value="1130 hrs">1130 hrs</option>
+                        <option value="1200 hrs">1200 hrs</option>
+                        <option value="LUNCH" disabled="disabled">LUNCH</option>
+                        <option value="1400 hrs">1400 hrs</option>
+                        <option value="1430 hrs">1430 hrs</option>
+                        <option value="1500 hrs">1500 hrs</option>
+                        <option value="1530 hrs">1530 hrs</option>
+                        <option value="1600 hrs">1600 hrs</option>
+                    </select>
+                </div>
+                <div class="layui-form-item mgt20 {$form['have_location']==1?'hidden':''}">
+                    <div class="bold font20" style="text-decoration: underline;">Presentation Details</div>
+                    <div class="layui-input-inline" style="width: 100%">
+                        This is<span class="red">*</span>  <input type="radio" name="is_new_product" value="1" title="A New Product Launch" checked><input type="radio" name="is_new_product" value="0" title="No,this is NOT a New Product">
+                    </div>
+                </div>
+                <div class="layui-form-item mgt20 {$form['have_location']==1?'hidden':''}">
+                    <div class="bold font20">Title / Topic of Presentation<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="title"
+                               value="{$formData1['title']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="{$form['have_location']==1?'':'required'}">
+                    </div>
+                </div>
+                <div class="layui-form-item mgt20 {$form['have_location']==1?'hidden':''}">
+                    <div class="bold font20">Synopsis<span class="red">*</span></div>
+                    <div>Please include a Synopsis of the Presentation up to a maximum of 150 words.</div>
+                    <div class="layui-input-inline">
+                        <textarea name="synopsis"
+                                  placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="{$form['have_location']==1?'':'required'}">{$formData1['synopsis']}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item mgt20 {$form['have_location']==1?'hidden':''}">
+                    <div>Please also submit a photo of the Product for promotion purpose.</div>
+                    <div class="">Upload Photo of Product<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="0">
+                            <i class="layui-icon">&#xe67c;</i>Upload Image
+                        </button>
+                        <img class="layui-upload-img img-attr upload_img_preview0"
+                             src="{$formData1['product_img_url']}">
+                        <input type="hidden" name="product_img_url" value="{$formData1['product_img_url']}" class="upload_img_url0" lay-verify="{$form['have_location']==1?'':'required'}" lay-reqText="Please upload product photo!"/>
+                    </div>
+                </div>
+                <div class="layui-form-item mgt20 {$form['have_location']==1?'hidden':''}">
+                    <div class="bold font20">Speaker(s)<span class="red">*</span></div>
+                    <div>Please provide a CV of the Speaker(s) (maximum of 150 words)for promotion purpose.</div>
+                    <div class="layui-input-inline">
+                        <textarea name="speaker_cv"
+                                  placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="{$form['have_location']==1?'':'required'}">{$formData1['speaker_cv']}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item mgt20 {$form['have_location']==1?'hidden':''}">
+                    <div>A photo of the Speaker(s) will be useful.</div>
+                    <div class="">Upload Photo of Speaker<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="1">
+                            <i class="layui-icon">&#xe67c;</i>Upload Image
+                        </button>
+                        <img class="layui-upload-img img-attr upload_img_preview1"
+                             src="{$formData1['speaker_img_url']}">
+                        <input type="hidden" name="speaker_img_url" value="{$formData1['speaker_img_url']}" class="upload_img_url1" lay-verify="{$form['have_location']==1?'':'required'}" lay-reqText="Please upload speaker photo!"/>
+                    </div>
+                </div>
+            </div>
+            <div><span class="red">*</span>Denotes mandatory fields</div>
+            <button class="layui-btn layui-btn-primary mgt20" type="button" onclick="">Reserve Slot</button>
+            <div class="cost-notes">{php}echo htmlspecialchars_decode($form['cost_notes']){/php}</div>
+            <div>
+                <br/>
+                <br/>
+                <p>Submitter's Information</p>
+                <div class="layui-form-item">
+                    <div class="">Submitted By<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_name"
+                               value="{$formData1['form_submit_name']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Designation<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_designation"
+                               value="{$formData1['form_submit_designation']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Email<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_email"
+                               value="{$formData1['form_submit_email']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required|email">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Further Instruction (if any)</div>
+                    <div class="layui-input-inline">
+                        <textarea type="text"  name="form_submit_instruction" autocomplete="off" class="layui-input input-title-mz">{$formData1['form_submit_instruction']}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="div-form-op">
+                        <button type="button" class="layui-btn" lay-submit lay-filter="booking">Submit</button>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+            </div>
+            <div class="footer-content">{php}echo htmlspecialchars_decode($form['footer_content']){/php}</div>
+            <input type="hidden" name="event_id" value="{$user['event_id']}">
+            <input type="hidden" name="company_id" value="{$user['company_id']}">
+            <input type="hidden" name="user_id" value="{$user['id']}">
+            <input type="hidden" name="form_id" value="{$form['id']}">
+            <input type="hidden" name="location_id" value="{$formData1['location_id']}">
+            <input type="hidden" name="location_group_id" value="{$formData1['location_group_id']}">
+            <input hidden="hidden" id="formData" name="form_data" value="{$formData1|json_encode}">
+            <input hidden="hidden" id="locationData" name="location_data" value="{$location|json_encode}">
+        </form>
+    </div>
+</div>
+<style>
+    .upload_file_url0,.upload_file_url1,.upload_file_url2,.upload_file_url3{
+        width: 300px;
+    }
+    .form-title{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        background-color: #283560;
+        color: white;
+        text-align: center;
+    }
+    .form-header-left{
+        float: left;
+        margin-top: 20px;
+    }
+    .form-header-right{
+        float:right;
+        margin-top: 20px;
+    }
+    .form-header-item{
+        margin-bottom: 20px;
+    }
+    .form-header-line{
+        height: 25px;
+        line-height: 25px;
+    }
+    .layui-form-select{
+        width: 300px!important;
+        display: inline-block!important;
+        margin-right: 20px;
+    }
+    .layui-form-item .layui-input-inline{
+        width: 380px!important;
+    }
+</style>
+<script>
+    layui.use('form',function () {
+        var form = layui.form;
+        form.on('submit(booking)',function () {
+            submit();
+        });
+        form.on('select(locationGroup)',function (data) {
+            var value = data.value;
+            $("input[name='location_group_id']").val(value);
+            loadLocationData(value);
+        });
+        form.on('select(location)',function (data) {
+            var value = data.value;
+            $("input[name='location_id']").val(value);
+        });
+        loadData();
+    });
+    function loadLocationGroupData(){
+        var data = JSON.parse($('#locationData').val())
+        var html = "<option value=''>Please select location group</option>";
+        for(var i=0;i<data.length;i++){
+            var item = data[i];
+            html += "<option value='"+item.id+"'>"+item.title+"</option>";
+        }
+        $("#locationGroup").html(html);
+        var locationGroupId = $("input[name='location_group_id']").val();
+        $("#locationGroup").val(locationGroupId);
+        loadLocationData(locationGroupId);
+    }
+    function findLocationItem(locationGroupId) {
+        var data = JSON.parse($('#locationData').val())
+        for(var i=0;i<data.length;i++){
+            var item = data[i];
+            if(item.id == locationGroupId){
+                return item;
+            }
+        }
+        return null;
+    }
+    function loadLocationData(locationGroupId){
+        var item = findLocationItem(locationGroupId);
+        var html = "<option value=''>Please select location</option>";
+        for(var i=0;item!=null && i<item.child.length;i++){
+            var child = item.child[i];
+            html += "<option value='"+child.id+"'>"+child.title+"</option>";
+        }
+        $("#location").html(html);
+        var locationId = $("input[name='location_id']").val();
+        $("#location").val(locationId);
+        layui.form.render('select');
+    }
+    function loadData() {
+        var formData = JSON.parse($('#formData').val());
+        $('#presentationDate').val(formData.presentation_date);
+        $('#presentationTime').val(formData.presentation_time);
+        $("input[name='is_new_product'][value='"+formData.is_new_product+"']").attr('checked',true);
+        loadLocationGroupData();
+        layui.form.render();
+    }
+    function submit() {
+        var blockStatus = "{$blockStatus}";
+        if(blockStatus == 'Closed'){
+            layer.msg('Sorry, this form is closed! Please contact the organizer');
+            return;
+        }
+        var haveLocation = "{$form['have_location']}";
+        if(haveLocation == '1'){
+            var locationGroupId = $("input[name='location_group_id']").val();
+            if(locationGroupId == ''){
+                layer.msg('Please select location group!');
+                return;
+            }
+            var locationId = $("input[name='location_id']").val();
+            if(locationId == ''){
+                layer.msg('Please select location!');
+                return;
+            }
+        }
+        var formData = JSON.parse($('#formData').val());
+        var postData = $(".custom-form").serialize();
+        postData += '&is_draft=0';
+        var url = "{:url('/exhibitor/booking/index')}";
+        $.post(
+            url,
+            postData,
+            function (result) {
+                layer.msg(result.message);
+                if(result.status == 401){
+                    window.location.href = '/exhibitor';
+                }
+                if(result.status == 200){
+                    setTimeout(function(){
+                        var mainType = "{$form['main_type']}";
+                        if(mainType == 'Operations'){
+                            window.location.href = "{:url('/exhibitor/amenities')}";
+                        }else{
+                            window.location.href = "{:url('/exhibitor/marketings')}";
+                        }
+                    },2000);
+                }
+            },"JSON");
+    }
+    function viewAvailableSlot() {
+        var formId = "{$form['id']}";
+        var locationId = $("input[name='location_id']").val();
+        var url = "{:url('/exhibitor/booking/slot')}";
+        url += "?form_id="+formId+"&location_id="+locationId;
+        ToOpenPopups(url,"Slot","80%","80%");
+    }
+</script>
+{/block}
+

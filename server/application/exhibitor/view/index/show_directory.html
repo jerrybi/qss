@@ -1,0 +1,236 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <table class="layui-table">
+            <colgroup>
+                <col width="10%">
+                <col width="10%">
+            </colgroup>
+            <thead>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$company['sub_company_name']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_company_name']['value']}</div><div class="spread-right" onclick="editCompanyName();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['type']['label']}</td>
+                <td>{$company['type']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['location']['label']}</td>
+                <td>{$company['location']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['badge']['label']}</td>
+                <td>{$company['badge']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['origin_country']['label']}</td>
+                <td>{$company['origin_country']['value']}</td>
+            </tr>
+            <tr>
+                <td>{$company['sub_profile']['label']}<br>
+                    <span style="font-style: italic;font-size: 12px">MAX 100 Words</span>
+                </td>
+                <td>
+                    <div class="spread">
+                        <div class="spred-left">{$company['sub_profile']['value']|raw}</div>
+                        <div class="spread-right" onclick="editProfile();">Edit</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>{$company['sub_logo']['label']}<br>
+                    <span style="font-style: italic;font-size: 12px">For Online Listing only. If you wish to have your logo printed on the show catalogue, please submit <span style="font-weight: bold">FORM M2 Advertisement in Official Show Catalogue.</span></span>
+                </td>
+                <td><div class="spread"><div class="spred-left"><img src="{$company['sub_logo']['value']}" height="50"></div><div class="spread-right" onclick="editLogo();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_email']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_email']['value']}</div><div class="spread-right" onclick="editEmail();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_address_line1']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_address_line1']['value']}</div><div class="spread-right" onclick="editAddressLine1();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_address_line2']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_address_line2']['value']}</div><div class="spread-right" onclick="editAddressLine2();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_postal']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_postal']['value']}</div><div class="spread-right" onclick="editPostal();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_country']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_country']['value']}</div><div class="spread-right" onclick="editCountry();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_phone']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_phone']['value']}</div><div class="spread-right" onclick="editPhone();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_fax']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_fax']['value']}</div><div class="spread-right" onclick="editFax();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_website']['label']}</td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_website']['value']}</div><div class="spread-right" onclick="editWebsite();">Edit</div></div></td>
+            </tr>
+<!--            <tr>-->
+<!--                <td>{$company['sub_billing_address_line1']['label']}</td>-->
+<!--                <td><div class="spread"><div class="spred-left">{$company['sub_billing_address_line1']['value']}</div><div class="spread-right" onclick="editBillingAddressLine1();">Edit</div></div></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>{$company['sub_billing_address_line2']['label']}</td>-->
+<!--                <td><div class="spread"><div class="spred-left">{$company['sub_billing_address_line2']['value']}</div><div class="spread-right" onclick="editBillingAddressLine2();">Edit</div></div></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>{$company['sub_billing_postal']['label']}</td>-->
+<!--                <td><div class="spread"><div class="spred-left">{$company['sub_billing_postal']['value']}</div><div class="spread-right" onclick="editBillingPostal();">Edit</div></div></td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td>{$company['sub_billing_country']['label']}</td>-->
+<!--                <td><div class="spread"><div class="spred-left">{$company['sub_billing_country']['value']}</div><div class="spread-right" onclick="editBillingCountry();">Edit</div></div></td>-->
+<!--            </tr>-->
+            <tr>
+                <td>{$company['sub_industry']['label']}<br>
+                <span style="font-style: italic;font-size: 12px">MAX {$industryMax} Selections</span>
+                </td>
+                <td><div class="spread"><div class="spred-left">{$company['sub_industry']['value']|raw}</div><div class="spread-right" onclick="editIndustry();">Edit</div></div></td>
+            </tr>
+            <tr>
+                <td>{$company['sub_product']['label']}<br>
+                    <span style="font-style: italic;font-size: 12px">MAX {$productMax} Selections</span>
+                </td>
+                <td><div class="spread"><div id="category" class="spread-left"></div><div class="spread-right" onclick="editProduct();">Edit</div></div></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<input type="hidden" id="product" value="{$company['sub_product']['value']}">
+<style>
+    .spread{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        justify-items: flex-start;
+    }
+    .spread-right{
+        text-decoration: underline;
+    }
+    .spread-right:hover{
+        cursor: pointer;
+        color: #666;
+    }
+</style>
+<script>
+    var datas = '';
+    layui.use('tree',function () {
+        var tree = layui.tree;
+        updateProductOptions();
+    });
+    function updateProductOptions() {
+        var str = $('#product').val();
+        if(str && str.length > 0){
+            var data = JSON.parse(str);
+            var child = data[0].children;
+            // var instance = layui.tree.render({
+            //     elem:'#category',
+            //     id:'category',
+            //     showCheckbox:false,
+            //     accordion:false,
+            //     data:child
+            // });
+            getSelectedItems(child);
+            datas = datas.substr(0,datas.length-2);
+            $('#category').text(datas);
+        }
+    }
+    function getSelectedItems(childs){
+        for(let i=0;i<childs.length;i++){
+            let item = childs[i];
+            if(item.children && item.children.length > 0){
+                getSelectedItems(item.children);
+            }else{
+                let title = item.title.replace(/^[0-9. ]+/,'');
+                datas += title +' | ';
+            }
+        }
+    }
+    function editIndustry() {
+        var op_url = "{:url('/exhibitor/industryView')}";
+        ToOpenPopups(op_url, 'Industries and Sectors', '50%', '65%',false);
+    }
+    function editProduct() {
+        var op_url = "{:url('/exhibitor/productView')}";
+        ToOpenPopups(op_url, 'Products and Services', '50%', '65%',false);
+    }
+    function editCompanyName() {
+        var op_url = "{:url('/exhibitor/companyView')}";
+        ToOpenPopups(op_url, 'Company', '50%', '65%',false);
+    }
+    function editProfile() {
+        var op_url = "{:url('/exhibitor/profileView')}";
+        ToOpenPopups(op_url, 'Profile', '50%', '65%',false);
+    }
+    function editLogo() {
+        var op_url = "{:url('/exhibitor/logoView')}";
+        ToOpenPopups(op_url, 'Logo', '50%', '65%',false);
+    }
+    function editEmail() {
+        var op_url = "{:url('/exhibitor/emailView')}";
+        ToOpenPopups(op_url, 'Email', '50%', '65%',false);
+    }
+    function editAddressLine1() {
+        var op_url = "{:url('/exhibitor/addressLine1View')}";
+        ToOpenPopups(op_url, 'Address Line1', '50%', '65%',false);
+    }
+    function editAddressLine2() {
+        var op_url = "{:url('/exhibitor/addressLine2View')}";
+        ToOpenPopups(op_url, 'Address Line2', '50%', '65%',false);
+    }
+    function editPostal() {
+        var op_url = "{:url('/exhibitor/postalView')}";
+        ToOpenPopups(op_url, 'Postal', '50%', '65%',false);
+    }
+    function editCountry() {
+        var op_url = "{:url('/exhibitor/countryView')}";
+        ToOpenPopups(op_url, 'Country', '50%', '65%',false);
+    }
+    function editPhone() {
+        var op_url = "{:url('/exhibitor/phoneView')}";
+        ToOpenPopups(op_url, 'Phone', '50%', '65%',false);
+    }
+    function editFax() {
+        var op_url = "{:url('/exhibitor/faxView')}";
+        ToOpenPopups(op_url, 'Fax', '50%', '65%',false);
+    }
+    function editWebsite() {
+        var op_url = "{:url('/exhibitor/websiteView')}";
+        ToOpenPopups(op_url, 'Website', '50%', '65%',false);
+    }
+    function editBillingAddressLine1() {
+        var op_url = "{:url('/exhibitor/billingAddressLine1View')}";
+        ToOpenPopups(op_url, 'Billing Address Line1', '50%', '65%',false);
+    }
+    function editBillingAddressLine2() {
+        var op_url = "{:url('/exhibitor/billingAddressLine2View')}";
+        ToOpenPopups(op_url, 'Billing Address Line2', '50%', '65%',false);
+    }
+    function editBillingPostal() {
+        var op_url = "{:url('/exhibitor/billingPostalView')}";
+        ToOpenPopups(op_url, 'Billing Postal', '50%', '65%',false);
+    }
+    function editBillingCountry() {
+        var op_url = "{:url('/exhibitor/billingCountryView')}";
+        ToOpenPopups(op_url, 'Billing Country', '50%', '65%',false);
+    }
+</script>
+{/block}
+

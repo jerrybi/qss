@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Home</title>
+    <meta name="google" content="notranslate">
+    <link href="__EXHIBITOR__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/zhang.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="__EXHIBITOR__/css/lightbox.css">
+    <!-- jQuery (necessary JavaScript plugins) -->
+    {include file='layouts/layui'}
+    <script type='text/javascript' src="__EXHIBITOR__/js/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src="__EXHIBITOR__/js/common.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body>
+<form class="layui-form form-op-normal layui-form-pane bg-white" lay-filter="form1">
+    <div class="layui-form-item mgt20">
+        <label class="layui-form-label label-custom" style="height: 58px">Profile<br>
+            <span style="font-style: italic;font-size: 12px">MAX 100 Words</span>
+        </label>
+        <div class="layui-input-inline input-title-mz textarea">
+            <textarea  name="sub_profile" id="profile"
+                       value="" onfocus="limitTextarea(this,'.state');"
+                       placeholder="Please input content" autocomplete="off"
+                       class="layui-input input-title-mz input-profile">{$article['sub_profile']}</textarea>
+            <span class="state">0/100 words</span>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('/exhibitor/profileView',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    var maxlength = 100;
+    layui.use('form',function(){
+        var form = layui.form;
+        onReady();
+    });
+    function fail_callback(){
+        window.location.reload();
+    }
+    function calculateWordCount() {
+        var _val = $("#profile").val();
+        var words = _val.split(" ");
+        words = words.slice(0,maxlength);
+        $("#profile").val(words.join(" "));
+        $('.state').text(words.length+"/"+maxlength+" words");
+    }
+    function onReady() {
+        calculateWordCount();
+    }
+    function limitTextarea(self,nowleng) {
+        $(self).on('input propertychange',function (event) {
+            calculateWordCount();
+        });
+        $(self).blur(function () {
+            $(self).off('input propertychange');
+        });
+    }
+</script>
+<style>
+    .input-title-mz {
+        width: 400px!important;
+    }
+    .textarea{
+        height: 58px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .textarea span{
+        margin-left: 10px;
+        width: 150px;
+    }
+    #profile{
+        height: 58px;
+    }
+</style>
+</body>
+</html>
+
+
+

@@ -1,0 +1,51 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+<link href="__CMS__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<div style="margin-bottom: 10px">
+    <button class="layui-btn" onclick="goBack();">Back</button>
+</div>
+<div>
+    {php}echo htmlspecialchars_decode($article['dest_form']){/php}
+</div>
+<div hidden="hidden" id="formData"><?php echo json_encode($formData);?></div>
+<script>
+    $(document).ready(function () {
+        loadFormData();
+    });
+    function loadFormData(){
+        var element = $('#formData');
+        if(element){
+            var datas = element.text();
+            if(datas && datas != ''){
+                var formData = JSON.parse(datas);
+                for(var i=0;i<formData.length;i++){
+                    var item = formData[i];
+                    var name = item['name'];
+                    var value = item['value'];
+                    var type = item['type'];
+                    if(type == 'text'){
+                        $('input[name="'+name+'"]').val(value);
+                        $('input[name="'+name+'"]').attr({'disabled':true});
+                    }else if(type == 'textarea'){
+                        $('textarea[name="'+name+'"]').val(value);
+                        $('textarea[name="'+name+'"]').attr({'disabled':true});
+                    }else if(type == 'select'){
+                        $('select[name="'+name+'"]').val(value);
+                        $('select[name="'+name+'"]').attr({'disabled':true});
+                    }else if(type == 'radios'){
+                        $('input[name="'+name+'"][value="'+value+'"]').attr({'checked':true});
+                        $('input[name="'+name+'"]').attr({'disabled':true});
+                    }else if(type == 'checkboxs'){
+                        $('input[name="'+name+'"][value="'+value+'"]').attr({'checked':true,'disabled':true});
+                    }
+                }
+            }
+        }
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

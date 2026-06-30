@@ -1,0 +1,43 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        {if count($articles) > 0}
+            <table class="layui-table">
+                <colgroup>
+                    <col width="10%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="10%">
+                    <col width="30%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Number of submitted</th>
+                        <th style="text-align: center">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {volist name="articles" id="vo"}
+                        <tr>
+                            <td>{$i}</td>
+                            <td>{$vo.name}</td>
+                            <td>{$vo.type}</td>
+                            <td>{$vo.submit_num}</td>
+                            <td style="text-align: center;text-decoration: underline"><a href="{:url('vendor/index/report',['id'=>$vo.id])}">View</a></td>
+                        </tr>
+                    {/volist}
+                </tbody>
+            </table>
+        {else /}
+            <div style="height: 50px;line-height: 50px;width:100%;text-align: center">no data</div>
+        {/if}
+    </div>
+</div>
+{/block}
+

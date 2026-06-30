@@ -1,0 +1,688 @@
+<div id="formeditor-container">
+    <div class="row clearfix">
+        <div class="span6">
+            <div class="clearfix">
+                <h2 style="height: 55px">
+                    Form Template
+                </h2>
+                <hr>
+                <div id="build">
+                    <div id="target" class="form-horizontal form-block">
+                        <fieldset>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <h5 style="height: 55px">
+                1.Add Control,drag control from right area to left area.<br/>
+                2.Delete Control,drage control from left area to right area.<br/>
+                3.Edit Control,click on control of left area.<br/>
+            </h5>
+            <hr>
+            <div class="tabbable">
+                <div class="form-horizontal form-block" id="components">
+                    <fieldset>
+                        <!-- Text start -->
+                        <div class="control-group component layui-form-item" rel="popover" title="Text" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Default Value</label>
+                        <input type='text' id='orgvalue' placeholder='' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Type</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgtype' value='number' title='number' lay-skin='primary' disabled='disabled'>
+                        <input type='radio' name='orgtype' value='phone' title='phone' lay-skin='primary' disabled='disabled'>
+                        <input type='radio' name='orgtype' value='email' title='email' lay-skin='primary' disabled='disabled'>
+                        <input type='radio' name='orgtype' value='url' title='url' lay-skin='primary' disabled='disabled'>
+                        <input type='radio' name='orgtype' value='' title='other' lay-skin='primary' disabled='disabled'>
+                        </div>
+                        </div>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <!-- Text -->
+                            <div class="control-label leipiplugins-orgname">
+                                Text
+                            </div>
+                            <div class="controls layui-input-inline">
+                                <input name="leipiNewField" type="text" placeholder="" title="Text"
+                                       value="" class="leipiplugins layui-input" leipiplugins="text"/>
+                            </div>
+                        </div>
+                        <!-- Text end -->
+                        <!-- Textarea start -->
+                        <div class="control-group component layui-form-item" rel="popover" title="Textarea" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Default Value</label>
+                        <input type='text' id='orgvalue' placeholder='' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <!-- Textarea -->
+                            <div class="control-label leipiplugins-orgname">
+                                Textarea
+                            </div>
+                            <div class="controls layui-input-inline">
+                                <textarea title="Textarea" name="leipiNewField" class="leipiplugins layui-textarea" leipiplugins="textarea"/></textarea>
+                            </div>
+                        </div>
+                        <!-- Textarea end -->
+                        <!-- Select start -->
+                        <div class="control-group component layui-form-item" rel="popover" title="Dropdown" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Option</label>
+                        <textarea style='min-height: 200px' id='orgvalue' class='layui-area layui-input-inline'></textarea>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <p class='help-block'>One line for one option</p>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <!-- Select -->
+                            <div class="control-label leipiplugins-orgname">
+                                Dropdown
+                            </div>
+                            <div class="controls layui-input-inline">
+                                <select name="leipiNewField" title="Dropdown" class="leipiplugins" leipiplugins="select">
+                                    <option>Option1</option>
+                                    <option>Option2</option>
+                                    <option>Option3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Select end -->
+                        <!-- Multiple Checkboxes start -->
+                        <div class="control-group component layui-form-item" rel="popover" title="Checkbox" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Group Name</label>
+                        <input type='text' id='orggroupname' class='layui-input layui-input-inline'>
+                        <div class='hint'>checkbox with the same group name will be in one group</div>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Option</label>
+                        <textarea style='min-height: 200px' id='orgvalue' class='layui-area layui-input-inline'></textarea>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <p class='help-block'>One line for one option</p>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <div class="control-label leipiplugins-orgname">
+                                Checkbox(H)
+                            </div>
+                            <div class="controls leipiplugins-orgvalue">
+                                <!-- Multiple Checkboxes -->
+                                <input type="checkbox" name="leipiNewField" value="Option1" title="Option1" class="leipiplugins"
+                                           leipiplugins="checkbox" lay-skin="primary">
+                                <input type="checkbox" name="leipiNewField" value="Option2" title="Option2" class="leipiplugins"
+                                           leipiplugins="checkbox" lay-skin="primary">
+                            </div>
+                        </div>
+                        <div class="control-group component layui-form-item" rel="popover" title="Checkbox" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Group Name</label>
+                        <input type='text' id='orggroupname' class='layui-input layui-input-inline'>
+                        <div class='hint'>checkbox with the same group name will be in one group</div>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Option</label>
+                        <textarea style='min-height: 200px' id='orgvalue' class='layui-area layui-input-inline'></textarea>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <p class='help-block'>One line for one option</p>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <div class="control-label leipiplugins-orgname">
+                                Checkbox(V)
+                            </div>
+                            <div class="controls leipiplugins-orgvalue">
+                                <!-- Multiple Checkboxes -->
+                                <input type="checkbox" name="leipiNewField" value="Option1" title="Option1" class="leipiplugins"
+                                           leipiplugins="checkbox" orginline="vertical" lay-skin="primary">
+                                <br/>
+                                <input type="checkbox" name="leipiNewField" value="Option2" title="Option2" class="leipiplugins"
+                                           leipiplugins="checkbox" orginline="vertical" lay-skin="primary">
+                                <br/>
+                            </div>
+                        </div>
+                        <!-- Multiple Checkboxes end -->
+                        <!-- Multiple radios start -->
+                        <div class="control-group component layui-form-item" rel="popover" title="Radiobox" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Group Name</label>
+                        <input type='text' id='orggroupname' class='layui-input layui-input-inline'>
+                        <div class='hint'>radiobox with the same group name will be in one group</div>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Option</label>
+                        <textarea style='min-height: 200px' id='orgvalue' class='layui-area layui-input-inline'></textarea>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <p class='help-block'>One line for one option</p>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <div class="control-label leipiplugins-orgname" onclick="resetRadiobox('leipiNewField');">
+                                Radiobox(H)
+                            </div>
+                            <div class="controls leipiplugins-orgvalue">
+                                <!-- Multiple Checkboxes -->
+                                <input type="radio" name="leipiNewField" value="Option1" title="Option1" class="leipiplugins"
+                                           leipiplugins="radio" lay-skin="primary">
+                                <input type="radio" name="leipiNewField" value="Option2" title="Option2" class="leipiplugins"
+                                           leipiplugins="radio" lay-skin="primary">
+                            </div>
+                        </div>
+                        <div class="control-group component layui-form-item" rel="popover" title="Radiobox" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Group Name</label>
+                        <input type='text' id='orggroupname' class='layui-input layui-input-inline'>
+                        <div class='hint'>radiobox with the same group name will be in one group</div>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Option</label>
+                        <textarea style='min-height: 200px' id='orgvalue' class='layui-area layui-input-inline'></textarea>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <p class='help-block'>One line for one option</p>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <div class="control-label leipiplugins-orgname" onclick="resetRadiobox('leipiNewField');">
+                                Radiobox(V)
+                            </div>
+                            <div class="controls leipiplugins-orgvalue">
+                                <!-- Multiple Checkboxes -->
+                                <input type="radio" name="leipiNewField" value="Option1" title="Option1" class="leipiplugins"
+                                           leipiplugins="radio" orginline="vertical" lay-skin="primary">
+                                <br/>
+                                <input type="radio" name="leipiNewField" value="Option2" title="Option2" class="leipiplugins"
+                                           leipiplugins="radio" orginline="vertical" lay-skin="primary">
+                                <br/>
+                            </div>
+                        </div>
+                        <!-- Multiple radios end -->
+                        <!-- File Upload start-->
+                        <div class="control-group component layui-form-item" rel="popover" title="File" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Max Size</label>
+                        <input type='number' id='orgsize' class='layui-input layui-input-inline'>
+                        <label style='line-height:38px'>KB</label>
+                        </div>
+                        <div style='font-size:14px;color:#ccc;padding-left:130px'>0 means unlimited size</div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <div class="control-label leipiplugins-orgname">
+                                File Upload
+                            </div>
+                            <!-- File Upload -->
+                            <div class="layui-input-inline">
+                                <button type="button" class="layui-btn layui-btn-normal btn_upload_file" data-index="{leipiUploadIndex}" data-size="0">
+                                    <i class="layui-icon">&#xe681</i>Upload
+                                </button>
+                                <input type="hidden" name="leipiNewField" title="File Upload" value="" leipiplugins="uploadfile" class="leipiplugins upload_file_url{leipiUploadIndex}"/>
+                                <label class="upload_file_preview{leipiUploadIndex}"></label>
+                            </div>
+                        </div>
+                        <!-- File Upload end-->
+                        <!-- Image Upload start-->
+                        <div class="control-group component layui-form-item" rel="popover" title="Image" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Max Size</label>
+                        <input type='number' id='orgsize' class='layui-input layui-input-inline'>
+                        <label style='line-height:38px'>KB</label>
+                        </div>
+                        <div style='font-size:14px;color:#ccc;padding-left:130px'>0 means unlimited size</div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Width</label>
+                        <input type='text' id='orgwidth' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <div class="control-label leipiplugins-orgname">
+                                Image Upload
+                            </div>
+                            <div class="layui-input-inline">
+                                <button type="button" name="img_upload" class="layui-btn layui-btn-normal btn_upload_img" data-index="{leipiUploadIndex}" data-size="0">
+                                    <i class="layui-icon">&#xe67c</i>Upload
+                                </button>
+                                <input type="hidden" name="leipiNewField" title="Image Upload" value="" leipiplugins="uploadimage" class="leipiplugins upload_img_url{leipiUploadIndex}"/>
+                                <img class="layui-upload-img img-attr upload_img_preview{leipiUploadIndex}" src="">
+                            </div>
+                        </div>
+                        <!-- Image Upload end-->
+                        <!-- html start-->
+                        <div class="control-group component layui-form-item" rel="popover" title="html" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <script id='formeditor-ue' type='text/plain'></script>
+                        </div>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <div leipiplugins="html" class="leipiplugins html-editor">Insert html contents</div>
+                        </div>
+                        <!-- html end-->
+                        <!-- Telephone start -->
+                        <div class="control-group component layui-form-item" rel="popover" title="Tel" trigger="manual"
+                             data-content="
+                        <form class='form layui-form'>
+                        <div class='controls'>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Control Name</label>
+                        <input type='text' id='orgname' class='layui-input layui-input-inline'>
+                        </div>
+                        <div class='layui-form-item'>
+                        <label class='control-label layui-form-label'>Required</label>
+                        <div class='layui-input-inline'>
+                        <input type='radio' name='orgrequire' value='1' title='Yes' lay-skin='primary' lay-filter='orgrequire'>
+                        <input type='radio' name='orgrequire' value='0' title='No' lay-skin='primary' lay-filter='orgrequire' checked>
+                        </div>
+                        </div>
+                        <hr/>
+                        <button class='btn btn-info layui-btn layui-btn-normal' type='button'>Confirm</button>
+                        <button class='btn btn-danger layui-btn layui-btn-danger' type='button'>Cancel</button>
+                        </div>
+                        </form>">
+                            <div class="control-label leipiplugins-orgname">
+                                Tel
+                            </div>
+                            <div class="controls" style="display: flex;align-items: center">
+                                <input name="leipiNewField1" type="number" title="Country Code" value="" class="layui-input" style="width: 15%"/>&ensp;-&ensp;
+                                <input name="leipiNewField2" type="number" title="Area Code" value="" class="layui-input" style="width: 15%"/>&ensp;-&ensp;
+                                <input name="leipiNewField3" type="number" title="Number" value=""  style="width: 30%" class="leipiplugins layui-input" leipiplugins="tel"/>
+                            </div>
+                        </div>
+                        <!-- Telephone end -->
+                    </fieldset>
+                </div>
+            </div>
+            <!--tab-content-->
+        </div>
+        <!---tabbable-->
+    </div>
+    <!-- row -->
+</div>
+<style>
+    #components{
+        min-height: 300px;
+    }
+    #target{
+        height: 400px;
+        border: 1px solid #ccc;
+        padding: 5px;
+        overflow-y: scroll;
+    }
+    #target .component{
+        border: 1px solid #fff;
+    }
+    #temp{
+        width: 500px;
+        background: white;
+        border: 1px dotted #ccc;
+        border-radius: 10px;
+    }
+    #source{
+        min-height: 500px;
+    }
+    #formeditor-container{
+        position: relative;
+        width: 100%;
+    }
+    .row{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .span6{
+        width: 48%;
+    }
+    legend {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 20px;
+        font-size: 21px;
+        line-height: 40px;
+        color: #333333;
+        border: 0;
+        border-bottom: 1px solid #e5e5e5;
+    }
+    fieldset {
+        padding: 0;
+        margin: 0;
+        border: 0;
+    }
+    .form-horizontal .control-group {
+        margin-bottom: 10px;
+        *zoom: 1;
+    }
+    .control-group {
+        margin-bottom: 10px;
+    }
+    .form-horizontal .control-label {
+        float: none;
+        text-align: left;
+        background-color: white;
+        border: none;
+        padding: 0;
+    }
+    .form-horizontal .controls {
+        *display: inline-block;
+        *padding-left: 20px;
+        /*margin-left: 160px;*/
+        *margin-left: 0;
+    }
+    #components fieldset{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    #components .layui-form-label {
+        float: none;
+        display: block;
+        padding: 0;
+        width: 100%;
+        font-weight: 400;
+        height: 20px;
+        line-height: 20px;
+        text-align: left;
+        border: none;
+        background-color: white;
+    }
+    #components .layui-form-item .layui-input-inline {
+        float: none;
+        display: block;
+        width: 100%;
+        margin: 0;
+        clear:none;
+    }
+    #components .layui-form-item{
+        border:1px dashed #ccc;
+        padding: 5px;
+        float:left;
+        width: 40%;
+    }
+    #components .layui-textarea{
+        min-height: 38px;
+        height: 38px;
+        line-height: 38px;
+        padding: 0;
+    }
+    .red{
+        color:red;
+    }
+    .hint{
+        color:#ccc;
+        font-size: 14px;
+    }
+    .html-editor{
+        padding: 10px 0 10px 5px;
+    }
+    .popover.right {
+        margin-left: 10px;
+    }
+    .fade.in {
+        opacity: 1;
+    }
+    .popover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1010;
+        display: none;
+        padding: 1px;
+        text-align: left;
+        white-space: normal;
+        background-color: #ffffff;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        border-radius: 6px;
+        -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+    }
+    .fade {
+        opacity: 0;
+        -webkit-transition: opacity 0.15s linear;
+        -moz-transition: opacity 0.15s linear;
+        -o-transition: opacity 0.15s linear;
+        transition: opacity 0.15s linear;
+    }
+    .popover.right .arrow {
+        top: 50%;
+        left: -11px;
+        margin-top: -11px;
+        border-right-color: #999;
+        border-right-color: rgba(0, 0, 0, 0.25);
+        border-left-width: 0;
+    }
+    .popover .arrow {
+        border-width: 11px;
+    }
+    .popover .arrow, .popover .arrow:after {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+    }
+    .popover.right .arrow:after {
+        bottom: -10px;
+        left: 1px;
+        border-right-color: #ffffff;
+        border-left-width: 0;
+    }
+    .popover .arrow:after {
+        border-width: 10px;
+        content: "";
+    }
+    .popover .arrow, .popover .arrow:after {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+    }
+    .popover-title {
+        padding: 8px 14px;
+        margin: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 18px;
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #ebebeb;
+        -webkit-border-radius: 5px 5px 0 0;
+        -moz-border-radius: 5px 5px 0 0;
+        border-radius: 5px 5px 0 0;
+    }
+    .popover-content {
+        padding: 9px 14px;
+    }
+    .popover-content form {
+        margin: 0 auto;
+        width: 360px;
+    }
+    .popover-content form .btn{
+        margin-right: 10px
+    }
+    .popover form label{
+        /*display: block;*/
+        /*margin-top:5px;*/
+        /*margin-bottom: 5px;*/
+        width: 100px;
+    }
+    hr {
+        margin: 20px 0;
+        border: 0;
+    }
+</style>
+<!--<link href="__FORMEDITOR__/css/bootstrap/css/bootstrap.css?2024" rel="stylesheet" type="text/css" />-->
+<!--[if lte IE 6]>
+<!--<link rel="stylesheet" type="text/css" href="__FORMEDITOR__/css/bootstrap/css/bootstrap-ie6.css?2024">-->
+<![endif]-->
+<!--[if lte IE 7]>
+<!--<link rel="stylesheet" type="text/css" href="__FORMEDITOR__/css/bootstrap/css/ie.css?2024">-->
+<![endif]-->
+<link href="__FORMEDITOR__/css/site.css?2024" rel="stylesheet" type="text/css" />
+<script type="text/javascript" charset="utf-8" src="__FORMEDITOR__/js/jquery-1.7.2.min.js?2024"></script>
+<script type="text/javascript"  src="__FORMEDITOR__/js/formbuild/bootstrap/js/bootstrap.min.js?2024"></script>
+<script type="text/javascript" charset="utf-8" src="__FORMEDITOR__/js/formbuild/leipi.form.build.core.js?2024"></script>
+<script type="text/javascript" charset="utf-8" src="__FORMEDITOR__/js/formbuild/leipi.form.build.plugins.js?2024"></script>

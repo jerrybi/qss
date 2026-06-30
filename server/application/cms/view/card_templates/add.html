@@ -1,0 +1,121 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <input name="event_name" value="{$event['name']}" readonly="readonly" class="layui-input"/>
+            <input type="hidden" name="event_id" value="{$event['id']}" class="event_id">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Template Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value=""
+                   placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Visitor Type:</label>
+        <div class="layui-input-inline" style="width: calc(100% - 220px)">
+            <div id="type"></div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Template Content:</label>
+        <div class="layui-input-block div-article-content">
+            {include file="layouts/business_card_template" /}
+        </div>
+    </div>
+    <div hidden="hidden" id="types"><?php echo json_encode($types);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/cardTemplates/add')}" onclick="submitForm(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .mt10{
+        margin-top: 10px;
+    }
+    .mb10{
+        margin-bottom: 10px;
+    }
+    .label-custom{
+        width: 200px!important;
+    }
+    #type{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+    }
+</style>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        BC_init({
+            bg_width:0,
+            bg_height:0,
+            bg_size_type:0,
+            bg_size_index:0,
+            double_side:1,
+            content1:null,
+            content2:null
+        });
+        onReady();
+    });
+    function onReady(){
+        //type
+        var types = JSON.parse($('#types').text());
+        var typeStr = "";
+        $.each(types,function(i,item){
+            typeStr += '<input type="checkbox" name="type" value="'+item+'" title="'+item+'" lay-skin="primary" lay-filter="type">';
+        });
+        $("#type").html(typeStr);
+        layui.form.render();
+    }
+    function submitForm(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        var postData = $(".form-op-normal").serializeArray();
+        var bc = BC_getContent();
+        var item = {};
+        var types = [];
+        $.each(postData,function (i,data) {
+            if(data['name'] == 'name' || data['name'] == 'content' || data['name'] == 'source_form' || data['name'] == 'dest_form'){
+                item[data['name']] = window.btoa(encodeURIComponent(data['value']));
+            }else{
+                item[data['name']] = data['value'];
+            }
+            if(data['name'] == 'type'){
+                types.push(data['value']);
+            }
+        });
+        delete item.type;
+        item['type'] = types.join("|");
+        item['content1'] = window.btoa(encodeURIComponent(bc.content1));
+        item['content2'] = window.btoa(encodeURIComponent(bc.content2));
+        item['bg_width'] = bc.bg_width;
+        item['bg_height'] = bc.bg_height;
+        item['double_side'] = bc.double_side;
+        item['bg_size_type'] = bc.bg_size_type;
+        item['bg_size_index'] = bc.bg_size_index;
+        ToPostPopupsDeal(toUrl, item,failcb);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+{/block}

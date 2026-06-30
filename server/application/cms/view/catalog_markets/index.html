@@ -1,0 +1,230 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="catalogs-header">
+    <div class="layui-form-item mgr10">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/catalogMarkets/add')}"
+                onclick="addForOpenPopups(this,'✚ Add catalog','720px','95%')">
+            <i class="layui-icon">&#xe608;</i> Add catalog
+        </button>
+    </div>
+    <div class="layui-form-item mgr10">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/catalogMarkets/download')}"
+                onclick="downloadcatalogList(this);">
+            <i class="layui-icon">&#xe601;</i> Download
+        </button>
+    </div>
+    <div class="layui-form-item mgr10">
+        <button type="button" class="layui-btn layui-btn-normal btn_upload_file" data-index="0" upload_file_cb0="uploadcatalogList">
+            <i class="layui-icon">&#xe681;</i> Upload
+        </button>
+        <input type="hidden" name="url[0]" value="" class="upload_file_url0"/>
+    </div>
+    <div class="layui-form-item mgr10">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/catalogMarkets/fieldList')}"
+                onclick="gotoFieldsEditor(this);">
+            <i class="layui-icon">&#xe642;</i> Fields Editor
+        </button>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label label-custom">Select Event</label>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </form>
+    </div>
+</div>
+<div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+<div class="layui-inline">
+    <label class="static-btn">Search</label>
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/catalogMarkets/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+        </form>
+    </div>
+    <button class="layui-btn-warm btn-search-mz">
+        <i class="layui-icon">&#xe615;</i>
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="5%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="5%">
+        <col width="5%">
+        <col width="5%">
+        <col width="5%">
+        <col width="5%">
+        <col width="5%">
+        <col width="5%">
+        <col width="5%">
+        <col width="10%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>{$titles['name']}</th>
+        <th>{$titles['type']}</th>
+        <th>{$titles['category']}</th>
+        <th>{$titles['sub_category']}</th>
+        <th>{$titles['description']}</th>
+        <th>{$titles['advanced_rate']}</th>
+        <th>{$titles['standard_rate']}</th>
+        <th>{$titles['onsite_rate']}</th>
+        <th>{$titles['logo']}</th>
+        <th>{$titles['length']}</th>
+        <th>{$titles['depth']}</th>
+        <th>{$titles['width']}</th>
+        <th>{$titles['height']}</th>
+        <th>Event</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/catalogMarkets/edit',['id'=>'opid'])}">
+    <input type="hidden" class="view_url" value="{:url('cms/catalogMarkets/viewForms')}">
+    <input type="hidden" class="industry_url" value="{:url('cms/catalogMarkets/industryView',['id'=>'opid'])}">
+    <input type="hidden" class="product_url" value="{:url('cms/catalogMarkets/productView',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPages"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/catalogMarkets/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['name']}</td>
+        <td class="title">{$vo['type']}</td>
+        <td class="title">{$vo['category']}</td>
+        <td class="title">{$vo['sub_category']}</td>
+        <td class="title">{$vo['description']}</td>
+        <td class="title">{$vo['advanced_rate']}</td>
+        <td class="title">{$vo['standard_rate']}</td>
+        <td class="title">{$vo['have_onsite_rate']?$vo['onsite_rate']:'-'}</td>
+        <td class="title"><img src="{$vo['logo']}" width="50px" class="logo"/></td>
+        <td class="title">{$vo['length']}</td>
+        <td class="title">{$vo['depth']}</td>
+        <td class="title">{$vo['width']}</td>
+        <td class="title">{$vo['height']}</td>
+        <td class="title">{$vo['event_name']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit catalog"
+                        onclick="editForOpenPopups('✎ Edit catalog','{$vo.id}', '720px', '95%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove catalog"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        color: #283560;
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .catalogs-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    .mgr10{
+        margin-right: 10px;
+    }
+    .logo:hover{
+        transform: scale(2.0);
+    }
+</style>
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        layui.form.render('select');
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            $(".form-search").submit();
+        });
+        onReady();
+    });
+    function gotoFieldsEditor(obj) {
+        var op_url = $(obj).attr('op_url');
+        var eventId = $('.event_id').val();
+        window.location.href = op_url+'?event_id='+eventId;
+    }
+    function downloadcatalogList(obj) {
+        var op_url = $(obj).attr('op_url');
+        var eventId = $('.event_id').val();
+        window.location.href = op_url+'?event_id='+eventId;
+    }
+    function uploadcatalogList(fileUrl) {
+        var eventId = $('.event_id').val();
+        layer.closeAll();
+        var layerIndex = layer.load(2);
+        $.post(
+            "{:url('cms/catalogMarkets/upload')}",
+            {event_id:eventId,file_url:fileUrl},
+            function (result) {
+                layer.close(layerIndex);
+                if(result.status !== 200){
+                    dialog.tip(result.message,5);
+                }else{
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function viewForms(id){
+        var url = $('.view_url').val();
+        url = url+'?catalog_id='+id;
+        window.location.href = url;
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/catalogs.js"></script>
+{/block}

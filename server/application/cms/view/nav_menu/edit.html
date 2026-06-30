@@ -1,0 +1,111 @@
+{extend name="layouts/cms"}
+{block name="body-content"}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Nav title：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value="{$menuData.name}"
+                   placeholder="Please input title" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">less than 5 words</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Icon：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="icon" class="layui-input" placeholder="fa fa-home" value="{$menuData.icon}">
+        </div>
+        <div class="layui-form-mid layui-word-aux">fontawesome icon e.g.fa fa-home</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Menu type：</label>
+        <div class="layui-input-block" style="width: 660px">
+            <input type="radio" name="navType" lay-filter="navType" value="F" title="Main menu" {$menuData.parent_id==0?"checked":""}>
+            <input type="radio" name="navType" lay-filter="navType" value="S" title="Sub menu" {$menuData.parent_id<>0?"checked":""}>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Parent menu：</label>
+        <div class="layui-input-inline sel-parent-msg sel-parent-msg-F">
+            <select name="parent_id_F" lay-verify="required">
+                <option value="0">Root menu</option>
+            </select>
+        </div>
+
+        <div class="layui-input-inline sel-parent-msg sel-parent-msg-S">
+            <select name="parent_id_S" lay-verify="required">
+                {volist name="rootMenus" id="vo"}
+                <option value="{$vo.id}" {if ($menuData.parent_id == $vo.id)}selected{/if}>{$vo.name}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item sel-parent-msg sel-parent-msg-F sel-parent-msg-S">
+        <label class="layui-form-label label-custom">action：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="action" required
+                   value="{$menuData.action}"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">(example:cms/menu)no need write for root menu</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Sort：</label>
+        <div class="layui-input-inline">
+            <input type="number" name="list_order"
+                   value="{$menuData.list_order}" required lay-verify="required"
+                   placeholder="" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">(the smaller the number,the higher the order)</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Status：</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" value="1" title="Enabled"
+                   {if ($menuData.status == 1)}
+            checked
+            {/if};
+            >
+            <input type="radio" name="status" value="-1" title="Disabled"
+                   {if ($menuData.status == -1)}
+            checked
+            {/if};
+            >
+        </div>
+    </div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/navMenu/edit',['id'=>$menuData.id])}"
+                    onclick="opFormPostRecord(this)"
+                    lay-submit lay-filter="formDemo">Submit
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary">Reset</button>
+        </div>
+    </div>
+</form>
+
+{/block}
+
+{block name="single-content"}
+<script src="__CMS__/js/nav_menus.js"></script>
+<script>
+    var parent_id = "{$menuData.parent_id}";
+    var navTag = "F";
+    if(parent_id != 0){
+        navTag = "S";
+    }
+    $(".sel-parent-msg").hide();
+    $(".sel-parent-msg-"+navTag).show();
+</script>
+{/block}
+
+
+
+

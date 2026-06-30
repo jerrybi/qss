@@ -1,0 +1,364 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">User Name</label>
+        <div class="layui-input-inline">
+            <input type="text" name="user_name" required lay-verify="required" id="user_name"
+                   value="{$admin['user_name']}"
+                   placeholder="Please input user name" autocomplete="off" class="layui-input" readonly="readonly">
+        </div>
+        <div class="layui-form-mid layui-word-aux">less than 10 words</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Avatar</label>
+        <div class="layui-upload layui-input-inline">
+            <button type="button" name="img_upload" class="layui-btn btn_upload_profile">
+                <i class="layui-icon">&#xe67c;</i>Upload Image
+            </button>
+            <img class="layui-upload-img img-upload-preview-headshot layui-circle upload_img_preview"
+                 src="{$admin['picture']}">
+        </div>
+    </div>
+    <input type="hidden" name="picture" class="upload_img_url" value="{$admin['picture']}" id="picture">
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label label-custom">Password</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="password" name="password" id="password"-->
+<!--                   placeholder="" autocomplete="off" class="layui-input input-pwd">-->
+<!--        </div>-->
+<!--        <div class="layui-form-mid layui-word-aux">alphanumeric</div>-->
+<!--    </div>-->
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label label-custom">Confirm Password</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="password" id="re_password"-->
+<!--                   placeholder="" name="re_password" autocomplete="off" class="layui-input input-pwd-re">-->
+<!--        </div>-->
+<!--        <span class="layui-badge-dot span-dot"></span>-->
+<!--        <div class="div-tip layui-form-mid">-->
+<!--            <span class="layui-badge tip-pwd span-dot">confirm password</span>-->
+
+<!--        </div>-->
+<!--    </div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Email</label>
+        <div class="layui-input-inline">
+            <input type="text" name="email" required lay-verify="required" id="email"
+                   value="{$admin['email']}"
+                   placeholder="Please input email" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Role</label>
+        <div class="layui-input-inline">
+            <select name="role_id" lay-verify="required" id="role_id"  lay-filter="role">
+                <option value="{$admin['role_id']}">{$admin['role_name']}</option>
+                {volist name="adminRoles" id="vo"}
+                {if($vo['id']!=$admin['role_id'])}
+                <option value="{$vo['id']}">{$vo['user_name']}</option>
+                {/if}
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Parent</label>
+        <div class="layui-input-inline">
+            <select name="parent_id" lay-verify="required" id="parent_id">
+                <option value="">Please select parent</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Status</label>
+        <div class="">
+            <input type="radio" name="status" value="1" title="Enabled"
+                   {if ($admin['status'] == 1)}
+            checked
+            {/if}>
+            <input type="radio" name="status" value="0" title="Disabled"
+                   {if ($admin['status'] == 0)}
+            checked
+            {/if};>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Remark</label>
+        <div class="layui-input-block">
+                <textarea placeholder="" name="content" required id="content"
+                          lay-verify="required" class="layui-textarea">{$admin['content']}</textarea>
+        </div>
+    </div>
+    <input id="cur_parent_id" value="{$admin['parent_id']}" type="hidden"/>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/admin/editAdmin',['id'=>$admin.id])}" onclick="opFormPostAdmin(this)"
+                    lay-submit lay-filter="formDemo">Submit
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary">Reset</button>
+        </div>
+    </div>
+</form>
+<div id="clip" class="dialog" style="display: none">
+    <div class="mask"></div>
+    <div class="main">
+        <img src="" alt="" class="clip_img_preview" id="cropperImg">
+    </div>
+    <div class="handle clearfix">
+        <span class="cancel" onclick="cancelClip()">Cancel</span>
+        <span class="finish" onclick="confirmClip()">Ok</span>
+    </div>
+</div>
+<script type='text/javascript' src="__CMS__/js/crypto-js.js"></script>
+<script type='text/javascript' src="__CMS__/js/aes.js"></script>
+<script>
+    function opFormPostAdmin(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        //        var postData = $(".form-op-normal").serialize();
+        var userName = $('#user_name').val();
+        // var password = $('#password').val();
+        // var rePassword = $('#re_password').val();
+        var picture = $('#picture').val();
+        var roleId = $('#role_id').val();
+        var status = $("input[name='status']:checked").val();
+        var content = $('#content').val();
+        var email = $('#email').val();
+        var token = $("input[name='__token__']").val();
+        var parentId = $('#parent_id').val();
+        var postData = {
+            user_name:userName,
+            picture:picture,
+            role_id:roleId,
+            status:status,
+            content:content,
+            email:email,
+            __token__:token,
+            parent_id:parentId
+        };
+        // if(password != rePassword){
+        //     layui.msg('the two passwords do not match!');
+        //     return;
+        // }
+        // if(password == rePassword && password.length != 0){
+        //     var md5Pwd = CryptoJS.MD5(password).toString();
+        //     var publicKey = aesEncrypt(userName,md5Pwd,'qsxxqsxxqsxxqsxx');
+        //     postData.public_key = publicKey;
+        // }
+        ToPostPopupsDeal(toUrl, postData,failcb);
+    }
+    $(document).ready(function () {
+        getParentData($("#role_id").val(),true);
+    });
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(role)',function(data){
+            var role_id = data.value;
+            getParentData(role_id,false);
+        });
+    });
+    function getParentData(role_id,isFirst){
+        $.post(
+            "{:url('cms/admin/getParents')}",
+            {role_id:role_id},
+            function (result) {
+                console.log(result);
+                if(result.status == 200){
+                    reloadParentData(result.data,isFirst);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+
+    function reloadParentData(parents,isFirst){
+        var parentStr = "";
+        $.each(parents,function(i,item){
+            parentStr += "<option value='"+item['id']+"'>"+item['user_name']+"</option>";
+        });
+        $("#parent_id").html(parentStr);
+        layui.use('form',function(){
+            var form = layui.form;
+            form.render();
+            form.render('select','parent_id');
+        });
+        if(isFirst){
+            var cur_parent_id = $("#cur_parent_id").val();
+            if(cur_parent_id == '0'){
+                if(parents.length > 0){
+                    $("#parent_id").val(parents[0].id);
+                }
+            }else{
+                $("#parent_id").val(cur_parent_id);
+            }
+        }
+    }
+</script>
+<script>
+    var cropper;
+    $(document).ready(function(){
+        var image = document.querySelector('#cropperImg');
+        cropper = new Cropper(image,{
+            viewMode:3,
+            dragMode:'move',
+            aspectRatio:1,
+            autoCropArea:0.9,
+            restore:false,
+            guides:false,
+            center:false,
+            highlight:false,
+            scalable:true,
+            cropBoxMovable: true,
+            cropBoxResizable: true,
+            toggleDragModeOnDblclick: false
+        });
+    });
+    layui.use('upload', function () {
+        var upload = layui.upload;
+        //普通图片上传
+        upload.render({
+            elem: '.btn_upload_profile'
+            , type: 'images'
+            , exts: 'jpg|png|gif|jpeg' //设置一些后缀，用于演示前端验证和后端的验证
+            , accept:'images' //上传文件类型
+            , auto: false
+            ,choose:function (obj) {
+                obj.preview(function (index,file,result) {
+                    $('.clip_img_preview').attr('src',result);
+                    clipImage();
+                });
+            }
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                // obj.preview(function (index, file, result) {
+                //     $('.upload_img_preview').attr('src', result); //图片链接（base64）
+                // });
+            }
+            , done: function (res) {
+
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                return layer.msg('Upload failed,please upload again');
+            }
+        });
+    });
+    function clipImage() {
+        var image = document.querySelector('#cropperImg');
+        cropper.replace($('#cropperImg').attr('src'),false);
+        $('#clip').show();
+    }
+    function processData(dataUrl) {
+        var binaryString = window.atob(dataUrl.split(',')[1]);
+        var arrayBuffer = new ArrayBuffer(binaryString.length);
+        var intArray = new Uint8Array(arrayBuffer);
+        for (var i = 0, j = binaryString.length; i < j; i++) {
+            intArray[i] = binaryString.charCodeAt(i);
+        }
+
+        var data = [intArray],
+            blob;
+
+        try {
+            blob = new Blob(data);
+        } catch (e) {
+            window.BlobBuilder = window.BlobBuilder ||
+                window.WebKitBlobBuilder ||
+                window.MozBlobBuilder ||
+                window.MSBlobBuilder;
+            if (e.name === 'TypeError' && window.BlobBuilder) {
+                var builder = new BlobBuilder();
+                builder.append(arrayBuffer);
+                blob = builder.getBlob(imgType); // imgType为上传文件类型，即 file.type
+            } else {
+                console.log('not support!');
+            }
+        }
+        return blob;
+    }
+    function confirmClip() {
+        // var img_path = $('.clip_img_preview').attr('src');
+        // $('.upload_img_preview').attr('src',img_path);
+        // layer.close(clipPopIndex);
+        var resImg = cropper.getCroppedCanvas().toDataURL("image/jpeg",0.95);
+        var blob = processData(resImg);
+        var formData = new FormData();
+        formData.append('file',blob);
+        $.ajax(image_upload_url, {
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType:"json",
+            mimeType:"multipart/form-data",
+            success:function(res) {
+                console.log('Upload success');
+                if (res.status == 200) {
+                    $('.upload_img_url').val(res.data.url2);
+                    $('.upload_img_preview').attr('src',res.data.url2);
+                    // layer.close(clipPopIndex);
+                    $('#clip').hide();
+                }
+            },
+            error:function(err) {
+                console.log('Upload error');
+            }
+        });
+    }
+    function cancelClip() {
+        // layer.close(clipPopIndex);
+        $('#clip').hide();
+    }
+</script>
+<style>
+    .dialog {
+        display: none;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        top: 0;
+        left: 0;
+    }
+    .mask {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 1);
+    }
+    .main {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .handle {
+        position: fixed;
+        bottom: .7rem;
+        right: 0;
+        z-index: 100;
+        color: #fff;
+    }
+    .handle span {
+        display: block;
+        background: #000;
+        line-height: 1.4rem;
+        padding: 0 1rem;
+        cursor: pointer;
+        font-size: .52rem;
+        float: left;
+        margin-right: .3rem;
+    }
+    .clip_img_preview{
+        width: 100%;
+        height: 100%;
+    }
+</style>
+{/block}
+{block name='single-content'}
+{include file='layouts/cropperjs'/}
+{/block}

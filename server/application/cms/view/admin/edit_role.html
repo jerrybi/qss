@@ -1,0 +1,120 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Role Name：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="user_name" required lay-verify="required"
+                   value="{$role['user_name']}"
+                   placeholder="Please input name" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">less than 10 words</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Status：</label>
+        <div class="layui-input-inline" style="width:300px">
+            <input type="radio" name="status" value="1" title="Enabled"
+                   {if ($role['status'] == 1)}
+            checked
+            {/if}>
+            <input type="radio" name="status" value="-1" title="Disabled"
+                   {if ($role['status'] == -1)}
+            checked
+            {/if}>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Special Grant：</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="special_grant" value="1" title="On"
+                   {if ($role['special_grant'] == 1)}
+            checked
+            {/if};>
+            <input type="radio" name="special_grant" value="0" title="Off"
+                   {if ($role['special_grant'] == 0)}
+            checked
+            {/if}>
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+
+        <label class="layui-form-label label-custom">Auth Management：</label>
+        <input type="hidden" name="nav_menu_ids" class="nav_menu_ids" value="{$role['nav_menu_ids']}">
+        <div class="layui-input-block">
+            <div id="category"></div>
+        </div>
+
+    </div>
+    <input type="hidden" id="menuTree" name="menuTree" value="{$menuTree}">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button" onclick="editRole('{$role.id}')"
+                    lay-submit lay-filter="formDemo">Submit
+            </button>
+            <button type="reset" class="layui-btn layui-btn-primary">Reset</button>
+        </div>
+    </div>
+</form>
+
+{/block}
+
+{block name='single-content'}
+<script src="__CMS__/js/roles.js"></script>
+<script>
+    var instance;
+    layui.use('tree',function () {
+        var tree = layui.tree;
+        updateProductOptions();
+    });
+    function updateProductOptions() {
+        var str = $('#menuTree').val();
+        var data = JSON.parse(str);
+        instance = layui.tree.render({
+            elem:'#category',
+            id:'category',
+            showCheckbox:true,
+            accordion:true,
+            data:data
+        });
+        setCheckedData();
+    }
+    function setCheckedData() {
+        var menuSelf = $('.nav_menu_ids').val();
+        if(menuSelf && menuSelf.length > 0){
+            var menuData = JSON.parse(menuSelf);
+            datas = [];
+            getSelectedIds(menuData);
+            if(datas.length > 0){
+                layui.tree.setChecked('category',datas);
+            }
+        }
+    }
+    function getSelectedIds(data) {
+        for(var i=0;i<data.length;i++){
+            if(data[i].title != 'root'){
+                if(!data[i].children){
+                    datas.push(data[i].id);
+                }else{
+                    getSelectedIds(data[i].children);
+                }
+            }else if(data[i].children){
+                getSelectedIds(data[i].children);
+            }
+        }
+    }
+    function editRole(id) {
+        // dealSelNavMenuIDs();
+        $('.nav_menu_ids').val(JSON.stringify(instance.getChecked('category')));
+        var postData = $(".form-op-normal").serialize();
+        var toUrl = "{:url('cms/admin/editRole',['id'=>'RoleID'])}";
+        toUrl = toUrl.replace('RoleID', id);
+        ToPostPopupsDeal(toUrl, postData);
+    }
+</script>
+{/block}
+
+
+
+

@@ -1,0 +1,15 @@
+{extend name="layouts/base" /}
+{block name="content"}
+<link rel="stylesheet" href="__ERRORS__/css/style.css"/>
+<div id="errorpage">
+    <div class="tfans_error">
+        <div class="logo-500"></div>
+        <div class="errortans clearfix">
+            <div class="e500"></div>
+            <p><b>Error!</b></p>
+            <p>Server got wrong!Processing...</p>
+            <div class="bt" ><a href="{:url('exhibitor/')}">Back Home</a></div>
+        </div>
+    </div>
+</div>
+{/block}

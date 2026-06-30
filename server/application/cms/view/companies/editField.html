@@ -1,0 +1,345 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Field Name:</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="name"
+                   value="{$article['name']}" readonly
+                   placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Field Label:</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="label"
+                   value="{$article['label']}"
+                   placeholder="Please input label" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item {$key=='industry'?'hidden':($key=='product'?'hidden':'')}">
+        <label class="layui-form-label label-custom">Default Value:</label>
+        <div class="layui-input-inline">
+            {if $key=='type' OR $key=='location' OR $key=='booth_id' OR $key=='origin_country' OR $key=='country' OR $key=='billing_country'}
+                <select name="default" id="default" lay-verify="required" lay-filter="default">
+                </select>
+            {else /}
+                <input type="text"  name="default"
+                       value="{$article['default']}"
+                       placeholder="Please input default" autocomplete="off" class="layui-input input-title-mz">
+            {/if}
+        </div>
+    </div>
+    <div class="layui-form-item" {$key=='industry'?'':($key=='product'?'':'hidden')}>
+        <label class="layui-form-label label-custom">Field Description:</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="description"
+                   value="{$article['description']}"
+                   placeholder="Please input description" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item {$key=='size'?'':($key=='badge'?'':'hidden')}">
+        <label class="layui-form-label label-custom">{$key=='size'?'Min Value':($key=='badge'?'From Area':'')}</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="min"
+                   value="{$article['min']}"
+                   placeholder="Please input min" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item {$key=='size'?'':($key=='badge'?'':($key=='industry'?'':($key=='product'?'':'hidden')))}">
+        <label class="layui-form-label label-custom">{$key=='size'?'Max Value':($key=='badge'?'To Area':($key=='industry'?'Max Selections':($key=='product'?'Max Selections':'')))}</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="max"
+                   value="{$article['max']}"
+                   placeholder="Please input max" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item {$key=='type'?'':($key=='origin_country'?'':($key=='country'?'':($key=='industry'?'':($key=='billing_country'?'':'hidden'))))}">
+        <label class="layui-form-label label-custom">Options</label>
+        <div class="layui-input-inline">
+            <textarea type="text"  name="options"
+                      placeholder="Please input options" autocomplete="off" class="layui-input textarea-options">
+
+            </textarea>
+        </div>
+        <button class="layui-btn" type="button" onclick="updateOption()">Update</button>
+        <div class="layui-form-mid layui-word-aux">one option for one line</div>
+    </div>
+<!--    <div class="layui-form-item {$key=='industry'?'':'hidden'}">-->
+<!--        <label class="layui-form-label label-custom">Field Options</label>-->
+<!--        <div class="layui-input-inline input-title-mz">-->
+<!--            <div class="section-area">-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="layui-form-item {$key=='product'?'':'hidden'}">
+        <label class="layui-form-label label-custom">Category</label>
+        <div class="layui-input-inline input-title-mz">
+            <div class="section-area" id="category">
+
+            </div>
+        </div>
+    </div>
+
+    <div hidden="hidden" id="optionsstr">{$article['options']}</div>
+    <div hidden="hidden" id="locations"><?php echo json_encode($locations);?></div>
+    <div hidden="hidden" id="booths"><?php echo json_encode($booths);?></div>
+    {if $key == 'product'}
+    <input type="hidden" id="options" name="options" value="{$article['options']}">
+    {/if}
+    <input type="hidden" name="event_id" value="{$event_id}">
+    <input type="hidden" name="key" value="{$key}">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/companies/editField',['id'=>$article.key])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        var key = "{$key}";
+        var optionsstr = $('#optionsstr').text();
+        $('.textarea-options').val(optionsstr);
+        if(key == 'type'||key=='origin_country'||key=='country'||key=='industry'||key=='billing_country'){
+            updateOptions(optionsstr);
+        }
+        if(key == 'location'){
+            var options = JSON.parse($('#locations').text());
+            var optionStr = "";
+            var dvalue = "{$article['default']}";
+            $.each(options,function(i,item){
+                optionStr += "<option value='"+item.name+"'>"+item.name+"</option>";
+            });
+            $("#default").html(optionStr);
+            $("#default").val(dvalue);
+            layui.form.render('select');
+        }
+        if(key == 'booth_id'){
+            var options = JSON.parse($('#booths').text());
+            var optionStr = "";
+            var dvalue = "{$article['default']}";
+            $.each(options,function(i,item){
+                optionStr += "<option value='"+item.id+"'>"+item.name+"</option>";
+            });
+            $("#default").html(optionStr);
+            $("#default").val(dvalue);
+            layui.form.render('select');
+        }
+        // if(key == 'industry'){
+        //     updateIndustryOptions();
+        // }
+    });
+    layui.use('tree',function () {
+        var tree = layui.tree;
+        var key = "{$key}";
+        if(key == 'product'){
+            updateProductOptions();
+        }
+    });
+    function updateOptions(options) {
+        var optionStr = "";
+        var dvalue = "{$article['default']}";
+        var optionArr = options.split("\n");
+        $.each(optionArr,function(i,item){
+            optionStr += "<option value='"+item+"'>"+item+"</option>";
+        });
+        $("#default").html(optionStr);
+        $("#default").val(dvalue);
+        layui.form.render('select');
+    }
+    function updateOption() {
+        updateOptions($('.textarea-options').val());
+    }
+    function updateIndustryOptions() {
+        var str = $('#options').val();
+        var items = str.split('\n');
+        var html = '';
+        $.each(items,function (i,item) {
+            html += '<div class="section-item">';
+            html += '<input type="text" class="layui-input" name="option'+i+'" value="'+item+'" oninput="onItemInput(this,'+i+')" onpropertychange="onItemInput(this,'+i+')">';
+            html += '<i class="layui-icon layui-icon-delete" onclick="deleteItem('+i+')"></i>';
+            html += '</div>';
+        });
+        html += '<div class="section-item" style="text-align: center">';
+        html += '<i class="layui-icon layui-icon-add-circle add-item" onclick="addItem()"></i>';
+        html += '</div>';
+        $('.section-area').html(html);
+    }
+    function deleteItem(index){
+        var str = $('#options').val();
+        var items = str.split('\n');
+        items.splice(index,1);
+        var outstr = items.join('\n');
+        $('#options').val(outstr);
+        updateIndustryOptions();
+    }
+    function addItem() {
+        var str = $('#options').val();
+        var outstr = str+'\n';
+        $('#options').val(outstr);
+        updateIndustryOptions();
+    }
+    function onItemInput(obj,index) {
+        var value = obj.value;
+        var str = $('#options').val();
+        var items = str.split('\n');
+        items.splice(index,1,value);
+        var outstr = items.join('\n');
+        $('#options').val(outstr);
+    }
+    function updateProductOptions() {
+        var str = $('#options').val();
+        var data = (str && str.length>0)?JSON.parse(str):[{title:'root',id:new Date().getTime(),spread:true}];
+        $('#options').val(JSON.stringify(data));
+        var instance = layui.tree.render({
+            elem:'#category',
+            showCheckbox:false,
+            edit:['add','update','del'],
+            accordion:false,
+            text:{
+                defaultNodeName:'item',
+                none:'no data'
+            },
+            operate:function(obj){
+                console.log(obj);
+                var type = obj.type;
+                var data = obj.data;
+                if(type === 'add'){
+                    var id = new Date().getTime();
+                    addTreeItem(data,id);
+                    return id;
+                }else if(type === 'update'){
+                    updateTreeItem(data);
+                }else if(type === 'del'){
+                    delTreeItem(data);
+                }
+            },
+            data:data
+        });
+    }
+    function findNodeItem(data,obj) {
+        for(var i=0;i<data.length;i++){
+            var item = data[i];
+            if(item.id == obj.id){
+                return item;
+            }else if(item.children){
+                var node = findNodeItem(item.children,obj);
+                if(node){
+                    return node;
+                }
+            }
+        }
+        return null;
+    }
+    function findNodeItemIndex(data,obj) {
+        for(var i=0;i<data.length;i++){
+            var item = data[i];
+            if(item.id == obj.id){
+                return i;
+            }
+        }
+        return -1;
+    }
+    function findParentNodeItem(data,obj) {
+        if(!data.children) return null;
+        for(var i=0;i<data.children.length;i++){
+            var item = data.children[i];
+            if(item.id == obj.id){
+                return data;
+            }else if(item.children){
+                var node = findParentNodeItem(item,obj);
+                if(node){
+                    return node;
+                }
+            }
+        }
+        return null;
+    }
+    function addTreeItem(parent,id) {
+        var str = $('#options').val();
+        var data = JSON.parse(str);
+        var item = findNodeItem(data,parent);
+        if(item){
+            if(item.children){
+                item.children.push({
+                    id:id,
+                    title:'item',
+                    spread:true
+                });
+            }else{
+                item.children = [{
+                    id:id,
+                    title:'item',
+                    spread:true
+                }];
+            }
+        }
+        $('#options').val(JSON.stringify(data));
+    }
+    function updateTreeItem(child) {
+        var str = $('#options').val();
+        var data = JSON.parse(str);
+        var item = findNodeItem(data,child);
+        if(item){
+            item.title = child.title;
+            item.spread = true;
+        }
+        $('#options').val(JSON.stringify(data));
+    }
+    function delTreeItem(child) {
+        var str = $('#options').val();
+        var data = JSON.parse(str);
+        var parent = findParentNodeItem(data[0],child);
+        if(parent){
+            var index = findNodeItemIndex(parent.children,child);
+            if(index >= 0){
+                parent.children.splice(index,1);
+            }
+        }
+        $('#options').val(JSON.stringify(data));
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<style>
+    .hidden{
+       display: none;
+    }
+    .section-area{
+        float: left;
+        margin-right: 10px;
+    }
+    .section-item{
+        height: 38px;
+        line-height: 38px;
+        margin-bottom: 10px;
+    }
+    .section-item input{
+        height: 30px;
+        line-height: 30px;
+        width: 400px;
+        display: inline-block;
+    }
+    .section-item .add-item{
+        font-size: 30px;
+        margin: 0 auto;
+        color: #d2d2d2;
+    }
+    .textarea-options{
+        height: 100px;
+    }
+</style>
+{/block}
+{block name='single-content'}
+{/block}
+
+
+

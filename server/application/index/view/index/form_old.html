@@ -1,0 +1,457 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="HandheldFriendly" content="true" />
+    {include file='layouts/layui'}
+    <style>
+        @font-face {
+            font-family: 'FontsFree';
+            font-style: normal;
+            src: url(../fonts/FontsFree-Net-sparose1.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            src: url(../fonts/Lato-Regular.ttf) format('truetype');
+        }
+        @font-face {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            src: url(../fonts/Lato-Bold.ttf) format('truetype');
+        }
+
+        @media screen and (max-width:768px) {
+            .content{
+                flex-direction: column!important;
+                /*height: auto!important;*/
+                font-size: 16px!important;
+            }
+            .container-bg{
+                background-image: url(../images/bg_portrait3.jpg)!important;
+                background-size: 100% 100%!important;
+            }
+            .container{
+                padding-left: 0!important;
+                width: 90%!important;
+                margin-top: 60px!important;
+            }
+            .container-top{
+                display: block!important;
+            }
+            .container-bottom{
+                display: block!important;
+            }
+            .layui-form-label{
+                font-size: 16px!important;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: pre-wrap!important;
+                word-wrap: break-word!important;
+            }
+            .chkbox{
+                font-size: 14px!important;
+                line-height: 18px!important;
+            }
+            .hint{
+                font-size: 14px!important;
+                line-height: 18px!important;
+            }
+            #detailForm{
+                width: 100%!important;
+            }
+            .logo-container{
+                top: 20px!important;
+            }
+        }
+        @media screen and (max-width:768px) {
+            .logo{
+                width: 80%!important;
+                height: auto!important;
+            }
+        }
+        body{
+            padding: 0;
+            margin: 0;
+        }
+        .container-bg{
+            background-image: url(../images/bg_land.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position:center center;
+            background-color:#dba958;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #detailForm{
+            width: 500px;
+            /*background-color: #dba958;*/
+            /*border-radius: 15px;*/
+        }
+        .red{
+            color: red;
+        }
+        .terms{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: #ebebeb;
+        }
+        .terms a{
+            color: #ebebeb;
+        }
+        .content{
+            background-color: #dba958;
+            font-family: 'Lato', Verdana, Sans-Serif;
+            width: 100%;
+            height:100%;
+            text-align: left;
+            font-size: 12px;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center
+        }
+        .solution input{
+            display: block;
+        }
+        .form-bottom{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .my-btn{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .my-btn button{
+            width: 280px;
+            border-radius: 5px;
+        }
+        .layui-form-label{
+            color: #333;
+            font-size: 10px;
+            padding: 0!important;
+            text-align: left;
+            position: relative;
+            float: none!important;
+            width: 100%!important;
+        }
+        .layui-input-block{
+            margin-left: 0;
+        }
+        .layui-form-checkbox[lay-skin=primary] span{
+            color: #333333!important;
+        }
+        #other{
+            color: #333333;
+        }
+        #btnSubmit{
+            background-image: url("../images/RSVP_Button.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            color: white;
+            text-align: center;
+            width: 160px;
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #btnSubmit:hover{
+            cursor: pointer;
+        }
+        .chkbox{
+            font-size: 12px;
+            line-height: 12px;
+        }
+        .chkbox-content{
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .chkbox-content2{
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .layui-input, .layui-select, .layui-textarea{
+            height: 28px!important;
+            font-size: 12px!important;
+        }
+        .title{
+            font-family: Lato;
+            font-size: 20px;
+            /*color: #ffffff;*/
+            color: #393939;
+            text-align: left;
+        }
+        .sub-title{
+            font-family: Lato;
+            font-size: 18px;
+            /*color: #ffffff;*/
+            color: #393939;
+            text-align: left;
+        }
+        .sub-title ul{
+            padding-left: 20px;
+        }
+        .hint{
+            font-size: 12px;
+            font-style: italic;
+            color: #fff;
+            line-height: 12px;
+        }
+        .layui-form-item{
+            margin-bottom: 0!important;
+        }
+        .layui-disabled, .layui-disabled:hover{
+            color: #828282!important;
+        }
+        .container-top{
+            display: none;
+            /*background-image: url(../images/bg_portrait_top.png);*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: contain;*/
+            /*background-position:center center;*/
+            /*background-color:#00306b;*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+        }
+        .container-bottom{
+            display: none;
+            /*background-image: url(../images/bg_portrait_bottom.png);*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: contain;*/
+            /*background-position:center center;*/
+            /*background-color:#00306b;*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+        }
+        .logo-container{
+            position: absolute;
+            top: 50px;
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="container-bg">
+            <div class="logo-container">
+<!--                <div style="font-family: 'Lato', Verdana, Sans-Serif;text-align: center;color:#fff;font-size: 50px;">-->
+<!--                    SHEIN-->
+<!--                </div>-->
+<!--                <div style="font-family: 'FontsFree', Verdana, Sans-Serif;text-align: center;color:#fff;font-size: 20px;">-->
+<!--                    GLOBAL RECEPTION 2023-->
+<!--                </div>-->
+                <img class="logo" src="../images/shein_logo.png" width="320" height="128"/>
+            </div>
+            <div class="container">
+                <form class="layui-form" id="detailForm">
+                    <div class="layui-row">
+                        <div class="layui-col-md12 layui-col-xs12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Salutation(Indicate Mr, Ms, Dr, Prof, H.E. if any)</label>
+                                <div class="layui-input-block">
+                                    {if $selfRegister == '1'}
+                                    <input type="text"  name="salutation"
+                                           value="{$salutation}"
+                                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                                    {else /}
+                                    <input type="text"  name="salutation" readonly="readonly"
+                                           value="{$salutation}"
+                                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12 layui-col-xs12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Full Name</label>
+                                <div class="layui-input-block">
+                                    {if $selfRegister == '1'}
+                                    <input type="text"  name="full_name"
+                                           value="{$full_name}"
+                                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                                    {else /}
+                                    <input type="text"  name="full_name" readonly="readonly"
+                                           value="{$full_name}"
+                                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12 layui-col-xs12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">Company/Organisation</label>
+                                <div class="layui-input-block">
+                                    {if $selfRegister == '1'}
+                                    <input type="text"  name="organisation"
+                                           value="{$organisation}"
+                                           placeholder="" autocomplete="off" class="layui-input input-title-mz">
+                                    {else /}
+                                    <input type="text"  name="organisation" readonly="readonly"
+                                           value="{$organisation}"
+                                           placeholder="" autocomplete="off" class="layui-input input-title-mz">
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        {if $showReception == '1'}
+                        <div class="layui-col-md12 layui-col-xs12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">I will attend SHEIN Corporate Reception on 14 September 2023</label>
+                                <div class="layui-input-block">
+                                    {if $editReception == '1'}
+                                        <input type="radio"  name="reception" value="1" title="Yes" checked>
+                                        <input type="radio"  name="reception" value="2" title="No">
+                                    {else /}
+                                        <input type="radio"  name="reception" value="1" title="Yes" checked>
+                                        <input type="radio"  name="reception" disabled value="2" title="No">
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
+                        {if $showF1 == '1'}
+                        <div class="layui-col-md12 layui-col-xs12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">I will attend SHEIN Sky Suite at Formula 1 Singapore Grand Prix</label>
+                                <div class="layui-input-block">
+                                    {volist name="$f1options" id="item"}
+                                    <div class="layui-col-xs12 layui-col-md3">
+                                        {if $editF1 == '1'}
+                                            <input type="checkbox" name="{$item['name']}" value="{$item['value']}" title="{$item['title']}" lay-skin="primary" lay-filter="f1"/>
+                                        {else /}
+                                            <input type="checkbox" value="{$item['value']}" title="{$item['title']}" checked disabled lay-skin="primary" lay-filter="f1"/>
+                                            <input type="hidden" name="{$item['name']}" value="{$item['value']}"/>
+                                        {/if}
+                                    </div>
+                                    {/volist}
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+                    <input type="hidden" name="id" value="{$id}"/>
+                    <input type="hidden" name="self_register" value="{$selfRegister}"/>
+                    <div class="form-bottom">
+                        <div class="layui-form-item my-btn">
+                            <div id="btnSubmit" type="button" lay-submit lay-filter="detail">Submit</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script>
+    var f1options = [];
+    layui.use(['form','element'],function () {
+        var form = layui.form;
+        var element = layui.element;
+        form.on("submit(detail)",function () {
+            submit();
+        });
+        form.verify({
+            radiorequired:function(value,item){
+                var $ = layui.$;
+                var verifyName=$(item).attr('name')
+                    , verifyType=$(item).attr('type')
+                    ,formElem=$(item).parents('.layui-form')//获取当前所在的form元素，如果存在的话
+                    ,verifyElem=formElem.find('input[name='+verifyName+']')//获取需要校验的元素
+                    ,isTrue= verifyElem.is(':checked')//是否命中校验
+                    ,focusElem = verifyElem.next().find('i.layui-icon');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css(verifyType == 'radio' ? {"color": "#FF5722"} : {"border-color": "#FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css(verifyType == 'radio' ? {"color": ""} : {"border-color": ""});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            checkboxrequired:function(value,item){
+                var $ = layui.$;
+                var verifyName=$(item).attr('name')
+                    , verifyType=$(item).attr('type')
+                    ,formElem=$(item).parents('.layui-form')//获取当前所在的form元素，如果存在的话
+                    ,verifyElem=formElem.find('input[name="'+verifyName+'"]')//获取需要校验的元素
+                    ,isTrue= verifyElem.is(':checked')//是否命中校验
+                    ,focusElem = verifyElem.next().find('i.layui-icon');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css(verifyType == 'checkbox' ? {"color": "#FF5722"} : {"border-color": "#FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css(verifyType == 'checkbox' ? {"color": ""} : {"border-color": ""});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            }
+        });
+        form.on("checkbox(f1)",function(data){
+            console.log(data);
+            if(data.elem.checked){
+                f1options.push(data.value);
+            }else{
+                f1options.splice(f1options.indexOf(data.value));
+            }
+            console.log(f1options);
+        });
+        $(".layui-form-checkbox").on('click',function () {
+            return false;
+        });
+    });
+
+    function submit(){
+        var showReception = "{$showReception}";
+        var showF1 = "{$showF1}";
+        var editF1 = "{$editF1}";
+        if(showReception === '1' && showF1 === '1'){
+            var reception = $("input[name='reception']:checked").val();
+            if(reception === '2' && f1options.length === 0){
+                layer.msg("Please attend at least one option from SHEIN<br/>Corporate Reception and Formula 1 Singapore<br/>Grand Prix!");
+                return;
+            }
+        }
+        if(showReception === '0' && showF1 === '1' && editF1 === '1'){
+            if(f1options.length === 0){
+                layer.msg("Please attend at least one day of Formula 1 Singapore Grand Prix!");
+                return;
+            }
+        }
+        var formData = $("#detailForm").serializeArray();
+        console.log(formData);
+        $("#btnSubmit").attr('disabled',true);
+        $.post('/index/form/',formData,function (data) {
+            if(data.status == 200){
+                window.location.href = '/index/accept?id='+data.data.id;
+            }else{
+                layer.msg(data.message);
+            }
+            $("#btnSubmit").attr('disabled',false);
+        },"JSON");
+    }
+</script>
+</body>
+</html>

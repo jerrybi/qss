@@ -1,0 +1,439 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Form Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value="{$article['name']}"
+                   placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Main Type:</label>
+        <div class="layui-input-inline">
+            <select name="main_type" id="mainType" lay-verify="required" lay-filter="main_type">
+                <option value="Marketing">Marketing</option>
+                <option value="Operations">Operations</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Form Type:</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="type"
+                   value="Marketing" readonly="readonly"
+                   placeholder="Please input type" autocomplete="off" class="layui-input input-title-mz input-type">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Sort:</label>
+        <div class="layui-input-inline">
+            <input type="number" name="sort" required lay-verify="required"
+                   value="{$article['sort']}"
+                   placeholder="Please input sort" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Show Dimension:</label>
+        <div class="layui-input-inline input-title-mz">
+            {if $article.show_dimension == 1}
+            <input type="checkbox" name="show_dimension" value="1" checked lay-skin="switch" lay-filter="show_dimension">
+            {else /}
+            <input type="checkbox" name="show_dimension" value="0" lay-skin="switch" lay-filter="show_dimension">
+            {/if}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Vendor:</label>
+        <div class="layui-input-inline">
+            <select name="vendor_id" id="vendor" lay-verify="required" lay-filter="vendor">
+                <option value="">Please select vendor</option>
+            </select>
+            <div id="vendorAccount"></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Early Submission Date:</label>
+        <div class="layui-input-inline">
+            <input name="early_submission_date" id="earlySubmissionDate" value="{$article['early_submission_date']}" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Submission Date:</label>
+        <div class="layui-input-inline">
+            <input name="due_date" id="dueDate" value="{$article['due_date']}" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Submission Block Date:</label>
+        <div class="layui-input-inline">
+            <input name="submission_block_date" id="submissionBlockDate" value="{$article['submission_block_date']}" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Form Order Items:</label>
+        <div class="layui-input-inline input-title-mz">
+            {if $article.have_item == 1}
+            <input type="checkbox" name="have_item" value="1" checked lay-skin="switch" lay-filter="item">
+            {else /}
+            <input type="checkbox" name="have_item" value="0" lay-skin="switch" lay-filter="item">
+            {/if}
+            <div id="orderItems" class="mgt10 {$article['have_item']==0?'hidden':''}"></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Supervisor Email:</label>
+        <div class="layui-input-inline input-title-mz">
+                    <textarea type="text"  name="supervisor_email"
+                              placeholder="Please input emails" autocomplete="off" class="layui-input textarea-supervisor">{$article['supervisor_email']}</textarea>
+            <div class="layui-form-mid layui-word-aux">make each email in a new line</div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Form Header Content</label>
+        <div class="layui-input-block div-article-content">
+            <script id="ue-container" name="header_content" type="text/plain" style="width: 100%">{php}echo htmlspecialchars_decode($article['header_content']);{/php}</script>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Form Instructions</label>
+        <div class="layui-input-block div-article-content">
+            <script id="ue-instruction-container" name="instruction" type="text/plain" style="width: 100%">{php}echo htmlspecialchars_decode($article['instruction']);{/php}</script>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Cost Notes</label>
+        <div class="layui-input-block div-article-content">
+            <script id="ue-notes-container" name="cost_notes" type="text/plain" style="width: 100%">{php}echo htmlspecialchars_decode($article['cost_notes']);{/php}</script>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Form Footer Content</label>
+        <div class="layui-input-block div-article-content">
+            <script id="ue-footer-container" name="footer_content" type="text/plain" style="width: 100%">{php}echo htmlspecialchars_decode($article['footer_content']);{/php}</script>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label label-custom">Additional Fields</label>
+        <input type="hidden" id="source" name="source_form" value="{$article['source_form']}">
+        <input type="hidden" id="dest" name="dest_form" value="{$article['dest_form']}">
+        <input type="hidden" id="fields" name="fields" value="{$article['fields']}">
+        <div class="layui-input-block div-article-content">
+            {if $article.have_dynamic == 1}
+            <input type="checkbox" name="have_dynamic" value="1" checked lay-skin="switch" lay-filter="dynamic">
+            {else /}
+            <input type="checkbox" name="have_dynamic" value="0" lay-skin="switch" lay-filter="dynamic">
+            {/if}
+            <div id="dynamicBlock" class="mgt10 {$article['have_dynamic']==0?'hidden':''}">
+                {include file='layouts/form-template'/}
+            </div>
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    <input type="hidden" id="orderItem" name="order_items" value="">
+    <input type="hidden" id="vendorAccounts" name="vendor_accounts" value="">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/formMarkets/edit',['id'=>$article.id])}" onclick="submitForm(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .mt10{
+        margin-top: 10px;
+    }
+    .mb10{
+        margin-bottom: 10px;
+    }
+</style>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var event_id = data.value;
+            getVendors(event_id);
+            getOrderItems(event_id);
+        });
+        form.on('checkbox(orderitem)',function (data) {
+            var checked = data.elem.checked;
+            var value = data.value;
+            if(checked){
+                addOrderItemOptions(value);
+            }else{
+                minusOrderItemOptions(value);
+            }
+        });
+        form.on('select(vendor)',function(data){
+            var vendor_id = data.value;
+            getVendorAccount(vendor_id);
+        });
+        form.on('checkbox(vendorAccount)',function (data) {
+            var checked = data.elem.checked;
+            var value = data.value;
+            if(checked){
+                addVendorAccountOptions(value);
+            }else{
+                minusVendorAccountOptions(value);
+            }
+        });
+        form.on('switch(item)',function(data){
+            var checked = data.elem.checked;
+            if(checked){
+                $("#orderItems").show();
+                $("input[name='have_item']").val('1');
+            }else{
+                $("#orderItems").hide();
+                $("input[name='have_item']").val('0');
+            }
+        });
+        form.on('switch(show_dimension)',function(data){
+            var checked = data.elem.checked;
+            if(checked){
+                $("input[name='show_dimension']").val('1');
+            }else{
+                $("input[name='show_dimension']").val('0');
+            }
+        });
+        form.on('switch(dynamic)',function(data){
+            var checked = data.elem.checked;
+            if(checked){
+                $("#dynamicBlock").show();
+                $("input[name='have_dynamic']").val('1');
+            }else{
+                $("#dynamicBlock").hide();
+                $("input[name='have_dynamic']").val('0');
+            }
+        });
+        onReady();
+    });
+    function addOrderItemOptions(item) {
+        var str = $('#orderItem').val();
+        var items = [];
+        if(str && str.length > 0){
+            items = str.split('\n');
+        }
+        items.push(item);
+        $('#orderItem').val(items.join("\n"));
+    }
+    function minusOrderItemOptions(item) {
+        var str = $('#orderItem').val();
+        var items = str.split('\n');
+        var index = items.indexOf(item);
+        if(index >= 0){
+            items.splice(index,1);
+        }
+        if(items.length > 0){
+            $('#orderItem').val(items.join("\n"));
+        }else{
+            $('#orderItem').val('');
+        }
+    }
+    function addVendorAccountOptions(item) {
+        var str = $('#vendorAccounts').val();
+        var items = [];
+        if(str && str.length > 0){
+            items = JSON.parse(str);
+        }
+        items.push(item);
+        $('#vendorAccounts').val(JSON.stringify(items));
+    }
+    function minusVendorAccountOptions(item) {
+        var str = $('#vendorAccounts').val();
+        var items = JSON.parse(str);
+        var index = items.indexOf(item);
+        if(index >= 0){
+            items.splice(index,1);
+        }
+        if(items.length > 0){
+            $('#vendorAccounts').val(JSON.stringify(items));
+        }else{
+            $('#vendorAccounts').val('');
+        }
+    }
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$article['event_id']}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        $("#mainType").val("{$article['main_type']}");
+        getVendors(event_id);
+        getOrderItems(event_id);
+        $("#build fieldset").html($('#source').val());
+        layui.form.render();
+        $("#target .component").popover({
+            trigger: "manual"
+        });
+        //duedate
+        layui.use('laydate',function(){
+            var laydate = layui.laydate;
+            //early submission date
+            laydate.render({
+                elem:'#earlySubmissionDate',
+                type:'date',
+                trigger:'click',
+                lang:'en'
+            });
+            //duedate
+            laydate.render({
+                elem:'#dueDate',
+                type:'date',
+                trigger:'click',
+                lang:'en'
+            });
+            laydate.render({
+                elem:'#submissionBlockDate',
+                type:'date',
+                trigger:'click',
+                lang:'en'
+            });
+        });
+    }
+    function getVendors(event_id){
+        $.post(
+            "{:url('cms/vendors/getVendors')}",
+            {event_id:event_id},
+            function (result) {
+                if(result.status == 200){
+                    reloadVendors(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function reloadVendors(data) {
+        var vendor_id = "{$article['vendor_id']}";
+        var vendorStr = "";
+        $.each(data,function(i,item){
+            vendorStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#vendor").html(vendorStr);
+        $("#vendor").val(vendor_id);
+        layui.form.render('select');
+        getVendorAccount(vendor_id);
+    }
+    function getVendorAccount(vendorId) {
+        var id = "{$article['id']}";
+        $.post(
+            "{:url('cms/formMarkets/getVendorAccounts')}",
+            {vendor_id:vendorId,id:id},
+            function (result) {
+                if(result.status == 200){
+                    reloadVendorAccount(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function reloadVendorAccount(data) {
+        var html = "";
+        var items = [];
+        $.each(data,function(i,item){
+            html += '<div>';
+            if(item['checked']){
+                html += '<input type="checkbox" name="'+item['login_name']+'" value="'+item['login_name']+'" title="'+item['login_name']+'" lay-skin="primary" lay-filter="vendorAccount" checked="checked">';
+                items.push(item['login_name']);
+            }else{
+                html += '<input type="checkbox" name="'+item['login_name']+'" value="'+item['login_name']+'" title="'+item['login_name']+'" lay-skin="primary" lay-filter="vendorAccount">';
+            }
+            html += '</div>';
+        });
+        $("#vendorAccount").html(html);
+        $('#vendorAccounts').val(JSON.stringify(items));
+        layui.form.render('checkbox');
+    }
+    function getOrderItems(event_id){
+        var id = "{$article['id']}";
+        $.post(
+            "{:url('cms/formMarkets/getOrderItems')}",
+            {event_id:event_id,id:id},
+            function (result) {
+                if(result.status == 200){
+                    reloadOrderItems(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function reloadOrderItems(data) {
+        var html = "";
+        var items = [];
+        $.each(data,function(i,item){
+            html += '<div>';
+            if(item['checked']){
+                html += '<input type="checkbox" name="'+item['category']+'" value="'+item['category']+'" title="'+item['category']+'" lay-skin="primary" lay-filter="orderitem" checked="checked">';
+                items.push(item['category']);
+            }else{
+                html += '<input type="checkbox" name="'+item['category']+'" value="'+item['category']+'" title="'+item['category']+'" lay-skin="primary" lay-filter="orderitem">';
+            }
+            html += '</div>';
+        });
+        $("#orderItems").html(html);
+        $('#orderItem').val(items.join("\n"));
+        layui.form.render('checkbox');
+    }
+    function submitForm(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        var postData = $(".form-op-normal").serializeArray();
+        var item = {};
+        $.each(postData,function (i,data) {
+            if(data['name'] == 'name' || data['name'] == 'header_content' || data['name'] == 'instruction'
+                || data['name'] == 'cost_notes' || data['name'] == 'footer_content'
+                || data['name'] == 'source_form' || data['name'] == 'dest_form'){
+                item[data['name']] = window.btoa(encodeURIComponent(data['value']));
+            }else{
+                item[data['name']] = data['value'];
+            }
+        });
+        ToPostPopupsDeal(toUrl, item,failcb);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{include file='layouts/ueditor-js'/}
+<script>
+    var instructionEditor = UE.getEditor('ue-instruction-container',{
+        initialFrameHeight:300
+    });
+    instructionEditor.ready(function () {
+
+    });
+    var notesEditor = UE.getEditor('ue-notes-container',{
+        initialFrameHeight:300
+    });
+    notesEditor.ready(function () {
+
+    });
+    var footerEditor = UE.getEditor('ue-footer-container',{
+        initialFrameHeight:300
+    });
+    footerEditor.ready(function () {
+
+    });
+    $(document).ready(function () {
+
+    });
+</script>
+{/block}

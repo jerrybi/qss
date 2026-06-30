@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Home</title>
+    <meta name="google" content="notranslate">
+    <link href="__EXHIBITOR__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/zhang.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="__EXHIBITOR__/css/lightbox.css">
+    <!-- jQuery (necessary JavaScript plugins) -->
+    {include file='layouts/layui'}
+    <script type='text/javascript' src="__EXHIBITOR__/js/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src="__EXHIBITOR__/js/common.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body>
+<form class="layui-form form-op-normal layui-form-pane bg-white" lay-filter="form1">
+    <div class="layui-form-item mgt20">
+        <label class="layui-form-label label-custom">Fax</label>
+        <div class="layui-input-inline input-title-mz">
+            <input type="number" name="sub_fax_country_code" value="{$article['sub_fax_country_code']}"
+                   placeholder="country" autocomplete="off"
+                   class="layui-input input-fax-country-code">
+            <input type="number" name="sub_fax_area_code" value="{$article['sub_fax_area_code']}"
+                   placeholder="area" autocomplete="off" class="layui-input input-fax-area-code">
+            <input type="number" name="sub_fax_number" value="{$article['sub_fax_number']}"
+                   placeholder="Please input number" autocomplete="off" class="layui-input input-phone-number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('/exhibitor/faxView',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+    });
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<style>
+    .input-title-mz {
+        width: 500px!important;
+    }
+    .input-phone-country-code,.input-fax-country-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-area-code,.input-fax-area-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-number,.input-fax-number{
+        float: left;
+        width: 180px;
+    }
+</style>
+</body>
+</html>
+
+
+

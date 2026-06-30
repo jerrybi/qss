@@ -1,0 +1,98 @@
+<?php
+
+namespace app\cms\controller;
+
+use app\common\lib\IAuth;
+use app\common\model\XnavMenus;
+use app\common\model\Xadmins;
+use app\common\model\Xservers;
+use think\Request;
+
+/**
+ * Created by PhpStorm.
+ * User: moTzxx
+ * Date: 2018/1/23
+ * Time: 15:54
+ */
+class Index
+{
+    protected $menuModel;
+    protected $adminModel;
+    protected $serverModel;
+    protected $cmsAID;
+
+    public function __construct()
+    {
+        $this->menuModel = new XnavMenus();
+        $this->adminModel = new Xadmins();
+        $this->cmsAID = IAuth::getAdminIDCurrLogged();
+        $this->serverModel = new Xservers();
+        if (!$this->cmsAID) {
+            return redirect('cms/login/index');
+        }
+    }
+
+    /**
+     * 后台首页
+     * @return \think\response\View
+     */
+    public function index()
+    {
+        //获取 登录的管理员有效期ID
+        if (!$this->cmsAID) {
+            //TODO 页面跳转至登录页
+            return redirect('cms/login/index');
+        } else {
+            $menuList = $this->menuModel->getNavMenusShow($this->cmsAID);
+            $adminInfo = $this->adminModel->getAdminData($this->cmsAID);
+            $data = [
+                'menus' => $menuList,
+                'admin' => $adminInfo,
+            ];
+            return view('index', $data);
+        }
+    }
+
+    /**
+     * 首页显示 可自定义呗
+     * @return \think\response\View
+     */
+    public function home(Request $request)
+    {
+        if ($request->isPost()) {
+            $opRes = $this->serverModel->updateData($request->post());
+            return showMsg($opRes['tag'], $opRes['message']);
+        } else {
+            $server = $this->serverModel->getServerInfo();
+            $data =
+                [
+                    'article'=>$server
+                ];
+            return view('home', $data);
+        }
+    }
+
+    /**
+     * 展示管理员个人信息 可自行修改
+     * @param Request $request
+     * @param $id
+     * @return \think\response\View|void
+     */
+    public function admin(Request $request, $id)
+    {
+        $adminModel = new Xadmins();
+        if ($this->cmsAID){
+            if ($request->isGet()) {
+                $adminData = $adminModel->getAdminData($id);
+                return view('admin', ['admin' => $adminData,]);
+            } else {
+                //当前用户对个人账号的修改
+                $input = $request->post();
+                $opRes = $adminModel->editCurrAdmin($id, $input, $this->cmsAID);
+                return showMsg($opRes['tag'], $opRes['message']);
+            }
+        }else{
+            return showMsg(0,'You are offline,please logon again!');
+        }
+    }
+}

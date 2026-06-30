@@ -1,0 +1,2280 @@
+---------------------------------------------------------------
+
+[2026-04-14T16:37:31+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T16:37:31+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.296594s] [吞吐率：3.37req/s] [内存消耗：1,557.75kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '349',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000767s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001150s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000513s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.013424s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.255768s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('345B92D2-ADC6-98F9-1064-B83EF6633940' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company Name' , NULL , '90909090' , 'testing@email.com' , 'Hot' , 'Testing 14 Apr' , NULL , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 16:37:27' , '2026-04-14' , NULL , '2026-04-14 16:37:31') [ RunTime:0.002586s ]
+---------------------------------------------------------------
+
+[2026-04-14T16:42:37+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T16:42:38+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.609277s] [吞吐率：1.64req/s] [内存消耗：1,565.82kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '700',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001614s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001624s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000800s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.001291s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.340835s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 16:42:37'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.010021s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.222191s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company Name
+Job TItle' , NULL , '90909090' , 'testing@email.com' , 'Cool' , 'Check on Job title' , NULL , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 16:42:33' , '2026-04-14' , NULL , '2026-04-14 16:42:38') [ RunTime:0.001781s ]
+---------------------------------------------------------------
+
+[2026-04-14T16:45:23+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T16:45:24+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.304883s] [吞吐率：3.28req/s] [内存消耗：1,574.70kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '1038',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002080s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001081s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000649s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000910s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.187370s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 16:45:24'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.004501s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.010792s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 16:45:24'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.001853s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.066349s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('EC25342C-E718-51A3-7C94-C25D56701F20' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company Name
+Job TItle' , NULL , '90909090' , 'testing@email.com' , 'Warm' , 'Again' , NULL , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 16:45:21' , '2026-04-14' , NULL , '2026-04-14 16:45:24') [ RunTime:0.001913s ]
+---------------------------------------------------------------
+
+[2026-04-14T16:56:37+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T16:56:38+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.182101s] [吞吐率：5.49req/s] [内存消耗：1,583.59kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '1378',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.003294s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.003603s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000642s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000966s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.020398s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 16:56:37'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.002338s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.009350s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 16:56:38'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.001932s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.041755s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 16:56:38'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.002751s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.048274s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('6DE0A697-C4EA-EC55-4194-19709D963D20' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company Name
+Job TItle XXX' , NULL , '90909090' , 'testing@email.com' , 'Cool' , 'Xxx' , NULL , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 16:56:33' , '2026-04-14' , NULL , '2026-04-14 16:56:38') [ RunTime:0.014590s ]
+---------------------------------------------------------------
+
+[2026-04-14T16:58:43+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"},{"id":5,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Company Name\nJob TItle XXX\nEMAIL:testing@email.com","flag":"Warm","visitTime":"2026-04-14 16:58:41","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"BBBB","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T16:58:43+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.148080s] [吞吐率：6.75req/s] [内存消耗：1,589.44kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '1729',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:58:41',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'BBBB',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001308s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001022s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000621s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.001338s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.021462s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 16:58:43'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.010472s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.009530s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 16:58:43'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.008868s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.029026s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 16:58:43'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.008345s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.009974s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Xxx' , `img_card` = NULL , `update_time` = '2026-04-14 16:58:43'  WHERE  `id` = '6DE0A697-C4EA-EC55-4194-19709D963D20' [ RunTime:0.002306s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:58:41' LIMIT 1 [ RunTime:0.010790s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('7CF0AD94-8537-7779-FE80-3ED601EE903E' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com' , NULL , '90909090' , NULL , 'Warm' , 'BBBB' , NULL , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 16:58:41' , '2026-04-14' , NULL , '2026-04-14 16:58:43') [ RunTime:0.001624s ]
+---------------------------------------------------------------
+
+[2026-04-14T17:00:14+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"},{"id":5,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Company Name\nJob TItle XXX\nEMAIL:testing@email.com","flag":"Warm","visitTime":"2026-04-14 16:58:41","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"BBBB","imgCard":null,"telephone":"90909090"},{"id":6,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Job TItle XXX\nCompany Name\nEMAIL:testing@email.com","flag":"Neutral","visitTime":"2026-04-14 17:00:11","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Cccccc","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T17:00:14+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.109387s] [吞吐率：9.14req/s] [内存消耗：1,605.28kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '2085',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:58:41',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'BBBB',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-04-14 17:00:11',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Cccccc',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.010555s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.000976s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000663s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000662s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.016816s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 17:00:14'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.002321s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.008449s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 17:00:14'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.002532s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.024989s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 17:00:14'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.001671s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.001739s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Xxx' , `img_card` = NULL , `update_time` = '2026-04-14 17:00:14'  WHERE  `id` = '6DE0A697-C4EA-EC55-4194-19709D963D20' [ RunTime:0.001382s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:58:41' LIMIT 1 [ RunTime:0.001891s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Warm' , `remark` = 'BBBB' , `img_card` = NULL , `update_time` = '2026-04-14 17:00:14'  WHERE  `id` = '7CF0AD94-8537-7779-FE80-3ED601EE903E' [ RunTime:0.001449s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:00:11' LIMIT 1 [ RunTime:0.007107s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('2AB37C44-B6B4-1113-73BF-AF00F654AC51' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com' , NULL , '90909090' , NULL , 'Neutral' , 'Cccccc' , NULL , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 17:00:11' , '2026-04-14' , NULL , '2026-04-14 17:00:14') [ RunTime:0.001674s ]
+---------------------------------------------------------------
+
+[2026-04-14T17:03:52+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"},{"id":5,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Company Name\nJob TItle XXX\nEMAIL:testing@email.com","flag":"Warm","visitTime":"2026-04-14 16:58:41","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"BBBB","imgCard":null,"telephone":"90909090"},{"id":6,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Job TItle XXX\nCompany Name\nEMAIL:testing@email.com","flag":"Neutral","visitTime":"2026-04-14 17:00:11","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Cccccc","imgCard":null,"telephone":"90909090"},{"id":7,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"5276\nCompany Name\nEMAIL:testing@email.com","flag":"Cool","visitTime":"2026-04-14 17:03:49","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"DDDDDD","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T17:03:52+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.167464s] [吞吐率：5.97req/s] [内存消耗：1,611.72kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '2429',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:58:41',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'BBBB',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-04-14 17:00:11',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Cccccc',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => '5276
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:03:49',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'DDDDDD',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.004929s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001093s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000751s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000969s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.018851s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 17:03:52'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.004633s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.009626s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 17:03:52'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.001901s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.028155s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 17:03:52'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.002415s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.023485s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Xxx' , `img_card` = NULL , `update_time` = '2026-04-14 17:03:52'  WHERE  `id` = '6DE0A697-C4EA-EC55-4194-19709D963D20' [ RunTime:0.001928s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:58:41' LIMIT 1 [ RunTime:0.005350s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Warm' , `remark` = 'BBBB' , `img_card` = NULL , `update_time` = '2026-04-14 17:03:52'  WHERE  `id` = '7CF0AD94-8537-7779-FE80-3ED601EE903E' [ RunTime:0.002204s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:00:11' LIMIT 1 [ RunTime:0.006472s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Neutral' , `remark` = 'Cccccc' , `img_card` = NULL , `update_time` = '2026-04-14 17:03:52'  WHERE  `id` = '2AB37C44-B6B4-1113-73BF-AF00F654AC51' [ RunTime:0.001999s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:03:49' LIMIT 1 [ RunTime:0.019505s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('8EA11511-35FC-426B-FBC7-628C8245E400' , 'First Name' , 'Last Name' , 'First Name Last Name' , '5276
+Company Name
+EMAIL:testing@email.com' , NULL , '90909090' , NULL , 'Cool' , 'DDDDDD' , NULL , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 17:03:49' , '2026-04-14' , NULL , '2026-04-14 17:03:52') [ RunTime:0.002006s ]
+---------------------------------------------------------------
+
+[2026-04-14T17:07:05+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"},{"id":5,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Company Name\nJob TItle XXX\nEMAIL:testing@email.com","flag":"Warm","visitTime":"2026-04-14 16:58:41","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"BBBB","imgCard":null,"telephone":"90909090"},{"id":6,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Job TItle XXX\nCompany Name\nEMAIL:testing@email.com","flag":"Neutral","visitTime":"2026-04-14 17:00:11","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Cccccc","imgCard":null,"telephone":"90909090"},{"id":7,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"5276\nCompany Name\nEMAIL:testing@email.com","flag":"Cool","visitTime":"2026-04-14 17:03:49","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"DDDDDD","imgCard":null,"telephone":"90909090"},{"id":8,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Cool","visitTime":"2026-04-14 17:07:02","firstName":"First Name","visitDate":"2026-04-14","serialNumber":"5276","exhibitorID":82,"remark":"EEEEEE","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T17:07:05+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.137289s] [吞吐率：7.28req/s] [内存消耗：1,627.45kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '2761',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:58:41',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'BBBB',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-04-14 17:00:11',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Cccccc',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => '5276
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:03:49',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'DDDDDD',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    7 => 
+    array (
+      'id' => 8,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:07:02',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => '5276',
+      'exhibitorID' => 82,
+      'remark' => 'EEEEEE',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.002052s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001251s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000871s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000812s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.020038s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 17:07:05'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.002991s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.008762s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 17:07:05'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.002353s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.035356s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 17:07:05'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.001992s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.002077s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Xxx' , `img_card` = NULL , `update_time` = '2026-04-14 17:07:05'  WHERE  `id` = '6DE0A697-C4EA-EC55-4194-19709D963D20' [ RunTime:0.001664s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:58:41' LIMIT 1 [ RunTime:0.002146s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Warm' , `remark` = 'BBBB' , `img_card` = NULL , `update_time` = '2026-04-14 17:07:05'  WHERE  `id` = '7CF0AD94-8537-7779-FE80-3ED601EE903E' [ RunTime:0.001580s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:00:11' LIMIT 1 [ RunTime:0.001275s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Neutral' , `remark` = 'Cccccc' , `img_card` = NULL , `update_time` = '2026-04-14 17:07:05'  WHERE  `id` = '2AB37C44-B6B4-1113-73BF-AF00F654AC51' [ RunTime:0.001532s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:03:49' LIMIT 1 [ RunTime:0.002038s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = '5276
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Cool' , `remark` = 'DDDDDD' , `img_card` = NULL , `update_time` = '2026-04-14 17:07:05'  WHERE  `id` = '8EA11511-35FC-426B-FBC7-628C8245E400' [ RunTime:0.001977s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5276'  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:07:02' LIMIT 1 [ RunTime:0.008805s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('34333F8B-D789-B6C5-AED9-873E07678845' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company Name' , '5276' , '90909090' , 'testing@email.com' , 'Cool' , 'EEEEEE' , '5276' , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 17:07:02' , '2026-04-14' , NULL , '2026-04-14 17:07:05') [ RunTime:0.001822s ]
+---------------------------------------------------------------
+
+[2026-04-14T17:08:58+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"},{"id":5,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Company Name\nJob TItle XXX\nEMAIL:testing@email.com","flag":"Warm","visitTime":"2026-04-14 16:58:41","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"BBBB","imgCard":null,"telephone":"90909090"},{"id":6,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Job TItle XXX\nCompany Name\nEMAIL:testing@email.com","flag":"Neutral","visitTime":"2026-04-14 17:00:11","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Cccccc","imgCard":null,"telephone":"90909090"},{"id":7,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"5276\nCompany Name\nEMAIL:testing@email.com","flag":"Cool","visitTime":"2026-04-14 17:03:49","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"DDDDDD","imgCard":null,"telephone":"90909090"},{"id":8,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Cool","visitTime":"2026-04-14 17:07:02","firstName":"First Name","visitDate":"2026-04-14","serialNumber":"5276","exhibitorID":82,"remark":"EEEEEE","imgCard":null,"telephone":"90909090"},{"id":9,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 17:08:56","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"FFFFFF","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T17:08:58+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.400549s] [吞吐率：2.50req/s] [内存消耗：1,633.95kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '3090',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:58:41',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'BBBB',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-04-14 17:00:11',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Cccccc',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => '5276
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:03:49',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'DDDDDD',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    7 => 
+    array (
+      'id' => 8,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:07:02',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => '5276',
+      'exhibitorID' => 82,
+      'remark' => 'EEEEEE',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    8 => 
+    array (
+      'id' => 9,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 17:08:56',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'FFFFFF',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.000967s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001091s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000667s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000864s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.113742s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 17:08:58'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.003049s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.008405s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 17:08:58'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.002244s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.196421s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 17:08:58'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.005975s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.003165s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Xxx' , `img_card` = NULL , `update_time` = '2026-04-14 17:08:58'  WHERE  `id` = '6DE0A697-C4EA-EC55-4194-19709D963D20' [ RunTime:0.002467s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:58:41' LIMIT 1 [ RunTime:0.003151s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Warm' , `remark` = 'BBBB' , `img_card` = NULL , `update_time` = '2026-04-14 17:08:58'  WHERE  `id` = '7CF0AD94-8537-7779-FE80-3ED601EE903E' [ RunTime:0.002953s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:00:11' LIMIT 1 [ RunTime:0.002427s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Neutral' , `remark` = 'Cccccc' , `img_card` = NULL , `update_time` = '2026-04-14 17:08:58'  WHERE  `id` = '2AB37C44-B6B4-1113-73BF-AF00F654AC51' [ RunTime:0.002265s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:03:49' LIMIT 1 [ RunTime:0.003187s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = '5276
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Cool' , `remark` = 'DDDDDD' , `img_card` = NULL , `update_time` = '2026-04-14 17:08:58'  WHERE  `id` = '8EA11511-35FC-426B-FBC7-628C8245E400' [ RunTime:0.002245s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5276'  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:07:02' LIMIT 1 [ RunTime:0.002269s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = '5276' , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'EEEEEE' , `img_card` = NULL , `update_time` = '2026-04-14 17:08:58'  WHERE  `id` = '34333F8B-D789-B6C5-AED9-873E07678845' [ RunTime:0.002104s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:08:56' LIMIT 1 [ RunTime:0.008981s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('E9D758C5-EC38-B88F-93D4-03A36D06E8BE' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company Name' , '5276' , '90909090' , 'testing@email.com' , 'Hot' , 'FFFFFF' , NULL , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 17:08:56' , '2026-04-14' , NULL , '2026-04-14 17:08:58') [ RunTime:0.001734s ]
+---------------------------------------------------------------
+
+[2026-04-14T17:15:27+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"},{"id":5,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Company Name\nJob TItle XXX\nEMAIL:testing@email.com","flag":"Warm","visitTime":"2026-04-14 16:58:41","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"BBBB","imgCard":null,"telephone":"90909090"},{"id":6,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Job TItle XXX\nCompany Name\nEMAIL:testing@email.com","flag":"Neutral","visitTime":"2026-04-14 17:00:11","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Cccccc","imgCard":null,"telephone":"90909090"},{"id":7,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"5276\nCompany Name\nEMAIL:testing@email.com","flag":"Cool","visitTime":"2026-04-14 17:03:49","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"DDDDDD","imgCard":null,"telephone":"90909090"},{"id":8,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 17:07:02","firstName":"First Name","visitDate":"2026-04-14","serialNumber":"5276","exhibitorID":82,"remark":"Ffffff","imgCard":null,"telephone":"90909090"},{"id":9,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 17:08:56","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"FFFFFF","imgCard":null,"telephone":"90909090"}]
+---------------------------------------------------------------
+
+[2026-04-14T17:15:27+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.164609s] [吞吐率：6.08req/s] [内存消耗：1,634.20kb] [文件加载：99]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '3089',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:58:41',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'BBBB',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-04-14 17:00:11',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Cccccc',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => '5276
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:03:49',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'DDDDDD',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    7 => 
+    array (
+      'id' => 8,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 17:07:02',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => '5276',
+      'exhibitorID' => 82,
+      'remark' => 'Ffffff',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    8 => 
+    array (
+      'id' => 9,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 17:08:56',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'FFFFFF',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001428s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001862s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000857s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000948s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.024520s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.002840s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.009193s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.001799s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.028867s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.002128s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.023932s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Xxx' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = '6DE0A697-C4EA-EC55-4194-19709D963D20' [ RunTime:0.001754s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:58:41' LIMIT 1 [ RunTime:0.005480s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Warm' , `remark` = 'BBBB' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = '7CF0AD94-8537-7779-FE80-3ED601EE903E' [ RunTime:0.001607s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:00:11' LIMIT 1 [ RunTime:0.001082s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Neutral' , `remark` = 'Cccccc' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = '2AB37C44-B6B4-1113-73BF-AF00F654AC51' [ RunTime:0.001415s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:03:49' LIMIT 1 [ RunTime:0.001643s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = '5276
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Cool' , `remark` = 'DDDDDD' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = '8EA11511-35FC-426B-FBC7-628C8245E400' [ RunTime:0.001443s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5276'  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:07:02' LIMIT 1 [ RunTime:0.001012s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = '5276' , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Ffffff' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = '34333F8B-D789-B6C5-AED9-873E07678845' [ RunTime:0.002395s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:08:56' LIMIT 1 [ RunTime:0.012681s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = '5276' , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'FFFFFF' , `img_card` = NULL , `update_time` = '2026-04-14 17:15:27'  WHERE  `id` = 'E9D758C5-EC38-B88F-93D4-03A36D06E8BE' [ RunTime:0.003581s ]
+---------------------------------------------------------------
+
+[2026-04-14T17:36:48+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"},{"id":5,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Company Name\nJob TItle XXX\nEMAIL:testing@email.com","flag":"Warm","visitTime":"2026-04-14 16:58:41","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"BBBB","imgCard":null,"telephone":"90909090"},{"id":6,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Job TItle XXX\nCompany Name\nEMAIL:testing@email.com","flag":"Neutral","visitTime":"2026-04-14 17:00:11","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Cccccc","imgCard":null,"telephone":"90909090"},{"id":7,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"5276\nCompany Name\nEMAIL:testing@email.com","flag":"Cool","visitTime":"2026-04-14 17:03:49","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"DDDDDD","imgCard":null,"telephone":"90909090"},{"id":8,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 17:07:02","firstName":"First Name","visitDate":"2026-04-14","serialNumber":"5276","exhibitorID":82,"remark":"Ffffff","imgCard":null,"telephone":"90909090"},{"id":9,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 17:08:56","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"FFFFFF","imgCard":null,"telephone":"90909090"},{"id":10,"fullName":"First Name Last Name","lastName":"Last Name","email":"name@gmail.com","title":"Job Title","organization":"Company","flag":"Cool","visitTime":"2026-04-14 17:36:45","firstName":"First Name","visitDate":"2026-04-14","serialNumber":"0001","exhibitorID":82,"remark":"Look correct","imgCard":null,"telephone":"Mobile"}]
+---------------------------------------------------------------
+
+[2026-04-14T17:36:48+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.126992s] [吞吐率：7.87req/s] [内存消耗：1,639.60kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '3423',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:58:41',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'BBBB',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-04-14 17:00:11',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Cccccc',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => '5276
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:03:49',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'DDDDDD',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    7 => 
+    array (
+      'id' => 8,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 17:07:02',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => '5276',
+      'exhibitorID' => 82,
+      'remark' => 'Ffffff',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    8 => 
+    array (
+      'id' => 9,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 17:08:56',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'FFFFFF',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    9 => 
+    array (
+      'id' => 10,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'name@gmail.com',
+      'title' => 'Job Title',
+      'organization' => 'Company',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:36:45',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => '0001',
+      'exhibitorID' => 82,
+      'remark' => 'Look correct',
+      'imgCard' => NULL,
+      'telephone' => 'Mobile',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.001232s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.001295s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.000675s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.000814s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.020244s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.002324s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.008534s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.001682s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.031221s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.002302s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.001940s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Xxx' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = '6DE0A697-C4EA-EC55-4194-19709D963D20' [ RunTime:0.001587s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:58:41' LIMIT 1 [ RunTime:0.001696s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Warm' , `remark` = 'BBBB' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = '7CF0AD94-8537-7779-FE80-3ED601EE903E' [ RunTime:0.001345s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:00:11' LIMIT 1 [ RunTime:0.000990s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Neutral' , `remark` = 'Cccccc' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = '2AB37C44-B6B4-1113-73BF-AF00F654AC51' [ RunTime:0.001434s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:03:49' LIMIT 1 [ RunTime:0.001539s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = '5276
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Cool' , `remark` = 'DDDDDD' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = '8EA11511-35FC-426B-FBC7-628C8245E400' [ RunTime:0.001291s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5276'  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:07:02' LIMIT 1 [ RunTime:0.000922s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = '5276' , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Ffffff' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = '34333F8B-D789-B6C5-AED9-873E07678845' [ RunTime:0.001279s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:08:56' LIMIT 1 [ RunTime:0.002399s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = '5276' , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'FFFFFF' , `img_card` = NULL , `update_time` = '2026-04-14 17:36:48'  WHERE  `id` = 'E9D758C5-EC38-B88F-93D4-03A36D06E8BE' [ RunTime:0.001543s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '0001'  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:36:45' LIMIT 1 [ RunTime:0.007903s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('00E42111-1841-5A12-72EF-ED37AF3B2A41' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company' , 'Job Title' , 'Mobile' , 'name@gmail.com' , 'Cool' , 'Look correct' , '0001' , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 17:36:45' , '2026-04-14' , NULL , '2026-04-14 17:36:48') [ RunTime:0.001673s ]
+---------------------------------------------------------------
+
+[2026-04-14T17:41:31+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[ info ] [uploadContact][{"id":1,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 16:37:27","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Testing 14 Apr","imgCard":null,"telephone":"90909090"},{"id":2,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Cool","visitTime":"2026-04-14 16:42:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Check on Job title","imgCard":null,"telephone":"90909090"},{"id":3,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle","flag":"Warm","visitTime":"2026-04-14 16:45:21","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Again","imgCard":null,"telephone":"90909090"},{"id":4,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":null,"organization":"Company Name\nJob TItle XXX","flag":"Cool","visitTime":"2026-04-14 16:56:33","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Xxx","imgCard":null,"telephone":"90909090"},{"id":5,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Company Name\nJob TItle XXX\nEMAIL:testing@email.com","flag":"Warm","visitTime":"2026-04-14 16:58:41","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"BBBB","imgCard":null,"telephone":"90909090"},{"id":6,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"Job TItle XXX\nCompany Name\nEMAIL:testing@email.com","flag":"Neutral","visitTime":"2026-04-14 17:00:11","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"Cccccc","imgCard":null,"telephone":"90909090"},{"id":7,"fullName":"First Name Last Name","lastName":"Last Name","email":null,"title":null,"organization":"5276\nCompany Name\nEMAIL:testing@email.com","flag":"Cool","visitTime":"2026-04-14 17:03:49","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"DDDDDD","imgCard":null,"telephone":"90909090"},{"id":8,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 17:07:02","firstName":"First Name","visitDate":"2026-04-14","serialNumber":"5276","exhibitorID":82,"remark":"Ffffff","imgCard":null,"telephone":"90909090"},{"id":9,"fullName":"First Name Last Name","lastName":"Last Name","email":"testing@email.com","title":"5276","organization":"Company Name","flag":"Hot","visitTime":"2026-04-14 17:08:56","firstName":"First Name","visitDate":"2026-04-14","serialNumber":null,"exhibitorID":82,"remark":"FFFFFF","imgCard":null,"telephone":"90909090"},{"id":10,"fullName":"First Name Last Name","lastName":"Last Name","email":"name@gmail.com","title":"Job Title","organization":"Company","flag":"Cool","visitTime":"2026-04-14 17:36:45","firstName":"First Name","visitDate":"2026-04-14","serialNumber":"0001","exhibitorID":82,"remark":"Look correct","imgCard":null,"telephone":"Mobile"},{"id":11,"fullName":"First Name Last Name","lastName":"Last Name","email":"Email@xxxx.com","title":"Job Title","organization":"Company name","flag":"Hot","visitTime":"2026-04-14 17:41:24","firstName":"First Name","visitDate":"2026-04-14","serialNumber":"[Onsit0e Reg No]","exhibitorID":82,"remark":"Finally correct ","imgCard":null,"telephone":"80808080"}]
+---------------------------------------------------------------
+
+[2026-04-14T17:41:31+08:00] 128.106.103.58 POST qss.qestsoln.com/api/uploadContact
+[运行时间：0.251816s] [吞吐率：3.97req/s] [内存消耗：1,645.12kb] [文件加载：100]
+[ info ] [ BIND ] 'index'
+[ info ] [ ROUTE ] array (
+  'rule' => 'api/uploadContact',
+  'route' => 'api/Index/uploadContact',
+  'option' => 
+  array (
+    'merge_rule_regex' => false,
+    'header' => 
+    array (
+      'Access-Control-Allow-Credentials' => 'true',
+      'Access-Control-Allow-Methods' => 'POST,GET,PUT,DELETE',
+      'Access-Control-Allow-Headers' => 'token,Origin,X-Requested-With,Content-Type,Accept,Authorization',
+      'Access-Control-Allow-Origin' => '*',
+    ),
+    'cross_domain' => true,
+  ),
+  'var' => 
+  array (
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=ird9dv0cmet8evckjdv2ool41h',
+  'token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKZXJyeSIsImF1ZCI6IiIsImlhdCI6MTc3NjE1NTgxNCwibmJmIjoxNzc2MTU1ODE3LCJleHAiOjE3NzY1ODc4MTQsImRhdGEiOnsiaWQiOjgyfX0.Vopg18MTgVluU-aEhJFvZ6nPbPJTJhzuNRL8a6GDA_4',
+  'priority' => 'u=3, i',
+  'user-agent' => 'QSS/10 CFNetwork/3860.400.51 Darwin/25.3.0',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept-language' => 'en-SG,en-GB;q=0.9,en;q=0.8',
+  'content-type' => 'application/json',
+  'accept' => 'application/json, text/plain, */*',
+  'content-length' => '3779',
+  'connection' => 'close',
+  'x-accel-internal' => '/internal-nginx-static-location',
+  'x-real-ip' => '128.106.103.58',
+  'host' => 'qss.qestsoln.com',
+)
+[ info ] [ PARAM ] array (
+  'contacts' => 
+  array (
+    0 => 
+    array (
+      'id' => 1,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 16:37:27',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Testing 14 Apr',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    1 => 
+    array (
+      'id' => 2,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:42:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Check on Job title',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    2 => 
+    array (
+      'id' => 3,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:45:21',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Again',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    3 => 
+    array (
+      'id' => 4,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 16:56:33',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Xxx',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    4 => 
+    array (
+      'id' => 5,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com',
+      'flag' => 'Warm',
+      'visitTime' => '2026-04-14 16:58:41',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'BBBB',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    5 => 
+    array (
+      'id' => 6,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Neutral',
+      'visitTime' => '2026-04-14 17:00:11',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'Cccccc',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    6 => 
+    array (
+      'id' => 7,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => NULL,
+      'title' => NULL,
+      'organization' => '5276
+Company Name
+EMAIL:testing@email.com',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:03:49',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'DDDDDD',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    7 => 
+    array (
+      'id' => 8,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 17:07:02',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => '5276',
+      'exhibitorID' => 82,
+      'remark' => 'Ffffff',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    8 => 
+    array (
+      'id' => 9,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'testing@email.com',
+      'title' => '5276',
+      'organization' => 'Company Name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 17:08:56',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => NULL,
+      'exhibitorID' => 82,
+      'remark' => 'FFFFFF',
+      'imgCard' => NULL,
+      'telephone' => '90909090',
+    ),
+    9 => 
+    array (
+      'id' => 10,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'name@gmail.com',
+      'title' => 'Job Title',
+      'organization' => 'Company',
+      'flag' => 'Cool',
+      'visitTime' => '2026-04-14 17:36:45',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => '0001',
+      'exhibitorID' => 82,
+      'remark' => 'Look correct',
+      'imgCard' => NULL,
+      'telephone' => 'Mobile',
+    ),
+    10 => 
+    array (
+      'id' => 11,
+      'fullName' => 'First Name Last Name',
+      'lastName' => 'Last Name',
+      'email' => 'Email@xxxx.com',
+      'title' => 'Job Title',
+      'organization' => 'Company name',
+      'flag' => 'Hot',
+      'visitTime' => '2026-04-14 17:41:24',
+      'firstName' => 'First Name',
+      'visitDate' => '2026-04-14',
+      'serialNumber' => '[Onsit0e Reg No]',
+      'exhibitorID' => 82,
+      'remark' => 'Finally correct ',
+      'imgCard' => NULL,
+      'telephone' => '80808080',
+    ),
+  ),
+)
+[ info ] [ DB ] INIT mysql
+[ sql ] [ DB ] CONNECT:[ UseTime:0.008282s ] mysql:host=127.0.0.1;port=3306;dbname=qss_qestsoln;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xexhibitors` [ RunTime:0.005808s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xexhibitors` WHERE  `id` = 82  AND `status` = 1 LIMIT 1 [ RunTime:0.003773s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `qls_xvisitors` [ RunTime:0.001464s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:37:27' LIMIT 1 [ RunTime:0.020302s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Testing 14 Apr' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = '345B92D2-ADC6-98F9-1064-B83EF6633940' [ RunTime:0.005591s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:42:33' LIMIT 1 [ RunTime:0.009044s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Check on Job title' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = '4ADA6158-FD0A-6EB8-63FD-126A6B8E208E' [ RunTime:0.002050s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:45:21' LIMIT 1 [ RunTime:0.027342s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Warm' , `remark` = 'Again' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = 'EC25342C-E718-51A3-7C94-C25D56701F20' [ RunTime:0.001956s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:56:33' LIMIT 1 [ RunTime:0.023393s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX' , `title` = NULL , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Cool' , `remark` = 'Xxx' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = '6DE0A697-C4EA-EC55-4194-19709D963D20' [ RunTime:0.002118s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 16:58:41' LIMIT 1 [ RunTime:0.005861s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name
+Job TItle XXX
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Warm' , `remark` = 'BBBB' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = '7CF0AD94-8537-7779-FE80-3ED601EE903E' [ RunTime:0.001950s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:00:11' LIMIT 1 [ RunTime:0.001198s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Job TItle XXX
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Neutral' , `remark` = 'Cccccc' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = '2AB37C44-B6B4-1113-73BF-AF00F654AC51' [ RunTime:0.008793s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:03:49' LIMIT 1 [ RunTime:0.024134s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = '5276
+Company Name
+EMAIL:testing@email.com' , `title` = NULL , `phone` = '90909090' , `email` = NULL , `flag` = 'Cool' , `remark` = 'DDDDDD' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = '8EA11511-35FC-426B-FBC7-628C8245E400' [ RunTime:0.001945s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '5276'  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:07:02' LIMIT 1 [ RunTime:0.001227s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = '5276' , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'Ffffff' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = '34333F8B-D789-B6C5-AED9-873E07678845' [ RunTime:0.001633s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` IS NULL  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:08:56' LIMIT 1 [ RunTime:0.015208s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company Name' , `title` = '5276' , `phone` = '90909090' , `email` = 'testing@email.com' , `flag` = 'Hot' , `remark` = 'FFFFFF' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = 'E9D758C5-EC38-B88F-93D4-03A36D06E8BE' [ RunTime:0.002186s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '0001'  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:36:45' LIMIT 1 [ RunTime:0.000513s ]
+[ sql ] [ SQL ] UPDATE `qls_xvisitors`  SET `first_name` = 'First Name' , `last_name` = 'Last Name' , `full_name` = 'First Name Last Name' , `organization` = 'Company' , `title` = 'Job Title' , `phone` = 'Mobile' , `email` = 'name@gmail.com' , `flag` = 'Cool' , `remark` = 'Look correct' , `img_card` = NULL , `update_time` = '2026-04-14 17:41:31'  WHERE  `id` = '00E42111-1841-5A12-72EF-ED37AF3B2A41' [ RunTime:0.001506s ]
+[ sql ] [ SQL ] SELECT * FROM `qls_xvisitors` WHERE  `serial_number` = '[Onsit0e Reg No]'  AND `exhibitor_id` = 82  AND `event_id` = '05299044-D0AD-10BC-5E0F-FA0D28A5806F'  AND `visit_time` = '2026-04-14 17:41:24' LIMIT 1 [ RunTime:0.037171s ]
+[ sql ] [ SQL ] INSERT INTO `qls_xvisitors` (`id` , `first_name` , `last_name` , `full_name` , `organization` , `title` , `phone` , `email` , `flag` , `remark` , `serial_number` , `exhibitor_id` , `event_id` , `visit_time` , `visit_date` , `img_card` , `create_time`) VALUES ('6EB2EC99-0A0A-EC13-8870-EB75115F0632' , 'First Name' , 'Last Name' , 'First Name Last Name' , 'Company name' , 'Job Title' , '80808080' , 'Email@xxxx.com' , 'Hot' , 'Finally correct ' , '[Onsit0e Reg No]' , 82 , '05299044-D0AD-10BC-5E0F-FA0D28A5806F' , '2026-04-14 17:41:24' , '2026-04-14' , NULL , '2026-04-14 17:41:31') [ RunTime:0.001667s ]

@@ -1,0 +1,111 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <div class="container">
+        <div class="{$form['have_item']=='0'?'hidden':''}">
+            <div class="header">Items Information</div>
+            <table id="table1" class="layui-table table-body" lay-even="" lay-skin="row" lay-filter="table1"></table>
+        </div>
+        <div class="{$form['have_dynamic']=='0'?'hidden':''}">
+            <div class="header">Additional Information</div>
+            <table id="table2" class="layui-table table-body" lay-even="" lay-skin="row" lay-filter="table2"></table>
+        </div>
+    </div>
+    <input type="hidden" id="formId" value="{$form['id']}">
+</div>
+<style>
+    .layui-table-cell{
+        height: auto;
+        overflow: visible;
+        text-overflow:inherit;
+        word-break: break-all;
+        word-wrap:break-word;
+        white-space: normal;
+    }
+    .exhibitor-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    .mgr10{
+        margin-right: 10px;
+    }
+    .header{
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    .hidden{
+        display: none;
+    }
+</style>
+<script>
+    var myTable1,myTable2;
+    layui.use('table',function () {
+        var formId = $("#formId").val();
+        var haveItem = "{$form['have_item']}";
+        var haveDynamic = "{$form['have_dynamic']}";
+        if(haveItem == '1'){
+            myTable1 = layui.table.render({
+                elem:'#table1',
+                id:'table1',
+                page:true,
+                cols:[[
+                    {field:'id',title:'ID',type:'numbers'},
+                    {field:'item_name',title:'Item name'},
+                    {field:'item_quantity',title:'Item quantity'},
+                ]],
+                url:"{:url('vendor/marketing/index')}",
+                method:'post',
+                where:{form_id:formId,type:0},
+                parseData:function(res){
+                    return {
+                        "code":0,
+                        "msg":'',
+                        "count":res.data.record_num,
+                        "data":res.data.articles
+                    }
+                }
+            });
+        }
+        if(haveDynamic == '1'){
+            $.post(
+                "{:url('vendor/marketing/getNames')}",
+                {form_id:formId},
+                function (result) {
+                    layer.msg(result.message);
+                    if(result.status == 200){
+                        if(result.data.names && result.data.names.length > 0){
+                            loadTable2(formId,result.data.names);
+                        }
+                    }
+                },"JSON");
+        }
+    });
+    function loadTable2(formId,names) {
+        var cols = [{field:'id',title:'ID',type:'numbers'}];
+        for(var i=0;i<names.length;i++){
+            var title = names[i]['dynamic_title'];
+            var name = names[i]['dynamic_name'];
+            cols.push({field:name,title:title});
+        }
+        myTable2 = layui.table.render({
+            elem:'#table2',
+            id:'table2',
+            page:true,
+            cols:[cols],
+            url:"{:url('vendor/marketing/index')}",
+            method:'post',
+            where:{form_id:formId,type:1},
+            parseData:function(res){
+                return {
+                    "code":0,
+                    "msg":'',
+                    "count":res.data.record_num,
+                    "data":res.data.articles
+                }
+            }
+        });
+    }
+</script>
+{/block}

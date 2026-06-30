@@ -1,0 +1,255 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<!--<script src="https://cdn.jsdelivr.net/npm/fabric"></script>-->
+<script src="__CMS__/js/fabric.js"></script>
+<script src="__CMS__/js/fontfaceobserver.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Alfa+Slab+One&family=Bebas+Neue&family=Caveat:wght@400;500;600;700&family=Comfortaa:wght@300;400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Indie+Flower&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Lobster&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Shadows+Into+Light&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<div class="content">
+    <!---->
+    <div class="container">
+        <div class="bc-workplace">
+            <div id="bc-title">Front</div>
+            <canvas id="bc"></canvas>
+            <div id="bc-revert">
+                <img src="__CMS__/images/icon/revert.png" width="40" height="auto" onclick="revert()"/>
+            </div>
+        </div>
+<!--        <button class="layui-btn" id="btnPrint" type="button" onclick="printCard()">PRINT</button>-->
+    </div>
+    <div hidden="hidden" id="bc_content1"><?php echo htmlspecialchars_decode($content1);?></div>
+    <div hidden="hidden" id="bc_content2"><?php echo htmlspecialchars_decode($content2);?></div>
+    <div hidden="hidden" id="bg_width"><?php echo htmlspecialchars_decode($bg_width);?></div>
+    <div hidden="hidden" id="bg_height"><?php echo htmlspecialchars_decode($bg_height);?></div>
+    <div hidden="hidden" id="double_side_value"><?php echo htmlspecialchars_decode($double_side);?></div>
+    <div hidden="hidden" id="article"><?php echo json_encode($article);?></div>
+</div>
+<style>
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .bc-workplace{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #87cefa;
+        width: 100%;
+    }
+    #bc{
+        background: white;
+        border: 1px solid #ccc;
+    }
+    #bc-title{
+        height: 36px;
+        line-height: 36px;
+    }
+    #bc-revert{
+        height: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #btnPrint{
+        margin-top: 20px;
+    }
+</style>
+<script>
+    var canvas;
+    var cardSide = 0;
+    var content1,content2;
+    var pixtelPerCm = 28.346;
+    var webSafeFonts = ['Helvetica','Arial','Arial Black','Verdana','Tahoma','Trebuchet MS','Impact','Gill Sans',
+        'Times New Roman','Georgia','Palatino','Baskerville','Andalé Mono','Courier','Lucida','Monaco',
+        'Bradley Hand','Brush Script MT','Luminari','Comic Sans MS'];
+    function onReady(){
+        initClueTextBox();
+        var bgWidth = $("#bg_width").text();
+        var bgHeight = $("#bg_height").text();
+        canvas = new fabric.Canvas('bc');
+        setCanvasWidth(bgWidth*pixtelPerCm);
+        setCanvasHeight(bgHeight*pixtelPerCm);
+        content1 = $('#bc_content1').text();
+        content2 = $('#bc_content2').text();
+        var doubleSide = $("#double_side_value").text();
+        if(doubleSide == '0'){
+            $('#bc-revert').hide();
+        }
+        if(cardSide == 0){
+            if(content1 && content1.length > 0){
+                canvas.loadFromJSON(content1);
+                renderCustomFont();
+            }
+        }else{
+            if(content2 && content2.length > 0){
+                canvas.loadFromJSON(content2);
+                renderCustomFont();
+            }
+        }
+    }
+    $(document).ready(function () {
+        onReady();
+    });
+    function initClueTextBox(){
+        fabric.ClueTextBox = fabric.util.createClass(fabric.Textbox, {
+            type: 'ClueTextBox',
+            /**
+             * Properties which when set cause object to change dimensions
+             * @type Object
+             * @private
+             */
+            _dimensionAffectingProps: fabric.IText.prototype._dimensionAffectingProps.slice(0),
+            cacheProperties: fabric.Textbox.prototype.cacheProperties.concat('customAlign'),
+
+            _renderTextCommon: function(ctx, method) {
+                console.log("_renderTextCommon");
+                console.log(this);
+                ctx.save();
+                var lineHeights = 0, left = this._getLeftOffset(), top = this._getTopOffset(),
+                    offsets = this._applyPatternGradientTransform(ctx, method === 'fillText' ? this.fill : 	this.stroke);
+                console.log("left:"+left+" top:"+top);
+                console.log(offsets);
+                var totalHeight = 0;
+                for (var i = 0, len = this._textLines.length; i < len; i++) {
+                    totalHeight += this.getHeightOfLine(i) / this.lineHeight;
+                }
+                if(this.customAlign === 'ml' || this.customAlign === 'mc' || this.customAlign === 'mr'){
+                    top += this.height >= totalHeight ? (this.height-totalHeight)/2 : 0;
+                }else if(this.customAlign === 'bl' || this.customAlign === 'bc' || this.customAlign === 'br'){
+                    top += this.height >= totalHeight ? (this.height-totalHeight) : 0;
+                }
+                for (var i = 0, len = this._textLines.length; i < len; i++) {
+                    var heightOfLine = this.getHeightOfLine(i),
+                        maxHeight = heightOfLine / this.lineHeight,
+                        leftOffset = this._getLineLeftOffset(i);
+                    if(lineHeights+heightOfLine < this.getScaledHeight()){
+                        this._renderTextLine(
+                            method,
+                            ctx,
+                            this._textLines[i],
+                            left + leftOffset - offsets.offsetX,
+                            top + lineHeights + maxHeight - offsets.offsetY,
+                            i
+                        );
+                    }
+                    lineHeights += heightOfLine;
+                }
+                // console.log("width:"+this.width+" height:"+this.height+" scaleHeight:"+this.getScaledHeight());
+                ctx.restore();
+            },
+            initDimensions() {
+                console.log("initDimensions");
+                if (this.__skipDimension) {
+                    return;
+                }
+                this.isEditing && this.initDelayedCursor();
+                this.clearContextTop();
+                this._clearCache();
+                // clear dynamicMinWidth as it will be different after we re-wrap line
+                this.dynamicMinWidth = 0;
+                // wrap lines
+                this._styleMap = this._generateStyleMap(this._splitText());
+                // if after wrapping, the width is smaller than dynamicMinWidth, change the width and re-wrap
+                if (this.dynamicMinWidth > this.width) {
+                    this._set('width', this.dynamicMinWidth);
+                }
+                if (this.textAlign.indexOf('justify') !== -1) {
+                    // once text is measured we need to make space fatter to make justified text.
+                    this.enlargeSpaces();
+                }
+                // clear cache and re-calculate height
+                if(this.height <= 0){
+                    this.height = this.calcTextHeight();
+                }
+                this.saveState({ propertySet: '_dimensionAffectingProps' });
+            }
+        });
+        fabric.ClueTextBox.fromObject = function(object, callback) {
+            var styles = fabric.util.stylesFromArray(object.styles, object.text);
+            //copy object to prevent mutation
+            var objCopy = Object.assign({}, object, { styles: styles });
+            return fabric.Object._fromObject('ClueTextBox', objCopy, callback, 'text');
+        };
+    }
+    function setCanvasWidth(width) {
+        canvas.setWidth(width);
+    }
+    function setCanvasHeight(height) {
+        canvas.setHeight(height);
+        var titleHeight = $('#bc-title').outerHeight();
+        var revertHeight = $('#bc-revert').outerHeight();
+        if((height+titleHeight+revertHeight) > 500){
+            $('.bc-workplace').height(height+titleHeight+revertHeight);
+        }else{
+            $('.bc-workplace').height(500);
+        }
+    }
+    function renderCustomFont() {
+        var objects = canvas.getObjects();
+        for(var i = 0; i < objects.length; i++){
+            if(objects[i].fontFamily && objects[i].fontFamily.length > 0){
+                if(webSafeFonts.indexOf(objects[i].fontFamily) < 0){
+                    objects[i].dirty = true;
+                    loadFont(objects[i].fontFamily);
+                }
+            }
+        }
+    }
+    function loadFont(font) {
+        var myfont = new FontFaceObserver(font);
+        myfont.load().then(function () {
+            canvas.requestRenderAll();
+        }).catch(function (e) {
+            console.log(e);
+        });
+    }
+    function revert() {
+        if(cardSide == 0){
+            cardSide = 1;
+            $("#bc-title").text("Back");
+            if(content2){
+                canvas.loadFromJSON(content2);
+                renderCustomFont();
+            }else{
+                canvas.clear();
+            }
+        }else{
+            cardSide = 0;
+            $("#bc-title").text("Front");
+            if(content1){
+                canvas.loadFromJSON(content1);
+                renderCustomFont();
+            }else{
+                canvas.clear();
+            }
+        }
+        canvas.renderAll();
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+    function printCard() {
+        var print_data = $('#print_data').text();
+        var layerIndex = layer.load(2);
+        $.post(
+            "{:url('cms/users/printCard')}",
+            {data: print_data},
+            function (result) {
+                layer.close(layerIndex);
+                if(result.status !== 200){
+                    dialog.tip(result.message,5);
+                }else{
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

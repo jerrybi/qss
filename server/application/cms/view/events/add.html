@@ -1,0 +1,225 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event ID:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="id" required lay-verify="required"
+                   value=""
+                   placeholder="Please input event id" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value=""
+                   placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Code:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="code" required lay-verify="required|code"
+                   value=""
+                   placeholder="Please input code" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Description:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="description" 
+                   value=""
+                   placeholder="Please input description" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Venue:</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="Please input venue" name="venue" required id="venue"
+                          lay-verify="required" class="layui-input input-title-mz">
+            <div id="map" class="input-title-mz"></div>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Country/Region:</label>
+        <div class="layui-input-inline">
+            <select name="country" id="country" lay-verify="required">
+                <option value="">Please select country/region</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Start time:</label>
+        <div class="layui-input-inline">
+            <input name="start_time" id="startTime" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">End time:</label>
+        <div class="layui-input-inline">
+            <input name="end_time" id="endTime" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Directory Start time:</label>
+        <div class="layui-input-inline">
+            <input name="show_directory_start_time" id="directoryStartTime" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Directory End time:</label>
+        <div class="layui-input-inline">
+            <input name="show_directory_end_time" id="directoryEndTime" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Track:</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="enable_track" value="1" title="Yes" lay-filter="enableTrack" checked>
+            <input type="radio" name="enable_track" value="0" title="No" lay-filter="enableTrack">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Sort:</label>
+        <div class="layui-input-inline">
+            <input type="number" name="list_order"
+                   value="0" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">(the smaller the number,the higher the order )</div>
+    </div>
+    <div class="layui-form-item" style="display: none">
+        <label class="layui-form-label label-custom">IsEncrypt:</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="is_encrypt" value="1" title="Yes" lay-filter="isEncrypt" checked>
+            <input type="radio" name="is_encrypt" value="0" title="No" lay-filter="isEncrypt">
+        </div>
+    </div>
+    <input id="lat" name="lat" value="" type="hidden"/>
+    <input id="lng" name="lng" value="" type="hidden"/>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/events/add')}"
+                    lay-submit lay-filter="events">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    #map {
+        height: 300px;
+    }
+</style>
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgHzz1U9lVi82cngmaR0IPaK8ZSOuFHl4&callback=initMap&libraries=&v=weekly"
+        defer
+></script>
+<script>
+    layui.use(['form','laydate'],function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem:'#startTime',
+            type:'datetime',
+            trigger:'click',
+            lang:'en'
+        });
+        laydate.render({
+            elem:'#endTime',
+            type:'datetime',
+            trigger:'click',
+            lang:'en'
+        });
+        laydate.render({
+            elem:'#directoryStartTime',
+            type:'datetime',
+            trigger:'click',
+            lang:'en'
+        });
+        laydate.render({
+            elem:'#directoryEndTime',
+            type:'datetime',
+            trigger:'click',
+            lang:'en'
+        });
+        var form = layui.form;
+        form.on('submit(events)',function () {
+            submit();
+        });
+        form.verify({
+            code:[
+                /^[a-zA-Z0-9]+$/,'Can only consist of alphanumeric!'
+            ]
+        });
+        initCountry();
+    });
+    function initCountry(){
+        var countryStr = "";
+        $.each(country,function(i,item){
+            countryStr += "<option val='"+item+"'>"+item+"</option>";
+        });
+        $("#country").html(countryStr);
+        layui.form.render();
+    }
+    function submit() {
+        var startTime = $('#startTime').val();
+        var endTime = $('#endTime').val();
+        var directoryStartTime = $('#directoryStartTime').val();
+        var directoryEndTime = $('#directoryEndTime').val();
+        if(directoryEndTime >= endTime){
+            layer.msg('Show directory end time can be be larger than event end time!');
+            return;
+        }
+        opFormPostRecord(this,fail_callback);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<script>
+    var map;
+    var marker;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 1.3097909572955402, lng: 103.85551929473877 },
+            zoom: 12
+        });
+        map.addListener('click',function(event){
+            var latLng = event.latLng;
+            console.log(latLng.lat());
+            console.log(latLng.lng());
+            $("#lat").val(latLng.lat());
+            $("#lng").val(latLng.lng());
+            if(marker){
+                marker.setMap(null);
+            }
+            marker = new google.maps.Marker({
+                position:latLng,
+                map:map
+            });
+            new google.maps.Geocoder().geocode({
+                location:latLng
+            },function(res){
+                console.log(res);
+                if(res && res.length > 0){
+                    $('#venue').val(res[0].formatted_address);
+                }
+            });
+        });
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

@@ -1,0 +1,50 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    {volist name="fieldOption" id="vo"}
+        <div class="layui-col-xs12 layui-col-md12">
+            <input type="checkbox" name="{$vo['key']}" value="1" title="{$vo['name']}"
+                   lay-skin="primary" lay-filter="{$vo['key']}"/>
+        </div>
+    {/volist}
+    <div hidden="hidden" id="fieldOption"><?php echo json_encode($fieldOption);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button" lay-submit lay-filter="user">Submit</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use(['form'],function(){
+        var form = layui.form;
+        form.on('submit(user)',function () {
+            submit();
+        });
+        onReady();
+    });
+    function onReady(){
+        //dynamic data
+        var fieldOption = JSON.parse($('#fieldOption').text());
+        for(var i = 0; i < fieldOption.length; i++) {
+            var item = fieldOption[i];
+            if(item.value === '1'){
+                $('input[name="'+item.key+'"][value="1"]').attr('checked',true);
+            }
+        }
+        layui.form.render();
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+    function submit() {
+        var toUrl = "{:url('cms/users/fieldOptions')}";
+        var postData = $(".form-op-normal").serialize();
+        ToPostPopupsDeal(toUrl, postData,fail_callback);
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

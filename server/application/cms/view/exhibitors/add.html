@@ -1,0 +1,89 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event</label>
+        <div class="layui-input-inline">
+            <input name="event_id" value="{$event_id}" type="hidden"/>
+            <input value="{$event_name}" readonly="readonly" class="layui-input"/>
+        </div>
+    </div>
+    
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Login Name</label>
+        <div class="layui-input-inline">
+            <input name="login_name" placeholder="Please input login name" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">First Name</label>
+        <div class="layui-input-inline">
+            <input name="first_name" placeholder="Please input first name" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Last Name</label>
+        <div class="layui-input-inline">
+            <input name="last_name" placeholder="Please input last name" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Company</label>
+        <div class="layui-input-inline">
+            <input name="company" placeholder="Please input company"  class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Country Code</label>
+        <div class="layui-input-inline">
+            <input name="phone_country_code" placeholder="Please input phone country code" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Area Code</label>
+        <div class="layui-input-inline">
+            <input name="phone_area_code" placeholder="Please input phone area code" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Phone Number</label>
+        <div class="layui-input-inline">
+            <input name="phone_number" placeholder="Please input phone number" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Email</label>
+        <div class="layui-input-inline">
+            <input name="email" placeholder="Please input email" class="layui-input" autocomplete="off">
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/exhibitors/add')}" onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function(){
+
+    });
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

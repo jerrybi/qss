@@ -1,0 +1,934 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <form class="custom-form layui-form">
+            <div class="header-content">{php}echo htmlspecialchars_decode($form['header_content']){/php}</div>
+            <div class="layui-clear">
+                <div class="form-title">Form Name:{$form['name']}</div>
+                <div class="form-header-left">
+                    <div class="form-header-line bold">Vendor</div>
+                    <div class="form-header-line">{$vendor['name']}</div>
+                    <div class="form-header-line">{$vendor['address_line1']}</div>
+                    <div class="form-header-line">{$vendor['address_line2']}</div>
+                    <div class="form-header-line">{$vendor['postal']}</div>
+                    <div class="form-header-line">{$vendor['website']}</div>
+                </div>
+                <div class="form-header-right">
+                    {volist name="vendorAccounts" id="vo"}
+                        <div class="form-header-item">
+                            <div class="form-header-line text-right">Contact Person: {$vo['first_name']} {$vo['last_name']}</div>
+                            <div class="form-header-line text-right">Business Phone: ({$vo['phone_country_code']}) {$vo['phone_area_code']} {$vo['phone_number']}</div>
+                            <div class="form-header-line text-right">Email: {$vo['email']}</div>
+                        </div>
+                    {/volist}
+                </div>
+            </div>
+			<div class="instruction mgt20">{php}echo htmlspecialchars_decode($form['instruction']){/php}</div>
+            <div>
+                {if $form['show_dob'] == 1}
+                    <p>Additional passes may be obtained at a cost of S$5.00 each.</p>
+                {else /}
+                    <p>You are entitled to <span style="text-decoration: underline">{$company['badge']}</span> badges. Additional passes may be obtained at a cost of S$10.00 each.</p>
+                {/if}
+                <p>Please fill in the information of badge holders below - </p>
+                <p>OR</p>
+                <p>You can also upload badges. <a style="color: #0e90d2" class="downloadtemplate" onclick="downloadTemplate();">Download template here.</a></p>
+                <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-normal btn_upload_file" data-index="0" upload_file_cb0="uploadBadgeList">
+                        <i class="layui-icon">&#xe681;</i> Upload
+                    </button>
+                    <input type="hidden" name="upload_file" value="" class="upload_file_url0"/>
+                </div>
+                <div class="layui-btn-container">
+                    <button type="button" class="layui-btn layui-btn-normal" onclick="addBadge();">Add Badge</button>
+                </div>
+                <table class="layui-table table-body" lay-even="" lay-skin="row">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Salutation</th>
+                        <th>Name on Badge</th>
+                        <th>Position/Job Title</th>
+                        <th>Company</th>
+                        <th>Country/Region</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-tbody-normal layui-form"
+                           record_num="{$record_num}" page_limit="{$page_limit}">
+                    {volist name="formData" id="vo"}
+                    <tr class="tr-normal-{$vo['id']}">
+                        <td class="title">{$vo['rank']}</td>
+                        <td class="title">{$vo['salutation']}</td>
+                        <td class="title">{$vo['badge_name']}</td>
+                        <td class="title">{$vo['job_title']}</td>
+                        <td class="title">{$vo['company']}</td>
+                        <td class="title">{$vo['country']}</td>
+                        <td class="title">{$vo['email']}</td>
+                        <td>
+                            <div class="layui-btn-group">
+                                <button class="layui-btn layui-btn-sm" title="Edit badge"
+                                        onclick="return editOpenPopups('✎ Edit badge','{$vo.id}', '80%', '95%');">
+                                    <i class="layui-icon">&#xe642;</i>
+                                </button>
+                                <button class="layui-btn layui-btn-sm" title="Remove badge"
+                                        onclick="return delRecord('{$vo.id}',confirmDelete);">
+                                    <i class="layui-icon">&#xe640;</i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+<!--                <p>Authorised Contact To Collect The Above Badges For The Group:</p>-->
+<!--                <div></div>-->
+<!--                <div class="layui-form-item">-->
+<!--                    <div class="">Name<span class="red">*</span></div>-->
+<!--                    <div class="layui-input-inline">-->
+<!--                        <input type="text"  name="badge_submit_name"-->
+<!--                               value="{$formData1['badge_submit_name']}"-->
+<!--                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="layui-form-item">-->
+<!--                    <div class="">Designation<span class="red">*</span></div>-->
+<!--                    <div class="layui-input-inline">-->
+<!--                        <input type="text"  name="badge_submit_designation"-->
+<!--                               value="{$formData1['badge_submit_designation']}"-->
+<!--                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <br/>-->
+                <br/>
+                <p>Submitter's Information</p>
+                <div class="layui-form-item">
+                    <div class="">Submitted By<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_name"
+                               value="{$formData1['form_submit_name']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Designation<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_designation"
+                               value="{$formData1['form_submit_designation']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Email<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_email"
+                               value="{$formData1['form_submit_email']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required|email">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Further Instruction (if any)</div>
+                    <div class="layui-input-inline">
+                        <textarea type="text"  name="form_submit_instruction" autocomplete="off" class="layui-input input-title-mz">{$formData1['form_submit_instruction']}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block div-form-op">
+                        <button class="layui-btn layui-btn-primary" type="button" onclick="saveDraft()">Save Draft</button>
+                        <button type="button" class="layui-btn" lay-submit lay-filter="badge">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="cost-notes">{php}echo htmlspecialchars_decode($form['cost_notes']){/php}</div>
+            <div class="footer-content">{php}echo htmlspecialchars_decode($form['footer_content']){/php}</div>
+            <input type="hidden" name="event_id" value="{$user['event_id']}">
+            <input type="hidden" name="company_id" value="{$user['company_id']}">
+            <input type="hidden" name="user_id" value="{$user['id']}">
+            <input type="hidden" name="form_id" value="{$form['id']}">
+            <input hidden="hidden" id="formData" name="form_data" value="{$formData|json_encode}" lay-verify="required">
+        </form>
+        <form class="layui-form layui-container" id="pop" style="display: none">
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Booth No<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="booth_no"
+                           value="{$company['booth']}" readonly="readonly"
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Exhibiting Company<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="exhibiting_company"
+                           value="{$company['name']}" readonly="readonly"
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">SQM<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="sqm"
+                           value="{$company['sqm']}" readonly="readonly"
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-space4">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Rank</label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="rank"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item layui-row layui-col-space4">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Salutation<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <select name="salutation" id="salutation" lay-verify="required" lay-filter="salutation" lay-verify="required">
+                        <option value="">Select Salutation</option>
+                        <option value="Mr">Mr</option>
+                        <option value="Ms">Ms</option>
+                        <option value="Mrs">Mrs</option>
+                        <option value="Mrs">Miss</option>
+                        <option value="Mrs">Professor</option>
+                        <option value="Mrs">Dr</option>
+                        <option value="Mrs">Sir</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">First Name<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="first_name"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Last Name<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="last_name"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Name on badge<span class="red">*</span>
+                    <br>
+                    <span style="font-style:italic">Max 25 Characters</span>
+                </label>
+                <div class="layui-col-xs6 layui-col-md9" style="margin-top: 15px">
+                    <input type="text"  name="badge_name"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" maxlength="25" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Position/Job Title<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="job_title"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Company Name<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="company"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Email<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="email"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required|email">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Mobile No<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="number"  name="mobile"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Country/Region of Residence<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <select name="country" id="country" lay-verify="required" lay-filter="country" lay-verify="required">
+                        <option value="">Select Country/region</option>
+                        <option value="Afghanistan">Afghanistan</option>
+                        <option value="Anguilla">Anguilla</option>
+                        <option value="Armenia">Armenia</option>
+                        <option value="Aruba">Aruba</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Austria">Austria</option>
+                        <option value="Azerbaijan">Azerbaijan</option>
+                        <option value="Bahamas">Bahamas</option>
+                        <option value="Bahrain">Bahrain</option>
+                        <option value="Bangladesh">Bangladesh</option>
+                        <option value="Barbados">Barbados</option>
+                        <option value="Belarus">Belarus</option>
+                        <option value="Belgium">Belgium</option>
+                        <option value="Belize">Belize</option>
+                        <option value="Benin">Benin</option>
+                        <option value="Bermuda">Bermuda</option>
+                        <option value="Bhutan">Bhutan</option>
+                        <option value="Bolivia">Bolivia</option>
+                        <option value="Bouvet Islands">Bouvet Islands</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+                        <option value="British Virgin Islands">British Virgin Islands</option>
+                        <option value="Brunei">Brunei</option>
+                        <option value="Bulgaria">Bulgaria</option>
+                        <option value="Burkina Faso">Burkina Faso</option>
+                        <option value="Burundi">Burundi</option>
+                        <option value="Cambodia">Cambodia</option>
+                        <option value="Cameroon">Cameroon</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Cape Verde">Cape Verde</option>
+                        <option value="Cayman Islands">Cayman Islands</option>
+                        <option value="Central African Republic">Central African Republic</option>
+                        <option value="Chad">Chad</option>
+                        <option value="Chile">Chile</option>
+                        <option value="China">China</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Comoros">Comoros</option>
+                        <option value="Congo">Congo</option>
+                        <option value="Costa Rica">Costa Rica</option>
+                        <option value="Cote D’Ivorie">Cote D’Ivorie</option>
+                        <option value="Croatia">Croatia</option>
+                        <option value="Cyprus">Cyprus</option>
+                        <option value="Czech Republic">Czech Republic</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Djibouti">Djibouti</option>
+                        <option value="Dominica">Dominica</option>
+                        <option value="Dominican Republic">Dominican Republic</option>
+                        <option value="Egypt">Egypt</option>
+                        <option value="El Salvador">El Salvador</option>
+                        <option value="Equador">Equador</option>
+                        <option value="Equatorial Guinea">Equatorial Guinea</option>
+                        <option value="Eritrea">Eritrea</option>
+                        <option value="Estonia">Estonia</option>
+                        <option value="Ethiopia">Ethiopia</option>
+                        <option value="Falkland Islands">Falkland Islands</option>
+                        <option value="Faroe Islands">Faroe Islands</option>
+                        <option value="Federated States of Micronesia">Federated States of Micronesia</option>
+                        <option value="Fiji">Fiji</option>
+                        <option value="Finland">Finland</option>
+                        <option value="France">France</option>
+                        <option value="French Guiana">French Guiana</option>
+                        <option value="French Polynesia">French Polynesia</option>
+                        <option value="Gabon">Gabon</option>
+                        <option value="Gambia">Gambia</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Ghana">Ghana</option>
+                        <option value="Gibraltar">Gibraltar</option>
+                        <option value="Greece">Greece</option>
+                        <option value="Greenland">Greenland</option>
+                        <option value="Grenada">Grenada</option>
+                        <option value="Guadeloupe">Guadeloupe</option>
+                        <option value="Guam">Guam</option>
+                        <option value="Guatemala">Guatemala</option>
+                        <option value="Guinea">Guinea</option>
+                        <option value="Guinea-Bissau">Guinea-Bissau</option>
+                        <option value="Guyana">Guyana</option>
+                        <option value="Haiti">Haiti</option>
+                        <option value="Honduras">Honduras</option>
+                        <option value="Hong Kong S.A.R. of China">Hong Kong S.A.R. of China</option>
+                        <option value="Hungary">Hungary</option>
+                        <option value="Iceland">Iceland</option>
+                        <option value="India">India</option>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="Republic of Ireland">Republic of Ireland</option>
+                        <option value="Israel">Israel</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Jamaica">Jamaica</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Jordan">Jordan</option>
+                        <option value="Kazakhstan">Kazakhstan</option>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Kiribati">Kiribati</option>
+                        <option value="Kuwait">Kuwait</option>
+                        <option value="Kyrgyzstan">Kyrgyzstan</option>
+                        <option value="Laos">Laos</option>
+                        <option value="Latvia">Latvia</option>
+                        <option value="Lebanon">Lebanon</option>
+                        <option value="Lesotho">Lesotho</option>
+                        <option value="Liberia">Liberia</option>
+                        <option value="Liechtenstein">Liechtenstein</option>
+                        <option value="Lithuania">Lithuania</option>
+                        <option value="Luxembourg">Luxembourg</option>
+                        <option value="Macau S.A.R. of China">Macau S.A.R. of China</option>
+                        <option value="Madagascar">Madagascar</option>
+                        <option value="Malawi">Malawi</option>
+                        <option value="Malaysia">Malaysia</option>
+                        <option value="Maldives">Maldives</option>
+                        <option value="Mali">Mali</option>
+                        <option value="Malta">Malta</option>
+                        <option value="Marshall Islands">Marshall Islands</option>
+                        <option value="Martinique">Martinique</option>
+                        <option value="Mauritania">Mauritania</option>
+                        <option value="Mayotte">Mayotte</option>
+                        <option value="Metropolitan France">Metropolitan France</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Moldova">Moldova</option>
+                        <option value="Mongolia">Mongolia</option>
+                        <option value="Morocco">Morocco</option>
+                        <option value="Mozambique">Mozambique</option>
+                        <option value="Namibia">Namibia</option>
+                        <option value="Nauru">Nauru</option>
+                        <option value="Nepal">Nepal</option>
+                        <option value="Neterlands Antilles">Neterlands Antilles</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="New Caledonia">New Caledonia</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="Nicaragua">Nicaragua</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="Northern Mariana Islands">Northern Mariana Islands</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Oman">Oman</option>
+                        <option value="Pakistan">Pakistan</option>
+                        <option value="Palau">Palau</option>
+                        <option value="Panama">Panama</option>
+                        <option value="Papua New Guinea">Papua New Guinea</option>
+                        <option value="Paraguay">Paraguay</option>
+                        <option value="Peru">Peru</option>
+                        <option value="Philippines">Philippines</option>
+                        <option value="Pitcairn">Pitcairn</option>
+                        <option value="Poland">Poland</option>
+                        <option value="Portugal">Portugal</option>
+                        <option value="Puerto Rico">Puerto Rico</option>
+                        <option value="Qatar">Qatar</option>
+                        <option value="Republic of Korea">Republic of Korea</option>
+                        <option value="Republic of Macedonia">Republic of Macedonia</option>
+                        <option value="Reunion">Reunion</option>
+                        <option value="Romania">Romania</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                        <option value="Saudi Arabia">Saudi Arabia</option>
+                        <option value="Senegal">Senegal</option>
+                        <option value="Seychelles">Seychelles</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Slovakia">Slovakia</option>
+                        <option value="Slovenia">Slovenia</option>
+                        <option value="Solomon Islands">Solomon Islands</option>
+                        <option value="Somalia">Somalia</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="St. Helena">St. Helena</option>
+                        <option value="St. Kitts and Nevis">St. Kitts and Nevis</option>
+                        <option value="St. Lucia">St. Lucia</option>
+                        <option value="St. Vincent and the Grenadines">St. Vincent and the Grenadines</option>
+                        <option value="Sudan">Sudan</option>
+                        <option value="Suriname">Suriname</option>
+                        <option value="Svalbard and Jan Mayen Islands">Svalbard and Jan Mayen Islands</option>
+                        <option value="Swaziland">Swaziland</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Switzerland">Switzerland</option>
+                        <option value="Syria">Syria</option>
+                        <option value="Taiwan">Taiwan</option>
+                        <option value="Tajikistan">Tajikistan</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Thailand">Thailand</option>
+                        <option value="Togo">Togo</option>
+                        <option value="Tonga">Tonga</option>
+                        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                        <option value="Turkey">Turkey</option>
+                        <option value="Turkmenistan">Turkmenistan</option>
+                        <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+                        <option value="Tuvalu">Tuvalu</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Ukraine">Ukraine</option>
+                        <option value="United Arab Emirates">United Arab Emirates</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="United States USA">United States USA</option>
+                        <option value="Uruguay">Uruguay</option>
+                        <option value="Uzbekistan">Uzbekistan</option>
+                        <option value="Vanuatu">Vanuatu</option>
+                        <option value="Vatican City">Vatican City</option>
+                        <option value="Venezuela">Venezuela</option>
+                        <option value="Vietnam">Vietnam</option>
+                        <option value="Western Sahara">Western Sahara</option>
+                        <option value="Yemen">Yemen</option>
+                        <option value="Yugoslavia">Yugoslavia</option>
+                        <option value="Zaire">Zaire</option>
+                        <option value="Zambia">Zambia</option>
+                        <option value="Zambia">Zimbabwe</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Vaccination Type<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="vaccination_type"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Vaccination Effective Date<span class="red">*</span></label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input name="vaccination_effective_date" id="vaccination_effective_date"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Date of Entry</label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input name="vaccination_entry_date" id="vaccination_entry_date"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Date of Exit</label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input name="vaccination_exit_date" id="vaccination_exit_date"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Last City</label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="vaccination_last_city"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+<!--            <div class="layui-form-item">-->
+<!--                <label class="custom-form-label layui-col-xs6 layui-col-md3">Authorized Person<span class="red">*</span></label>-->
+<!--                <div class="layui-col-xs6 layui-col-md9">-->
+<!--                    <input type="text"  name="vaccination_authorizer_person"-->
+<!--                           value=""-->
+<!--                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="layui-form-item">-->
+<!--                <label class="custom-form-label layui-col-xs6 layui-col-md3">Authorized Designation<span class="red">*</span></label>-->
+<!--                <div class="layui-col-xs6 layui-col-md9">-->
+<!--                    <input type="text"  name="vaccination_authorizer_designation"-->
+<!--                           value=""-->
+<!--                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">-->
+<!--                </div>-->
+<!--            </div>-->
+            {if $form['show_dob'] == 1}
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">Date of Birth</label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input name="dob" id="dob"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="custom-form-label layui-col-xs6 layui-col-md3">NRIC(Last 4 digits)/FIN No</label>
+                <div class="layui-col-xs6 layui-col-md9">
+                    <input type="text"  name="nric"
+                           value=""
+                           placeholder="" autocomplete="off" class="layui-input input-title-mz">
+                </div>
+            </div>
+<!--            <div class="layui-form-item">-->
+<!--                <label class="custom-form-label layui-col-xs6 layui-col-md3">Organisation/Requesting Agency</label>-->
+<!--                <div class="layui-col-xs6 layui-col-md9">-->
+<!--                    <input type="text"  name="organisation_agency"-->
+<!--                           value=""-->
+<!--                           placeholder="" autocomplete="off" class="layui-input input-title-mz">-->
+<!--                </div>-->
+<!--            </div>-->
+            {/if}
+<!--            <div class="layui-form-item">-->
+<!--                <label class="custom-form-label layui-col-xs6 layui-col-md3">Submitted By<span class="red">*</span></label>-->
+<!--                <div class="layui-col-xs6 layui-col-md9">-->
+<!--                    <input type="text"  name="badge_submit_name"-->
+<!--                           value=""-->
+<!--                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="layui-form-item">-->
+<!--                <label class="custom-form-label layui-col-xs6 layui-col-md3">Designation<span class="red">*</span></label>-->
+<!--                <div class="layui-col-xs6 layui-col-md9">-->
+<!--                    <input type="text"  name="badge_submit_designation"-->
+<!--                           value=""-->
+<!--                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="layui-form-item">-->
+<!--                <label class="custom-form-label layui-col-xs6 layui-col-md3">Email<span class="red">*</span></label>-->
+<!--                <div class="layui-col-xs6 layui-col-md9">-->
+<!--                    <input type="text"  name="badge_submit_email"-->
+<!--                           value=""-->
+<!--                           placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="layui-form-item">-->
+<!--                <label class="custom-form-label layui-col-xs6 layui-col-md3">Further Instruction<span class="red">*</span></label>-->
+<!--                <div class="layui-col-xs6 layui-col-md9">-->
+<!--                    <textarea type="text"  name="badge_submit_instruction"-->
+<!--                           value=""-->
+<!--                              placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required"></textarea>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="layui-form-item">-->
+<!--                <label class="custom-form-label layui-col-xs6 layui-col-md3">Timestamp<span class="red">*</span></label>-->
+<!--                <div class="layui-col-xs6 layui-col-md9">-->
+<!--                    <input type="text"  name="badge_submit_timestamp"-->
+<!--                              value=""-->
+<!--                              placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">-->
+<!--                </div>-->
+<!--            </div>-->
+            <input type="hidden" name="id" value=""/>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" type="button" lay-submit lay-filter="pop">Add</button>
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="cancelRecord();">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    .upload_file_url0,.upload_file_url1,.upload_file_url2,.upload_file_url3{
+        width: 300px;
+    }
+    .form-title{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        background-color: #283560;
+        color: white;
+        text-align: center;
+    }
+    .form-header-left{
+        float: left;
+        margin-top: 20px;
+    }
+    .form-header-right{
+        float:right;
+        margin-top: 20px;
+    }
+    .form-header-item{
+        margin-bottom: 20px;
+    }
+    .form-header-line{
+        height: 25px;
+        line-height: 25px;
+    }
+    .layui-form-item .layui-input-inline{
+        width: 380px!important;
+    }
+    .downloadtemplate:hover{
+        cursor: pointer;
+    }
+    .div-form-op{
+        margin-left: 0!important;
+    }
+</style>
+<script>
+    var popupId;
+    layui.use(['form','laydate'],function () {
+        var form = layui.form;
+        form.on('submit(pop)',function () {
+            addRecord();
+        });
+        form.on('submit(badge)',function () {
+            submit();
+        });
+    });
+    function renderDate() {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem:'#vaccination_effective_date',
+            type:'date',
+            trigger:'click',
+            format:'dd/MM/yyyy',
+            lang:'en'
+        });
+        laydate.render({
+            elem:'#vaccination_entry_date',
+            type:'date',
+            trigger:'click',
+            format:'dd/MM/yyyy',
+            lang:'en'
+        });
+        laydate.render({
+            elem:'#vaccination_exit_date',
+            type:'date',
+            trigger:'click',
+            format:'dd/MM/yyyy',
+            lang:'en'
+        });
+        if("{$form['show_dob']}" == '1'){
+            laydate.render({
+                elem:'#dob',
+                type:'date',
+                trigger:'click',
+                format:'dd/MM/yyyy',
+                lang:'en'
+            });
+        }
+    }
+    function addBadge() {
+        //check if reach the maximum badge number
+        var maxBadge = parseInt("{$company['badge']}");
+        var show_dob = parseInt("{$form['show_dob']}");
+        var formDatas = JSON.parse($('#formData').val());
+        if(show_dob == 0 && formDatas.length >= maxBadge){
+            layer.msg('Sorry, you have reached the maximum badge number!');
+            return;
+        }
+        $('input[name="booth_no"]').val("{$company['booth']}");
+        $('input[name="exhibiting_company"]').val("{$company['name']}");
+        $('input[name="sqm"]').val("{$company['sqm']}");
+        $('input[name="rank"]').val('');
+        $('select[name="salutation"]').val('');
+        $('input[name="first_name"]').val('');
+        $('input[name="last_name"]').val('');
+        $('input[name="badge_name"]').val('');
+        $('input[name="job_title"]').val('');
+        $('input[name="company"]').val('');
+        $('select[name="country"]').val('');
+        $('input[name="email"]').val('');
+        $('input[name="mobile"]').val('');
+        $('input[name="vaccination_type"]').val('');
+        $('input[name="vaccination_effective_date"]').val('');
+        $('input[name="vaccination_entry_date"]').val('');
+        $('input[name="vaccination_exit_date"]').val('');
+        $('input[name="vaccination_last_city"]').val('');
+        // $('input[name="vaccination_authorizer_person"]').val('');
+        // $('input[name="vaccination_authorizer_designation"]').val('');
+        if("{$form['show_dob']}" == '1') {
+            $('input[name="dob"]').val('');
+            $('input[name="nric"]').val('');
+            // $('input[name="organisation_agency"]').val('');
+        }
+        // $('input[name="badge_submit_name"]').val('');
+        // $('input[name="badge_submit_designation"]').val('');
+        // $('input[name="badge_submit_email"]').val('');
+        // $('textarea[name="badge_submit_instruction"]').val('');
+        $('input[name="id"]').val('');
+        layui.form.render();
+        renderDate();
+        popupId = OpenPopups('pop','Add badge','80%','95%',true);
+    }
+    function findFormData(datas,id) {
+        for(var i=0;i<datas.length;i++){
+            if(datas[i].id == id){
+                return datas[i];
+            }
+        }
+        return null;
+    }
+    function findFormDataIndex(datas,id) {
+        for(var i=0;i<datas.length;i++){
+            if(datas[i].id == id){
+                return i;
+            }
+        }
+        return -1;
+    }
+    function editOpenPopups(title,id,width,height) {
+        var formDatas = JSON.parse($('#formData').val());
+        var formData = findFormData(formDatas,id);
+        if(!formData){
+            layer.msg('data error!');
+            return;
+        }
+        $('input[name="booth_no"]').val(formData.booth_no);
+        $('input[name="exhibiting_company"]').val(formData.exhibiting_company);
+        $('input[name="sqm"]').val(formData.sqm);
+        $('select[name="rank"]').val(formData.rank);
+        $('select[name="salutation"]').val(formData.salutation);
+        $('input[name="first_name"]').val(formData.first_name);
+        $('input[name="last_name"]').val(formData.last_name);
+        $('input[name="badge_name"]').val(formData.badge_name);
+        $('input[name="job_title"]').val(formData.job_title);
+        $('input[name="company"]').val(formData.company);
+        $('select[name="country"]').val(formData.country);
+        $('input[name="email"]').val(formData.email);
+        $('input[name="id"]').val(formData.id);
+        $('input[name="mobile"]').val(formData.mobile);
+        $('input[name="vaccination_type"]').val(formData.vaccination_type);
+        $('input[name="vaccination_effective_date"]').val(formData.vaccination_effective_date);
+        $('input[name="vaccination_entry_date"]').val(formData.vaccination_entry_date);
+        $('input[name="vaccination_exit_date"]').val(formData.vaccination_exit_date);
+        $('input[name="vaccination_last_city"]').val(formData.vaccination_last_city);
+        // $('input[name="vaccination_authorizer_person"]').val(formData.vaccination_authorizer_person);
+        // $('input[name="vaccination_authorizer_designation"]').val(formData.vaccination_authorizer_designation);
+        if("{$form['show_dob']}" == '1') {
+            $('input[name="dob"]').val(formData.dob);
+            $('input[name="nric"]').val(formData.nric);
+            // $('input[name="organisation_agency"]').val(formData.organisation_agency);
+        }
+        // $('input[name="badge_submit_name"]').val(formData.badge_submit_name);
+        // $('input[name="badge_submit_designation"]').val(formData.badge_submit_designation);
+        // $('input[name="badge_submit_email"]').val(formData.badge_submit_email);
+        // $('textarea[name="badge_submit_instruction"]').val(formData.badge_submit_instruction);
+        // $('input[name="badge_submit_timestamp"]').val(formData.badge_submit_timestamp);
+        layui.form.render();
+        renderDate();
+        popupId = OpenPopups('pop',title,width,height,true);
+        return false;
+    }
+    function cancelRecord() {
+        layer.close(popupId);
+    }
+    function addRecord() {
+        var postData = $("#pop").serializeArray();
+        var formDatas = JSON.parse($('#formData').val());
+        var item = {};
+        $.each(postData,function (i,data) {
+            item[data['name']] = data['value'];
+        });
+        if(item['id'].length > 0){
+            //edit
+            var index = findFormDataIndex(formDatas,item['id']);
+            if(index >= 0){
+                formDatas.splice(index,1,item);
+            }
+        }else{
+            //add
+            item['id'] = new Date().getTime();
+            formDatas.push(item);
+        }
+        $('#formData').val(JSON.stringify(formDatas));
+        reLoadList();
+        layer.close(popupId); //再执行关闭
+    }
+    function confirmDelete(id) {
+        var formDatas = JSON.parse($('#formData').val());
+        var index = findFormDataIndex(formDatas,id);
+        if(index >= 0){
+            formDatas.splice(index,1);
+        }
+        $('#formData').val(JSON.stringify(formDatas));
+    }
+    function reLoadList() {
+        var formDatas = JSON.parse($('#formData').val());
+        var str_html = '';
+        $.each(formDatas,function(i,data){
+            if(data.salutation && data.salutation.length > 0){
+                str_html +=
+                    "<tr class=\"tr-normal-"+data.id+"\">\n" +
+                    "                <td class=\"title\">"+data.rank+"</td>\n" +
+                    "                <td class=\"title\">"+data.salutation+"</td>\n" +
+                    "                <td class=\"title\">"+data.badge_name+"</td>\n" +
+                    "                <td class=\"title\">"+data.job_title+"</td>\n" +
+                    "                <td class=\"title\">"+data.company+"</td>\n" +
+                    "                <td class=\"title\">"+data.country+"</td>\n" +
+                    "                <td class=\"title\">"+data.email+"</td>\n" +
+                    "                <td>\n" +
+                    "                    <div class=\"layui-btn-group\">\n" +
+                    "                        <button class=\"layui-btn layui-btn-sm\" title='Edit badge' \n" +
+                    "                                onclick=\"return editOpenPopups('✎ Edit badge','"+data.id+"','720px','95%');\">\n" +
+                    "                            <i class=\"layui-icon\">&#xe642;</i>\n" +
+                    "                        </button>\n" +
+                    "                        <button class=\"layui-btn layui-btn-sm\" title='Remove badge' \n" +
+                    "                                onclick=\"return delRecord('"+data.id+"',confirmDelete);\">\n" +
+                    "                            <i class=\"layui-icon\">&#xe640;</i>\n" +
+                    "                        </button>\n" +
+                    "                    </div>\n" +
+                    "                </td>\n" +
+                    "            </tr>";
+            }
+        });
+        $(".table-tbody-normal").html(str_html);
+        layui.form.render();
+    }
+    function saveDraft() {
+        var postData = $(".custom-form").serialize();
+        postData += '&is_draft=1';
+        var url = "{:url('/exhibitor/badge/index')}";
+        $.post(
+            url,
+            postData,
+            function (result) {
+                layer.msg(result.message);
+                if(result.status == 401){
+                    window.location.href = '/exhibitor';
+                }
+            },"JSON");
+    }
+    function submit() {
+        var blockStatus = "{$blockStatus}";
+        if(blockStatus == 'Closed'){
+            layer.msg('Sorry, this form is closed! Please contact the organizer');
+            return;
+        }
+        var formData = JSON.parse($('#formData').val());
+        if(!formData || formData.length == 0){
+            layer.msg('You must add at least one badge!');
+            return;
+        }
+        var postData = $(".custom-form").serialize();
+        postData += '&is_draft=0';
+        var url = "{:url('/exhibitor/badge/index')}";
+        $.post(
+            url,
+            postData,
+            function (result) {
+                layer.msg(result.message);
+                if(result.status == 401){
+                    window.location.href = '/exhibitor';
+                }
+                if(result.status == 200){
+                    setTimeout(function(){
+                        var mainType = "{$form['main_type']}";
+                        if(mainType == 'Operations'){
+                            window.location.href = "{:url('/exhibitor/amenities')}";
+                        }else{
+                            window.location.href = "{:url('/exhibitor/marketings')}";
+                        }
+                    },2000);
+                }
+            },"JSON");
+    }
+    function uploadBadgeList(fileUrl){
+        var maxBadge = parseInt("{$company['badge']}");
+        var show_dob = parseInt("{$form['show_dob']}");
+        $.post(
+            "{:url('/exhibitor/badge/uploadBadge')}",
+            {file_url:fileUrl,show_dob:show_dob},
+            function (result) {
+                dialog.tip(result.message);
+                if(result.status == 200){
+                    if(show_dob == 0 && result.data.length > maxBadge){
+                        layer.msg('Sorry, you have uploaded more than maximum badges. Please modify and upload again!');
+                    }else{
+                        $('#formData').val(JSON.stringify(result.data));
+                        reLoadList();
+                    }
+                }
+            },"JSON");
+    }
+    function downloadTemplate(){
+        var url = "{:url('/exhibitor/badge/template')}";
+        var formId = "{$form['id']}";
+        url += "?id="+formId;
+        window.location.href = url;
+    }
+</script>
+{/block}
+

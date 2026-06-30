@@ -1,0 +1,154 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <input name="event_name" value="{$event['name']}" readonly="readonly" class="layui-input"/>
+        </form>
+    </div>
+</div>
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/edmTemplates/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event['id']}" class="event_id">
+        </form>
+    </div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+    <div class="layui-input-inline mr10" style="float: right">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/edmTemplates/add')}"
+                onclick="addForOpenPopups(this,'✚ Add EDM Template','95%','95%')">
+            <i class="layui-icon">&#xe608;</i> Add EDM Template
+        </button>
+    </div>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="20%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>SN</th>
+        <th>Name</th>
+        <th>Subject</th>
+        <th>Sort</th>
+        <th>Event</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/edmTemplates/edit',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPageDatas"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/edmTemplates/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['name']}</td>
+        <td class="title">{$vo['subject']}</td>
+        <td class="title">{$vo['sort']}</td>
+        <td class="title">{$vo['event_name']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit EDM Template"
+                        onclick="editForOpenPopups('✎ Edit EDM Template','{$vo.id}', '95%', '95%')">
+                    <i class="layui-icon">&#xe642;</i>Edit
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove EDM Template"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>Delete
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+</style>
+<script>
+    function onReady(){
+
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        onReady();
+    });
+    function ToAjaxOpForPageDatas(toUrl,postData) {
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    $.each(result.data,function (i,e) {
+                        str_html +=
+                            "<tr class=\"tr-normal-"+e.id+"\">\n" +
+                            "                <td>"+(e.id)+"</td>\n" +
+                            "                <td class=\"title\">"+e.name+"</td>\n" +
+                            "                <td class=\"title\">"+e.subject+"</td>\n" +
+                            "                <td class=\"title\">"+e.sort+"</td>\n" +
+                            "                <td class=\"title\">"+e.event_name+"</td>\n" +
+                            "                <td>\n" +
+                            "                    <div class=\"layui-btn-group\">\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Edit EDM Template' \n" +
+                            "                                onclick=\"editForOpenPopups('✎ Edit EDM Template','"+e.id+"','95%','95%')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe642;</i>Edit\n" +
+                            "                        </button>\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Remove EDM Template' \n" +
+                            "                                onclick=\"delPostRecord('"+e.id+"')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe640;</i>Delete\n" +
+                            "                        </button>\n" +
+                            "                    </div>\n" +
+                            "                </td>\n" +
+                            "            </tr>";
+                    });
+                    $(".table-tbody-normal").html(str_html);
+                    layui.form.render();//细节！这个好像要渲染一下！
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

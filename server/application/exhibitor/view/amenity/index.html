@@ -1,0 +1,562 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <form class="custom-form layui-form" lay-filter="form">
+            <div class="header-content">{php}echo htmlspecialchars_decode($form['header_content']){/php}</div>
+            <div class="layui-clear">
+                <div class="form-title">Form Name:{$form['name']}</div>
+                <div class="form-header-left">
+                    <div class="form-header-line bold">Vendor</div>
+                    <div class="form-header-line">{$vendor['name']}</div>
+                    <div class="form-header-line">{$vendor['address_line1']}</div>
+                    <div class="form-header-line">{$vendor['address_line2']}</div>
+                    <div class="form-header-line">{$vendor['postal']}</div>
+                    <div class="form-header-line">{$vendor['website']}</div>
+                </div>
+                <div class="form-header-right">
+                    {volist name="vendorAccounts" id="vo"}
+                        <div class="form-header-item">
+                            <div class="form-header-line text-right">Contact Person: {$vo['first_name']} {$vo['last_name']}</div>
+                            <div class="form-header-line text-right">Business Phone: ({$vo['phone_country_code']}) {$vo['phone_area_code']} {$vo['phone_number']}</div>
+                            <div class="form-header-line text-right">Email: {$vo['email']}</div>
+                        </div>
+                    {/volist}
+                </div>
+            </div>
+			<div class="instruction">{php}echo htmlspecialchars_decode($form['instruction']){/php}</div>
+            <div class="{$form['have_item']=='1'?'':'hidden'}">
+                {if $form['show_dimension'] == '1'}
+                <table id="table" style="table-layout:fixed;word-break: break-all" class="layui-table table-body" lay-skin="line" lay-filter="table">
+                    <colgroup>
+                        <col width="8%">
+<!--                        <col width="10%">-->
+<!--                        <col width="10%">-->
+<!--                        <col width="10%">-->
+                        <col width="16%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="8%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="6%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="font12 tb-header">Item Code</th>
+<!--                        <th>Type</th>-->
+<!--                        <th>Category</th>-->
+<!--                        <th>Sub-Category</th>-->
+                        <th class="font12 tb-header">Description Services</th>
+                        <th class="font12 tb-header">Advanced Rate(SGD)</th>
+                        <th class="font12 tb-header">Standard Rate(SGD)</th>
+                        <th class="font12 tb-header">Onsite Rate(SGD)</th>
+                        <th class="font12 tb-header">Image</th>
+                        <th class="font12 tb-header">L</th>
+                        <th class="font12 tb-header">D</th>
+                        <th class="font12 tb-header">W</th>
+                        <th class="font12 tb-header">H</th>
+                        <th class="font12 tb-header">Qty</th>
+                        <th class="font12 tb-header">Cost</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-tbody-normal layui-form"
+                           record_num="{$record_num}" page_limit="{$page_limit}">
+                    {volist name="items" id="vo"}
+                        <tr class="tr-normal-{$vo['id']} items" data-id="{$vo['id']}" data-price="{$vo['item_price']}">
+                            <td class="title font12"><span class="item-name">{$vo['name']}</span></td>
+<!--                            <td class="title">{$vo['type']}</td>-->
+<!--                            <td class="title">{$vo['category']}</td>-->
+<!--                            <td class="title">{$vo['sub_category']}</td>-->
+                            <td class="title font12">{$vo['description']}</td>
+                            <td class="title font12">{$vo['advanced_rate']}</td>
+                            <td class="title font12">{$vo['standard_rate']}</td>
+                            <td class="title font12">{$vo['have_onsite_rate']?$vo['onsite_rate']:'-'}</td>
+                            <td class="title font12"><img src="{$vo['logo']}" width="50" class="logo"></td>
+                            <td class="title font12">{$vo['length']}</td>
+                            <td class="title font12">{$vo['depth']}</td>
+                            <td class="title font12">{$vo['width']}</td>
+                            <td class="title font12">{$vo['height']}</td>
+                            <td class="title font12"><input type="number" min="0" name="{$vo['id']}-quantity" value="0" oninput="onInput(this)" class="item-quantity" lay-verify="number|Ndouble"></td>
+                            <td class="title font12"><input type="number" name="{$vo['id']}-total" value="0.00" disabled="disabled" class="item-total"></td>
+                        </tr>
+                    {/volist}
+                    <tr>
+                        <td colspan="11" style="text-align: right;font-weight: bold">Sub Total:</td>
+                        <td><input name="subtotal" value="0.00" disabled="disabled"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                {else /}
+                <table id="table" style="table-layout:fixed;word-break: break-all" class="layui-table table-body" lay-skin="line" lay-filter="table">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="30%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th class="font12 tb-header">Item Code</th>
+                        <th class="font12 tb-header">Description Services</th>
+                        <th class="font12 tb-header">Advanced Rate(SGD)</th>
+                        <th class="font12 tb-header">Standard Rate(SGD)</th>
+                        <th class="font12 tb-header">Onsite Rate(SGD)</th>
+                        <th class="font12 tb-header">Image</th>
+                        <th class="font12 tb-header">Qty</th>
+                        <th class="font12 tb-header">Cost</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-tbody-normal layui-form"
+                           record_num="{$record_num}" page_limit="{$page_limit}">
+                    {volist name="items" id="vo"}
+                    <tr class="tr-normal-{$vo['id']} items" data-id="{$vo['id']}" data-price="{$vo['item_price']}">
+                        <td class="title font12"><span class="item-name">{$vo['name']}</span></td>
+                        <td class="title font12">{$vo['description']}</td>
+                        <td class="title font12">{$vo['advanced_rate']}</td>
+                        <td class="title font12">{$vo['standard_rate']}</td>
+                        <td class="title font12">{$vo['have_onsite_rate']?$vo['onsite_rate']:'-'}</td>
+                        <td class="title font12"><img src="{$vo['logo']}" width="50" class="logo"></td>
+                        <td class="title font12"><input type="number" min="0" name="{$vo['id']}-quantity" value="0" oninput="onInput(this)" class="item-quantity" lay-verify="number|Ndouble"></td>
+                        <td class="title font12"><input type="number" name="{$vo['id']}-total" value="0.00" disabled="disabled" class="item-total"></td>
+                    </tr>
+                    {/volist}
+                    <tr>
+                        <td colspan="7" style="text-align: right;font-weight: bold">Sub Total:</td>
+                        <td><input name="subtotal" value="0.00" disabled="disabled"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                {/if}
+            </div>
+            <div class="cost-notes">{php}echo htmlspecialchars_decode($form['cost_notes']){/php}</div>
+            <div class="{$form['have_dynamic']=='1'?'':'hidden'}">
+                {php}echo htmlspecialchars_decode($form['dest_form']){/php}
+            </div>
+            <div>
+                <br/>
+                <br/>
+                <p>Submitter's Information</p>
+                <div class="layui-form-item">
+                    <div class="">Submitted By<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_name"
+                               value="{$formData1['form_submit_name']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Designation<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_designation"
+                               value="{$formData1['form_submit_designation']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="">Email<span class="red">*</span></div>
+                    <div class="layui-input-inline">
+                        <input type="text"  name="form_submit_email"
+                               value="{$formData1['form_submit_email']}"
+                               placeholder="" autocomplete="off" class="layui-input input-title-mz" lay-verify="required|email">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="div-form-op">
+                        <button class="layui-btn layui-btn-primary" type="button" onclick="saveDraft()">Save Draft</button>
+                        <button type="button" class="layui-btn" lay-submit lay-filter="amenity">Submit</button>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+            </div>
+            <div class="footer-content">{php}echo htmlspecialchars_decode($form['footer_content']){/php}</div>
+            <input type="hidden" name="event_id" value="{$user['event_id']}">
+            <input type="hidden" name="company_id" value="{$user['company_id']}">
+            <input type="hidden" name="user_id" value="{$user['id']}">
+            <input type="hidden" name="form_id" value="{$form['id']}">
+            <input type="hidden" name="form_type" value="{$form['type']}">
+            <input hidden="hidden" id="formData" name="form_data" value="{$formData|json_encode}" lay-verify="required">
+            <input hidden="hidden" id="dynamicData" value="{$dynamicData|json_encode}">
+            <input hidden="hidden" id="formFields" value="{$form['fields']}">
+        </form>
+    </div>
+</div>
+<style>
+    .form-title{
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        background-color: #283560;
+        color: white;
+        text-align: center;
+    }
+    .form-header-left{
+        float: left;
+        margin-top: 20px;
+    }
+    .form-header-right{
+        float:right;
+        margin-top: 20px;
+    }
+    .form-header-item{
+        margin-bottom: 20px;
+    }
+    .form-header-line{
+        height: 25px;
+        line-height: 25px;
+    }
+    .font12{
+        font-size: 12px!important;
+    }
+    .tb-header{
+        word-break: keep-all;
+        word-wrap: break-word;
+        text-align: center !important;
+    }
+    .layui-form-item .layui-input-inline{
+        width: 380px!important;
+    }
+    .logo:hover{
+        transform: scale(2.0);
+    }
+</style>
+<script>
+    var objContractor = {};
+    layui.use('form',function () {
+        var form = layui.form;
+        form.on('submit(amenity)',function () {
+            submit();
+        });
+        form.verify({
+            Ndouble:[
+                /^[0-9]\d*$/,'Can only be positive integer!'
+            ],
+            radiorequired:function(value,item){
+                var $ = layui.$;
+                var verifyName=$(item).attr('name')
+                    , verifyType=$(item).attr('type')
+                    ,formElem=$(item).parents('.layui-form')//获取当前所在的form元素，如果存在的话
+                    ,verifyElem=formElem.find('input[name='+verifyName+']')//获取需要校验的元素
+                    ,isTrue= verifyElem.is(':checked')//是否命中校验
+                    ,focusElem = verifyElem.next().find('i.layui-icon');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css(verifyType == 'radio' ? {"color": "#FF5722"} : {"border-color": "#FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css(verifyType == 'radio' ? {"color": ""} : {"border-color": ""});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            checkboxrequired:function(value,item){
+                var $ = layui.$;
+                var verifyName=$(item).attr('name')
+                    , verifyType=$(item).attr('type')
+                    ,formElem=$(item).parents('.layui-form')//获取当前所在的form元素，如果存在的话
+                    ,verifyElem=formElem.find('input[name='+verifyName+']')//获取需要校验的元素
+                    ,isTrue= verifyElem.is(':checked')//是否命中校验
+                    ,focusElem = verifyElem.next().find('i.layui-icon');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css(verifyType == 'checkbox' ? {"color": "#FF5722"} : {"border-color": "#FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css(verifyType == 'checkbox' ? {"color": ""} : {"border-color": ""});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            filerequired:function(value,item){
+                var $ = layui.$;
+                var verifyElem=$(item)
+                    ,isTrue= (verifyElem.val()!='')
+                    ,focusElem = verifyElem.parent().find('.btn_upload_file');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css({"border": "1px solid #FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css({"border": "none"});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            imagerequired:function(value,item){
+                var $ = layui.$;
+                var verifyElem=$(item)
+                    ,isTrue= (verifyElem.val()!='')
+                    ,focusElem = verifyElem.parent().find('.btn_upload_img');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css({"border": "1px solid #FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css({"border": "none"});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            }
+        });
+        loadData();
+    });
+    function onInput(obj){
+        console.log(obj);
+        var parent = $(obj).parents("tr");
+        var price = parseFloat(parent[0].dataset.price);
+        var quantity = parseInt($(obj).val());
+        var total = (price*quantity).toFixed(2);
+        parent.find(".item-total").val(total);
+        refreshTotalPrice();
+    }
+    function loadDynamicData(){
+        var element = $('#dynamicData');
+        if(element){
+            var datas = element.val();
+            if(datas && datas != ''){
+                var formData = JSON.parse(datas);
+                for(var i=0;i<formData.length;i++){
+                    var item = formData[i];
+                    var name = item['dynamic_name'];
+                    var value = item['dynamic_value'];
+                    var type = name.split("_")[0];
+                    if(type == 'Text'){
+                        $('input[name="'+name+'"]').val(value);
+                    }else if(type == 'Textarea'){
+                        $('textarea[name="'+name+'"]').val(value);
+                    }else if(type == 'Dropdown'){
+                        $('select[name="'+name+'"]').val(value);
+                    }else if(type == 'Radiobox'){
+                        $('input[name="'+name+'"][value="'+value+'"]').attr('checked',true);
+                    }else if(type == 'Checkbox'){
+                        $('input[name="'+name+'"][value="'+value+'"]').attr('checked',true);
+                    }else if(type == 'Image'){
+                        $('input[name="'+name+'"]').val(value);
+                        $('input[name="'+name+'"]').parent().find("img").attr("src",value);
+                    }else if(type == 'File'){
+                        $('input[name="'+name+'"]').val(value);
+                        $('input[name="'+name+'"]').parent().find("label").text(value);
+                    }else if(type == 'Tel'){
+                        $('input[name="'+name+'"]').val(value);
+                    }
+                }
+            }
+        }
+        layui.form.render();
+    }
+    function checkFormFields(){
+        objContractor = {};
+        var element = $('#formFields');
+        if(element) {
+            var datas = element.val();
+            if (datas && datas != '') {
+                var formData = JSON.parse(datas);
+                for (var i = 0; i < formData.length; i++) {
+                    var item = formData[i];
+                    var name = item['name'];
+                    var title = item['title'];
+                    var type = name.split("_")[0];
+                    if (type == 'Text') {
+                        var boothSizePattern = new RegExp('booth size', 'i');
+                        var bondValuePattern = new RegExp('bond value', 'i');
+                        var adminFeePattern = new RegExp('admin fee', 'i');
+                        var remainDepositPattern = new RegExp('remaining deposit', 'i');
+                        if (boothSizePattern.test(title)) {
+                            objContractor['booth_size'] = {'name': name, 'title': title};
+                        } else if (bondValuePattern.test(title)) {
+                            objContractor['bond_value'] = {'name': name, 'title': title};
+                        } else if (adminFeePattern.test(title)) {
+                            objContractor['admin_fee'] = {'name': name, 'title': title};
+                        } else if (remainDepositPattern.test(title)) {
+                            objContractor['remain_deposit'] = {'name': name, 'title': title};
+                        }
+                    } else if (type == 'Dropdown') {
+                        if (!objContractor['contractor_type']) {
+                            objContractor['contractor_type'] = {'name': name, 'title': title};
+                        }
+                    }
+                }
+            }
+        }
+        checkContractor();
+    }
+    function checkContractor() {
+        if(objContractor['booth_size']
+            && objContractor['bond_value']
+            && objContractor['admin_fee']
+            && objContractor['contractor_type']){
+            var optContractor = $('select[name="'+objContractor['contractor_type']['name']+'"]');
+            // optContractor.change(function () {
+            //     setContractorValue();
+            // });
+            optContractor.attr('lay-filter','contractor');
+            layui.form.on('select(contractor)',function(){
+                setContractorValue();
+            });
+            setContractorValue();
+        }
+    }
+    function setContractorValue() {
+        if(objContractor['booth_size']
+            && objContractor['bond_value']
+            && objContractor['admin_fee']
+            && objContractor['contractor_type']){
+            var optContractor = $('select[name="'+objContractor['contractor_type']['name']+'"]');
+            var boothSize = parseFloat("{$company['sqm']}");
+            var bondValue = 0;
+            var adminFee = 0;
+            var remainDeposit = 0;
+            if(optContractor.val() == 'Others'){
+                bondValue = boothSize*50;
+                if(bondValue < 600){
+                    bondValue = 600;
+                }
+                if(bondValue > 7000){
+                    bondValue = 7000;
+                }
+                adminFee = boothSize*10;
+                if(adminFee > 2000){
+                    adminFee = 2000;
+                }
+                remainDeposit = bondValue-adminFee;
+            }
+            var oBoothSize = $('input[name="'+objContractor['booth_size']['name']+'"]');
+            if(oBoothSize){
+                oBoothSize.val(boothSize);
+                oBoothSize.attr('readonly','readonly');
+            }
+            var oBondValue = $('input[name="'+objContractor['bond_value']['name']+'"]');
+            if(oBondValue){
+                oBondValue.val(bondValue);
+                oBondValue.attr('readonly','readonly');
+            }
+            var oAdminFee = $('input[name="'+objContractor['admin_fee']['name']+'"]');
+            if(oAdminFee){
+                oAdminFee.val(adminFee);
+                oAdminFee.attr('readonly','readonly');
+            }
+            var oRemainDeposit = $('input[name="'+objContractor['remain_deposit']['name']+'"]');
+            if(oRemainDeposit){
+                oRemainDeposit.val(remainDeposit);
+                oRemainDeposit.attr('readonly','readonly');
+                oRemainDeposit.hide();
+            }
+            var lblRemainDeposit = $("div.control-label.leipiplugins-orgname:contains("+objContractor['remain_deposit']['title']+")");
+            if(lblRemainDeposit){
+                lblRemainDeposit.hide();
+            }
+        }
+    }
+    function loadData() {
+        var have_item = "{$form['have_item']}";
+        var have_dynamic = "{$form['have_dynamic']}";
+        if(have_item == '1'){
+            var formDatas = JSON.parse($('#formData').val());
+            $.each(formDatas,function (i,data) {
+                $("input[name='"+data.item_catalog_id+"-quantity']").val(data.item_quantity);
+                $("input[name='"+data.item_catalog_id+"-total']").val((data.item_price*data.item_quantity).toFixed(2));
+            });
+            refreshTotalPrice();
+        }
+        if(have_dynamic == '1'){
+            loadDynamicData();
+        }
+        checkFormFields();
+    }
+
+    function refreshTotalPrice() {
+        var items = $('.item-total');
+        var total = 0.0;
+        $.each(items,function (i,obj) {
+            var value = $(obj).val();
+            if(value && value != ''){
+                total += parseFloat(value);
+            }
+        });
+        total = total.toFixed(2);
+        $("input[name='subtotal']").val(total);
+        updateFormDatas();
+    }
+    function updateFormDatas() {
+        var list = $(".items");
+        var formDatas = [];
+        $.each(list,function (i,obj) {
+            var quantity = $(obj).find(".item-quantity").val();
+            if(quantity && quantity != ''){
+                var id = obj.dataset.id;
+                var name = $(obj).find(".item-name").text();
+                var price = parseFloat(obj.dataset.price);
+                var quantity = parseInt(quantity);
+                formDatas.push({
+                    item_catalog_id:id,
+                    item_name:name,
+                    item_price:price,
+                    item_quantity:quantity
+                });
+            }
+        });
+        $("#formData").val(JSON.stringify(formDatas));
+    }
+    function saveDraft() {
+        var postData = $(".custom-form").serialize();
+        postData += '&is_draft=1';
+        var url = "{:url('/exhibitor/amenity/index')}";
+        $.post(
+            url,
+            postData,
+            function (result) {
+                layer.msg(result.message);
+                if(result.status == 401){
+                    window.location.href = '/exhibitor';
+                }
+            },"JSON");
+    }
+    function submit() {
+        var blockStatus = "{$blockStatus}";
+        if(blockStatus == 'Closed'){
+            layer.msg('Sorry, this form is closed! Please contact the organizer');
+            return;
+        }
+        var formData = JSON.parse($('#formData').val());
+        var haveItem = "{$form['have_item']}";
+        if(haveItem == '1' && (!formData || formData.length == 0)){
+            layer.msg('You must select at least one item!');
+            return;
+        }
+        var postData = $(".custom-form").serialize();
+        postData += '&is_draft=0';
+        var url = "{:url('/exhibitor/amenity/index')}";
+        $.post(
+            url,
+            postData,
+            function (result) {
+                layer.msg(result.message);
+                if(result.status == 401){
+                    window.location.href = '/exhibitor';
+                }
+                if(result.status == 200){
+                    setTimeout(function(){
+                        var mainType = "{$form['main_type']}";
+                        if(mainType == 'Operations'){
+                            window.location.href = "{:url('/exhibitor/amenities')}";
+                        }else{
+                            window.location.href = "{:url('/exhibitor/marketings')}";
+                        }
+                    },2000);
+                }
+            },"JSON");
+    }
+</script>
+{/block}
+

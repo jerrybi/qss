@@ -1,0 +1,363 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+<!--            <select name="event_id" id="event" lay-verify="required" lay-filter="event">-->
+<!--                <option value="">Please select event</option>-->
+<!--            </select>-->
+            <input name="event_id" value="{$event_id}" type="hidden"/>
+            <input value="{$event_name}" readonly="readonly" class="layui-input"/>
+        </div>
+    </div>
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label label-custom">Zone:</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <select name="zone_id" id="zone" lay-verify="required" lay-filter="zone">-->
+<!--            </select>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label label-custom">Table:</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <select name="table_id" id="table" lay-verify="required" lay-filter="table">-->
+<!--            </select>-->
+<!--        </div>-->
+<!--    </div>-->
+    {volist name="user_fields" id="vo"}
+        {if $vo['type'] == 'text' || $vo['type'] == 'number'}
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">{$vo['required']==1?"<span class='red'>*</span>":""}{$vo['name']}</label>
+                <div class="layui-input-inline">
+                    {if $vo['required'] == 1 && $vo['readonly'] == 1}
+                        <input type="{$vo['type']}" name="{$vo['key']}" required lay-verify="required" readonly="readonly"
+                               value="{$vo['default']}"
+                               placeholder="{$vo['placeholder']}" autocomplete="off" class="layui-input">
+                    {elseif $vo['required'] == 1 /}
+                        <input type="{$vo['type']}" name="{$vo['key']}" required lay-verify="required"
+                               value="{$vo['default']}"
+                               placeholder="{$vo['placeholder']}" autocomplete="off" class="layui-input">
+                    {else /}
+                    <input type="{$vo['type']}" name="{$vo['key']}"
+                           value="{$vo['default']}"
+                           placeholder="{$vo['placeholder']}" autocomplete="off" class="layui-input">
+                    {/if}
+                </div>
+            </div>
+        {elseif $vo['type'] == 'radiobox' /}
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">{$vo['required']==1?"<span class='red'>*</span>":""}{$vo['name']}</label>
+                <div class="layui-input-inline">
+                    {foreach $vo['options'] as $v1}
+                        {if $vo['required'] == 1 && $vo['readonly'] == 1}
+                            <input type="radio" name="{$vo['key']}" value="{$v1}" title="{$v1}"
+                                   required lay-verify="radiorequired" readonly="readonly"/>
+                        {elseif $vo['required'] == 1 /}
+                            <input type="radio" name="{$vo['key']}" value="{$v1}" title="{$v1}"
+                                   required lay-verify="radiorequired"/>
+                        {else /}
+                            <input type="radio" name="{$vo['key']}" value="{$v1}" title="{$v1}"/>
+                        {/if}
+                    {/foreach}
+                </div>
+            </div>
+        {elseif $vo['type'] == 'dropdown' /}
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">{$vo['required']==1?"<span class='red'>*</span>":""}{$vo['name']}</label>
+                <div class="layui-input-inline">
+                    {if $vo['required'] == 1}
+                        <select name="{$vo['key']}" lay-verify="required" lay-filter="{$vo['key']}">
+                            <option value="">{$vo['placeholder']}</option>
+                            {foreach $vo['options'] as $v1}
+                                <option value="{$v1}">{$v1}</option>
+                            {/foreach}
+                        </select>
+                    {else /}
+                        <select name="{$vo['key']}" lay-filter="{$vo['key']}">
+                            <option value="">{$vo['placeholder']}</option>
+                            {foreach $vo['options'] as $v1}
+                            <option value="{$v1}">{$v1}</option>
+                            {/foreach}
+                        </select>
+                    {/if}
+                </div>
+                <div class="width-0 layui-input-inline" id="dietary2">
+                    <input type="text"  name="{$vo['key']}_other" style="display: none"
+                           value=""
+                           placeholder="Please input others {$vo['name']}"
+                           autocomplete="off" class="layui-input input-title-mz other">
+                </div>
+            </div>
+        {elseif $vo['type'] == 'checkbox' /}
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">{$vo['required']==1?"<span class='red'>*</span>":""}{$vo['name']}</label>
+                <div class="layui-input-inline">
+                    {if $vo['required'] == 1}
+                        {foreach $vo['options'] as $v1}
+                            <div class="layui-col-xs12 layui-col-md12">
+                                <input type="checkbox" name="{$vo['key']}[]" value="{$v1}" title="{$v1}"
+                                       lay-verify="checkboxrequired" lay-skin="primary" lay-filter="{$vo['key']}"/>
+                            </div>
+                        {/foreach}
+                    {else}
+                        {foreach $vo['options'] as $v1}
+                        <div class="layui-col-xs12 layui-col-md12">
+                            <input type="checkbox" name="{$vo['key']}[]" value="{$v1}" title="{$v1}"
+                                   lay-skin="primary" lay-filter="{$vo['key']}"/>
+                        </div>
+                        {/foreach}
+                    {/if}
+                </div>
+            </div>
+        {elseif $vo['type'] == 'picture' /}
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">{$vo['required']==1?"<span class='red'>*</span>":""}{$vo['name']}</label>
+                <div class="layui-input-inline">
+                    <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="{$vo['id']}">
+                        <i class="layui-icon">&#xe67c;</i>Upload Image
+                    </button>
+                    <img class="layui-upload-img img-attr upload_img_preview{$vo['id']}"
+                         src="{$vo['default']}">
+                    {if $vo['required'] == 1}
+                        <input type="hidden" name="{$vo['key']}" value="{$vo['default']}"
+                               class="upload_img_url{$vo['id']}" lay-verify="imagerequired"/>
+                    {else /}
+                        <input type="hidden" name="{$vo['key']}" value="{$vo['default']}"
+                               class="upload_img_url{$vo['id']}"/>
+                    {/if}
+                </div>
+            </div>
+        {elseif $vo['type'] == 'date' || $vo['type'] == 'datetime' /}
+            <div class="layui-form-item">
+                <label class="layui-form-label label-custom">{$vo['required']==1?"<span class='red'>*</span>":""}{$vo['name']}</label>
+                <div class="layui-input-inline">
+                    <input name="{$vo['key']}" id="{$vo['type']}{$vo['id']}" class="layui-input" value="{$vo['default']}"
+                           autocomplete="off">
+                </div>
+            </div>
+        {/if}
+    {/volist}
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    <div hidden="hidden" id="zones"><?php echo json_encode($zones);?></div>
+    <div hidden="hidden" id="tables"><?php echo json_encode($tables);?></div>
+    <div hidden="hidden" id="userFields"><?php echo json_encode($user_fields);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button" lay-submit lay-filter="user">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .label-custom{
+        width: 150px!important;
+        height: initial!important;
+        white-space: normal!important;
+    }
+</style>
+<script>
+    layui.use(['form','laydate'],function(){
+        var form = layui.form;
+        var laydate = layui.laydate;
+        // form.on('select(event)',function(data){
+        //     var event_id = data.value;
+        //     getZones(event_id);
+        // });
+        form.on('select(zone)',function(data){
+            var zone_id = data.value;
+            getTables(zone_id);
+        });
+        form.on('submit(user)',function () {
+            submit();
+        });
+        form.verify({
+            Ndouble:[
+                /^[0-9]\d*$/,'Can only be positive integer!'
+            ],
+            radiorequired:function(value,item){
+                var $ = layui.$;
+                var verifyName=$(item).attr('name')
+                    , verifyType=$(item).attr('type')
+                    ,formElem=$(item).parents('.layui-form')//获取当前所在的form元素，如果存在的话
+                    ,verifyElem=formElem.find('input[name="'+verifyName+'"]')//获取需要校验的元素
+                    ,isTrue= verifyElem.is(':checked')//是否命中校验
+                    ,focusElem = verifyElem.next().find('i.layui-icon');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css(verifyType == 'radio' ? {"color": "#FF5722"} : {"border-color": "#FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css(verifyType == 'radio' ? {"color": ""} : {"border-color": ""});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            checkboxrequired:function(value,item){
+                var $ = layui.$;
+                var verifyName=$(item).attr('name')
+                    , verifyType=$(item).attr('type')
+                    ,formElem=$(item).parents('.layui-form')//获取当前所在的form元素，如果存在的话
+                    ,verifyElem=formElem.find('input[name="'+verifyName+'"]')//获取需要校验的元素
+                    ,isTrue= verifyElem.is(':checked')//是否命中校验
+                    ,focusElem = verifyElem.next().find('i.layui-icon');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css(verifyType == 'checkbox' ? {"color": "#FF5722"} : {"border-color": "#FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css(verifyType == 'checkbox' ? {"color": ""} : {"border-color": ""});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            filerequired:function(value,item){
+                var $ = layui.$;
+                var verifyElem=$(item)
+                    ,isTrue= (verifyElem.val()!='')
+                    ,focusElem = verifyElem.parent().find('.btn_upload_file');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css({"border": "1px solid #FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css({"border": "none"});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            imagerequired:function(value,item){
+                var $ = layui.$;
+                var verifyElem=$(item)
+                    ,isTrue= (verifyElem.val()!='')
+                    ,focusElem = verifyElem.parent().find('.btn_upload_img');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css({"border": "1px solid #FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css({"border": "none"});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            }
+        });
+        form.on("select(dietary_restrictions)",function(data){
+            showDietaryRestrictionsOthers();
+        });
+        onReady();
+    });
+    function showDietaryRestrictionsOthers() {
+        var dietary = $('select[name="dietary_restrictions"]').val();
+        if(dietary == "Others"){
+            $("input[name=\"dietary_restrictions_other\"]").show();
+        }else{
+            $("input[name=\"dietary_restrictions_other\"]").hide();
+        }
+    }
+    function getZones(event_id){
+        $.post(
+            "{:url('cms/zones/getList')}",
+            {event_id:event_id},
+            function (result) {
+                if(result.status == 200){
+                    initZones(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function initZones(data) {
+        var str = "";
+        $.each(data,function(i,item){
+            str += "<option value='"+item.id+"'>"+item.name+"</option>";
+        });
+        $("#zone").html(str);
+        layui.form.render();
+        getTables(data[0].id);
+    }
+    function getTables(zone_id){
+        $.post(
+            "{:url('cms/tables/getList')}",
+            {zone_id:zone_id},
+            function (result) {
+                if(result.status == 200){
+                    initTables(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function initTables(data) {
+        var str = "";
+        $.each(data,function(i,item){
+            str += "<option value='"+item.id+"'>"+item.name+"</option>";
+        });
+        $("#table").html(str);
+        layui.form.render();
+    }
+    function onReady(){
+        //event
+        // var events = JSON.parse($('#events').text());
+        // var eventStr = "";
+        // $.each(events,function(i,item){
+        //     eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        // });
+        // $("#event").html(eventStr );
+        //zone
+        var zones = JSON.parse($('#zones').text());
+        var zoneStr = "";
+        $.each(zones,function(i,item){
+            zoneStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#zone").html(zoneStr);
+        //table
+        var tables = JSON.parse($('#tables').text());
+        var tableStr = "";
+        $.each(tables,function(i,item){
+            tableStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#table").html(tableStr);
+        //dynamic data
+        var userFields = JSON.parse($('#userFields').text());
+        for(var i = 0; i < userFields.length; i++) {
+            if (userFields[i].type === 'date' || userFields[i].type === 'datetime') {
+                layui.laydate.render({
+                    elem:'#'+userFields[i].type+userFields[i].id,
+                    type:userFields[i].type,
+                    trigger:'click',
+                    lang:'en'
+                });
+            }
+            if(userFields[i].type === 'radiobox') {
+                $('input[name="'+userFields[i].key+'"][value="'+userFields[i].default+'"]').attr('checked',true);
+            }
+            if(userFields[i].type === 'checkbox') {
+                var options = userFields[i].default.split("\r\n");
+                options.forEach(function (item) {
+                    $('input[name="'+userFields[i].key+'[]"][value="'+item+'"]').attr('checked',true);
+                });
+            }
+            if(userFields[i].type === 'dropdown') {
+                $('select[name="'+userFields[i].key+'"]').val(userFields[i].default);
+            }
+        }
+        layui.form.render();
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+    function submit() {
+        var toUrl = "{:url('cms/users/add')}";
+        var postData = $(".form-op-normal").serialize();
+        ToPostPopupsDeal(toUrl, postData,fail_callback);
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

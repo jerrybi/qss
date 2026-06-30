@@ -1,0 +1,19 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <!---->
+    <div class="container">
+        <form class="custom-form">
+            {php}echo htmlspecialchars_decode($amenity['dest_form']){/php}
+            <input type="hidden" name="event_id" value="{$user['event_id']}">
+            <input type="hidden" name="company_id" value="{$user['company_id']}">
+            <input type="hidden" name="user_id" value="{$user['id']}">
+            <input type="hidden" name="form_id" value="{$current_amenity_id}">
+            <div hidden="hidden" id="formData"><?php echo json_encode($formData);?></div>
+        </form>
+        <button class="custom-submit layui-btn layui-btn-normal">Submit</button>
+    </div>
+</div>
+{/block}
+

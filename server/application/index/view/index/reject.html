@@ -1,0 +1,133 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @font-face {
+            font-family: 'CenturyGothic';
+            src: url(../fonts/CenturyGothic.ttc) format('truetype');
+        }
+        @media screen and (max-width:768px) {
+            .content{
+                flex-direction: column!important;
+                /*height: auto!important;*/
+            }
+            .container-bg{
+                background-image: url(../images/bg_portrait3.jpg)!important;
+                background-size: 100% 100%!important;
+            }
+            .container{
+                padding-left: 0!important;
+                width: 70%!important;
+            }
+            .container-top{
+                display: block!important;
+            }
+            .container-bottom{
+                display: block!important;
+            }
+            .title,.footer{
+                text-align: center!important;
+            }
+            .footer{
+                font-size: 14px!important;
+            }
+        }
+        @media screen and (max-width:768px) {
+            .logo{
+                width: 80%!important;
+                height: auto!important;
+            }
+        }
+        body{
+            padding: 0;
+            margin: 0;
+        }
+        .container-bg{
+            background-image: url(../images/bg_land.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position:center center;
+            background-color:#68462b;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .title{
+            color: #68462b;
+            width: 100%;
+            text-align: left;
+            font-size: 18px;
+            line-height: 22px;
+            margin-bottom: 10px;
+        }
+        .footer{
+            color: #68462b;
+            font-size: 18px;
+            width: 100%;
+            text-align: left;
+            line-height: 20px;
+        }
+        .content{
+            background-color: #68462b;
+            font-family: 'CenturyGothic', Verdana, Sans-Serif;
+            width: 100%;
+            height:100%;
+            text-align: left;
+            font-size: 16px;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center
+        }
+        .container-top{
+            display: none;
+        }
+        .container-bottom{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="container-bg">
+            <div style="position: absolute;top: 50px;text-align: center">
+<!--                <div style="font-family: 'CenturyGothic', Verdana, Sans-Serif;text-align: center;color:#fff;font-size: 50px;">-->
+<!--                    SHEIN-->
+<!--                </div>-->
+<!--                <div style="font-family: 'FontsFree', Verdana, Sans-Serif;text-align: center;color:#fff;font-size: 20px;">-->
+<!--                    GLOBAL RECEPTION 2023-->
+<!--                </div>-->
+                {if $twoLine}
+                <img class="logo" src="../images/shein_logo.png" width="320" height="auto"/>
+                {else /}
+                <img class="logo" src="../images/shein_logo1.png" width="320" height="auto"/>
+                {/if}
+            </div>
+            <div class="container">
+                {if $fullName != ''}
+                <div class="title">
+                    Dear {$fullName},
+                </div>
+                {/if}
+                <div class="title">
+                    Thank you for your response.
+                </div>
+                <div class="title">
+                    Should you have any queries about the event, please contact us at <a style="color:#68462b; text-decoration: none" href="mailto:{$email}">{$email}</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Template:</label>
+        <div class="layui-input-inline">
+            <select name="template_id" id="template" lay-verify="required" lay-filter="template">
+                <option value="">Please select template</option>
+            </select>
+        </div>
+    </div>
+    <div hidden="hidden" id="templates"><?php echo json_encode($templates);?></div>
+    <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+    <input type="hidden" name="ids" value="{$ids}" class="user_id">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/edmTasks/assign')}" onclick="submitForm(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .mt10{
+        margin-top: 10px;
+    }
+    .mb10{
+        margin-bottom: 10px;
+    }
+    .label-custom{
+        width: 200px!important;
+    }
+</style>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        onReady();
+    });
+    function onReady(){
+        var templates = JSON.parse($('#templates').text());
+        var templateStr = "";
+        $.each(templates,function(i,item){
+            templateStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#template").html(templateStr);
+        var template_id = templates[0].id;
+        $("#template").val(template_id);
+        layui.form.render('select');
+    }
+    function submitForm(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        var postData = $(".form-op-normal").serialize();
+        ToPostPopupsDeal(toUrl, postData,failcb);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{include file='layouts/ueditor-js'/}
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+{/block}

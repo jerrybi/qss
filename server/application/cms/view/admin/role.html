@@ -1,0 +1,69 @@
+{extend name='layouts/cms'}
+
+{block name='body-content'}
+
+<button class="layui-btn layui-btn-normal" op_url="{:url('cms/admin/addRole')}"
+        onclick="addForOpenPopups(this,'✚ Add Role','67%','')">
+    <i class="layui-icon">&#xe608;</i> Add Role
+</button>
+<div class="layui-inline">
+    <div class="layui-input-inline">
+        <form class="form-search">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+        </form>
+    </div>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="20%">
+        <col width="20%">
+        <col width="20%">
+        <col width="10%">
+        <col width="15%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Role</th>
+        <th>Update Time</th>
+        <th>Status</th>
+        <th>Special Grant</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/admin/editRole',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal">
+    {volist name="roles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{php} echo $vo['role_tip']{/php}</td>
+        <td>{$vo['updated_at']}</td>
+        <td>{php} echo $vo['status_tip']{/php}</td>
+        <td>{$vo['special_grant']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit"
+                        onclick="editForOpenPopups('✎ Role Edit','{$vo.id}', '67%', '')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Delete"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+{/block}

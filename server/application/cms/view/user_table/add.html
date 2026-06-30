@@ -1,0 +1,127 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Zone:</label>
+        <div class="layui-input-inline">
+            <select name="zone_id" id="zone" lay-verify="required" lay-filter="zone">
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Table:</label>
+        <div class="layui-input-inline">
+            <select name="table_id" id="table" lay-verify="required" lay-filter="table">
+            </select>
+        </div>
+    </div>
+    <div hidden="hidden" id="zones"><?php echo json_encode($zones);?></div>
+    <div hidden="hidden" id="tables"><?php echo json_encode($tables);?></div>
+    <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+    <input type="hidden" name="user_id" value="{$user_id}" class="user_id">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/userTable/add')}" onclick="submitForm(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .mt10{
+        margin-top: 10px;
+    }
+    .mb10{
+        margin-bottom: 10px;
+    }
+    .label-custom{
+        width: 200px!important;
+    }
+</style>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(zone)',function(data){
+            var zone_id = data.value;
+            getTables(zone_id);
+        });
+        onReady();
+    });
+    function getZones(event_id){
+        $.post(
+            "{:url('cms/zones/getList')}",
+            {event_id:event_id},
+            function (result) {
+                if(result.status == 200){
+                    initZones(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function initZones(data) {
+        var str = "";
+        $.each(data,function(i,item){
+            str += "<option value='"+item.id+"'>"+item.name+"</option>";
+        });
+        $("#zone").html(str);
+        layui.form.render();
+    }
+    function getTables(zone_id){
+        $.post(
+            "{:url('cms/tables/getList')}",
+            {zone_id:zone_id},
+            function (result) {
+                if(result.status == 200){
+                    initTables(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function initTables(data) {
+        var str = "";
+        $.each(data,function(i,item){
+            str += "<option value='"+item.id+"'>"+item.name+"</option>";
+        });
+        $("#table").html(str);
+        layui.form.render();
+    }
+    function onReady(){
+        //type
+        var zones = JSON.parse($('#zones').text());
+        var zoneStr = "";
+        $.each(zones,function(i,item){
+            zoneStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#zone").html(zoneStr);
+        //table
+        var tables = JSON.parse($('#tables').text());
+        var tableStr = "";
+        $.each(tables,function(i,item){
+            tableStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#table").html(tableStr);
+        layui.form.render();
+    }
+    function submitForm(obj,failcb) {
+        var toUrl = $(obj).attr('op_url');
+        var postData = $(".form-op-normal").serialize();
+        ToPostPopupsDeal(toUrl, postData,failcb);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+{/block}

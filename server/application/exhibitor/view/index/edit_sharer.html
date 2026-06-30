@@ -1,0 +1,442 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Edit Sharer</title>
+    <meta name="google" content="notranslate">
+    <link href="__EXHIBITOR__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/zhang.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="__EXHIBITOR__/css/lightbox.css">
+    <!-- jQuery (necessary JavaScript plugins) -->
+    {include file='layouts/layui'}
+    <script type='text/javascript' src="__EXHIBITOR__/js/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src="__EXHIBITOR__/js/common.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body>
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item mgt20">
+        <label class="layui-form-label label-custom lbl-name">Name</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="name"
+                   value="{$article['name']}"
+                   placeholder="Please input name" autocomplete="off" lay-verify="required" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-type">Type</label>
+        <div class="layui-input-inline">
+            <select name="type" id="type" lay-verify="required" lay-filter="type">
+                <option value="">Please select type</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-booth">Booth</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$parent['booth']}" readonly="readonly" class="layui-input input-title-mz">
+            <input name="booth_id" type="hidden" id="booth" value="{$parent['booth_id']}" lay-verify="required" lay-filter="booth">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-location">Location</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="location"
+                   value="{$article['location']}" readonly="readonly"
+                   placeholder="Please input location" autocomplete="off" class="layui-input input-title-mz input-location">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-badge">Badge</label>
+        <div class="layui-input-inline">
+            <input type="number"  name="badge"
+                   value="{$article['badge']}" readonly="readonly"
+                   placeholder="Please input badge" autocomplete="off" class="layui-input input-title-mz input-badge">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-origin-country">Country/Region of Origin</label>
+        <div class="layui-input-inline">
+            <select name="origin_country" id="origin_country" lay-verify="required" lay-filter="origin_country">
+                <option value="">Please select country/region</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-profile" style="height: 58px">Company Profile<br>
+            <span style="font-style: italic;font-size: 12px">MAX 100 Words</span></label>
+        <div class="layui-input-inline textarea">
+            <textarea  name="profile" id="profile"
+                       value="" onfocus="limitTextarea(this,'.state');"
+                       placeholder="Please input content" autocomplete="off" class="layui-input input-title-mz input-profile">{$article['profile']}</textarea>
+            <span class="state">0/100 words</span>
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-bottom: 0px">
+        <label class="layui-form-label label-custom lbl-logo">Company Logo</label>
+        <div class="layui-col-md4">
+            <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="0">
+                <i class="layui-icon">&#xe67c;</i>Upload Image
+            </button>
+            <img class="layui-upload-img img-attr upload_img_preview0"
+                 src="{$article['logo']}">
+            <input type="hidden" name="logo" value="{$article['logo']}" class="upload_img_url0" lay-verify="required"/>
+        </div>
+    </div>
+    <div style="margin-left:10px;margin-bottom:15px;font-style: italic;font-size: 12px;">For Online Listing only. If you wish to have your logo printed on the show catalogue, please submit <span style="font-weight: bold">FORM M2 Advertisement in Official Show Catalogue.</span></div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-email">Contact Email</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="email"
+                   value="{$article['email']}"
+                   placeholder="Please input email" autocomplete="off" class="layui-input input-title-mz input-email" lay-verify="required|email">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-address-line1">Address Line 1</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="address_line1"
+                   value="{$article['address_line1']}"
+                   placeholder="Please input address line 1" autocomplete="off" class="layui-input input-title-mz input-address-line1" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-address-line2">Address Line 2</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="address_line2"
+                   value="{$article['address_line2']}"
+                   placeholder="Please input address line 2" autocomplete="off" class="layui-input input-title-mz input-address-line2">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-postal">Postal/Zip Code</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="postal"
+                   value="{$article['postal']}"
+                   placeholder="Please input postal code" autocomplete="off" class="layui-input input-title-mz input-postal" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-country">Country/Region</label>
+        <div class="layui-input-inline">
+            <select name="country" id="country" lay-verify="required" lay-filter="country">
+                <option value="">Please select country/region</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-phone">Business Phone</label>
+        <div class="layui-input-inline input-title-mz">
+            <input type="number"  name="phone_country_code"
+                   value="{$article['phone_country_code']}"
+                   placeholder="country" autocomplete="off" class="layui-input input-phone-country-code" lay-verify="required">
+            <input type="number"  name="phone_area_code"
+                   value="{$article['phone_area_code']}"
+                   placeholder="area" autocomplete="off" class="layui-input input-phone-area-code">
+            <input type="number"  name="phone_number"
+                   value="{$article['phone_number']}"
+                   placeholder="Please input number" autocomplete="off" class="layui-input input-phone-number" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-fax">Fax</label>
+        <div class="layui-input-inline input-title-mz">
+            <input type="number"  name="fax_country_code"
+                   value="{$article['fax_country_code']}"
+                   placeholder="country" autocomplete="off" class="layui-input input-fax-country-code">
+            <input type="number"  name="fax_area_code"
+                   value="{$article['fax_area_code']}"
+                   placeholder="area" autocomplete="off" class="layui-input input-fax-area-code">
+            <input type="number"  name="fax_number"
+                   value="{$article['fax_number']}"
+                   placeholder="Please input number" autocomplete="off" class="layui-input input-fax-number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-website">Website</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="website"
+                   value="{$article['website']}"
+                   placeholder="Please input website" autocomplete="off" class="layui-input input-title-mz input-website">
+        </div>
+    </div>
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label label-custom lbl-billing-address-line1">Billing Address Line 1</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="text"  name="billing_address_line1"-->
+<!--                   value="{$article['billing_address_line1']}"-->
+<!--                   placeholder="Please input billing address line 1" autocomplete="off" class="layui-input input-title-mz input-address-line1">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label label-custom lbl-billing-address-line2">Billing Address Line 2</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="text"  name="billing_address_line2"-->
+<!--                   value="{$article['billing_address_line2']}"-->
+<!--                   placeholder="Please input billing address line 2" autocomplete="off" class="layui-input input-title-mz input-address-line2">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label label-custom lbl-billing-postal">Billing Postal/Zip Code</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <input type="number"  name="billing_postal"-->
+<!--                   value="{$article['billing_postal']}"-->
+<!--                   placeholder="Please input billing postal code" autocomplete="off" class="layui-input input-title-mz input-postal">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="layui-form-item">-->
+<!--        <label class="layui-form-label label-custom lbl-billing-country">Billing Country/Region</label>-->
+<!--        <div class="layui-input-inline">-->
+<!--            <select name="billing_country" id="billing_country" lay-verify="required" lay-filter="billing_country">-->
+<!--                <option value="">Please select country/region</option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--    </div>-->
+    <input type="hidden" name="event_id" id="event_id" value="{$user['event_id']}">
+    <input type="hidden" name="parent_id" id="parent_id" value="{$parent['id']}">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('exhibitor/editSharer',['id'=>$article.id,'parent_id'=>$parent.id])}" lay-submit lay-filter="company">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script>
+    var image_upload_url = "{:url('/api/uploadFile')}";
+    var maxlength = 100;
+    layui.use('form',function(){
+        var form = layui.form;
+        form.verify({
+            loginname:[
+                /^[a-z0-9.@]{8,256}$/,
+                'invalid login name!'
+            ]
+        });
+        form.on('submit(company)',function(data){
+            opFormPostRecord(data.form,fail_callback);
+        });
+        initData();
+    });
+    function calculateWordCount() {
+        var _val = $("#profile").val();
+        var words = _val.split(" ");
+        words = words.slice(0,maxlength);
+        $("#profile").val(words.join(" "));
+        $('.state').text(words.length+"/"+maxlength+" words");
+    }
+    function limitTextarea(self,nowleng) {
+        $(self).on('input propertychange',function (event) {
+            calculateWordCount();
+        });
+        $(self).blur(function () {
+            $(self).off('input propertychange');
+        });
+    }
+    function initData(){
+        var eventId = $('#event_id').val();
+        getBoothAttrs(eventId);
+    };
+    function fail_callback(){
+        window.location.reload();
+    }
+    function getBoothAttrs(event_id){
+        $.post(
+            "{:url('/exhibitor/getCompanyAttrs')}",
+            {event_id:event_id},
+            function (result) {
+                if(result.status == 200){
+                    reloadBoothAttrs(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function getAttrByKey(attrs,key){
+        for(var i=0;i<attrs.length;i++){
+            var item = attrs[i];
+            if(item.key == key){
+                return item;
+            }
+        }
+        return null;
+    }
+    function reloadBoothAttrs(data){
+        if(!data) return;
+        var titles = data.titles;
+        var boothAttrs = data.companyAttrs;
+        var booths = data.booths;
+        if(titles['name']){
+            $('.lbl-name').text(titles['name']);
+        }
+
+        if(titles['type']){
+            $('.lbl-type').text(titles['type']);
+        }
+        var typeAttr = getAttrByKey(boothAttrs,'type');
+        if(typeAttr){
+            var typeStr = "";
+            var options = typeAttr.options.split('\r\n');
+            $.each(options,function(i,item){
+                if(item != 'Main'){
+                    typeStr += "<option value='"+item+"'>"+item+"</option>";
+                }
+            });
+            $("#type").html(typeStr);
+            var type = "{$article['type']}";
+            $("#type").val(type);
+            layui.form.render('select');
+        }
+        //booth
+        if(titles['booth']){
+            $('.lbl-booth').text(titles['booth']);
+        }
+        //location
+        if(titles['location']){
+            $('.lbl-location').text(titles['location']);
+        }
+        if(titles['badge']){
+            $('.lbl-badge').text(titles['badge']);
+        }
+        //origin_country
+        if(titles['origin_country']){
+            $('.lbl-origin-country').text(titles['origin_country']);
+        }
+        var originCountryAttr = getAttrByKey(boothAttrs,'origin_country');
+        if(originCountryAttr){
+            var originCountryStr = "";
+            var options = originCountryAttr.options.split('\r\n');
+            $.each(options,function(i,item){
+                originCountryStr += "<option value='"+item+"'>"+item+"</option>";
+            });
+            $("#origin_country").html(originCountryStr);
+            var originCountry = "{$article['origin_country']}";
+            $("#origin_country").val(originCountry);
+            layui.form.render('select');
+        }
+        //profile
+        if(titles['profile']){
+            // $('.lbl-profile').text(titles['profile']);
+            $('.lbl-profile').html(titles['profile']+"<br><span style='font-style: italic;font-size: 12px'>MAX 100 Words</span>");
+        }
+        //logo
+        if(titles['logo']){
+            $('.lbl-logo').text(titles['logo']);
+        }
+        //email
+        if(titles['email']){
+            $('.lbl-email').text(titles['email']);
+        }
+        //address line 1
+        if(titles['address_line1']){
+            $('.lbl-address-line1').text(titles['address_line1']);
+        }
+        //address line 2
+        if(titles['address_line2']){
+            $('.lbl-address-line2').text(titles['address_line2']);
+        }
+        //postal
+        if(titles['postal']){
+            $('.lbl-postal').text(titles['postal']);
+        }
+        //country
+        if(titles['country']){
+            $('.lbl-country').text(titles['country']);
+        }
+        var countryAttr = getAttrByKey(boothAttrs,'country');
+        if(countryAttr){
+            var countryStr = "";
+            var options = countryAttr.options.split('\r\n');
+            $.each(options,function(i,item){
+                countryStr += "<option value='"+item+"'>"+item+"</option>";
+            });
+            $("#country").html(countryStr);
+            var country = "{$article['country']}";
+            $("#country").val(country);
+            layui.form.render('select');
+        }
+        //phone
+        if(titles['phone']){
+            $('.lbl-phone').text(titles['phone']);
+        }
+        //fax
+        if(titles['fax']){
+            $('.lbl-fax').text(titles['fax']);
+        }
+        //website
+        if(titles['website']){
+            $('.lbl-website').text(titles['website']);
+        }
+		//billing address line 1
+        // if(titles['billing_address_line1']){
+        //     $('.lbl-billing-address-line1').text(titles['billing_address_line1']);
+        // }
+        //billing address line 2
+        // if(titles['billing_address_line2']){
+        //     $('.lbl-billing-address-line2').text(titles['billing_address_line2']);
+        // }
+        //billing postal
+        // if(titles['billing_postal']){
+        //     $('.lbl-billing-postal').text(titles['billing_postal']);
+        // }
+        //billing country
+        // if(titles['billing_country']){
+        //     $('.lbl-billing-country').text(titles['billing_country']);
+        // }
+        // var billingCountryAttr = getAttrByKey(boothAttrs,'billing_country');
+        // if(billingCountryAttr){
+        //     var countryStr = "";
+        //     var options = billingCountryAttr.options.split('\r\n');
+        //     $.each(options,function(i,item){
+        //         countryStr += "<option value='"+item+"'>"+item+"</option>";
+        //     });
+        //     $("#billing_country").html(countryStr);
+        //     var country = "{$article['billing_country']}";
+        //     $("#billing_country").val(country);
+        //     layui.form.render();
+        // }
+        layui.form.render();
+        calculateWordCount();
+    }
+</script>
+<style>
+    .label-custom {
+        /*background-color: #283560 !important;*/
+        /*color: white;*/
+    }
+    .form-op-normal .input-title-mz {
+        width: 500px;
+    }
+    .input-phone-country-code,.input-fax-country-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-area-code,.input-fax-area-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-number,.input-fax-number{
+        float: left;
+        width: 180px;
+    }
+    .textarea{
+        width: 400px!important;
+        height: 58px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .textarea span{
+        margin-left: 10px;
+        width: 150px;
+    }
+    #profile{
+        height: 58px;
+    }
+</style>
+</body>
+</html>

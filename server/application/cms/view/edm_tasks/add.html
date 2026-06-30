@@ -1,0 +1,132 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <input name="event_name" value="{$event['name']}" readonly="readonly" class="layui-input"/>
+            <input type="hidden" name="event_id" value="{$event['id']}" class="event_id">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Template:</label>
+        <div class="layui-input-inline">
+            <select name="template_id" id="template" lay-verify="required" lay-filter="template">
+                <option value="">Please select template</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Zone:</label>
+        <div class="layui-input-inline">
+            <select name="zone_id" id="zone" lay-verify="required" lay-filter="zone">
+                <option value="">Please select zone</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Status:</label>
+        <div class="layui-input-inline">
+            <select name="join" id="join" lay-verify="required" lay-filter="join">
+                <option value="">Please select status</option>
+                <option value="-1">Initial</option>
+                <option value="1">Accepted</option>
+                <option value="2">Declined</option>
+                <option value="3">Rejected</option>
+                <option value="4">Cancelled</option>
+                <option value="5">Confirmed</option>
+                <option value="6">Reminded</option>
+                <option value="8">Invalid</option>
+                <option value="9">Pending Review</option>
+                <option value="13">Email not match</option>
+            </select>
+        </div>
+    </div>
+    <div hidden="hidden" id="templates"><?php echo json_encode($templates);?></div>
+    <div hidden="hidden" id="zones"><?php echo json_encode($zones);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/edmTasks/add')}" onclick="submitForm(this,fail_callback)">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .mt10{
+        margin-top: 10px;
+    }
+    .mb10{
+        margin-bottom: 10px;
+    }
+    .label-custom{
+        width: 200px!important;
+    }
+</style>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        onReady();
+    });
+    function onReady(){
+        var templates = JSON.parse($('#templates').text());
+        var templateStr = "";
+        $.each(templates,function(i,item){
+            templateStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#template").html(templateStr);
+        var template_id = templates[0].id;
+        $("#template").val(template_id);
+        // zone
+        var zones = JSON.parse($('#zones').text());
+        var zoneStr = "";
+        $.each(zones,function(i,item){
+            zoneStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#zone").html(zoneStr);
+        var zone_id = zones[0].id;
+        $("#zone").val(zone_id);
+        layui.form.render('select');
+    }
+    function submitForm(obj,failcb) {
+        var join = $('#join').val();
+        if(join == ''){
+            layer.msg("Please select the join status!");
+            return;
+        }
+        var templateText = $('#template option:selected').text();
+        var zoneText = $('#zone option:selected').text();
+        var joinText = $('#join option:selected').text();
+        layer.confirm('you are blasting template['+templateText+'], zone['+zoneText+'], status['+joinText+'], confirm?',
+            {icon:3,title:'Confirm',btn:['Confirm','Cancel']},function(index){
+                var toUrl = $(obj).attr('op_url');
+                var postData = $(".form-op-normal").serializeArray();
+                var item = {};
+                $.each(postData,function (i,data) {
+                    if(data['name'] == 'name' || data['name'] == 'content' || data['name'] == 'source_form' || data['name'] == 'dest_form'){
+                        item[data['name']] = window.btoa(encodeURIComponent(data['value']));
+                    }else{
+                        item[data['name']] = data['value'];
+                    }
+                });
+                ToPostPopupsDeal(toUrl, item,failcb);
+                layer.close(index);
+            },function (index) {
+                layer.close(index);
+            });
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{include file='layouts/ueditor-js'/}
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+{/block}

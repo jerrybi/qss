@@ -1,0 +1,60 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<div class="content">
+    <!---->
+    <div class="container">
+        <table class="layui-table" lay-skin="row">
+            <colgroup>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+            </thead>
+            <tbody class="table-tbody-normal">
+            <tr>
+                <td>Event:</td>
+                <td>{$article['event_name']}</td>
+            </tr>
+            <tr>
+                <td>Zone:</td>
+                <td>{$article['zone']}</td>
+            </tr>
+            <tr>
+                <td>Table:</td>
+                <td>{$article['table_no']}</td>
+            </tr>
+            {volist name="user_fields" id="vo"}
+            <tr>
+                <td>{$vo['name']}:</td>
+                <td>{$article[$vo['key']]}</td>
+            </tr>
+            {/volist}
+            <tr>
+                <td>Status:</td>
+                <td>{$article['checkin_status']=='1'?'checkin':''}</td>
+            </tr>
+            <tr>
+                <td>Checkin At:</td>
+                <td>{$article['checkin_time']}</td>
+            </tr>
+            <tr>
+                <td>Checkin By:</td>
+                <td>{$article['op_user']}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function onReady(){
+
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}

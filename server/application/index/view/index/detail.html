@@ -1,0 +1,145 @@
+{extend name="layouts/base" /}
+
+{block name="content"}
+<div class="content">
+    <div class="container">
+        <div class="container1">
+            <div class="item-logo">
+                {if !empty($article['sub_company_name'])}
+                    <img src="{$article['sub_logo']}" width="300px">
+                {else /}
+                    <img src="{$article['logo']}" width="300px">
+                {/if}
+            </div>
+            <div class="profile-item pd20">
+                <div class="item-profile">
+                    {if !empty($article['sub_company_name'])}
+                    <div class="title pb10">{$article['sub_company_name']}</div>
+                    <div class="sub-title">{$article['booth']}</div>
+                    <div class="pb10 sub-title">{$article['sub_country']}</div>
+                    <div class="pb10">{$article['sub_profile']|raw}</div>
+                    {else /}
+                    <div class="title pb10">{$article['name']}</div>
+                    <div class="sub-title">{$article['booth']}</div>
+                    <div class="pb10 sub-title">{$article['country']}</div>
+                    <div class="pb10">{$article['profile']|raw}</div>
+                    {/if}
+                </div>
+                <div class="item-industry">
+                    <div class="title pb10">Industries and Sectors</div>
+                    {if !empty($article['sub_company_name'])}
+                    <div class="pb10">{$article['sub_industry']|raw}</div>
+                    {else /}
+                    <div class="pb10">{$article['industry']|raw}</div>
+                    {/if}
+                </div>
+                <div class="item-product">
+                    <div class="title pb10">Products and Services</div>
+                    <div  class="pb10" id="category"></div>
+                </div>
+            </div>
+        </div>
+        <div class="div-back">
+            <button class="layui-btn" type="button" onclick="goBack()">Back</button>
+        </div>
+    </div>
+    {if !empty($article['sub_company_name'])}
+    <input type="hidden" id="product" value="{$article['sub_product']}">
+    {else /}
+    <input type="hidden" id="product" value="{$article['product']}">
+    {/if}
+</div>
+<script>
+    var datas = '';
+    layui.use('tree',function () {
+        var tree = layui.tree;
+        updateProductOptions();
+    });
+    function updateProductOptions() {
+        var str = $('#product').val();
+        if(str && str.length > 0){
+            var data = JSON.parse(str);
+            var child = data[0].children;
+            // var instance = layui.tree.render({
+            //     elem:'#category',
+            //     id:'category',
+            //     showCheckbox:false,
+            //     accordion:false,
+            //     data:child
+            // });
+            getSelectedItems(child);
+            datas = datas.substr(0,datas.length-2);
+            $('#category').text(datas);
+        }
+    }
+    function getSelectedItems(childs){
+        for(let i=0;i<childs.length;i++){
+            let item = childs[i];
+            if(item.children && item.children.length > 0){
+                getSelectedItems(item.children);
+            }else{
+                // let title = item.title.replace(/^[0-9. ]+/,''); //remove the title index
+                let title = item.title;
+                datas += title +' | ';
+            }
+        }
+    }
+    function goBack() {
+        window.history.go(-1);
+    }
+</script>
+<style>
+    .container1{
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        padding-left: 0!important;
+        padding-right: 0!important;
+    }
+    .profile-item{
+        display: flex;
+        flex-direction: column;
+        /*width: 85%;*/
+    }
+    .pd10{
+        padding: 10px;
+    }
+    .pd20{
+        padding: 20px;
+    }
+    .pb10{
+        padding-bottom: 10px;
+    }
+    .navbar-nav > li > a{
+        color: #999!important;
+        border-bottom: none!important;
+    }
+    .item-logo{
+        /*width: 15%;*/
+        padding: 10px 20px;
+    }
+    .item-profile{
+        /*width: 25%;*/
+    }
+    .item-industry{
+        /*width: 20%;*/
+        margin-top: 20px;
+    }
+    .item-product{
+        /*width: 30%;*/
+        margin-top: 20px;
+    }
+    .title{
+        font-weight: bold;
+    }
+    .sub-title{
+        color: #999;
+    }
+    .div-back{
+        margin-bottom: 10px;
+    }
+</style>
+{/block}
+

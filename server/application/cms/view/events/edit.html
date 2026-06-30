@@ -1,0 +1,257 @@
+{extend name='layouts/cms'}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Name:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="name" required lay-verify="required"
+                   value="{$article['name']}"
+                   placeholder="Please input the name" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+<div class="layui-form-item">
+        <label class="layui-form-label label-custom">Code:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="code" required lay-verify="required|code"
+                   value="{$article['code']}"
+                   placeholder="Please input code" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Description:</label>
+        <div class="layui-input-inline">
+            <input type="text" name="description" 
+                   value="{$article['description']}"
+                   placeholder="Please input description" autocomplete="off" class="layui-input input-title-mz">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Venue:</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="Please input venue" name="venue" required id="venue"
+                   lay-verify="required" class="layui-input input-title-mz" value="{$article['venue']}">
+            <div id="map" class="input-title-mz"></div>
+            <div id="nearby"></div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Country/Region:</label>
+        <div class="layui-input-inline">
+            <select name="country" id="country" lay-verify="required">
+                <option value="">Please select country/region</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Start time:</label>
+        <div class="layui-input-inline">
+            <input name="start_time" id="startTime" class="layui-input" value="{$article['start_time']}"
+                   autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">End time:</label>
+        <div class="layui-input-inline">
+            <input name="end_time" id="endTime" class="layui-input" value="{$article['end_time']}"
+                   autocomplete="off">
+        </div>
+    </div>
+<div class="layui-form-item">
+        <label class="layui-form-label label-custom">Directory Start time:</label>
+        <div class="layui-input-inline">
+            <input name="show_directory_start_time" id="directoryStartTime" class="layui-input"
+                   value="{$article['show_directory_start_time']}"
+                   autocomplete="off">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Directory End time:</label>
+        <div class="layui-input-inline">
+            <input name="show_directory_end_time" id="directoryEndTime" class="layui-input"
+                   value="{$article['show_directory_end_time']}"
+                   autocomplete="off">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Track:</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="enable_track" value="1" title="Yes" lay-filter="enableTrack" checked>
+            <input type="radio" name="enable_track" value="0" title="No" lay-filter="enableTrack">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Sort:</label>
+        <div class="layui-input-inline">
+            <input type="number" name="list_order"
+                   value="{$article['list_order']}" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">(the smaller the number,the higher the order )</div>
+    </div>
+    <div class="layui-form-item" style="display: none">
+        <label class="layui-form-label label-custom">IsEncrypt:</label>
+        <div class="layui-input-inline">
+            <input type="radio" name="is_encrypt" value="1" title="Yes" lay-filter="isEncrypt" checked>
+            <input type="radio" name="is_encrypt" value="0" title="No" lay-filter="isEncrypt">
+        </div>
+    </div>
+    <input id="lat" name="lat" value="{$article['lat']}" type="hidden"/>
+    <input id="lng" name="lng" value="{$article['lng']}" type="hidden"/>
+    <input id="isEncrypt" name="isEncrypt" value="{$article['is_encrypt']}" type="hidden"/>
+    <input id="enableTrack" name="enableTrack" value="{$article['enable_track']}" type="hidden"/>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/events/edit',['id'=>$article.id])}"
+                    lay-submit lay-filter="events">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    #map {
+        height: 300px;
+    }
+</style>
+<!--<script-->
+<!--        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgHzz1U9lVi82cngmaR0IPaK8ZSOuFHl4&callback=initMap&libraries=places&v=weekly"-->
+<!--        defer-->
+<!--&gt;</script>-->
+<script>
+    layui.use(['form','laydate'],function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem:'#startTime',
+            type:'datetime',
+            trigger:'click',
+            lang:'en'
+        });
+        laydate.render({
+            elem:'#endTime',
+            type:'datetime',
+            trigger:'click',
+            lang:'en'
+        });
+        laydate.render({
+            elem:'#directoryStartTime',
+            type:'datetime',
+            trigger:'click',
+            lang:'en'
+        });
+        laydate.render({
+            elem:'#directoryEndTime',
+            type:'datetime',
+            trigger:'click',
+            lang:'en'
+        });
+        var form = layui.form;
+        form.on('submit(events)',function () {
+            submit();
+        });
+        form.verify({
+            code:[
+                /^[a-zA-Z0-9]+$/,'Can only consist of alphanumeric!'
+            ]
+        });
+        var enableTrack = "{$article['enable_track']}";
+        $("input[name='enable_track'][value="+enableTrack+"]").attr("checked",true);
+        initCountry();
+    });
+    function initCountry(){
+        var countryStr = "";
+        $.each(country,function(i,item){
+            countryStr += "<option val='"+item+"'>"+item+"</option>";
+        });
+        $("#country").html(countryStr);
+        var countryId = "{$article['country']}";
+        $("#country").val(countryId);
+        layui.form.render();
+    }
+    function submit() {
+        var startTime = $('#startTime').val();
+        var endTime = $('#endTime').val();
+        var directoryStartTime = $('#directoryStartTime').val();
+        var directoryEndTime = $('#directoryEndTime').val();
+        if(directoryEndTime >= endTime){
+            layer.msg('Show directory end time can be be larger than event end time!');
+            return;
+        }
+        opFormPostRecord(this,fail_callback);
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<script>
+    // var map;
+    // var marker;
+    // function initMap() {
+    //     var latstr = $("#lat").val();
+    //     var lngstr = $("#lng").val();
+    //     var lat = 0.0;
+    //     var lng = 0.0;
+    //     if(latstr && latstr.length > 0){
+    //         lat = parseFloat($("#lat").val());
+    //     }
+    //     if(lngstr && lngstr.length > 0){
+    //         lng = parseFloat($("#lng").val());
+    //     }
+    //     if(lat == 0.0 && lng == 0.0){
+    //         lat = 1.3097909572955402;
+    //         lng = 103.85551929473877;
+    //     }
+    //     map = new google.maps.Map(document.getElementById("map"), {
+    //         center: { lat: lat, lng: lng },
+    //         zoom: 12
+    //     });
+    //     if(marker){
+    //         marker.setMap(null);
+    //     }
+    //     marker = new google.maps.Marker({
+    //         position:new google.maps.LatLng(lat,lng),
+    //         map:map
+    //     });
+    //     map.addListener('click',function(event){
+    //         var latLng = event.latLng;
+    //         console.log(latLng.lat());
+    //         console.log(latLng.lng());
+    //         $("#lat").val(latLng.lat());
+    //         $("#lng").val(latLng.lng());
+    //         if(marker){
+    //             marker.setMap(null);
+    //         }
+    //         marker = new google.maps.Marker({
+    //             position:latLng,
+    //             map:map
+    //         });
+    //         // new google.maps.Geocoder().geocode({
+    //         //     location:latLng
+    //         // },function(res){
+    //         //     console.log(res);
+    //         //     if(res && res.length > 0){
+    //         //         $('#venue').val(res[0].formatted_address);
+    //         //     }
+    //         // });
+    //         new google.maps.places.PlacesService(document.getElementById("nearby")).nearbySearch({
+    //             location:latLng,
+    //             radius:50
+    //         },function(res,status){
+    //             console.log(res);
+    //             console.log(status);
+    //             if(res && res.length > 0){
+    //                 $('#venue').val(res[0].name);
+    //             }
+    //         });
+    //     });
+    // }
+</script>
+{/block}
+
+{block name='single-content'}
+{/block}
+
+
+

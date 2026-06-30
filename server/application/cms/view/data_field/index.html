@@ -1,0 +1,198 @@
+{extend name="layouts/cms"}
+
+{block name='body-content'}
+
+<div class="layui-form-item">
+    <label class="layui-form-label label-custom">Select Event</label>
+    <div class="layui-input-inline">
+        <form class="layui-form layui-form-pane bg-white">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </form>
+    </div>
+</div>
+<div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+<div class="layui-inline" style="width: 100%">
+    <div class="layui-input-inline">
+        <form class="form-search" action="{:url('cms/datafield/index')}" method="get">
+            <input type="hidden" name="curr_page" class="curr_page" value="1">
+            <input type="text" value="{$search}" name="str_search" placeholder="Enter text to search"
+                   class="layui-input search_input">
+            <input type="hidden" name="event_id" value="{$event_id}" class="event_id">
+        </form>
+    </div>
+    <button class="layui-btn btn-search-mz">
+        Search
+    </button>
+    <button class="layui-btn ml10" onclick="refreshContent();"><i class="layui-icon">&#xe669;</i></button>
+    <div class="layui-form-item mgr10" style="float: right">
+        <button class="layui-btn layui-btn-normal" op_url="{:url('cms/datafield/add')}"
+                onclick="addForOpenPopups(this,'✚ Add data field','95%','95%')">
+            <i class="layui-icon">&#xe608;</i> Add data field
+        </button>
+    </div>
+</div>
+
+<table class="layui-table table-body" lay-even="" lay-skin="row">
+    <colgroup>
+        <col width="5%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="5%">
+        <col width="10%">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Field Name</th>
+        <th>Field Key</th>
+        <th>Table Name</th>
+        <th>Field Type</th>
+        <th>Options</th>
+        <th>Required</th>
+        <th>Read Only</th>
+        <th>Event</th>
+        <th>Sort</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <input type="hidden" class="op_url" value="{:url('cms/datafield/edit',['id'=>'opid'])}">
+    <tbody class="table-tbody-normal layui-form"
+           ajax_page_fun="ToAjaxOpForPages"
+           record_num="{$record_num}" page_limit="{$page_limit}"
+           page_url="{:url('cms/datafield/index')}">
+    {volist name="articles" id="vo"}
+    <tr class="tr-normal-{$vo['id']}">
+        <td>{$vo['id']}</td>
+        <td class="title">{$vo['name']}</td>
+        <td class="title">{$vo['key']}</td>
+        <td class="title">{$vo['table_name']}</td>
+        <td class="title">{$vo['type']}</td>
+        <td class="title">{$vo['options']}</td>
+        <td class="title">{$vo['required']==1?'Yes':'No'}</td>
+        <td class="title">{$vo['readonly']==1?'Yes':'No'}</td>
+        <td class="title">{$vo['event_name']}</td>
+        <td class="title">{$vo['sort']}</td>
+        <td>
+            <div class="layui-btn-group">
+                <button class="layui-btn layui-btn-sm" title="Edit field"
+                        onclick="editForOpenPopups('✎ Edit field','{$vo.id}', '95%', '95%')">
+                    <i class="layui-icon">&#xe642;</i>
+                </button>
+                <button class="layui-btn layui-btn-sm" title="Remove field"
+                        onclick="delPostRecord('{$vo.id}')">
+                    <i class="layui-icon">&#xe640;</i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="demo2-1"></div>
+<style>
+    .table-tbody-normal .title{
+        /*color: #283560;*/
+    }
+    .table-tbody-normal .p-article-abstract {
+        color: #eb7350;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    .table-tbody-normal .td-article img {
+        cursor: pointer;
+        width: 110px;
+        max-width: 111px;
+    }
+    .table-tbody-normal .td-article img:hover {
+        transition: all 0.6s;
+        transform: scale(3);
+        position: relative;
+        z-index: 100;
+    }
+    .booths-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    .mgr10{
+        margin-right: 10px;
+    }
+</style>
+<script>
+    function onReady(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$event_id}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        layui.form.render();
+    }
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('select(event)',function(data){
+            var eventId = data.value;
+            $('.event_id').val(eventId);
+            $(".form-search").submit();
+        });
+        onReady();
+    });
+    function ToAjaxOpForPages(toUrl,postData) {
+        $.post(
+            toUrl,
+            postData,
+            function (result) {
+                if(result.status == 200){
+                    var str_html = '';
+                    $.each(result.data,function (i,e) {
+                        str_html +=
+                            "<tr class=\"tr-normal-"+e.id+"\">\n" +
+                            "                <td>"+e.id+"</td>\n" +
+                            "                <td class=\"title\">"+e.name+"</td>\n" +
+                            "                <td class=\"title\">"+e.key+"</td>\n" +
+                            "                <td class=\"title\">"+e.table_name+"</td>\n" +
+                            "                <td class=\"title\">"+e.type+"</td>\n" +
+                            "                <td class=\"title\">"+e.options+"</td>\n" +
+                            "                <td class=\"title\">"+(e.required==1?'Yes':'No')+"</td>\n" +
+                            "                <td class=\"title\">"+(e.readonly==1?'Yes':'No')+"</td>\n" +
+                            "                <td class=\"title\">"+e.event_name+"</td>\n" +
+                            "                <td class=\"title\">"+e.sort+"</td>\n" +
+                            "                <td>\n" +
+                            "                    <div class=\"layui-btn-group\">\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Edit field' \n" +
+                            "                                onclick=\"editForOpenPopups('✎ Edit field','"+e.id+"','95%','95%')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe642;</i>\n" +
+                            "                        </button>\n" +
+                            "                        <button class=\"layui-btn layui-btn-sm\" title='Remove field' \n" +
+                            "                                onclick=\"delPostRecord('"+e.id+"')\">\n" +
+                            "                            <i class=\"layui-icon\">&#xe640;</i>\n" +
+                            "                        </button>\n" +
+                            "                    </div>\n" +
+                            "                </td>\n" +
+                            "            </tr>";
+                    });
+                    $(".table-tbody-normal").html(str_html);
+                    layui.form.render();//细节！这个好像要渲染一下！
+                }else{
+                    //失败
+                    layer.msg(result.message);
+                }
+            },"JSON");
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+{/block}

@@ -1,0 +1,40 @@
+/**
+ * ajax 获取并加载每页的数据
+ * @param toUrl
+ * @param postData
+ * @constructor
+ */
+function ToAjaxOpForPageDatas(toUrl,postData) {
+    $.post(
+        toUrl,
+        postData,
+        function (result) {
+            if(result.status == 200){
+                var str_html = '';
+                $.each(result.data,function (i,e) {
+                    str_html +=
+                        "<tr class=\"tr-normal-"+e.id+"\">\n" +
+                        "                <td>"+e.id+"</td>\n" +
+                        "                <td class=\"title\">"+e.name+"</td>\n" +
+                        "                <td class=\"title\">"+e.due_date+"</td>\n" +
+                        "                <td class=\"title\">"+e.type+"</td>\n" +
+                        "                <td class=\"title\">"+e.status_name+"</td>\n" +
+                        "                <td class=\"title\">"+e.event_name +"</td>\n" +
+                        "                <td>\n" +
+                        "                    <div class=\"layui-btn-group\">\n" +
+                        "                        <button class=\"layui-btn layui-btn-sm\" title='View form' \n" +
+                        "                                onclick=\"viewForm("+e.form_id+","+$('#company_id').val()+")\">\n" +
+                        "                            <i class=\"layui-icon layui-icon-template\"></i>\n" +
+                        "                        </button>\n" +
+                        "                    </div>\n" +
+                        "                </td>\n" +
+                        "            </tr>";
+                });
+                $(".table-tbody-normal").html(str_html);
+                layui.form.render();//细节！这个好像要渲染一下！
+            }else{
+                //失败
+                layer.msg(result.message);
+            }
+        },"JSON");
+}

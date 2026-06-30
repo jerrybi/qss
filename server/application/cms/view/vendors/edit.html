@@ -1,0 +1,465 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-name">Name</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="name"
+                   value="{$article['name']}"
+                   placeholder="Please input name" autocomplete="off" class="layui-input input-title-mz input-name">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-admin">Vendor Admin</label>
+        <div class="section-area">
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-origin-country">Country/Region of Origin</label>
+        <div class="layui-input-inline">
+            <select name="origin_country" id="origin_country" lay-verify="required" lay-filter="origin_country">
+                <option value="">Please select country/region</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-profile">Vendor Profile</label>
+        <div class="layui-input-inline">
+            <textarea  name="profile" maxlength="300" id="profile"
+                       value=""
+                       placeholder="Please input content" autocomplete="off" class="layui-input input-title-mz input-profile">{$article['profile']}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-logo">Vendor Logo</label>
+        <div class="layui-col-md4">
+            <button type="button" name="img_upload" class="layui-btn btn_upload_img" data-index="0">
+                <i class="layui-icon">&#xe67c;</i>Upload Image
+            </button>
+            <img class="layui-upload-img img-attr upload_img_preview0"
+                 src="{$article['logo']}">
+            <input type="hidden" name="logo" value="{$article['logo']}" class="upload_img_url0"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-email">Contact Email</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="email"
+                   value="{$article['email']}"
+                   placeholder="Please input email" autocomplete="off" class="layui-input input-title-mz input-email">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-address-line1">Address Line 1</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="address_line1"
+                   value="{$article['address_line1']}"
+                   placeholder="Please input address line 1" autocomplete="off" class="layui-input input-title-mz input-address-line1">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-address-line2">Address Line 2</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="address_line2"
+                   value="{$article['address_line2']}"
+                   placeholder="Please input address line 2" autocomplete="off" class="layui-input input-title-mz input-address-line2">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-postal">Postal/Zip Code</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="postal"
+                   value="{$article['postal']}"
+                   placeholder="Please input postal code" autocomplete="off" class="layui-input input-title-mz input-postal">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-country">Country/Region</label>
+        <div class="layui-input-inline">
+            <select name="country" id="country" lay-verify="required" lay-filter="country">
+                <option value="">Please select country/region</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-phone">Business Phone</label>
+        <div class="layui-input-inline input-title-mz">
+            <input type="number"  name="phone_country_code"
+                   value="{$article['phone_country_code']}"
+                   placeholder="country" autocomplete="off" class="layui-input input-phone-country-code">
+            <input type="number"  name="phone_area_code"
+                   value="{$article['phone_area_code']}"
+                   placeholder="area" autocomplete="off" class="layui-input input-phone-area-code">
+            <input type="number"  name="phone_number"
+                   value="{$article['phone_number']}"
+                   placeholder="Please input number" autocomplete="off" class="layui-input input-phone-number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-fax">Fax</label>
+        <div class="layui-input-inline input-title-mz">
+            <input type="number"  name="fax_country_code"
+                   value="{$article['fax_country_code']}"
+                   placeholder="country" autocomplete="off" class="layui-input input-fax-country-code">
+            <input type="number"  name="fax_area_code"
+                   value="{$article['fax_area_code']}"
+                   placeholder="area" autocomplete="off" class="layui-input input-fax-area-code">
+            <input type="number"  name="fax_number"
+                   value="{$article['fax_number']}"
+                   placeholder="Please input number" autocomplete="off" class="layui-input input-fax-number">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom lbl-website">Website</label>
+        <div class="layui-input-inline">
+            <input type="text"  name="website"
+                   value="{$article['website']}"
+                   placeholder="Please input website" autocomplete="off" class="layui-input input-title-mz input-website">
+        </div>
+    </div>
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+    <input type="hidden" id="admin_account" name="admin_account" value="{$article['admin_account']}">
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('cms/vendors/edit',['id'=>$article.id])}" lay-submit lay-filter="vendor">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        form.verify({
+            loginname:[
+                /^[a-z0-9.@]{8,256}$/,
+                'invalid login name!'
+            ]
+        });
+        form.on('select(event)',function(data){
+            var event_id = data.value;
+            getBoothAttrs(event_id);
+        });
+        form.on('submit(vendor)',function(data){
+            opFormPostRecord(data.form,fail_callback);
+        });
+        initData();
+    });
+     function initData(){
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$article['event_id']}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr );
+        $("#event").val(event_id);
+        getBoothAttrs(event_id);
+        updateAdminAccounts();
+    };
+    function fail_callback(){
+        window.location.reload();
+    }
+    function getBoothAttrs(event_id){
+        $.post(
+            "{:url('cms/vendors/getVendorAttrs')}",
+            {event_id:event_id},
+            function (result) {
+                if(result.status == 200){
+                    reloadBoothAttrs(result.data);
+                }else{
+                    //失败
+                    dialog.tip(result.message);
+                }
+            },"JSON");
+    }
+    function getAttrByKey(attrs,key){
+        for(var i=0;i<attrs.length;i++){
+            var item = attrs[i];
+            if(item.key == key){
+                return item;
+            }
+        }
+        return null;
+    }
+    function reloadBoothAttrs(data){
+        if(!data) return;
+        var titles = data.titles;
+        var boothAttrs = data.vendorAttrs;
+        if(titles['name']){
+            $('.lbl-name').text(titles['name']);
+        }
+        //admin
+        if(titles['admin_account']){
+            $('.lbl-admin').text(titles['admin_account']);
+        }
+        //origin_country
+        if(titles['origin_country']){
+            $('.lbl-origin-country').text(titles['origin_country']);
+        }
+        var originCountryAttr = getAttrByKey(boothAttrs,'origin_country');
+        if(originCountryAttr){
+            var originCountryStr = "";
+            var options = originCountryAttr.options.split('\r\n');
+            $.each(options,function(i,item){
+                originCountryStr += "<option value='"+item+"'>"+item+"</option>";
+            });
+            $("#origin_country").html(originCountryStr);
+            var originCountry = "{$article['origin_country']}";
+            $("#origin_country").val(originCountry);
+            layui.form.render('select');
+        }
+        //profile
+        if(titles['profile']){
+            $('.lbl-profile').text(titles['profile']);
+        }
+        //logo
+        if(titles['logo']){
+            $('.lbl-logo').text(titles['logo']);
+        }
+        //email
+        if(titles['email']){
+            $('.lbl-email').text(titles['email']);
+        }
+        //address line 1
+        if(titles['address_line1']){
+            $('.lbl-address-line1').text(titles['address_line1']);
+        }
+        //address line 2
+        if(titles['address_line2']){
+            $('.lbl-address-line2').text(titles['address_line2']);
+        }
+        //postal
+        if(titles['postal']){
+            $('.lbl-postal').text(titles['postal']);
+        }
+        //country
+        if(titles['country']){
+            $('.lbl-country').text(titles['country']);
+        }
+        var countryAttr = getAttrByKey(boothAttrs,'country');
+        if(countryAttr){
+            var countryStr = "";
+            var options = countryAttr.options.split('\r\n');
+            $.each(options,function(i,item){
+                countryStr += "<option value='"+item+"'>"+item+"</option>";
+            });
+            $("#country").html(countryStr);
+            var country = "{$article['country']}";
+            $("#country").val(country);
+            layui.form.render('select');
+        }
+        //phone
+        if(titles['phone']){
+            $('.lbl-phone').text(titles['phone']);
+        }
+        //fax
+        if(titles['fax']){
+            $('.lbl-fax').text(titles['fax']);
+        }
+        //website
+        if(titles['website']){
+            $('.lbl-website').text(titles['website']);
+        }
+    }
+    function updateAdminAccounts() {
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        var html = '';
+        $.each(items,function (i,item) {
+            html += '<div class="section-item">';
+            html += '<div class="section-block">';
+            html += '<div class="section-input-item">';
+            html += '<input type="text" placeholder="Login Name" class="layui-input" name="login_name'+i+'" value="'+item.login_name+'" oninput="onLoginNameItemInput(this,'+i+')" onpropertychange="onLoginNameItemInput(this,'+i+')" lay-verify="loginname">';
+            html += '<label class="section-input-hint">(consist of a-z0-9@. and length is in 8-256)</label>';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<input type="text" placeholder="First Name" class="layui-input" name="first_name'+i+'" value="'+item.first_name+'" oninput="onFirstNameItemInput(this,'+i+')" onpropertychange="onFirstNameItemInput(this,'+i+')" lay-verify="required">';
+            html += '<label class="section-input-hint">(first name)</label>';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<input type="text" placeholder="Last Name" class="layui-input" name="last_name'+i+'" value="'+item.last_name+'" oninput="onLastNameItemInput(this,'+i+')" onpropertychange="onLastNameItemInput(this,'+i+')" lay-verify="required">';
+            html += '<label class="section-input-hint">(last name)</label>';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<input type="number" placeholder="Country code" class="layui-input" name="phone_country_code'+i+'" value="'+item.phone_country_code+'" oninput="onCountryCodeItemInput(this,'+i+')" onpropertychange="onCountryCodeItemInput(this,'+i+')" lay-verify="required">';
+            html += '<label class="section-input-hint">(country code)</label>';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<input type="number" placeholder="Area code" class="layui-input" name="phone_area_code'+i+'" value="'+item.phone_area_code+'" oninput="onAreaCodeItemInput(this,'+i+')" onpropertychange="onAreaCodeItemInput(this,'+i+')">';
+            html += '<label class="section-input-hint">(area code)</label>';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<input type="number" placeholder="Phone Number" class="layui-input" name="phone_number'+i+'" value="'+item.phone_number+'" oninput="onPhoneNumberItemInput(this,'+i+')" onpropertychange="onPhoneNumberItemInput(this,'+i+')" lay-verify="required">';
+            html += '<label class="section-input-hint">(phone number)</label>';
+            html += '</div>';
+            html += '<div class="section-input-item">';
+            html += '<input type="text" placeholder="Email" class="layui-input" name="email'+i+'" value="'+item.email+'" oninput="onEmailItemInput(this,'+i+')" onpropertychange="onEmailItemInput(this,'+i+')" lay-verify="required|email">';
+            html += '<label class="section-input-hint">(email)</label>';
+            html += '</div>';
+            html += '</div>';
+            html += '<i class="layui-icon layui-icon-delete" onclick="deleteItem('+i+')"></i>';
+            html += '</div>';
+        });
+        html += '<div class="section-item" style="text-align: center">';
+        html += '<i class="layui-icon layui-icon-add-circle add-item" onclick="addItem()"></i>';
+        html += '</div>';
+        $('.section-area').html(html);
+        layui.form.render();
+    }
+    function deleteItem(index){
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        items.splice(index,1);
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+        updateAdminAccounts();
+    }
+    function addItem() {
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        items.push({
+            login_name:'',
+            first_name:'',
+            last_name:''
+        });
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+        updateAdminAccounts();
+    }
+    function onLoginNameItemInput(obj,index) {
+        var value = obj.value;
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.login_name = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+    }
+    function onFirstNameItemInput(obj,index) {
+        var value = obj.value;
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.first_name = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+    }
+    function onLastNameItemInput(obj,index) {
+        var value = obj.value;
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.last_name = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+    }
+    function onCountryCodeItemInput(obj,index) {
+        var value = obj.value;
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.phone_country_code = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+    }
+    function onAreaCodeItemInput(obj,index) {
+        var value = obj.value;
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.phone_area_code = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+    }
+    function onPhoneNumberItemInput(obj,index) {
+        var value = obj.value;
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.phone_number = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+    }
+    function onEmailItemInput(obj,index) {
+        var value = obj.value;
+        var str = $('#admin_account').val();
+        var items = str.length>0?JSON.parse(str):[];
+        var item = items[index];
+        item.email = value;
+        items.splice(index,1,item);
+        var outstr = JSON.stringify(items);
+        $('#admin_account').val(outstr);
+    }
+</script>
+<style>
+    .section-area{
+        float: left;
+        margin-right: 10px;
+    }
+    .section-item{
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .section-block{
+        border:1px solid #ddd;
+        padding: 5px;
+        margin-right: 5px;
+    }
+    .section-input-item{
+        margin-bottom: 10px;
+    }
+    .section-input-item input{
+        height: 30px;
+        line-height: 30px;
+        width: 150px;
+        display: inline-block;
+    }
+    .section-input-hint{
+        font-size: 12px;
+        color: #999;
+        margin-left: 5px;
+    }
+    .section-item .add-item{
+        font-size: 30px;
+        margin: 0 auto;
+        color: #d2d2d2;
+    }
+    .input-phone-country-code,.input-fax-country-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-area-code,.input-fax-area-code{
+        width: 80px;
+        float: left;
+        margin-right: 10px;
+    }
+    .input-phone-number,.input-fax-number{
+        float: left;
+        width: 180px;
+    }
+</style>
+{/block}
+
+{block name='single-content'}
+
+{/block}

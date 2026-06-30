@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Home</title>
+    <meta name="google" content="notranslate">
+    <link href="__EXHIBITOR__/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="__EXHIBITOR__/css/zhang.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="__EXHIBITOR__/css/lightbox.css">
+    <!-- jQuery (necessary JavaScript plugins) -->
+    {include file='layouts/layui'}
+    <script type='text/javascript' src="__EXHIBITOR__/js/jquery-1.11.1.min.js"></script>
+    <script type='text/javascript' src="__EXHIBITOR__/js/common.js"></script>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body>
+<form class="layui-form form-op-normal layui-form-pane bg-white" lay-filter="form1">
+    <div class="layui-form-item mgt20">
+        <label class="layui-form-label label-custom">Country/Region</label>
+        <div class="layui-input-inline input-title-mz">
+            <select name="sub_country" id="country" lay-verify="required" lay-filter="country">
+                <option value="">Please select country/region</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button"
+                    op_url="{:url('/exhibitor/countryView',['id'=>$article.id])}"
+                    onclick="opFormPostRecord(this,fail_callback)">Submit</button>
+        </div>
+    </div>
+    <input type="hidden" id="countries" value="{$countries}">
+</form>
+
+<script>
+    layui.use('form',function(){
+        var form = layui.form;
+        initCountries();
+    });
+    function initCountries() {
+        var countries = $('#countries').val();
+        var options = countries.split('\n');
+        var originCountryStr = '';
+        $.each(options,function(i,item){
+            originCountryStr += "<option value='"+item+"'>"+item+"</option>";
+        });
+        $("#country").html(originCountryStr);
+        var originCountry = "<?php echo htmlentities($article['sub_country']); ?>";
+        $("#country").val(originCountry);
+        layui.form.render();
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+</script>
+<style>
+    .input-title-mz {
+        width: 500px!important;
+    }
+</style>
+</body>
+</html>
+
+
+

@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Macro</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+    <meta name="generator" content="www.leipi.org" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-ie6.css">
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/ie.css">
+    <![endif]-->
+    <link rel="stylesheet" href="leipi.style.css">
+    <script type="text/javascript" src="../dialogs/internal.js"></script>
+    <script type="text/javascript">
+function createElement(type, name)
+{     
+    var element = null;     
+    try {        
+        element = document.createElement('<'+type+' name="'+name+'">');     
+    } catch (e) {}   
+    if(element==null) {     
+        element = document.createElement(type);     
+        element.name = name;     
+    } 
+    return element;     
+}
+    </script>
+</head>
+<body>
+<div class="content">
+    <table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th><span>Control Name</span><span class="label label-important">*</span></th>
+            <th><span>Type</span></th>
+        </tr>
+        <tr>
+            <td>
+                <input id="orgname" type="text" placeholder="Required"/>
+            </td>
+            <td>
+                <select  id="orgtype" class="span7">
+                    <optgroup label="----Date Macro Control----">
+                        <option value="sys_datetime">Current Date+Time [ 1997-01-01 12:30 ]</option>
+                        <option value="sys_date">Current Date [ 1997-01-01 ]</option>
+                        <option value="sys_date_cn">Current Date [ 1/1/1997 ]</option>
+                        <option value="sys_date_cn_short1">Current Date [ 1997年1月 ]</option>
+                        <option value="sys_date_cn_short4">Current Year [ 1997 ]</option>
+                        <option value="sys_date_cn_short3">Current Year [ 1997年 ]</option>
+                        <option value="sys_date_cn_short2">Current Date [ 1月1日 ]</option>
+                        <option value="sys_time">Current Time [ 12:30 ]</option>
+                        <option value="sys_week">Current Week [ Monday ]</option>
+                    </optgroup>
+                    <optgroup label="----extension----">
+                        <option value="sys_userid">Current User ID，i.e. 9527</option>
+                        <option value="sys_realname">Current User Name,i.e. jerry</option>
+                        <option value="sys_dept">Current Department,i.e. technical</option>
+                    </optgroup>
+                </select>
+            </td>
+        </tr>
+    </thead>
+    <tbody id='itemAttr'>
+        <tr>
+            <th><span>Control Style</span></th>
+            <th><span>Visible</span></th>
+        </tr>
+        <tr>
+            <td>
+                Width <input id="orgwidth" type="text" value="150" class="input-small span1" placeholder="auto"/> px
+                &nbsp;&nbsp;
+                Font size <input id="orgfontsize" type="text" value="" class="input-small span1" placeholder="auto"/> px
+                
+            </td>
+            <td>
+                <label class="checkbox"> <input id="orghide" type="checkbox"> Hide </label>
+            </td>
+        </tr>
+    </tbody>
+    
+    </table>
+</div>
+<script type="text/javascript">
+var oNode = null,thePlugins = 'macros';
+window.onload = function() {
+    if( UE.plugins[thePlugins].editdom ) {
+        oNode = UE.plugins[thePlugins].editdom;
+        var gTitle=oNode.getAttribute('title').replace(/&quot;/g,"\""),gHidden=oNode.getAttribute('orghide'),gFontSize=oNode.getAttribute('orgfontsize'),gWidth=oNode.getAttribute('orgwidth'),gType=oNode.getAttribute('orgtype');
+        gTitle = gTitle==null ? '' : gTitle;
+        $G('orgname').value = gTitle;
+        //if( oNode.tagName == 'INPUT' ) {}
+        if(oNode.getAttribute('orghide')=='1'){
+            $G('orghide').checked = true;
+        }
+        $G('orgname').value    = gTitle;
+        $G('orgtype').value    = gType; 
+        $G('orgwidth').value = gWidth;
+        $G('orgfontsize').value = gFontSize;
+    }
+}
+
+dialog.oncancel = function () {
+    if( UE.plugins[thePlugins].editdom ) {
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+dialog.onok = function (){
+    if ( $G('orgname').value == '' ) {
+        alert('Control name can not be empty!');
+        return false;
+    }
+    var regExp = /^[A-Za-z0-9_]+$/;
+    if(!regExp.test($G('orgname').value)){
+        alert('Control name must only consist of alphabet,numbers and underscore');
+        return false;
+    }
+    var gTitle=$G('orgname').value.replace(/\"/g,"&quot;"),gFontSize=$G('orgfontsize').value,gWidth=$G('orgwidth').value,gType=$G('orgtype').value;
+    if( !oNode ) {
+        try {
+                /*
+                if ( $G('orgtype').value.indexOf('sys_list')>0 ) {
+                    oNode = document.createElement("select");
+                    var objOption = new Option('{macros}', '');
+                    oNode.options[oNode.options.length] = objOption;
+                } else {
+                    //input
+                }*/
+                oNode = createElement('input','leipiNewField');
+                oNode.setAttribute('type','text');
+                oNode.setAttribute('value','{macros}');
+                
+                oNode.setAttribute('title',gTitle);
+                oNode.setAttribute('name','leipiNewField');
+                oNode.setAttribute('leipiPlugins',thePlugins);
+                oNode.setAttribute('orgtype',gType); 
+                if( $G('orghide').checked ) {
+                    oNode.setAttribute('orghide', '1' ) ;
+                } else {
+                    oNode.setAttribute('orghide', '0' ) ;
+                }
+                if( gFontSize != '' ) {
+                    oNode.style.fontSize = gFontSize + 'px';
+                    oNode.setAttribute('orgfontsize',gFontSize );
+                }
+                if( gWidth != '' ) {
+                    oNode.style.width = gWidth + 'px';
+                    oNode.setAttribute('orgwidth',gWidth );
+                }
+                editor.execCommand('insertHtml',oNode.outerHTML);
+                return true;
+            } catch ( e ) {
+                try {
+                    editor.execCommand('error');
+                } catch ( e ) {
+                    alert('Control occur exception!');
+                }
+                return false;
+            }
+    } else {
+        var norgname = oNode.getAttribute('name').replace(/\"/g,"&quot;");
+        var oNewNode = null;
+        domUtils.remove(oNode,false);  //删除当前控件，再创建一个新的
+        /*
+        if ( $G('orgtype').value.indexOf('sys_list') > 0 ) {
+            oNewNode = document.createElement("select");
+            var objOption = new Option('{macros}', '');
+            oNewNode.options[oNewNode.options.length] = objOption;
+        }*/
+        oNewNode = createElement('input','leipiNewField');
+        oNewNode.setAttribute('type','text');
+        oNewNode.setAttribute('value','{macros}');
+        oNewNode.setAttribute('title',gTitle);
+        oNewNode.setAttribute('name',norgname);
+        oNewNode.setAttribute('leipiPlugins',thePlugins ); 
+        oNewNode.setAttribute('orgtype',gType); 
+        if( $G('orghide').checked ) {
+            oNewNode.setAttribute('orghide', '1' ) ;
+        } else {
+            oNewNode.setAttribute('orghide', '0' ) ;
+        }
+        if( gFontSize != '' ) {
+            oNewNode.style.fontSize = gFontSize + 'px';
+            oNewNode.setAttribute('orgfontsize',gFontSize );
+        }else{
+            oNewNode.setAttribute('orgfontsize', '');
+        }
+        if( gWidth != '' ) {
+            oNewNode.style.width = gWidth + 'px';
+            oNewNode.setAttribute('orgwidth',gWidth );
+        }else{
+            oNewNode.setAttribute('orgwidth', '');
+        }
+        editor.execCommand('insertHtml',oNewNode.outerHTML);
+        delete UE.plugins[thePlugins].editdom;
+    }
+};
+</script>
+</body>
+</html>

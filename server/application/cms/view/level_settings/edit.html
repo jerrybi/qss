@@ -1,0 +1,175 @@
+{extend name="layouts/cms"}
+{block name='body-content'}
+<form class="layui-form form-op-normal layui-form-pane bg-white">
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Event:</label>
+        <div class="layui-input-inline">
+            <select name="event_id" id="event" lay-verify="required" lay-filter="event">
+                <option value="">Please select event</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">User Level:</label>
+        <div class="layui-input-inline">
+            <input name="user_level" required lay-verify="required" readonly="readonly"
+                   value="{$article['user_level']}"
+                   placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Background Color:</label>
+        <div class="layui-input-inline">
+            <div id="background_color"></div>
+            <input type="hidden" name="background_color" value="{$article['background_color']}"/>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">Front Color:</label>
+        <div class="layui-input-inline">
+            <div id="front_color"></div>
+            <input type="hidden" name="front_color" value="{$article['front_color']}"/>
+        </div>
+    </div>
+
+    <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
+
+    <div hidden="hidden" id="article"><?php echo json_encode($article);?></div>
+    {:token()}
+    <div class="layui-form-item">
+        <div class="layui-input-block div-form-op">
+            <button class="layui-btn" type="button" lay-submit lay-filter="user">Submit</button>
+            <button type="reset" class="layui-btn layui-btn-primary">Discard</button>
+        </div>
+    </div>
+</form>
+<style>
+    .label-custom{
+        width: 150px!important;
+    }
+</style>
+<script>
+    layui.use(['form','laydate','colorpicker'],function(){
+        var form = layui.form;
+        var laydate = layui.laydate;
+        var colorpicker = layui.colorpicker;
+        colorpicker.render({
+            elem: '#background_color',
+            color: "{$article['background_color']}",
+            done: function (color) {
+                $("input[name='background_color']").val(color);
+            }
+        });
+        colorpicker.render({
+            elem: '#front_color',
+            color: "{$article['front_color']}",
+            done: function (color) {
+                $("input[name='front_color']").val(color);
+            }
+        });
+        form.on('select(event)',function(data){
+            var event_id = data.value;
+            getZones(event_id);
+        });
+        form.on('submit(user)',function () {
+            submit();
+        });
+        form.verify({
+            Ndouble:[
+                /^[0-9]\d*$/,'Can only be positive integer!'
+            ],
+            radiorequired:function(value,item){
+                var $ = layui.$;
+                var verifyName=$(item).attr('name')
+                    , verifyType=$(item).attr('type')
+                    ,formElem=$(item).parents('.layui-form')//获取当前所在的form元素，如果存在的话
+                    ,verifyElem=formElem.find('input[name="'+verifyName+'"]')//获取需要校验的元素
+                    ,isTrue= verifyElem.is(':checked')//是否命中校验
+                    ,focusElem = verifyElem.next().find('i.layui-icon');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css(verifyType == 'radio' ? {"color": "#FF5722"} : {"border-color": "#FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css(verifyType == 'radio' ? {"color": ""} : {"border-color": ""});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            checkboxrequired:function(value,item){
+                var $ = layui.$;
+                var verifyName=$(item).attr('name')
+                    , verifyType=$(item).attr('type')
+                    ,formElem=$(item).parents('.layui-form')//获取当前所在的form元素，如果存在的话
+                    ,verifyElem=formElem.find('input[name="'+verifyName+'"]')//获取需要校验的元素
+                    ,isTrue= verifyElem.is(':checked')//是否命中校验
+                    ,focusElem = verifyElem.next().find('i.layui-icon');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css(verifyType == 'checkbox' ? {"color": "#FF5722"} : {"border-color": "#FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css(verifyType == 'checkbox' ? {"color": ""} : {"border-color": ""});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            filerequired:function(value,item){
+                var $ = layui.$;
+                var verifyElem=$(item)
+                    ,isTrue= (verifyElem.val()!='')
+                    ,focusElem = verifyElem.parent().find('.btn_upload_file');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css({"border": "1px solid #FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css({"border": "none"});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            },
+            imagerequired:function(value,item){
+                var $ = layui.$;
+                var verifyElem=$(item)
+                    ,isTrue= (verifyElem.val()!='')
+                    ,focusElem = verifyElem.parent().find('.btn_upload_img');//焦点元素
+                if(!isTrue || !value) {
+                    //定位焦点
+                    focusElem.css({"border": "1px solid #FF5722"});
+                    //对非输入框设置焦点
+                    focusElem.first().attr("tabIndex", "1").css("outline", "0").blur(function () {
+                        focusElem.css({"border": "none"});
+                    }).focus();
+                    return 'The required item must be selected!';
+                }
+            }
+        });
+        onReady();
+    });
+    function onReady(){
+        //event
+        var events = JSON.parse($('#events').text());
+        var event_id = "{$article['event_id']}";
+        var eventStr = "";
+        $.each(events,function(i,item){
+            eventStr += "<option value='"+item['id']+"'>"+item['name']+"</option>";
+        });
+        $("#event").html(eventStr);
+        $("#event").val(event_id);
+        layui.form.render();
+    }
+    function fail_callback(){
+        window.location.reload();
+    }
+    function submit() {
+        var toUrl = "{:url('cms/levelSettings/edit',['id'=>$article.id])}";
+        var postData = $(".form-op-normal").serialize();
+        ToPostPopupsDeal(toUrl, postData,fail_callback);
+    }
+</script>
+{/block}
+
+{block name='single-content'}
+
+{/block}
