@@ -294,4 +294,55 @@ class Xexhibitors extends BaseModel
     public function removeUser($list){
         Db::name('xusers')->where('id','in',$list)->delete();
     }
+
+    /**
+     * 为 Exhibitor 生成 REST API 密钥对
+     * @param int $id Exhibitor ID
+     * @return array ['api_key'=>..., 'api_secret'=>...]
+     */
+    public function generateApiCredentials($id)
+    {
+        $exhibitor = $this->where('id', $id)->find();
+        if (empty($exhibitor)) {
+            return ['status' => false, 'message' => 'Exhibitor not found'];
+        }
+
+        // 生成 api_key: 前缀 + 随机 hex
+        $apiKey = 'qss_' . bin2hex(random_bytes(16));
+
+        // 生成 api_secret: 32 位随机字符串
+        $rawSecret = bin2hex(random_bytes(20));
+
+        // 存储时用 private_key 做 salt 的 sha256
+        $hashedSecret = hash('sha256', $rawSecret . $exhibitor['private_key']);
+
+        $this->where('id', $id)->update([
+            'api_key'    => $apiKey,
+            'api_secret' => $hashedSecret
+        ]);
+
+        return [
+            'status'      => true,
+            'api_key'     => $apiKey,
+            'api_secret'  => $rawSecret,  // 明文仅返回一次
+            'message'     => 'API credentials generated successfully. Please save your api_secret securely.'
+        ];
+    }
+
+    /**
+     * 撤销 Exhibitor 的 API 密钥
+     * @param int $id Exhibitor ID
+     * @return array
+     */
+    public function revokeApiCredentials($id)
+    {
+        $result = $this->where('id', $id)->update([
+            'api_key'    => null,
+            'api_secret' => null
+        ]);
+        return [
+            'status'  => $result ? true : false,
+            'message' => $result ? 'API credentials revoked' : 'Revoke failed'
+        ];
+    }
 }

@@ -475,6 +475,26 @@ Route::group('api/',function (){
     ->header('Access-Control-Allow-Methods', 'POST,GET,PUT,DELETE')
     ->allowCrossDomain();
 
+/**
+ * =============================================
+ * API v1 — Exhibitor REST API (Swoogo 风格)
+ * Base URL: /api/v1
+ * =============================================
+ */
+// OAuth Token 接口 (无需 Bearer Token)
+Route::post('api/v1/oauth/token', 'api/Oauth/token');
+
+// 以下接口均需 Bearer Token 鉴权
+Route::group('api/v1', function () {
+    // Registrants — 参展者/用户资料查询
+    Route::get('registrants', 'api/Registrant/index');             // 列表查询 (分页)
+    Route::get('registrants/:unique_id', 'api/Registrant/read');   // 单个查询 (需 event_id 参数)
+})->header('Access-Control-Allow-Origin', '*')
+  ->header('Access-Control-Allow-Credentials', 'true')
+  ->header('Access-Control-Allow-Headers', 'Authorization, Content-Type, Accept, Origin, X-Requested-With')
+  ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+  ->allowCrossDomain();
+
 Route::get('/:event','index/index/index')
     ->pattern(['event'=>'(?!(admin|exhibitor|vendor|api|cms|index)).*']);
 Route::miss('/');
