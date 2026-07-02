@@ -72,7 +72,19 @@ class Registrant extends RestBase
             $this->error('Forbidden', 'No event associated with your account', 403);
         }
 
-        // 4. 查询用户基础信息
+        // 4. 通过 serial_number 查找 user_id (serial_number 存储在 xuser_datas 表中)
+        $userId = Db::name('xuser_datas')
+            ->where('event_id', $eventId)
+            ->where('key', 'serial_number')
+            ->where('value', $unique_id)
+            ->where('status', 1)
+            ->value('user_id');
+
+        if (empty($userId)) {
+            $this->error('Not Found', 'Registrant not found for the given serial_number', 404);
+        }
+
+        // 5. 查询用户基础信息
         $user = Db::name('xusers')
             ->alias('a')
             ->field("a.id, a.unique_id, a.event_id, a.login_name, a.status,
@@ -82,16 +94,16 @@ class Registrant extends RestBase
             ->join('xevents e', 'e.id = a.event_id', 'left')
             ->join('xzones z', 'z.id = a.zone_id', 'left')
             ->join('xtables t', 't.id = a.table_id', 'left')
-            ->where('a.unique_id', $unique_id)
+            ->where('a.id', $userId)
             ->where('a.event_id', $eventId)
             ->where('a.status', 1)
             ->find();
 
         if (empty($user)) {
-            $this->error('Not Found', 'Registrant not found for the given unique_id and event_id', 404);
+            $this->error('Not Found', 'Registrant not found for the given serial_number', 404);
         }
 
-        // 5. 查询用户自定义数据字段 (xuser_datas 表)
+        // 6. 查询用户自定义数据字段 (xuser_datas 表)
         //     注意: MySQL 中 key 是保留字，ThinkPHP 会自动加反引号
         $userDatas = Db::name('xuser_datas')
             ->where('user_id', $user['id'])
@@ -107,7 +119,7 @@ class Registrant extends RestBase
             }
         }
 
-        // 6. 查询扫描记录 (如果有扫描记录表)
+        // 7. 查询扫描记录 (如果有扫描记录表)
         $scanRecords = [];
         try {
             $scanRecords = Db::name('xscan_records')
@@ -119,7 +131,7 @@ class Registrant extends RestBase
             // 表不存在时忽略
         }
 
-        // 7. 组装完整响应
+        // 8. 组装完整响应
         $result = [
             'id'             => (int)$user['id'],
             'unique_id'      => $user['unique_id'],
