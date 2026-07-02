@@ -73,6 +73,7 @@
     <input type="hidden" class="log_url" value="{:url('cms/exhibitors/viewLogs',['id'=>'opid'])}">
     <input type="hidden" class="reset_url" value="{:url('cms/exhibitors/resetPassword',['id'=>'opid'])}">
     <input type="hidden" class="disable_url" value="{:url('cms/exhibitors/ajaxUpdateUserStatus')}">
+    <input type="hidden" class="apikey_url" value="{:url('cms/exhibitors/ajaxGenerateApiKey')}">
     <tbody class="table-tbody-normal layui-form"
            ajax_page_fun="ToAjaxOpForPageDatas"
            record_num="{$record_num}" page_limit="{$page_limit}"
@@ -111,6 +112,10 @@
                         <i class="fa fa-unlock"></i>
                     </button>
                 {/if}
+                <button class="layui-btn layui-btn-sm" style="width: 40px;" title="Generate API Key"
+                        onclick="generateApiKeyQuick('{$vo.id}', '{$vo.login_name}')">
+                    <i class="fa fa-key"></i>
+                </button>
             </div>
         </td>
     </tr>
@@ -218,15 +223,19 @@
                             "                               </button>\n" ;
                             if (e.status == '1') {
                                 str_html += "       <button class=\"layui-btn layui-btn-sm\" style=\"width: 40px;\" title=\"Disable\"\n" +
-                                    "                        onclick=\"disableExhibitor('"+e.id+"')\">\n" +
+                                    "                        onclick=\"disableExhibitor('\"+e.id+\"')\">\n" +
                                     "                            <i class=\"fa fa-ban\"></i>\n" +
                                     "               </button>"
                             } else {
                                 str_html += "        <button class=\"layui-btn layui-btn-sm\" style=\"width: 40px;\" title=\"Enable\"\n" +
-                                    "                         onclick=\"enableExhibitor('"+e.id+"')\">\n" +
+                                    "                         onclick=\"enableExhibitor('\"+e.id+\"')\">\n" +
                                     "                                <i class=\"fa fa-unlock\"></i>\n" +
                                     "                </button>"
                             }
+                            str_html += "        <button class=\"layui-btn layui-btn-sm\" style=\"width: 40px;\" title=\"Generate API Key\"\n" +
+                                "                        onclick=\"generateApiKeyQuick('\"+e.id+\"','\"+e.login_name+\"')\">\n" +
+                                "                            <i class=\"fa fa-key\"></i>\n" +
+                                "               </button>";
                             str_html += "                    </div>\n" +
                             "                </td>\n" +
                             "            </tr>";
@@ -282,6 +291,51 @@
                 window.location.reload();
             },function (index) {
                 layer.close(index);
+            });
+    }
+
+    function generateApiKeyQuick(id, loginName){
+        layer.confirm('Generate API key for exhibitor "' + loginName + '" (ID: ' + id + ')?',
+            {icon:7,title:'Generate API Key',btn:['Confirm','Cancel']},function(index){
+                layer.close(index);
+                var loadIndex = layer.load(1);
+                var url = $('.apikey_url').val();
+                $.post(url, {id:id},
+                    function (result) {
+                        layer.close(loadIndex);
+                        if(result.status == 200){
+                            layer.open({
+                                title: '<i class="fa fa-check-circle" style="color:#5FB878"></i> API Credentials Generated',
+                                area: ['520px', '340px'],
+                                content:
+                                    '<div style="padding:20px;">' +
+                                    '<div style="margin-bottom:15px;">' +
+                                    '<b style="display:block;margin-bottom:5px;">api_key</b>' +
+                                    '<div style="background:#f8f8f8;padding:10px;border-radius:4px;font-family:monospace;font-size:13px;word-break:break-all;color:#1E9FFF;">' + result.data.api_key + '</div>' +
+                                    '</div>' +
+                                    '<div style="margin-bottom:15px;">' +
+                                    '<b style="display:block;margin-bottom:5px;">api_secret</b>' +
+                                    '<div style="background:#f8f8f8;padding:10px;border-radius:4px;font-family:monospace;font-size:13px;word-break:break-all;color:#FF5722;">' + result.data.api_secret + '</div>' +
+                                    '</div>' +
+                                    '<div style="color:#999;font-size:12px;margin-top:10px;">These credentials are also visible in the exhibitor edit page.</div>' +
+                                    '</div>',
+                                btn: ['Copy & Close'],
+                                yes: function(idx){
+                                    var text = result.data.api_key + '\n' + result.data.api_secret;
+                                    var textarea = document.createElement('textarea');
+                                    textarea.value = text;
+                                    document.body.appendChild(textarea);
+                                    textarea.select();
+                                    try { document.execCommand('copy'); } catch(e){}
+                                    document.body.removeChild(textarea);
+                                    layer.msg('Copied to clipboard!', {icon:1, time:1500});
+                                    layer.close(idx);
+                                }
+                            });
+                        } else {
+                            layer.msg(result.message, {icon:2});
+                        }
+                    },"JSON");
             });
     }
 </script>

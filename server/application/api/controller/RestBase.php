@@ -16,7 +16,7 @@ namespace app\api\controller;
 use app\common\lib\IAuth;
 use app\common\lib\MyRedis;
 use think\Db;
-use think\Request;
+use think\facade\Request;
 
 class RestBase
 {
@@ -48,7 +48,7 @@ class RestBase
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
         // 处理 CORS 预检
-        if (Request::instance()->method() === 'OPTIONS') {
+        if (Request::method() === 'OPTIONS') {
             http_response_code(204);
             exit;
         }
@@ -60,8 +60,7 @@ class RestBase
      */
     protected function authenticate()
     {
-        $request = Request::instance();
-        $authHeader = $request->header('authorization');
+        $authHeader = Request::header('authorization');
 
         if (empty($authHeader)) {
             $this->error('Unauthorized', 'Missing Authorization header', 401);
@@ -75,13 +74,19 @@ class RestBase
         $token = trim($matches[1]);
 
         // 校验 JWT Token
-        $result = IAuth::checkToken($token);
+        try {
+            $result = IAuth::checkToken($token);
+        } catch (\Exception $e) {
+            $this->error('Unauthorized', 'Invalid token', 401);
+        }
         if ($result['code'] != '200') {
             $msg = $result['code'] == '103' ? 'Token expired' : 'Invalid token';
             $this->error('Unauthorized', $msg, 401);
         }
 
         $tokenData = $result['data'];
+        // JWT decode 后嵌套对象需递归转数组
+        $tokenData = json_decode(json_encode($tokenData), true);
         $scopes = isset($tokenData['scopes']) ? $tokenData['scopes'] : '';
 
         if ($scopes !== 'api_v1') {
@@ -210,17 +215,16 @@ class RestBase
      */
     private function logRequest($responseCode)
     {
-        $request = Request::instance();
         $responseTime = (int)((microtime(true) - $this->startTime) * 1000);
 
         try {
             Db::name('xapi_logs')->insert([
                 'exhibitor_id'  => $this->exhibitorId,
-                'endpoint'      => $request->path(),
-                'method'        => $request->method(),
-                'params'        => json_encode($request->param(), JSON_UNESCAPED_UNICODE),
-                'ip'            => $request->ip(),
-                'user_agent'    => substr($request->header('user-agent', ''), 0, 500),
+                'endpoint'      => Request::path(),
+                'method'        => Request::method(),
+                'params'        => json_encode(Request::param(), JSON_UNESCAPED_UNICODE),
+                'ip'            => Request::ip(),
+                'user_agent'    => substr(Request::header('user-agent', ''), 0, 500),
                 'response_code' => $responseCode,
                 'response_time' => $responseTime,
                 'created_at'    => date('Y-m-d H:i:s')

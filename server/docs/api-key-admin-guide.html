@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QSS API Key Management Guide</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 60px;
+    font-size: 14px;
+  }
+  h1 { font-size: 26px; border-bottom: 2px solid #e1e4e8; padding-bottom: 10px; margin-top: 40px; }
+  h2 { font-size: 22px; border-bottom: 1px solid #e1e4e8; padding-bottom: 8px; margin-top: 32px; }
+  h3 { font-size: 18px; margin-top: 24px; }
+  h4 { font-size: 16px; margin-top: 20px; }
+  code {
+    font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+    background-color: #f6f8fa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+  pre {
+    background-color: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: 12px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  th, td {
+    border: 1px solid #dfe2e5;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  th {
+    background-color: #f6f8fa;
+    font-weight: 600;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 8px 16px;
+    margin: 16px 0;
+    color: #6a737d;
+    background-color: #f9f9f9;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e1e4e8;
+    margin: 32px 0;
+  }
+  a { color: #0366d6; text-decoration: none; }
+  strong { font-weight: 600; }
+  @page {
+    margin: 20mm 15mm;
+  }
+</style>
+</head>
+<body>
+<h1 id="qss-api-key-management-guide-for-administrators">QSS API Key Management Guide (For Administrators)</h1>
+<p>This guide explains how to generate, regenerate, and revoke API credentials for exhibitors from the QSS CMS admin panel.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>Each exhibitor who needs API access requires a pair of credentials:</p>
+<ul>
+<li><strong>API Key</strong> — A public identifier (format: <code>qss_</code> + 32 hex characters). Used as the username in Basic Authentication.</li>
+<li><strong>API Secret</strong> — A 40-character hex string. Used as the password in Basic Authentication.</li>
+</ul>
+<p>These credentials allow exhibitors to obtain Bearer Tokens for accessing the QSS REST API v1.</p>
+<hr />
+<h2 id="where-to-manage-api-keys">Where to Manage API Keys</h2>
+<h3 id="method-1-from-the-exhibitor-list-page">Method 1: From the Exhibitor List Page</h3>
+<ol>
+<li>Log in to the CMS admin panel at <code>https://qss.qestsoln.com/cms/login/index</code></li>
+<li>Navigate to <strong>Exhibitors</strong> from the main menu</li>
+<li>Each row in the exhibitor list has a button group in the <strong>Operation</strong> column</li>
+<li>Click the <strong>🔑 key icon</strong> button (tooltip: "Generate API Key")</li>
+</ol>
+<p>![Button location: key icon in the action button group]</p>
+<ol>
+<li>A confirmation dialog will appear:</li>
+<li>Title: <strong>Generate API Key</strong></li>
+<li>Message: <code>Generate API key for exhibitor "&lt;login_name&gt;" (ID: &lt;id&gt;)?</code></li>
+<li>
+<p>Click <strong>Confirm</strong> to proceed</p>
+</li>
+<li>
+<p>After successful generation, a popup window will display:</p>
+</li>
+<li><strong>api_key</strong> (blue text on gray background)</li>
+<li><strong>api_secret</strong> (red text on gray background)</li>
+<li>
+<p>A <strong>Copy &amp; Close</strong> button to copy both values to your clipboard</p>
+</li>
+<li>
+<p>Share these credentials with the exhibitor through a secure channel.</p>
+</li>
+</ol>
+<h3 id="method-2-from-the-exhibitor-edit-page">Method 2: From the Exhibitor Edit Page</h3>
+<ol>
+<li>Navigate to <strong>Exhibitors</strong> and click the <strong>Edit</strong> button (pencil icon) on any exhibitor</li>
+<li>Scroll down to the <strong>API Key</strong> and <strong>API Secret</strong> fields</li>
+<li>If credentials have been previously generated, they will be displayed here</li>
+<li>Click <strong>Generate / Regenerate</strong> to create new credentials</li>
+<li>Click <strong>Copy</strong> to copy both values to clipboard</li>
+</ol>
+<hr />
+<h2 id="how-to-regenerate-api-keys">How to Regenerate API Keys</h2>
+<p>Regenerating creates a completely new key pair. The old credentials stop working immediately.</p>
+<ol>
+<li>Open the exhibitor's edit page (or use the key icon from the list)</li>
+<li>Click <strong>Generate / Regenerate</strong></li>
+<li>Confirm the action in the dialog</li>
+<li>The new <code>api_key</code> and <code>api_secret</code> will be displayed</li>
+<li>The old credentials are now invalid — any exhibitor still using them will receive a <code>401 Unauthorized</code> error</li>
+</ol>
+<blockquote>
+<p><strong>When to regenerate:</strong> If an exhibitor's API secret has been compromised or shared with unauthorized parties, regenerate immediately to invalidate the old credentials.</p>
+</blockquote>
+<hr />
+<h2 id="how-to-revoke-api-keys">How to Revoke API Keys</h2>
+<p>Revoking permanently removes the API credentials. The exhibitor will no longer be able to access the API.</p>
+<ol>
+<li>Open the exhibitor's edit page</li>
+<li>Click the <strong>Revoke</strong> button (red, with trash icon — only visible when API key exists)</li>
+<li>Confirm the action in the dialog</li>
+<li>The API Key and API Secret fields will be cleared</li>
+<li>All future API requests from this exhibitor will return <code>401 Unauthorized</code></li>
+</ol>
+<blockquote>
+<p><strong>Difference between Revoke and Regenerate:</strong> Revoke removes credentials entirely (no API access). Regenerate replaces old credentials with new ones (API access continues with new keys).</p>
+</blockquote>
+<hr />
+<h2 id="important-notes">Important Notes</h2>
+<ul>
+<li><strong>Credentials are stored in plaintext</strong> in the database for easy viewing from the admin panel.</li>
+<li><strong>No email notification</strong> is sent automatically — you must manually share credentials with the exhibitor.</li>
+<li><strong>Rate limiting</strong> is enforced at 2,000 requests per 10-minute window per exhibitor.</li>
+<li><strong>Token expiry</strong> is 30 minutes — exhibitors must re-authenticate after the token expires.</li>
+<li><strong>Data isolation</strong> — each exhibitor can only access data within their own event. They cannot query data from other events even with valid credentials.</li>
+</ul>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Cause</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exhibitor gets <code>401 Unauthorized</code> on OAuth</td>
+<td>Wrong api_key/api_secret, or credentials revoked</td>
+<td>Verify credentials in the edit page; regenerate if needed</td>
+</tr>
+<tr>
+<td>Exhibitor gets <code>403 Forbidden</code> on data requests</td>
+<td>Requesting data from an event_id that doesn't match their account</td>
+<td>Confirm the exhibitor's assigned event in the edit page</td>
+</tr>
+<tr>
+<td>No API Key button visible</td>
+<td>Exhibitor may be disabled (status ≠ 1)</td>
+<td>Enable the exhibitor first</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

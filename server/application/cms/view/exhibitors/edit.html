@@ -61,6 +61,35 @@
             <input name="email" value="{$article['email']}" class="layui-input" autocomplete="off">
         </div>
     </div>
+
+    <!-- API Key 管理 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">API Key</label>
+        <div class="layui-input-inline" style="width: 320px;">
+            <input id="api_key_display" value="{$article['api_key']|default=''}" class="layui-input" readonly="readonly" style="font-family: monospace; font-size: 12px;" placeholder="Not generated">
+        </div>
+        <div class="layui-input-inline" style="width: auto;">
+            <button class="layui-btn layui-btn-sm layui-btn-normal" type="button" onclick="generateApiKey({$article.id})">
+                <i class="fa fa-key"></i> Generate / Regenerate
+            </button>
+            {if condition="!empty($article['api_key'])"}
+            <button class="layui-btn layui-btn-sm layui-btn-danger" type="button" onclick="revokeApiKey({$article.id})">
+                <i class="layui-icon">&#xe640;</i> Revoke
+            </button>
+            {/if}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label label-custom">API Secret</label>
+        <div class="layui-input-inline" style="width: 320px;">
+            <input id="api_secret_display" value="{$article['api_secret']|default=''}" class="layui-input" readonly="readonly" style="font-family: monospace; font-size: 12px;" placeholder="Not generated">
+        </div>
+        <div class="layui-input-inline" style="width: auto;">
+            <button class="layui-btn layui-btn-sm" type="button" onclick="copyApiCredentials()">
+                <i class="layui-icon">&#xe62c;</i> Copy
+            </button>
+        </div>
+    </div>
     <div hidden="hidden" id="events"><?php echo json_encode($events);?></div>
     {:token()}
     <div class="layui-form-item">
@@ -74,6 +103,90 @@
 <script>
     function fail_callback(){
         window.location.reload();
+    }
+
+    function generateApiKey(id){
+        layer.confirm('This will generate a new API key and secret. The old credentials will stop working immediately. Continue?',
+            {icon:7,title:'Generate API Key',btn:['Confirm','Cancel']},function(index){
+                layer.close(index);
+                var loadIndex = layer.load(1);
+                $.post("{:url('cms/exhibitors/ajaxGenerateApiKey')}", {id:id},
+                    function(result){
+                        layer.close(loadIndex);
+                        if(result.status == 200){
+                            $('#api_key_display').val(result.data.api_key);
+                            $('#api_secret_display').val(result.data.api_secret);
+                            layer.open({
+                                title: '<i class="fa fa-check-circle" style="color:#5FB878"></i> API Credentials Generated',
+                                area: ['520px', '340px'],
+                                content:
+                                    '<div style="padding:20px;">' +
+                                    '<div style="margin-bottom:15px;">' +
+                                    '<b style="display:block;margin-bottom:5px;">api_key</b>' +
+                                    '<div style="background:#f8f8f8;padding:10px;border-radius:4px;font-family:monospace;font-size:13px;word-break:break-all;color:#1E9FFF;">' + result.data.api_key + '</div>' +
+                                    '</div>' +
+                                    '<div style="margin-bottom:15px;">' +
+                                    '<b style="display:block;margin-bottom:5px;">api_secret</b>' +
+                                    '<div style="background:#f8f8f8;padding:10px;border-radius:4px;font-family:monospace;font-size:13px;word-break:break-all;color:#FF5722;">' + result.data.api_secret + '</div>' +
+                                    '</div>' +
+                                    '<div style="color:#999;font-size:12px;margin-top:10px;">These credentials are also visible in the fields above.</div>' +
+                                    '</div>',
+                                btn: ['Copy & Close'],
+                                yes: function(idx){
+                                    var text = result.data.api_key + '\n' + result.data.api_secret;
+                                    var textarea = document.createElement('textarea');
+                                    textarea.value = text;
+                                    document.body.appendChild(textarea);
+                                    textarea.select();
+                                    try { document.execCommand('copy'); } catch(e){}
+                                    document.body.removeChild(textarea);
+                                    layer.msg('Copied to clipboard!', {icon:1, time:1500});
+                                    layer.close(idx);
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            layer.msg(result.message, {icon:2});
+                        }
+                    },"JSON");
+            });
+    }
+
+    function revokeApiKey(id){
+        layer.confirm('This will permanently revoke the API credentials. Continue?',
+            {icon:7,title:'Revoke API Key',btn:['Confirm','Cancel']},function(index){
+                layer.close(index);
+                var loadIndex = layer.load(1);
+                $.post("{:url('cms/exhibitors/ajaxRevokeApiKey')}", {id:id},
+                    function(result){
+                        layer.close(loadIndex);
+                        layer.msg(result.message, {icon: result.status == 200 ? 1 : 2});
+                        if(result.status == 200){
+                            setTimeout(function(){ location.reload(); }, 1000);
+                        }
+                    },"JSON");
+            });
+    }
+
+    function copyApiCredentials(){
+        var apiKey = $('#api_key_display').val();
+        var apiSecret = $('#api_secret_display').val();
+        if(!apiKey){
+            layer.msg('No API credentials to copy', {icon:0});
+            return;
+        }
+        var text = 'api_key: ' + apiKey + '\napi_secret: ' + apiSecret;
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            layer.msg('Copied to clipboard!', {icon:1});
+        } catch(e){
+            layer.msg('Copy failed, please copy manually', {icon:2});
+        }
+        document.body.removeChild(textarea);
     }
 </script>
 {/block}

@@ -17,7 +17,7 @@ namespace app\api\controller;
 use app\common\lib\IAuth;
 use app\common\lib\Tools;
 use think\Db;
-use think\Request;
+use think\facade\Request;
 
 class Oauth extends RestBase
 {
@@ -40,21 +40,25 @@ class Oauth extends RestBase
      */
     public function token()
     {
-        $request = Request::instance();
-
         // 仅允许 POST
-        if ($request->method() !== 'POST') {
+        if (Request::method() !== 'POST') {
             $this->error('Method Not Allowed', 'Only POST is supported', 405);
         }
 
         // 校验 grant_type
-        $grantType = $request->post('grant_type', '');
+        $grantType = Request::post('grant_type', '');
         if ($grantType !== 'client_credentials') {
             $this->error('Bad Request', 'grant_type must be client_credentials', 400);
         }
 
-        // 解析 Basic Auth 头
-        $authHeader = $request->header('authorization');
+        // 解析 Basic Auth 头（兼容 Apache CGI 模式）
+        $authHeader = Request::header('authorization');
+        if (empty($authHeader)) {
+            $authHeader = isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : '';
+        }
+        if (empty($authHeader)) {
+            $authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : '';
+        }
         if (empty($authHeader) || !preg_match('/^Basic\s+(.+)$/i', $authHeader, $matches)) {
             $this->error('Unauthorized', 'Missing or invalid Basic Authorization header', 401);
         }
@@ -84,7 +88,7 @@ class Oauth extends RestBase
         }
 
         // 校验 api_secret
-        if ($exhibitor['api_secret'] !== hash('sha256', $apiSecret . $exhibitor['private_key'])) {
+        if ($exhibitor['api_secret'] !== $apiSecret) {
             $this->error('Unauthorized', 'Invalid api_secret', 401);
         }
 
@@ -111,7 +115,7 @@ class Oauth extends RestBase
                 'exhibitor_id' => $exhibitor['id'],
                 'access_token' => $accessToken,
                 'expires_at'   => $expiresAt,
-                'client_ip'    => $request->ip(),
+                'client_ip'    => Request::ip(),
                 'created_at'   => date('Y-m-d H:i:s')
             ]);
         } catch (\Exception $e) {

@@ -169,6 +169,57 @@ $result = $exhibitorModel->generateApiCredentials($exhibitorId);
 // $result['api_secret'] → 明文仅返回一次，需安全保存
 ```
 
+## 部署 (rsync)
+
+QSS Server 部署在同一台服务器（`103.7.8.165`），复用 QSR/TIMP 的 rsync 部署体系。部署脚本位于 `server/sh/`。
+
+### rsync 关键规则
+
+1. **必须用 Homebrew rsync**（`/opt/homebrew/bin/rsync`），不要用系统自带 `/usr/bin/rsync`（openrsync 与远程 rrsync 不兼容，会报 `invalid rsync-command syntax`）
+2. **远端路径用相对路径** `./`，不要用绝对路径
+3. **SSH key**: `/Users/jerrybi/.ssh/qss_deploy_ed25519`（QSS 独立 key，rrsync 按目录隔离），通过 `DEPLOY_KEY` 环境变量传入
+4. **deploy-common.sh 已配置 Homebrew rsync 优先**（`PATH="/opt/homebrew/bin:$PATH"`），但仍需确保环境正确
+5. **SSH 连接参数**：端口 `8288`，用户 `vhost-deploy`，`BatchMode=yes`，`StrictHostKeyChecking=accept-new`
+6. **远端路径**: `/var/www/vhosts/qestsoln.com/qss.qestsoln.com`
+7. **健康检查 URL**: `https://qss.qestsoln.com/`
+
+### rsync 同步范围与排除规则
+
+**同步目录**（include）：
+- `application/` — 业务代码
+- `public/` — Web 资源（排除 upload/temp）
+- `route/` — 路由配置
+
+**排除目录/文件**（exclude）：
+- `.env`、`.env.*`、`.env.example`
+- `config/` — 本地配置不部署
+- `extend/`、`vendor/`、`thinkphp/` — Composer/框架依赖
+- `database/` — 数据库结构文件
+- `runtime/` — 缓存/日志
+- `log/` — 日志
+- `.git/`
+- `public/upload/`、`public/temp/` — 上传文件和临时文件
+- `.htaccess`、`nginx.htaccess` — 服务器配置
+
+### 部署流程
+
+```bash
+cd /Volumes/projects/qss/project/server
+
+# 1. Dry-run 检查变更（不实际同步）
+bash sh/deploy-dry-run.sh
+
+# 2. 实际部署
+DEPLOY_KEY=/Users/jerrybi/.ssh/qss_deploy_ed25519 bash sh/deploy-push.sh
+
+# 3. 验证部署（checksum diff + HTTP probe）
+bash sh/deploy-verify.sh
+```
+
+> **注意**：QSS Server 的部署目录是 `server/`，脚本在 `server/sh/` 下，工作目录为 `server/`（不是项目根目录）。`deploy-common.sh` 中 `PROJECT_ROOT` 自动解析为 `server/`。
+
+> **注意**：QSS 与 QSR/TIMP 共享同一台部署服务器，但每个项目有独立的 deploy SSH key（`qss_deploy_ed25519`），服务端通过 `rrsync -wo` 按目录隔离，一个 key 只能写入对应项目目录。
+
 ## 关键技术点
 
 - **ThinkPHP 5.1**: `Db::name('表名')` 查询，`Request::instance()` 获取请求

@@ -142,6 +142,8 @@ Route::post('cms/exhibitors/ajaxUpdateUserStatus','cms/exhibitors/ajaxUpdateUser
 Route::any('cms/exhibitors/resetPassword/:id','cms/exhibitors/resetPassword');
 Route::any('cms/exhibitors/download','cms/exhibitors/download');
 Route::any('cms/exhibitors/upload','cms/exhibitors/upload');
+Route::post('cms/exhibitors/ajaxGenerateApiKey','cms/exhibitors/ajaxGenerateApiKey');
+Route::post('cms/exhibitors/ajaxRevokeApiKey','cms/exhibitors/ajaxRevokeApiKey');
 
 //card templates
 Route::any('cms/cardTemplates/index','cms/cardTemplates/index');
@@ -487,8 +489,9 @@ Route::post('api/v1/oauth/token', 'api/Oauth/token');
 // 以下接口均需 Bearer Token 鉴权
 Route::group('api/v1', function () {
     // Registrants — 参展者/用户资料查询
-    Route::get('registrants', 'api/Registrant/index');             // 列表查询 (分页)
+    // 注意：:unique_id 路由必须在列表路由之前，否则会被列表路由截获
     Route::get('registrants/:unique_id', 'api/Registrant/read');   // 单个查询 (需 event_id 参数)
+    Route::get('registrants', 'api/Registrant/index');             // 列表查询 (分页)
 })->header('Access-Control-Allow-Origin', '*')
   ->header('Access-Control-Allow-Credentials', 'true')
   ->header('Access-Control-Allow-Headers', 'Authorization, Content-Type, Accept, Origin, X-Requested-With')

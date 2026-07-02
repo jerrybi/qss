@@ -2,12 +2,10 @@
 /**
  * QSS API v1 — Registrant 控制器
  *
- * 参考 Swoogo Registrants API 设计
- *
- * 核心功能: 传入 event_id 和 unique_id，获取对应参展者/用户的资料数据
+ * 核心功能: 传入 unique_id，获取对应参展者/用户的资料数据
  *
  * 安全机制:
- *   - Bearer Token 鉴权 (Authorization: Bearer *** *   - 数据隔离: Exhibitor 只能查询自己所属 event_id 下的数据
+ *   - Bearer Token 鉴权 (Authorization: Bearer *** *   - 数据隔离: event_id 从 Token 中自动提取，Exhibitor 只能查询自己所属 event 下的数据
  *   - 敏感字段过滤: 自动遮盖隐私字段 (按配置)
  *   - 速率限制: X-Rate-Limit-* 响应头
  *
@@ -17,7 +15,7 @@
 namespace app\api\controller;
 
 use think\Db;
-use think\Request;
+use think\facade\Request;
 
 class Registrant extends RestBase
 {
@@ -30,8 +28,10 @@ class Registrant extends RestBase
      *   unique_id  — 用户的 unique_id (GUID 格式)
      *
      * 查询参数:
-     *   event_id   — 必填，限定活动范围
      *   fields     — 可选，逗号分隔的字段名，只返回指定字段
+     *
+     * 注意: event_id 从 Bearer Token 中自动提取，无需手动传递。
+     *       Exhibitor 创建时已绑定 event，Token 中携带 event_id。
      *
      * 响应 (200):
      * {
@@ -56,25 +56,20 @@ class Registrant extends RestBase
      */
     public function read($unique_id = '')
     {
-        // 1. Bearer Token 鉴权
+        // 1. Bearer Token 鉴权 (从 token 中自动提取 exhibitor 的 event_id)
         $this->authenticate();
 
-        $request = Request::instance();
-        $eventId = $request->param('event_id', 0, 'intval');
-        $fieldsFilter = $request->param('fields', '');
+        $fieldsFilter = Request::param('fields', '');
 
         // 2. 校验必填参数
         if (empty($unique_id)) {
             $this->error('Bad Request', 'unique_id is required', 400);
         }
-        if (empty($eventId)) {
-            $this->error('Bad Request', 'event_id is required', 400);
-        }
 
-        // 3. 数据隔离: Exhibitor 只能查询自己所属 event 下的数据
-        $exhibitorEventId = isset($this->exhibitor['event_id']) ? $this->exhibitor['event_id'] : 0;
-        if ($eventId != $exhibitorEventId) {
-            $this->error('Forbidden', 'You can only access data from your own event (event_id=' . $exhibitorEventId . ')', 403);
+        // 3. 从 exhibitor 信息中获取 event_id (Token 中已携带)
+        $eventId = isset($this->exhibitor['event_id']) ? $this->exhibitor['event_id'] : 0;
+        if (empty($eventId)) {
+            $this->error('Forbidden', 'No event associated with your account', 403);
         }
 
         // 4. 查询用户基础信息
@@ -142,7 +137,7 @@ class Registrant extends RestBase
             'scan_records'   => $scanRecords,
         ];
 
-        // 8. 字段筛选 (Swoogo 风格 fields 参数)
+        // 8. 字段筛选 (fields 参数)
         if (!empty($fieldsFilter)) {
             $requestedFields = array_map('trim', explode(',', $fieldsFilter));
             $filtered = [];
@@ -165,33 +160,28 @@ class Registrant extends RestBase
      * 分页查询参展者列表
      *
      * 查询参数:
-     *   event_id  — 必填
      *   page      — 页码 (默认 1)
      *   per-page  — 每页条数 (默认 20, 最大 100)
      *   search    — 搜索关键词 (first_name / last_name / email / serial_number)
      *   fields    — 可选，字段筛选
      *
-     * 响应 (200): Swoogo 分页格式 { items: [...], _meta: {...} }
+     * 注意: event_id 从 Bearer Token 中自动提取，无需手动传递。
+     *
+     * 响应 (200): 分页格式 { items: [...], _meta: {...} }
      */
     public function index()
     {
         $this->authenticate();
 
-        $request = Request::instance();
-        $eventId = $request->param('event_id', 0, 'intval');
-        $page = max(1, $request->param('page', 1, 'intval'));
-        $perPage = min(100, $request->param('per-page', 20, 'intval'));
-        $search = $request->param('search', '');
-
+        // 从 exhibitor 信息中获取 event_id (Token 中已携带)
+        $eventId = isset($this->exhibitor['event_id']) ? $this->exhibitor['event_id'] : 0;
         if (empty($eventId)) {
-            $this->error('Bad Request', 'event_id is required', 400);
+            $this->error('Forbidden', 'No event associated with your account', 403);
         }
 
-        // 数据隔离
-        $exhibitorEventId = isset($this->exhibitor['event_id']) ? $this->exhibitor['event_id'] : 0;
-        if ($eventId != $exhibitorEventId) {
-            $this->error('Forbidden', 'You can only access data from your own event', 403);
-        }
+        $page = max(1, Request::param('page', 1, 'intval'));
+        $perPage = min(100, Request::param('per-page', 20, 'intval'));
+        $search = Request::param('search', '');
 
         // 构建查询
         $model = Db::name('xusers')

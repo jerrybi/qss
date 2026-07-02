@@ -170,6 +170,33 @@ class Exhibitors extends CmsBase
         return showMsg(200,'password has been reset');
     }
 
+    /**
+     * AJAX 生成 API 密钥
+     */
+    public function ajaxGenerateApiKey(Request $request){
+        if ($request->isPost()) {
+            $id = $request->post('id', 0);
+            $result = $this->model->generateApiCredentials($id);
+            return showMsg($result['status'] ? 1 : 0, $result['message'], [
+                'api_key'    => isset($result['api_key']) ? $result['api_key'] : '',
+                'api_secret' => isset($result['api_secret']) ? $result['api_secret'] : ''
+            ]);
+        }
+        return showMsg(0, 'invalid request');
+    }
+
+    /**
+     * AJAX 撤销 API 密钥
+     */
+    public function ajaxRevokeApiKey(Request $request){
+        if ($request->isPost()) {
+            $id = $request->post('id', 0);
+            $result = $this->model->revokeApiCredentials($id);
+            return showMsg($result['status'] ? 1 : 0, $result['message']);
+        }
+        return showMsg(0, 'invalid request');
+    }
+
     public function download(Request $request){
         ini_set('max_execution_time', '600');
         ini_set('memory_limit',-1); //没有内存限制

@@ -142,7 +142,7 @@ class Xexhibitors extends BaseModel
     public function getCmsDataByID($id = 0){
         $res = $this
             ->where('id',$id)
-            ->field('id,unique_id,login_name,first_name,last_name,company,status,event_id,phone_country_code,phone_area_code,phone_number,email')
+            ->field('id,unique_id,login_name,first_name,last_name,company,status,event_id,phone_country_code,phone_area_code,phone_number,email,api_key,api_secret')
             ->find();
         return $res;
     }
@@ -310,22 +310,20 @@ class Xexhibitors extends BaseModel
         // 生成 api_key: 前缀 + 随机 hex
         $apiKey = 'qss_' . bin2hex(random_bytes(16));
 
-        // 生成 api_secret: 32 位随机字符串
-        $rawSecret = bin2hex(random_bytes(20));
+        // 生成 api_secret: 40 位随机字符串
+        $apiSecret = bin2hex(random_bytes(20));
 
-        // 存储时用 private_key 做 salt 的 sha256
-        $hashedSecret = hash('sha256', $rawSecret . $exhibitor['private_key']);
-
+        // 明文存储，方便后台随时查看
         $this->where('id', $id)->update([
             'api_key'    => $apiKey,
-            'api_secret' => $hashedSecret
+            'api_secret' => $apiSecret
         ]);
 
         return [
             'status'      => true,
             'api_key'     => $apiKey,
-            'api_secret'  => $rawSecret,  // 明文仅返回一次
-            'message'     => 'API credentials generated successfully. Please save your api_secret securely.'
+            'api_secret'  => $apiSecret,
+            'message'     => 'API credentials generated successfully.'
         ];
     }
 

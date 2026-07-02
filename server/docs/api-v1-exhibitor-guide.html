@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>QSS REST API v1 Developer Guide</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 60px;
+    font-size: 14px;
+  }
+  h1 { font-size: 26px; border-bottom: 2px solid #e1e4e8; padding-bottom: 10px; margin-top: 40px; }
+  h2 { font-size: 22px; border-bottom: 1px solid #e1e4e8; padding-bottom: 8px; margin-top: 32px; }
+  h3 { font-size: 18px; margin-top: 24px; }
+  h4 { font-size: 16px; margin-top: 20px; }
+  code {
+    font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+    background-color: #f6f8fa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+  pre {
+    background-color: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+    font-size: 12px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  th, td {
+    border: 1px solid #dfe2e5;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  th {
+    background-color: #f6f8fa;
+    font-weight: 600;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  blockquote {
+    border-left: 4px solid #dfe2e5;
+    padding: 8px 16px;
+    margin: 16px 0;
+    color: #6a737d;
+    background-color: #f9f9f9;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e1e4e8;
+    margin: 32px 0;
+  }
+  a { color: #0366d6; text-decoration: none; }
+  strong { font-weight: 600; }
+  @page {
+    margin: 20mm 15mm;
+  }
+</style>
+</head>
+<body>
+<h1 id="qss-rest-api-v1-developer-guide-for-exhibitors">QSS REST API v1 — Developer Guide (For Exhibitors)</h1>
+<p>This guide provides complete documentation for the QSS REST API v1, including authentication, endpoints, request/response formats, and code examples.</p>
+<hr />
+<h2 id="overview">Overview</h2>
+<p>The QSS REST API v1 allows exhibitors to programmatically access registrant data for their assigned events. The API follows RESTful conventions and is inspired by the <a href="https://developer.swoogo.com/api-reference/introduction">Swoogo API</a> design.</p>
+<p><strong>Base URL:</strong> <code>https://qss.qestsoln.com/api/v1</code></p>
+<hr />
+<h2 id="authentication">Authentication</h2>
+<h3 id="step-1-obtain-your-api-credentials">Step 1: Obtain Your API Credentials</h3>
+<p>Contact your QSS administrator to obtain your <strong>API Key</strong> and <strong>API Secret</strong>. These are long strings that look like:</p>
+<div class="codehilite"><pre><span></span><code>api_key:    qss_6cfb54cbf59ec6a14f9553a3af989e70
+api_secret: 23d4551385b837db667cf8e65108d51507d0f45a
+</code></pre></div>
+
+<h3 id="step-2-exchange-credentials-for-a-bearer-token">Step 2: Exchange Credentials for a Bearer Token</h3>
+<p>Before calling any data endpoint, you must exchange your API Key and Secret for a temporary Bearer Token (JWT). Tokens expire after <strong>30 minutes</strong>.</p>
+<p><strong>Request:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/api/v1/oauth/token</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">qss.qestsoln.com</span>
+<span class="na">Authorization</span><span class="o">:</span> <span class="l">Basic base64(api_key:api_secret)</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/x-www-form-urlencoded</span>
+
+<span class="nt">grant_type</span><span class="o">=</span><span class="s">client_credentials</span>
+</code></pre></div>
+
+<p><strong>How to construct the Basic Auth header:</strong></p>
+<p>Base64-encode the string <code>api_key:api_secret</code> (colon-separated):</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Example using command line</span>
+<span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;qss_6cfb54cbf59ec6a14f9553a3af989e70:23d4551385b837db667cf8e65108d51507d0f45a&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64
+<span class="c1"># Result: cXNzXzZjZmI1NGNiZjU5ZWM2YTE0Zjk1NTNhM2FmOTg5ZTcwOjIzZDQ1NTEzODViODM3ZGI2NjdjZjhlNjUxMDhkNTE1MDdkMGY0NWE=</span>
+</code></pre></div>
+
+<p><strong>Response (200):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;access_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eyJ0eXAiOiJKV1QiLCJKV1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;expires_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-07-02 00:52:33&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bearer&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>cURL Example:</strong></p>
+<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://qss.qestsoln.com/api/v1/oauth/token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Basic *** \</span>
+<span class="s2">  -H &quot;</span>Content-Type:<span class="w"> </span>application/x-www-form-urlencoded<span class="s2">&quot; \</span>
+<span class="s2">  -d &quot;</span><span class="nv">grant_type</span><span class="o">=</span>client_credentials<span class="s2">&quot;</span>
+</code></pre></div>
+
+<h3 id="step-3-use-the-bearer-token">Step 3: Use the Bearer Token</h3>
+<p>Include the token in the <code>Authorization</code> header for all subsequent requests:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">Authorization: Bearer eyJ0eXAiOiJKV1QiLCJKV1...</span>
+</code></pre></div>
+
+<hr />
+<h2 id="endpoints">Endpoints</h2>
+<h3 id="1-list-registrants">1. List Registrants</h3>
+<p>Retrieve a paginated list of registrants for your event.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">GET</span><span class="w"> </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">registrants</span>
+</code></pre></div>
+
+<p><strong>Query Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>event_id</code></td>
+<td>Yes</td>
+<td>—</td>
+<td>Your event ID (GUID format, e.g. <code>AB6E9834-5752-2A1A-2CF9-58391339841B</code>)</td>
+</tr>
+<tr>
+<td><code>page</code></td>
+<td>No</td>
+<td><code>1</code></td>
+<td>Page number (1-indexed)</td>
+</tr>
+<tr>
+<td><code>per-page</code></td>
+<td>No</td>
+<td><code>20</code></td>
+<td>Items per page (max: 100)</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td>No</td>
+<td>—</td>
+<td>Search keyword (matches <code>login_name</code> or <code>unique_id</code>)</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td>No</td>
+<td>—</td>
+<td>Comma-separated field names to return only specific fields</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response (200):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">959</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;unique_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DB63B506-3536-B771-018B-25F1748AF252&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;event_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AB6E9834-5752-2A1A-2CF9-58391339841B&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;login_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jerry.bi&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;checkin_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;checkin_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;event_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PSDay Malaysia&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;zone&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;table_no&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;_meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;totalCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">991</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;pageCount&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;currentPage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;perPage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>cURL Example:</strong></p>
+<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span>https://qss.qestsoln.com/api/v1/registrants?event_id<span class="o">=</span>AB6E9834-5752-2A1A-2CF9-58391339841B<span class="se">\&amp;</span><span class="nv">page</span><span class="o">=</span><span class="m">1</span><span class="se">\&amp;</span>per-page<span class="o">=</span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_TOKEN&quot;</span>
+</code></pre></div>
+
+<hr />
+<h3 id="2-get-a-single-registrant">2. Get a Single Registrant</h3>
+<p>Retrieve complete details for a specific registrant by their <code>unique_id</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">GET</span><span class="w"> </span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">v1</span><span class="o">/</span><span class="n">registrants</span><span class="o">/</span><span class="p">{</span><span class="n">unique_id</span><span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Path Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unique_id</code></td>
+<td>The registrant's unique identifier (GUID format)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Query Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>event_id</code></td>
+<td>Yes</td>
+<td>—</td>
+<td>Your event ID</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td>No</td>
+<td>—</td>
+<td>Comma-separated field names (see Available Fields below)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response (200):</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">959</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;unique_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DB63B506-3536-B771-018B-25F1748AF252&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;event_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AB6E9834-5752-2A1A-2CF9-58391339841B&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;event_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PSDay Malaysia&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;login_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jerry.bi&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;checkin_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;checkin_time&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;zone&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;table_no&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;enable_track&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jerry@example.com&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;first_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Jerry&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;last_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bi&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;organisation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;QSS&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;login_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jerry.bi&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;scan_records&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Available Fields (for <code>fields</code> parameter):</strong></p>
+<p>Standard fields: <code>id</code>, <code>unique_id</code>, <code>event_id</code>, <code>event_name</code>, <code>login_name</code>, <code>type</code>, <code>status</code>, <code>checkin_status</code>, <code>checkin_time</code>, <code>zone</code>, <code>table_no</code>, <code>enable_track</code>, <code>data_fields</code>, <code>scan_records</code></p>
+<p>Custom data fields: Any key from <code>data_fields</code> (e.g., <code>first_name</code>, <code>last_name</code>, <code>email</code>)</p>
+<p><strong>Example with field filtering:</strong></p>
+<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span><span class="s2">&quot;https://qss.qestsoln.com/api/v1/registrants/DB63B506-3536-B771-018B-25F1748AF252?event_id=AB6E9834-5752-2A1A-2CF9-58391339841B&amp;fields=id,unique_id,event_name,first_name,last_name&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_TOKEN&quot;</span>
+</code></pre></div>
+
+<p>Response with filtering returns only requested fields:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">959</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;unique_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DB63B506-3536-B771-018B-25F1748AF252&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;event_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PSDay Malaysia&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;first_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Jerry&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;last_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bi&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
+<h2 id="error-responses">Error Responses</h2>
+<p>All errors use a consistent JSON format:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Error Name&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Human-readable description&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">404</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="http-status-codes">HTTP Status Codes</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>400</code></td>
+<td>Bad Request</td>
+<td>Missing required parameter (e.g., <code>event_id</code>)</td>
+</tr>
+<tr>
+<td><code>401</code></td>
+<td>Unauthorized</td>
+<td>Missing/invalid token, or invalid API credentials</td>
+</tr>
+<tr>
+<td><code>403</code></td>
+<td>Forbidden</td>
+<td>Attempting to access data from an event you are not assigned to</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td>Not Found</td>
+<td>Registrant not found for the given <code>unique_id</code> and <code>event_id</code></td>
+</tr>
+<tr>
+<td><code>405</code></td>
+<td>Method Not Allowed</td>
+<td>Using a non-POST method on the OAuth endpoint</td>
+</tr>
+<tr>
+<td><code>429</code></td>
+<td>Too Many Requests</td>
+<td>Rate limit exceeded (2,000 requests / 10 minutes)</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>Internal Server Error</td>
+<td>Unexpected server error</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="rate-limiting">Rate Limiting</h2>
+<p>Each exhibitor is limited to <strong>2,000 requests per 10-minute window</strong>. Rate limit information is included in response headers:</p>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X-Rate-Limit-Limit</code></td>
+<td>Maximum requests per window (2000)</td>
+</tr>
+<tr>
+<td><code>X-Rate-Limit-Remaining</code></td>
+<td>Remaining requests in current window</td>
+</tr>
+<tr>
+<td><code>X-Rate-Limit-Reset</code></td>
+<td>Seconds until the window resets</td>
+</tr>
+</tbody>
+</table>
+<p>When the limit is exceeded, the API returns <code>429 Too Many Requests</code>.</p>
+<hr />
+<h2 id="data-isolation">Data Isolation</h2>
+<p>Each exhibitor is assigned to one event. You can <strong>only</strong> query data for the event assigned to your account. Attempting to query a different <code>event_id</code> will return <code>403 Forbidden</code>.</p>
+<p>To find your <code>event_id</code>, check the response of any successful API call — the <code>event_id</code> field in the data indicates your assigned event.</p>
+<hr />
+<h2 id="cors-support">CORS Support</h2>
+<p>The API supports Cross-Origin Resource Sharing (CORS) for browser-based applications:</p>
+<ul>
+<li><strong>Allowed Origins:</strong> <code>*</code> (all origins)</li>
+<li><strong>Allowed Methods:</strong> <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>, <code>OPTIONS</code></li>
+<li><strong>Allowed Headers:</strong> <code>Authorization</code>, <code>Content-Type</code>, <code>Accept</code>, <code>Origin</code>, <code>X-Requested-With</code></li>
+</ul>
+<p>Preflight <code>OPTIONS</code> requests return <code>204 No Content</code>.</p>
+<hr />
+<h2 id="complete-code-examples">Complete Code Examples</h2>
+<h3 id="php">PHP</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">&lt;?php</span>
+<span class="nv">$apiKey</span> <span class="o">=</span> <span class="s1">&#39;qss_6cfb54cbf59ec6a14f9553a3af989e70&#39;</span><span class="p">;</span>
+<span class="nv">$apiSecret</span> <span class="o">=</span> <span class="s1">&#39;23d4551385b837db667cf8e65108d51507d0f45a&#39;</span><span class="p">;</span>
+<span class="nv">$baseUrl</span> <span class="o">=</span> <span class="s1">&#39;https://qss.qestsoln.com/api/v1&#39;</span><span class="p">;</span>
+
+<span class="c1">// Step 1: Get Bearer Token</span>
+<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$baseUrl</span> <span class="o">.</span> <span class="s1">&#39;/oauth/token&#39;</span><span class="p">);</span>
+<span class="nb">curl_setopt_array</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="p">[</span>
+    <span class="nx">CURLOPT_POST</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+    <span class="nx">CURLOPT_RETURNTRANSFER</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+    <span class="nx">CURLOPT_HTTPHEADER</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;Authorization: Basic &#39;</span> <span class="o">.</span> <span class="nb">base64_encode</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">$apiKey</span><span class="s2">:</span><span class="si">$apiSecret</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="s1">&#39;Content-Type: application/x-www-form-urlencoded&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="nx">CURLOPT_POSTFIELDS</span> <span class="o">=&gt;</span> <span class="s1">&#39;grant_type=client_credentials&#39;</span><span class="p">,</span>
+<span class="p">]);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+
+<span class="nv">$token</span> <span class="o">=</span> <span class="nv">$resp</span><span class="p">[</span><span class="s1">&#39;access_token&#39;</span><span class="p">];</span>
+
+<span class="c1">// Step 2: List registrants</span>
+<span class="nv">$eventId</span> <span class="o">=</span> <span class="s1">&#39;AB6E9834-5752-2A1A-2CF9-58391339841B&#39;</span><span class="p">;</span>
+<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">(</span><span class="nv">$baseUrl</span> <span class="o">.</span> <span class="s1">&#39;/registrants?event_id=&#39;</span> <span class="o">.</span> <span class="nb">urlencode</span><span class="p">(</span><span class="nv">$eventId</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;&amp;page=1&amp;per-page=20&#39;</span><span class="p">);</span>
+<span class="nb">curl_setopt_array</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="p">[</span>
+    <span class="nx">CURLOPT_RETURNTRANSFER</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+    <span class="nx">CURLOPT_HTTPHEADER</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="s1">&#39;Authorization: Bearer &#39;</span> <span class="o">.</span> <span class="nv">$token</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">]);</span>
+<span class="nv">$resp</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
+<span class="nb">curl_close</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$resp</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="python">Python</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="n">API_KEY</span> <span class="o">=</span> <span class="s1">&#39;qss_6cfb54cbf59ec6a14f9553a3af989e70&#39;</span>
+<span class="n">API_SECRET</span> <span class="o">=</span> <span class="s1">&#39;23d4551385b837db667cf8e65108d51507d0f45a&#39;</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s1">&#39;https://qss.qestsoln.com/api/v1&#39;</span>
+<span class="n">EVENT_ID</span> <span class="o">=</span> <span class="s1">&#39;AB6E9834-5752-2A1A-2CF9-58391339841B&#39;</span>
+
+<span class="c1"># Step 1: Get Bearer Token</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/oauth/token&#39;</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Basic ***    data=</span><span class="si">{</span><span class="s1">&#39;grant_type&#39;</span><span class="si">:</span><span class="s1"> &#39;</span><span class="n">client_credentials</span><span class="s1">&#39;})</span>
+<span class="n">token</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;access_token&#39;</span><span class="p">]</span>
+
+<span class="c1"># Step 2: List registrants</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/registrants&#39;</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">},</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;event_id&#39;</span><span class="p">:</span> <span class="n">EVENT_ID</span><span class="p">,</span> <span class="s1">&#39;page&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;per-page&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;_meta&#39;</span><span class="p">][</span><span class="s1">&#39;totalCount&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  #</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;login_name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;unique_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Step 3: Get single registrant</span>
+<span class="n">uid</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;unique_id&#39;</span><span class="p">]</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s1">/registrants/</span><span class="si">{</span><span class="n">uid</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">},</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;event_id&#39;</span><span class="p">:</span> <span class="n">EVENT_ID</span><span class="p">})</span>
+<span class="n">registrant</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Name: </span><span class="si">{</span><span class="n">registrant</span><span class="p">[</span><span class="s1">&#39;data_fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">registrant</span><span class="p">[</span><span class="s1">&#39;data_fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="javascript-nodejs">JavaScript (Node.js)</h3>
+<div class="codehilite"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;qss_6cfb54cbf59ec6a14f9553a3af989e70&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">API_SECRET</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;23d4551385b837db667cf8e65108d51507d0f45a&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">BASE_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://qss.qestsoln.com/api/v1&#39;</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">EVENT_ID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;AB6E9834-5752-2A1A-2CF9-58391339841B&#39;</span><span class="p">;</span>
+
+<span class="c1">// Step 1: Get Bearer Token</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">authResp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">BASE_URL</span><span class="si">}</span><span class="sb">/oauth/token`</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="sb">`Basic ***        &#39;Content-Type&#39;: &#39;application/x-www-form-urlencoded&#39;,</span>
+<span class="sb">    },</span>
+<span class="sb">    body: &#39;grant_type=client_credentials&#39;,</span>
+<span class="sb">});</span>
+<span class="sb">const { access_token: token } = await authResp.json();</span>
+
+<span class="sb">// Step 2: List registrants</span>
+<span class="sb">const listResp = await fetch(</span>
+<span class="sb">    `</span><span class="nx">$</span><span class="p">{</span><span class="nx">BASE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">registrants</span><span class="o">?</span><span class="nx">event_id</span><span class="o">=</span><span class="nx">$</span><span class="p">{</span><span class="nx">EVENT_ID</span><span class="p">}</span><span class="o">&amp;</span><span class="nx">page</span><span class="o">=</span><span class="mf">1</span><span class="o">&amp;</span><span class="nx">per</span><span class="o">-</span><span class="nx">page</span><span class="o">=</span><span class="mf">20</span><span class="sb">`,</span>
+<span class="sb">    { headers: { &#39;Authorization&#39;: `</span><span class="nx">Bearer</span><span class="w"> </span><span class="nx">$</span><span class="p">{</span><span class="nx">token</span><span class="p">}</span><span class="sb">` } }</span>
+<span class="sb">);</span>
+<span class="sb">const list = await listResp.json();</span>
+<span class="sb">console.log(`</span><span class="nx">Total</span><span class="o">:</span><span class="w"> </span><span class="nx">$</span><span class="p">{</span><span class="nx">list</span><span class="p">.</span><span class="nx">_meta</span><span class="p">.</span><span class="nx">totalCount</span><span class="p">}</span><span class="sb">`);</span>
+
+<span class="sb">// Step 3: Get single registrant</span>
+<span class="sb">const uid = list.items[0].unique_id;</span>
+<span class="sb">const detailResp = await fetch(</span>
+<span class="sb">    `</span><span class="nx">$</span><span class="p">{</span><span class="nx">BASE_URL</span><span class="p">}</span><span class="o">/</span><span class="nx">registrants</span><span class="o">/</span><span class="nx">$</span><span class="p">{</span><span class="nx">uid</span><span class="p">}</span><span class="o">?</span><span class="nx">event_id</span><span class="o">=</span><span class="nx">$</span><span class="p">{</span><span class="nx">EVENT_ID</span><span class="p">}</span><span class="sb">`,</span>
+<span class="sb">    { headers: { &#39;Authorization&#39;: `</span><span class="nx">Bearer</span><span class="w"> </span><span class="nx">$</span><span class="p">{</span><span class="nx">token</span><span class="p">}</span><span class="sb">` } }</span>
+<span class="sb">);</span>
+<span class="sb">const detail = await detailResp.json();</span>
+<span class="sb">console.log(detail.data.data_fields);</span>
+</code></pre></div>
+
+<h3 id="curl-quick-test">cURL (Quick Test)</h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Set your credentials</span>
+<span class="nv">API_KEY</span><span class="o">=</span><span class="s2">&quot;qss_6cfb54cbf59ec6a14f9553a3af989e70&quot;</span>
+<span class="nv">API_SECRET</span><span class="o">=</span><span class="s2">&quot;23d4551385b837db667cf8e65108d51507d0f45a&quot;</span>
+<span class="nv">EVENT_ID</span><span class="o">=</span><span class="s2">&quot;AB6E9834-5752-2A1A-2CF9-58391339841B&quot;</span>
+
+<span class="c1"># Step 1: Get token</span>
+<span class="nv">BASIC</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">API_KEY</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">API_SECRET</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="k">)</span>
+<span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>curl<span class="w"> </span>-s<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>https://qss.qestsoln.com/api/v1/oauth/token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Basic *** \</span>
+<span class="s2">  -H &quot;</span>Content-Type:<span class="w"> </span>application/x-www-form-urlencoded<span class="s2">&quot; \</span>
+<span class="s2">  -d &quot;</span><span class="nv">grant_type</span><span class="o">=</span>client_credentials<span class="s2">&quot; | python3 -c &quot;</span>import<span class="w"> </span>sys,json<span class="p">;</span>print<span class="o">(</span>json.load<span class="o">(</span>sys.stdin<span class="k">)</span><span class="o">[</span><span class="s1">&#39;access_token&#39;</span><span class="o">])</span><span class="s2">&quot;)</span>
+
+<span class="s2"># Step 2: List registrants</span>
+<span class="s2">curl -s &quot;</span>https://qss.qestsoln.com/api/v1/registrants?event_id<span class="o">=</span><span class="si">${</span><span class="nv">EVENT_ID</span><span class="si">}</span><span class="p">&amp;</span><span class="nv">page</span><span class="o">=</span><span class="m">1</span><span class="p">&amp;</span>per-page<span class="o">=</span><span class="m">5</span><span class="s2">&quot; \</span>
+<span class="s2">  -H &quot;</span>Authorization:<span class="w"> </span>Bearer<span class="w"> </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot; | python3 -m json.tool</span>
+
+<span class="s2"># Step 3: Get single registrant</span>
+<span class="s2">curl -s &quot;</span>https://qss.qestsoln.com/api/v1/registrants/DB63B506-3536-B771-018B-25F1748AF252?event_id<span class="o">=</span><span class="si">${</span><span class="nv">EVENT_ID</span><span class="si">}</span><span class="s2">&quot; \</span>
+<span class="s2">  -H &quot;</span>Authorization:<span class="w"> </span>Bearer<span class="w"> </span><span class="si">${</span><span class="nv">TOKEN</span><span class="si">}</span><span class="s2">&quot; | python3 -m json.tool</span>
+</code></pre></div>
+
+<hr />
+<h2 id="quick-reference">Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Auth</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/v1/oauth/token</code></td>
+<td>POST</td>
+<td>Basic</td>
+<td>Exchange API key/secret for Bearer token</td>
+</tr>
+<tr>
+<td><code>/api/v1/registrants</code></td>
+<td>GET</td>
+<td>Bearer</td>
+<td>List registrants (paginated)</td>
+</tr>
+<tr>
+<td><code>/api/v1/registrants/{unique_id}</code></td>
+<td>GET</td>
+<td>Bearer</td>
+<td>Get single registrant details</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="faq">FAQ</h2>
+<p><strong>Q: How long does the Bearer Token last?</strong>
+A: 30 minutes. After expiry, request a new token using the same OAuth endpoint.</p>
+<p><strong>Q: Can I access data from multiple events?</strong>
+A: No. Each exhibitor account is tied to one event. You can only query data within your assigned event.</p>
+<p><strong>Q: What happens if I exceed the rate limit?</strong>
+A: You'll receive a <code>429 Too Many Requests</code> response. Wait for the window to reset (check the <code>X-Rate-Limit-Reset</code> header for the remaining time in seconds).</p>
+<p><strong>Q: What if my API credentials are compromised?</strong>
+A: Contact your QSS administrator immediately to revoke or regenerate your credentials.</p>
+</body>
+</html>
