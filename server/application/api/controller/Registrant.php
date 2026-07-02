@@ -119,44 +119,15 @@ class Registrant extends RestBase
             }
         }
 
-        // 7. 查询扫描记录 (如果有扫描记录表)
-        $scanRecords = [];
-        try {
-            $scanRecords = Db::name('xscan_records')
-                ->where('user_id', $user['id'])
-                ->order('create_time', 'desc')
-                ->limit(20)
-                ->select();
-        } catch (\Exception $e) {
-            // 表不存在时忽略
-        }
-
-        // 8. 组装完整响应
-        $result = [
-            'id'             => (int)$user['id'],
-            'unique_id'      => $user['unique_id'],
-            'event_id'       => (int)$user['event_id'],
-            'event_name'     => $user['event_name'],
-            'login_name'     => $user['login_name'],
-            'type'           => $user['type'],
-            'status'         => (int)$user['status'],
-            'checkin_status' => (int)$user['checkin_status'],
-            'checkin_time'   => $user['checkin_time'],
-            'zone'           => $user['zone'],
-            'table_no'       => $user['table_no'],
-            'enable_track'   => $user['enable_track'],
-            'data_fields'    => $dataFields,
-            'scan_records'   => $scanRecords,
-        ];
+        // 7. 组装响应 — data 直接返回 data_fields 中的所有字段
+        $result = $dataFields;
 
         // 8. 字段筛选 (fields 参数)
         if (!empty($fieldsFilter)) {
             $requestedFields = array_map('trim', explode(',', $fieldsFilter));
             $filtered = [];
             foreach ($requestedFields as $field) {
-                if (isset($result[$field])) {
-                    $filtered[$field] = $result[$field];
-                } elseif (isset($dataFields[$field])) {
+                if (isset($dataFields[$field])) {
                     $filtered[$field] = $dataFields[$field];
                 }
             }
